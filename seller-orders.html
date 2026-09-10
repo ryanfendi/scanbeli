@@ -10,7 +10,17 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>Pesanan Masuk - SCANBELI</title>
+  <meta
+    name="theme-color"
+    content="#070707"
+  >
+
+  <meta
+    name="description"
+    content="Kelola pesanan masuk SCANBELI"
+  >
+
+  <title>Pesanan Masuk — SCANBELI</title>
 
   <link
     rel="stylesheet"
@@ -22,6 +32,10 @@
 
 <body>
 
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
 <header class="header">
 
@@ -45,6 +59,10 @@
         Buat QR
       </a>
 
+      <a href="orders.html">
+        Pesanan Saya
+      </a>
+
     </nav>
 
   </div>
@@ -53,63 +71,418 @@
 
 
 
-<main class="container page-container">
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="page-container">
+
+  <div class="container">
 
 
-  <section class="page-header">
+    <!-- =================================================
+         HEADER
+    ================================================== -->
 
-    <h1>
-      Pesanan Masuk
-    </h1>
+    <section class="page-header">
 
-    <p>
-      Pesanan yang masuk melalui QR produk Anda.
-    </p>
+      <div class="hero-badge">
+        ✦ SELLER CENTER
+      </div>
 
-  </section>
+      <h1>
+
+        Pesanan
+        <span style="color:#d6ad55;">
+          Masuk
+        </span>
+
+      </h1>
+
+      <p>
+        Kelola pesanan pelanggan yang masuk
+        melalui QR produk Anda.
+      </p>
+
+    </section>
 
 
 
-  <div
-    id="loading"
-    class="loading"
-  >
-    Memuat pesanan...
+    <!-- =================================================
+         SUMMARY
+    ================================================== -->
+
+    <section
+      class="stats"
+      style="
+        margin-bottom:25px;
+        padding-bottom:0;
+      "
+    >
+
+
+      <!-- TOTAL -->
+
+      <div class="stat-card">
+
+        <strong id="totalOrders">
+          —
+        </strong>
+
+        <span>
+          Total Pesanan
+        </span>
+
+      </div>
+
+
+      <!-- WAITING -->
+
+      <div class="stat-card">
+
+        <strong id="waitingOrders">
+          —
+        </strong>
+
+        <span>
+          Perlu Diproses
+        </span>
+
+      </div>
+
+
+      <!-- COMPLETED -->
+
+      <div class="stat-card">
+
+        <strong id="completedOrders">
+          —
+        </strong>
+
+        <span>
+          Selesai
+        </span>
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         LOADING
+    ================================================== -->
+
+    <div
+      id="loading"
+      class="loading"
+    >
+      Memuat pesanan...
+    </div>
+
+
+
+    <!-- =================================================
+         ERROR
+    ================================================== -->
+
+    <div id="error"></div>
+
+
+
+    <!-- =================================================
+         EMPTY
+    ================================================== -->
+
+    <div
+      id="empty"
+      class="empty-state"
+      style="display:none;"
+    >
+
+      <div
+        style="
+          font-size:42px;
+          margin-bottom:12px;
+        "
+      >
+        📦
+      </div>
+
+      <h3>
+        Belum ada pesanan
+      </h3>
+
+      <p>
+        Ketika pelanggan melakukan checkout
+        melalui QR Anda, pesanan akan muncul
+        di sini.
+      </p>
+
+      <a
+        href="seller.html"
+        class="btn btn-primary"
+        style="
+          margin-top:18px;
+        "
+      >
+        ✦ BUAT QR PRODUK
+      </a>
+
+    </div>
+
+
+
+    <!-- =================================================
+         ORDERS
+    ================================================== -->
+
+    <section>
+
+      <div
+        style="
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+          gap:15px;
+          margin-bottom:15px;
+        "
+      >
+
+        <div>
+
+          <div
+            style="
+              color:#d6ad55;
+              font-size:11px;
+              font-weight:900;
+              letter-spacing:1px;
+            "
+          >
+            TRANSAKSI
+          </div>
+
+          <h2
+            style="
+              font-size:22px;
+              margin-top:3px;
+            "
+          >
+            Daftar Pesanan
+          </h2>
+
+        </div>
+
+      </div>
+
+
+      <!-- JS AKAN MENGISI INI -->
+
+      <div id="ordersContainer"></div>
+
+    </section>
+
+
   </div>
-
-
-
-  <div
-    id="error"
-  ></div>
-
-
-
-  <div
-    id="empty"
-    class="empty-state"
-    style="display:none;"
-  >
-
-    Belum ada pesanan masuk.
-
-  </div>
-
-
-
-  <div
-    id="ordersContainer"
-  ></div>
-
 
 </main>
 
 
 
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+  <div class="container">
+
+    <div
+      style="
+        font-size:19px;
+        font-weight:900;
+        letter-spacing:2px;
+        color:#d6ad55;
+        margin-bottom:7px;
+      "
+    >
+      SCANBELI
+    </div>
+
+    <p>
+      Kelola transaksi dengan lebih mudah.
+    </p>
+
+    <p style="margin-top:10px;">
+      © 2026 SCANBELI
+    </p>
+
+  </div>
+
+</footer>
+
+
+
+<!-- =====================================================
+     SCRIPT
+===================================================== -->
+
 <script
   type="module"
   src="./seller-orders.js"
 ></script>
+
+
+<!-- =====================================================
+     SMALL UI ENHANCEMENT
+===================================================== -->
+
+<script>
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function() {
+
+    /*
+      Statistik tambahan akan dihitung
+      setelah seller-orders.js selesai
+      mengisi daftar pesanan.
+    */
+
+    const observer =
+      new MutationObserver(
+        function() {
+
+          const cards =
+            document.querySelectorAll(
+              "#ordersContainer .order-card"
+            );
+
+          const total =
+            document.getElementById(
+              "totalOrders"
+            );
+
+          const waiting =
+            document.getElementById(
+              "waitingOrders"
+            );
+
+          const completed =
+            document.getElementById(
+              "completedOrders"
+            );
+
+
+          if (!cards.length) {
+
+            if (total) {
+              total.textContent = "0";
+            }
+
+            if (waiting) {
+              waiting.textContent = "0";
+            }
+
+            if (completed) {
+              completed.textContent = "0";
+            }
+
+            return;
+          }
+
+
+          if (total) {
+            total.textContent =
+              cards.length;
+          }
+
+
+          let waitingCount = 0;
+
+          let completedCount = 0;
+
+
+          cards.forEach(
+            card => {
+
+              const text =
+                card.textContent
+                  .toUpperCase();
+
+
+              if (
+                text.includes(
+                  "MENUNGGU"
+                ) ||
+                text.includes(
+                  "DIBAYAR"
+                ) ||
+                text.includes(
+                  "DIPROSES"
+                ) ||
+                text.includes(
+                  "BARU"
+                )
+              ) {
+
+                waitingCount++;
+
+              }
+
+
+              if (
+                text.includes(
+                  "SELESAI"
+                )
+              ) {
+
+                completedCount++;
+
+              }
+
+            }
+          );
+
+
+          if (waiting) {
+            waiting.textContent =
+              waitingCount;
+          }
+
+
+          if (completed) {
+            completed.textContent =
+              completedCount;
+          }
+
+        }
+      );
+
+
+    const container =
+      document.getElementById(
+        "ordersContainer"
+      );
+
+
+    if (container) {
+
+      observer.observe(
+        container,
+        {
+          childList: true,
+          subtree: true
+        }
+      );
+
+    }
+
+  }
+);
+
+</script>
 
 
 </body>
