@@ -1,45 +1,330 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1.0"
+>
 
-  <meta
-    name="theme-color"
-    content="#070707"
-  >
+<meta
+  name="theme-color"
+  content="#070707"
+>
 
-  <meta
-    name="description"
-    content="Kelola pesanan masuk SCANBELI"
-  >
+<title>Pesanan Seller — SCANBELI</title>
 
-  <title>Pesanan Masuk — SCANBELI</title>
+<link rel="stylesheet" href="style.css">
 
-  <link
-    rel="stylesheet"
-    href="style.css"
-  >
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+
+  margin: 0;
+
+  background:
+    radial-gradient(
+      circle at 50% -10%,
+      rgba(214,173,85,0.18),
+      transparent 40%
+    ),
+    #070707;
+
+  color: #fff;
+
+  font-family:
+    Inter,
+    system-ui,
+    sans-serif;
+}
+
+.page {
+
+  width:
+    calc(100% - 24px);
+
+  max-width: 850px;
+
+  margin: auto;
+
+  padding:
+    18px 0 70px;
+}
+
+.top {
+
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  align-items: center;
+}
+
+.logo {
+
+  color: #f4d98b;
+
+  font-size: 20px;
+
+  font-weight: 900;
+
+  letter-spacing: 2px;
+}
+
+.back {
+
+  color: #999;
+
+  font-size: 11px;
+}
+
+.hero {
+
+  text-align: center;
+
+  padding:
+    35px 0 20px;
+}
+
+.badge {
+
+  display: inline-block;
+
+  padding:
+    7px 11px;
+
+  border-radius: 30px;
+
+  background:
+    rgba(214,173,85,0.08);
+
+  border:
+    1px solid
+    rgba(214,173,85,0.18);
+
+  color: #f4d98b;
+
+  font-size: 9px;
+
+  font-weight: 900;
+}
+
+.hero h1 {
+
+  margin:
+    14px 0 7px;
+
+  font-size: 34px;
+
+  letter-spacing: -1.5px;
+}
+
+.hero p {
+
+  color: #888;
+
+  font-size: 12px;
+}
+
+.loading,
+.error,
+.empty,
+.order-card {
+
+  margin-top: 13px;
+
+  padding: 20px;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(214,173,85,0.07),
+      #111
+    );
+
+  border:
+    1px solid
+    rgba(214,173,85,0.14);
+}
+
+.loading,
+.empty {
+
+  text-align: center;
+
+  color: #888;
+}
+
+.error {
+
+  color: #ff7777;
+
+  font-size: 12px;
+
+  line-height: 1.6;
+}
+
+.order-head {
+
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  align-items:
+    flex-start;
+
+  gap: 12px;
+}
+
+.order-card h3 {
+
+  margin: 0 0 5px;
+
+  font-size: 17px;
+}
+
+.code {
+
+  color: #777;
+
+  font-size: 10px;
+}
+
+.status {
+
+  padding:
+    7px 10px;
+
+  border-radius: 20px;
+
+  background:
+    rgba(214,173,85,0.08);
+
+  color: #f4d98b;
+
+  font-size: 9px;
+
+  font-weight: 900;
+
+  white-space: nowrap;
+}
+
+.box {
+
+  margin-top: 15px;
+
+  padding-top: 14px;
+
+  border-top:
+    1px solid #292929;
+}
+
+.row {
+
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  gap: 15px;
+
+  margin: 10px 0;
+
+  font-size: 11px;
+}
+
+.row span {
+
+  color: #888;
+}
+
+.row strong {
+
+  text-align: right;
+
+  max-width: 70%;
+
+  word-break: break-word;
+}
+
+.total {
+
+  padding-top: 13px;
+
+  border-top:
+    1px solid #292929;
+
+  font-size: 14px;
+}
+
+.total strong {
+
+  color: #f4d98b;
+
+  font-size: 17px;
+}
+
+.btn {
+
+  display: block;
+
+  margin-top: 17px;
+
+  padding: 13px;
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f4d98b,
+      #d6ad55
+    );
+
+  color: #080808;
+
+  text-align: center;
+
+  font-size: 10px;
+
+  font-weight: 900;
+}
+
+@media (max-width:600px) {
+
+  .order-head {
+
+    flex-direction: column;
+  }
+
+  .status {
+
+    align-self:
+      flex-start;
+  }
+
+}
+
+</style>
 
 </head>
 
-
 <body>
 
+<div class="page">
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
 
-<header class="header">
-
-  <div class="container header-inner">
+  <div class="top">
 
     <a
       href="index.html"
@@ -48,443 +333,556 @@
       SCANBELI
     </a>
 
-
-    <nav class="nav">
-
-      <a href="index.html">
-        Beranda
-      </a>
-
-      <a href="seller.html">
-        Buat QR
-      </a>
-
-      <a href="orders.html">
-        Pesanan Saya
-      </a>
-
-    </nav>
+    <a
+      href="seller.html"
+      class="back"
+    >
+      ← Buat QR
+    </a>
 
   </div>
 
-</header>
 
+  <div class="hero">
 
-
-<!-- =====================================================
-     MAIN
-===================================================== -->
-
-<main class="page-container">
-
-  <div class="container">
-
-
-    <!-- =================================================
-         HEADER
-    ================================================== -->
-
-    <section class="page-header">
-
-      <div class="hero-badge">
-        ✦ SELLER CENTER
-      </div>
-
-      <h1>
-
-        Pesanan
-        <span style="color:#d6ad55;">
-          Masuk
-        </span>
-
-      </h1>
-
-      <p>
-        Kelola pesanan pelanggan yang masuk
-        melalui QR produk Anda.
-      </p>
-
-    </section>
-
-
-
-    <!-- =================================================
-         SUMMARY
-    ================================================== -->
-
-    <section
-      class="stats"
-      style="
-        margin-bottom:25px;
-        padding-bottom:0;
-      "
-    >
-
-
-      <!-- TOTAL -->
-
-      <div class="stat-card">
-
-        <strong id="totalOrders">
-          —
-        </strong>
-
-        <span>
-          Total Pesanan
-        </span>
-
-      </div>
-
-
-      <!-- WAITING -->
-
-      <div class="stat-card">
-
-        <strong id="waitingOrders">
-          —
-        </strong>
-
-        <span>
-          Perlu Diproses
-        </span>
-
-      </div>
-
-
-      <!-- COMPLETED -->
-
-      <div class="stat-card">
-
-        <strong id="completedOrders">
-          —
-        </strong>
-
-        <span>
-          Selesai
-        </span>
-
-      </div>
-
-
-    </section>
-
-
-
-    <!-- =================================================
-         LOADING
-    ================================================== -->
-
-    <div
-      id="loading"
-      class="loading"
-    >
-      Memuat pesanan...
+    <div class="badge">
+      🛍️ SELLER
     </div>
 
+    <h1>
+      Pesanan Masuk
+    </h1>
+
+    <p>
+      Lihat pesanan yang masuk
+      untuk produk Anda.
+    </p>
+
+  </div>
 
 
-    <!-- =================================================
-         ERROR
-    ================================================== -->
-
-    <div id="error"></div>
-
-
-
-    <!-- =================================================
-         EMPTY
-    ================================================== -->
-
-    <div
-      id="empty"
-      class="empty-state"
-      style="display:none;"
-    >
-
-      <div
-        style="
-          font-size:42px;
-          margin-bottom:12px;
-        "
-      >
-        📦
-      </div>
-
-      <h3>
-        Belum ada pesanan
-      </h3>
-
-      <p>
-        Ketika pelanggan melakukan checkout
-        melalui QR Anda, pesanan akan muncul
-        di sini.
-      </p>
-
-      <a
-        href="seller.html"
-        class="btn btn-primary"
-        style="
-          margin-top:18px;
-        "
-      >
-        ✦ BUAT QR PRODUK
-      </a>
-
-    </div>
+  <div
+    id="loading"
+    class="loading"
+  >
+    Memuat pesanan...
+  </div>
 
 
+  <div
+    id="error"
+    class="error"
+    style="display:none"
+  ></div>
 
-    <!-- =================================================
-         ORDERS
-    ================================================== -->
 
-    <section>
+  <div id="orders"></div>
 
-      <div
-        style="
-          display:flex;
-          justify-content:space-between;
-          align-items:center;
-          gap:15px;
-          margin-bottom:15px;
-        "
-      >
 
-        <div>
+</div>
 
-          <div
-            style="
-              color:#d6ad55;
-              font-size:11px;
-              font-weight:900;
-              letter-spacing:1px;
-            "
+
+<script type="module">
+
+import {
+
+  collection,
+
+  query,
+
+  where,
+
+  getDocs
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+import {
+
+  db,
+
+  initAnonymousAuth
+
+}
+
+from "./firebase.js";
+
+
+const loading =
+  document.getElementById(
+    "loading"
+  );
+
+
+const errorBox =
+  document.getElementById(
+    "error"
+  );
+
+
+const container =
+  document.getElementById(
+    "orders"
+  );
+
+
+function rupiah(value) {
+
+  return new Intl.NumberFormat(
+    "id-ID",
+    {
+      style: "currency",
+      currency: "IDR",
+      maximumFractionDigits: 0
+    }
+  ).format(
+    Number(value) || 0
+  );
+
+}
+
+
+function escapeHTML(value) {
+
+  return String(
+    value ?? ""
+  ).replace(
+    /[&<>"']/g,
+    function(char) {
+
+      return {
+
+        "&": "&amp;",
+
+        "<": "&lt;",
+
+        ">": "&gt;",
+
+        '"': "&quot;",
+
+        "'": "&#039;"
+
+      }[char];
+
+    }
+  );
+
+}
+
+
+function statusText(status) {
+
+  const map = {
+
+    MENUNGGU_PEMBAYARAN:
+      "Menunggu Pembayaran",
+
+    DIBAYAR:
+      "Sudah Dibayar",
+
+    DIPROSES:
+      "Sedang Diproses",
+
+    DIKIRIM:
+      "Dikirim",
+
+    SELESAI:
+      "Selesai",
+
+    DIBATALKAN:
+      "Dibatalkan"
+
+  };
+
+  return (
+    map[status] ||
+    status ||
+    "Tidak diketahui"
+  );
+
+}
+
+
+async function loadOrders() {
+
+  try {
+
+    loading.style.display =
+      "block";
+
+    errorBox.style.display =
+      "none";
+
+
+    /*
+     * SELLER AUTH
+     */
+
+    const user =
+      await initAnonymousAuth();
+
+
+    console.log(
+      "Seller UID:",
+      user.uid
+    );
+
+
+    /*
+     * AMBIL PESANAN
+     */
+
+    const q =
+      query(
+
+        collection(
+          db,
+          "orders"
+        ),
+
+        where(
+          "sellerUid",
+          "==",
+          user.uid
+        )
+
+      );
+
+
+    const snapshot =
+      await getDocs(q);
+
+
+    loading.style.display =
+      "none";
+
+
+    if (snapshot.empty) {
+
+      container.innerHTML = `
+
+        <div class="empty">
+
+          Belum ada pesanan masuk.
+
+          <a
+            href="seller.html"
+            class="btn"
           >
-            TRANSAKSI
-          </div>
-
-          <h2
-            style="
-              font-size:22px;
-              margin-top:3px;
-            "
-          >
-            Daftar Pesanan
-          </h2>
+            ✦ BUAT QR PRODUK
+          </a>
 
         </div>
 
-      </div>
+      `;
 
-
-      <!-- JS AKAN MENGISI INI -->
-
-      <div id="ordersContainer"></div>
-
-    </section>
-
-
-  </div>
-
-</main>
-
-
-
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
-<footer class="footer">
-
-  <div class="container">
-
-    <div
-      style="
-        font-size:19px;
-        font-weight:900;
-        letter-spacing:2px;
-        color:#d6ad55;
-        margin-bottom:7px;
-      "
-    >
-      SCANBELI
-    </div>
-
-    <p>
-      Kelola transaksi dengan lebih mudah.
-    </p>
-
-    <p style="margin-top:10px;">
-      © 2026 SCANBELI
-    </p>
-
-  </div>
-
-</footer>
-
-
-
-<!-- =====================================================
-     SCRIPT
-===================================================== -->
-
-<script
-  type="module"
-  src="./seller-orders.js"
-></script>
-
-
-<!-- =====================================================
-     SMALL UI ENHANCEMENT
-===================================================== -->
-
-<script>
-
-document.addEventListener(
-  "DOMContentLoaded",
-  function() {
-
-    /*
-      Statistik tambahan akan dihitung
-      setelah seller-orders.js selesai
-      mengisi daftar pesanan.
-    */
-
-    const observer =
-      new MutationObserver(
-        function() {
-
-          const cards =
-            document.querySelectorAll(
-              "#ordersContainer .order-card"
-            );
-
-          const total =
-            document.getElementById(
-              "totalOrders"
-            );
-
-          const waiting =
-            document.getElementById(
-              "waitingOrders"
-            );
-
-          const completed =
-            document.getElementById(
-              "completedOrders"
-            );
-
-
-          if (!cards.length) {
-
-            if (total) {
-              total.textContent = "0";
-            }
-
-            if (waiting) {
-              waiting.textContent = "0";
-            }
-
-            if (completed) {
-              completed.textContent = "0";
-            }
-
-            return;
-          }
-
-
-          if (total) {
-            total.textContent =
-              cards.length;
-          }
-
-
-          let waitingCount = 0;
-
-          let completedCount = 0;
-
-
-          cards.forEach(
-            card => {
-
-              const text =
-                card.textContent
-                  .toUpperCase();
-
-
-              if (
-                text.includes(
-                  "MENUNGGU"
-                ) ||
-                text.includes(
-                  "DIBAYAR"
-                ) ||
-                text.includes(
-                  "DIPROSES"
-                ) ||
-                text.includes(
-                  "BARU"
-                )
-              ) {
-
-                waitingCount++;
-
-              }
-
-
-              if (
-                text.includes(
-                  "SELESAI"
-                )
-              ) {
-
-                completedCount++;
-
-              }
-
-            }
-          );
-
-
-          if (waiting) {
-            waiting.textContent =
-              waitingCount;
-          }
-
-
-          if (completed) {
-            completed.textContent =
-              completedCount;
-          }
-
-        }
-      );
-
-
-    const container =
-      document.getElementById(
-        "ordersContainer"
-      );
-
-
-    if (container) {
-
-      observer.observe(
-        container,
-        {
-          childList: true,
-          subtree: true
-        }
-      );
+      return;
 
     }
 
+
+    const orders = [];
+
+
+    snapshot.forEach(
+      function(doc) {
+
+        orders.push({
+
+          id: doc.id,
+
+          ...doc.data()
+
+        });
+
+      }
+    );
+
+
+    /*
+     * SORT TERBARU
+     */
+
+    orders.sort(
+      function(a,b) {
+
+        const aTime =
+          a.createdAt?.seconds ||
+          0;
+
+        const bTime =
+          b.createdAt?.seconds ||
+          0;
+
+        return bTime - aTime;
+
+      }
+    );
+
+
+    renderOrders(
+      orders
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      error
+    );
+
+
+    loading.style.display =
+      "none";
+
+
+    errorBox.style.display =
+      "block";
+
+
+    errorBox.textContent =
+      "Gagal memuat pesanan: " +
+      error.message;
+
   }
-);
+
+}
+
+
+function renderOrders(
+  orders
+) {
+
+  container.innerHTML = "";
+
+
+  orders.forEach(
+    function(order) {
+
+      const product =
+        order.product || {};
+
+
+      const buyer =
+        order.buyer || {};
+
+
+      const buyerName =
+        order.buyerName ||
+        buyer.name ||
+        "-";
+
+
+      const buyerPhone =
+        order.buyerPhone ||
+        buyer.phone ||
+        "-";
+
+
+      const buyerAddress =
+        order.buyerAddress ||
+        buyer.address ||
+        "-";
+
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "order-card";
+
+
+      card.innerHTML = `
+
+        <div class="order-head">
+
+          <div>
+
+            <h3>
+
+              ${escapeHTML(
+                product.name ||
+                "Produk"
+              )}
+
+            </h3>
+
+            <div class="code">
+
+              ${
+                product.code
+                ? "Kode: " +
+                  escapeHTML(
+                    product.code
+                  )
+                : ""
+              }
+
+            </div>
+
+          </div>
+
+
+          <div class="status">
+
+            ${escapeHTML(
+              statusText(
+                order.status
+              )
+            )}
+
+          </div>
+
+        </div>
+
+
+        <div class="box">
+
+
+          <div class="row">
+
+            <span>
+              Order
+            </span>
+
+            <strong>
+
+              ${escapeHTML(
+                order.orderId ||
+                order.id
+              )}
+
+            </strong>
+
+          </div>
+
+
+          <div class="row">
+
+            <span>
+              Pembeli
+            </span>
+
+            <strong>
+
+              ${escapeHTML(
+                buyerName
+              )}
+
+            </strong>
+
+          </div>
+
+
+          <div class="row">
+
+            <span>
+              WhatsApp
+            </span>
+
+            <strong>
+
+              ${escapeHTML(
+                buyerPhone
+              )}
+
+            </strong>
+
+          </div>
+
+
+          <div class="row">
+
+            <span>
+              Alamat Pengiriman
+            </span>
+
+            <strong>
+
+              ${escapeHTML(
+                buyerAddress
+              )}
+
+            </strong>
+
+          </div>
+
+
+          <div class="row">
+
+            <span>
+              Harga Produk
+            </span>
+
+            <strong>
+
+              ${rupiah(
+                order.price
+              )}
+
+            </strong>
+
+          </div>
+
+
+          <div class="row">
+
+            <span>
+              Fee SCANBELI
+            </span>
+
+            <strong>
+
+              ${rupiah(
+                order.fee
+              )}
+
+            </strong>
+
+          </div>
+
+
+          <div class="row total">
+
+            <span>
+              Total
+            </span>
+
+            <strong>
+
+              ${rupiah(
+                order.total
+              )}
+
+            </strong>
+
+          </div>
+
+
+        </div>
+
+      `;
+
+
+      container.appendChild(
+        card
+      );
+
+    }
+  );
+
+}
+
+
+loadOrders();
 
 </script>
 
-
 </body>
-
 </html>
