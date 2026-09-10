@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Pembeli - SCANBELI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="header">
+
+  <a href="index.html" class="back">
+    ← SCANBELI
+  </a>
+
+</header>
+
+
+<main class="container">
+
+  <div class="page-title">
+
+    <div class="badge">
+      DATA PENGIRIMAN
+    </div>
+
+    <h1>
+      Simpan alamat Anda
+    </h1>
+
+    <p>
+      Isi sekali. Saat scan QR berikutnya,
+      data akan otomatis digunakan.
+    </p>
+
+  </div>
+
+
+  <form id="buyerForm" class="form-card">
+
+    <label for="buyerName">
+      Nama Lengkap
+    </label>
+
+    <input
+      type="text"
+      id="buyerName"
+      placeholder="Nama lengkap"
+      autocomplete="name"
+      required
+    >
+
+
+    <label for="buyerPhone">
+      Nomor HP
+    </label>
+
+    <input
+      type="tel"
+      id="buyerPhone"
+      placeholder="08xxxxxxxxxx"
+      autocomplete="tel"
+      required
+    >
+
+
+    <label for="buyerAddress">
+      Alamat Pengiriman
+    </label>
+
+    <textarea
+      id="buyerAddress"
+      rows="5"
+      placeholder="Alamat lengkap untuk pengiriman"
+      autocomplete="street-address"
+      required
+    ></textarea>
+
+
+    <button
+      type="submit"
+      class="btn full"
+    >
+      Simpan Data
+    </button>
+
+
+    <div
+      id="buyerMessage"
+      class="message"
+    ></div>
+
+  </form>
+
+
+  <div class="privacy">
+
+    🔒 <strong>Data tersimpan di perangkat</strong>
+
+    <p>
+      Pada V1, data nama, nomor HP, dan alamat
+      disimpan di browser HP Anda menggunakan
+      penyimpanan lokal.
+    </p>
+
+  </div>
+
+</main>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
