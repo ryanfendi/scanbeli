@@ -1,116 +1,578 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Data Pembeli - SCANBELI</title>
-  <link rel="stylesheet" href="style.css">
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1.0"
+>
+
+<meta
+  name="theme-color"
+  content="#070707"
+>
+
+<title>Data Pembeli — SCANBELI</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+
+  margin: 0;
+
+  background:
+    radial-gradient(
+      circle at 50% -10%,
+      rgba(214,173,85,0.18),
+      transparent 40%
+    ),
+    #070707;
+
+  color: #fff;
+
+  font-family:
+    Inter,
+    system-ui,
+    sans-serif;
+}
+
+.page {
+
+  width: calc(100% - 24px);
+
+  max-width: 620px;
+
+  margin: auto;
+
+  padding:
+    18px 0 70px;
+}
+
+.top {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-bottom: 20px;
+}
+
+.logo {
+
+  color: #f4d98b;
+
+  font-size: 20px;
+
+  font-weight: 900;
+
+  letter-spacing: 2px;
+}
+
+.back {
+
+  color: #999;
+
+  font-size: 11px;
+}
+
+.card {
+
+  padding: 23px;
+
+  border-radius: 23px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(214,173,85,0.08),
+      #111
+    );
+
+  border:
+    1px solid rgba(214,173,85,0.15);
+}
+
+.badge {
+
+  display: inline-block;
+
+  padding:
+    7px 11px;
+
+  border-radius: 30px;
+
+  color: #f4d98b;
+
+  background:
+    rgba(214,173,85,0.08);
+
+  border:
+    1px solid rgba(214,173,85,0.18);
+
+  font-size: 9px;
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+}
+
+h1 {
+
+  margin:
+    16px 0 8px;
+
+  font-size: 32px;
+
+  letter-spacing: -1.5px;
+}
+
+.description {
+
+  margin-bottom: 25px;
+
+  color: #999;
+
+  font-size: 12px;
+
+  line-height: 1.7;
+}
+
+.field {
+
+  margin-top: 18px;
+}
+
+.field label {
+
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #ddd;
+
+  font-size: 10px;
+
+  font-weight: 900;
+
+  letter-spacing: .5px;
+}
+
+.field input,
+.field textarea {
+
+  width: 100%;
+
+  padding: 14px;
+
+  border:
+    1px solid #292929;
+
+  border-radius: 13px;
+
+  outline: none;
+
+  background: #0b0b0b;
+
+  color: #fff;
+
+  font: inherit;
+
+  font-size: 13px;
+}
+
+.field textarea {
+
+  min-height: 115px;
+
+  resize: vertical;
+}
+
+.field input:focus,
+.field textarea:focus {
+
+  border-color: #d6ad55;
+}
+
+.save-btn {
+
+  width: 100%;
+
+  min-height: 50px;
+
+  margin-top: 23px;
+
+  border: 0;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f4d98b,
+      #d6ad55
+    );
+
+  color: #080808;
+
+  font-size: 12px;
+
+  font-weight: 900;
+}
+
+.saved {
+
+  display: none;
+
+  margin-top: 14px;
+
+  padding: 12px;
+
+  border-radius: 12px;
+
+  text-align: center;
+
+  color: #5fe08c;
+
+  background:
+    rgba(50,200,100,0.07);
+
+  border:
+    1px solid rgba(50,200,100,0.2);
+
+  font-size: 11px;
+}
+
+.quick {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 9px;
+
+  margin-top: 14px;
+}
+
+.quick a {
+
+  padding: 13px;
+
+  border-radius: 13px;
+
+  background: #151515;
+
+  text-align: center;
+
+  color: #bbb;
+
+  font-size: 10px;
+
+  font-weight: 900;
+}
+
+.note {
+
+  margin-top: 18px;
+
+  text-align: center;
+
+  color: #666;
+
+  font-size: 10px;
+
+  line-height: 1.6;
+}
+
+</style>
+
 </head>
 
 <body>
 
-<header class="header">
+<div class="page">
 
-  <a href="index.html" class="back">
-    ← SCANBELI
-  </a>
+  <div class="top">
 
-</header>
+    <a
+      href="index.html"
+      class="logo"
+    >
+      SCANBELI
+    </a>
+
+    <a
+      href="index.html"
+      class="back"
+    >
+      ← Beranda
+    </a>
+
+  </div>
 
 
-<main class="container">
-
-  <div class="page-title">
+  <div class="card">
 
     <div class="badge">
-      DATA PENGIRIMAN
+      DATA PEMBELI
     </div>
 
     <h1>
-      Simpan alamat Anda
+      Data Pengiriman
     </h1>
 
-    <p>
-      Isi sekali. Saat scan QR berikutnya,
-      data akan otomatis digunakan.
-    </p>
+    <div class="description">
 
-  </div>
+      Isi data Anda sekali saja.
+      Setelah itu ketika scan QR,
+      data akan otomatis muncul
+      di halaman checkout.
 
-
-  <form id="buyerForm" class="form-card">
-
-    <label for="buyerName">
-      Nama Lengkap
-    </label>
-
-    <input
-      type="text"
-      id="buyerName"
-      placeholder="Nama lengkap"
-      autocomplete="name"
-      required
-    >
+    </div>
 
 
-    <label for="buyerPhone">
-      Nomor HP
-    </label>
+    <form id="buyerForm">
 
-    <input
-      type="tel"
-      id="buyerPhone"
-      placeholder="08xxxxxxxxxx"
-      autocomplete="tel"
-      required
-    >
+      <div class="field">
 
+        <label for="buyerName">
+          NAMA LENGKAP
+        </label>
 
-    <label for="buyerAddress">
-      Alamat Pengiriman
-    </label>
+        <input
+          id="buyerName"
+          type="text"
+          placeholder="Contoh: Ryan Fendi"
+          maxlength="100"
+          required
+        >
 
-    <textarea
-      id="buyerAddress"
-      rows="5"
-      placeholder="Alamat lengkap untuk pengiriman"
-      autocomplete="street-address"
-      required
-    ></textarea>
+      </div>
 
 
-    <button
-      type="submit"
-      class="btn full"
-    >
-      Simpan Data
-    </button>
+      <div class="field">
+
+        <label for="buyerPhone">
+          NOMOR WHATSAPP
+        </label>
+
+        <input
+          id="buyerPhone"
+          type="tel"
+          inputmode="tel"
+          placeholder="Contoh: 081234567890"
+          maxlength="20"
+          required
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="buyerAddress">
+          ALAMAT LENGKAP PENGIRIMAN
+        </label>
+
+        <textarea
+          id="buyerAddress"
+          placeholder="Nama jalan, nomor rumah, kecamatan, kota, provinsi, kode pos..."
+          maxlength="500"
+          required
+        ></textarea>
+
+      </div>
+
+
+      <button
+        class="save-btn"
+        type="submit"
+      >
+        💾 SIMPAN DATA
+      </button>
+
+    </form>
 
 
     <div
-      id="buyerMessage"
-      class="message"
-    ></div>
+      id="saved"
+      class="saved"
+    >
+      ✓ Data berhasil disimpan di perangkat.
+    </div>
 
-  </form>
 
+    <div class="quick">
 
-  <div class="privacy">
+      <a href="scan.html">
+        📷 SCAN QR
+      </a>
 
-    🔒 <strong>Data tersimpan di perangkat</strong>
+      <a href="orders.html">
+        📦 PESANAN
+      </a>
 
-    <p>
-      Pada V1, data nama, nomor HP, dan alamat
-      disimpan di browser HP Anda menggunakan
-      penyimpanan lokal.
-    </p>
+    </div>
 
   </div>
 
-</main>
+
+  <div class="note">
+
+    Data pengiriman V1 disimpan
+    di perangkat/browser pembeli.
+    Pembeli dapat mengeditnya kapan saja.
+
+  </div>
+
+</div>
 
 
-<script type="module" src="script.js"></script>
+<script>
+
+const BUYER_KEY =
+  "scanbeli_buyer_v1";
+
+
+const form =
+  document.getElementById("buyerForm");
+
+const nameInput =
+  document.getElementById("buyerName");
+
+const phoneInput =
+  document.getElementById("buyerPhone");
+
+const addressInput =
+  document.getElementById("buyerAddress");
+
+const saved =
+  document.getElementById("saved");
+
+
+// LOAD DATA
+
+try {
+
+  const data =
+    JSON.parse(
+      localStorage.getItem(BUYER_KEY) || "null"
+    );
+
+  if (data) {
+
+    nameInput.value =
+      data.name || "";
+
+    phoneInput.value =
+      data.phone || "";
+
+    addressInput.value =
+      data.address || "";
+
+  }
+
+} catch (error) {
+
+  console.log(
+    "Data pembeli belum tersedia."
+  );
+
+}
+
+
+// SAVE DATA
+
+form.addEventListener(
+  "submit",
+  function(event) {
+
+    event.preventDefault();
+
+    const name =
+      nameInput.value.trim();
+
+    const phone =
+      phoneInput.value.trim();
+
+    const address =
+      addressInput.value.trim();
+
+
+    if (!name) {
+
+      alert(
+        "Masukkan nama lengkap."
+      );
+
+      return;
+    }
+
+
+    if (!phone) {
+
+      alert(
+        "Masukkan nomor WhatsApp."
+      );
+
+      return;
+    }
+
+
+    if (!address) {
+
+      alert(
+        "Masukkan alamat lengkap."
+      );
+
+      return;
+    }
+
+
+    const data = {
+
+      name: name,
+
+      phone: phone,
+
+      address: address
+
+    };
+
+
+    localStorage.setItem(
+      BUYER_KEY,
+      JSON.stringify(data)
+    );
+
+
+    saved.style.display =
+      "block";
+
+
+    setTimeout(
+      function() {
+
+        saved.style.display =
+          "none";
+
+      },
+      2500
+    );
+
+  }
+);
+
+</script>
 
 </body>
 </html>
