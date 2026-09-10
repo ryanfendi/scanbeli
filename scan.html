@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -8,42 +9,668 @@
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
   >
 
-  <meta name="theme-color" content="#070707">
+  <meta
+    name="theme-color"
+    content="#070707"
+  >
 
   <meta
     name="description"
-    content="SCANBELI - Scan QR produk dan langsung menuju checkout."
+    content="SCANBELI - Scan QR dan langsung menuju checkout."
   >
 
   <title>Scan QR — SCANBELI</title>
 
-  <link rel="stylesheet" href="style.css">
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
 
   <!-- QR SCANNER -->
   <script
-    src="https://unpkg.com/html5-qrcode"
-    type="text/javascript"
+    src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"
   ></script>
+
+  <style>
+
+    /* =====================================================
+       SCANBELI SCAN PAGE
+    ===================================================== */
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: #070707;
+      color: #ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    .scan-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+
+      background: rgba(7,7,7,.92);
+      backdrop-filter: blur(18px);
+
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .scan-header-inner {
+      width: 100%;
+      max-width: 900px;
+
+      margin: auto;
+      padding: 16px 18px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .scan-logo {
+      color: #d6ad55;
+      text-decoration: none;
+
+      font-size: 21px;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+
+    .scan-header-btn {
+      color: #ffffff;
+      text-decoration: none;
+
+      padding: 10px 14px;
+
+      border: 1px solid rgba(214,173,85,.35);
+      border-radius: 12px;
+
+      font-size: 13px;
+      font-weight: 700;
+
+      background: rgba(214,173,85,.08);
+    }
+
+
+    /* =====================================================
+       MAIN
+    ===================================================== */
+
+    .scan-main {
+      width: 100%;
+      max-width: 900px;
+
+      margin: auto;
+
+      padding:
+        25px
+        18px
+        110px;
+    }
+
+
+    /* =====================================================
+       HERO
+    ===================================================== */
+
+    .scan-hero {
+      text-align: center;
+
+      padding:
+        20px 5px
+        25px;
+    }
+
+    .scan-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+
+      padding: 8px 13px;
+
+      border-radius: 999px;
+
+      border: 1px solid rgba(214,173,85,.35);
+
+      background: rgba(214,173,85,.08);
+
+      color: #d6ad55;
+
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+    }
+
+    .scan-hero h1 {
+      margin: 18px 0 10px;
+
+      font-size: clamp(35px, 9vw, 60px);
+
+      line-height: 1.02;
+
+      letter-spacing: -2px;
+    }
+
+    .scan-hero h1 span {
+      color: #d6ad55;
+    }
+
+    .scan-hero p {
+      max-width: 550px;
+
+      margin: auto;
+
+      color: #999;
+
+      font-size: 15px;
+
+      line-height: 1.7;
+    }
+
+
+    /* =====================================================
+       CARD
+    ===================================================== */
+
+    .scan-card {
+      margin-top: 18px;
+
+      padding: 22px;
+
+      border-radius: 24px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.07),
+          rgba(255,255,255,.025)
+        );
+
+      border: 1px solid rgba(255,255,255,.09);
+
+      box-shadow:
+        0 18px 60px rgba(0,0,0,.35);
+    }
+
+    .scan-card-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      margin-bottom: 8px;
+    }
+
+    .scan-card-title-icon {
+      width: 42px;
+      height: 42px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 13px;
+
+      background: rgba(214,173,85,.12);
+
+      border: 1px solid rgba(214,173,85,.25);
+
+      font-size: 21px;
+    }
+
+    .scan-card h2 {
+      margin: 0;
+
+      font-size: 20px;
+    }
+
+    .scan-card-description {
+      margin: 0 0 18px;
+
+      color: #999;
+
+      line-height: 1.6;
+
+      font-size: 14px;
+    }
+
+
+    /* =====================================================
+       CAMERA
+    ===================================================== */
+
+    #reader {
+      width: 100%;
+
+      max-width: 500px;
+
+      margin: 18px auto;
+
+      overflow: hidden;
+
+      border-radius: 20px;
+
+      background: #000;
+
+      border: 1px solid rgba(214,173,85,.25);
+    }
+
+    #reader video {
+      width: 100% !important;
+
+      height: auto !important;
+
+      border-radius: 18px;
+    }
+
+    #reader__scan_region {
+      background: #000 !important;
+    }
+
+    #reader__dashboard {
+      padding: 10px !important;
+    }
+
+    #reader__dashboard_section_csr {
+      margin: 0 !important;
+    }
+
+    #reader button {
+      border-radius: 10px !important;
+    }
+
+
+    /* =====================================================
+       BUTTON
+    ===================================================== */
+
+    .scan-btn {
+      width: 100%;
+
+      min-height: 52px;
+
+      border: 0;
+
+      border-radius: 15px;
+
+      padding: 14px 18px;
+
+      font-size: 14px;
+
+      font-weight: 900;
+
+      letter-spacing: .5px;
+
+      cursor: pointer;
+
+      transition:
+        transform .15s ease,
+        opacity .15s ease;
+    }
+
+    .scan-btn:active {
+      transform: scale(.98);
+    }
+
+    .scan-btn-primary {
+      background:
+        linear-gradient(
+          135deg,
+          #e3c16f,
+          #b9913e
+        );
+
+      color: #080808;
+
+      box-shadow:
+        0 10px 30px rgba(214,173,85,.16);
+    }
+
+    .scan-btn-secondary {
+      background: rgba(255,255,255,.06);
+
+      color: #ffffff;
+
+      border: 1px solid rgba(255,255,255,.12);
+    }
+
+    .scan-btn + .scan-btn {
+      margin-top: 10px;
+    }
+
+
+    /* =====================================================
+       FILE INPUT
+    ===================================================== */
+
+    .file-input {
+      display: none;
+    }
+
+
+    /* =====================================================
+       IMAGE PREVIEW
+    ===================================================== */
+
+    .image-preview-box {
+      display: none;
+
+      margin-top: 18px;
+
+      padding: 12px;
+
+      border-radius: 18px;
+
+      background: rgba(0,0,0,.45);
+
+      border: 1px solid rgba(255,255,255,.08);
+
+      text-align: center;
+    }
+
+    .image-preview-box.active {
+      display: block;
+    }
+
+    .image-preview-title {
+      margin-bottom: 10px;
+
+      color: #aaa;
+
+      font-size: 12px;
+    }
+
+    #previewImage {
+      display: block;
+
+      width: 100%;
+
+      max-width: 340px;
+
+      max-height: 340px;
+
+      margin: auto;
+
+      object-fit: contain;
+
+      border-radius: 14px;
+
+      background: #ffffff;
+    }
+
+
+    /* =====================================================
+       STATUS
+    ===================================================== */
+
+    .scan-status {
+      display: none;
+
+      margin-top: 15px;
+
+      padding: 14px;
+
+      border-radius: 14px;
+
+      text-align: center;
+
+      background: rgba(214,173,85,.08);
+
+      border: 1px solid rgba(214,173,85,.18);
+
+      color: #d6ad55;
+
+      font-size: 14px;
+
+      line-height: 1.5;
+    }
+
+    .scan-status.active {
+      display: block;
+    }
+
+
+    /* =====================================================
+       ERROR
+    ===================================================== */
+
+    .scan-error {
+      display: none;
+
+      margin-top: 15px;
+
+      padding: 16px;
+
+      border-radius: 16px;
+
+      background: rgba(255,70,70,.08);
+
+      border: 1px solid rgba(255,70,70,.18);
+
+      text-align: center;
+    }
+
+    .scan-error.active {
+      display: block;
+    }
+
+    .scan-error strong {
+      display: block;
+
+      margin-bottom: 7px;
+
+      font-size: 15px;
+    }
+
+    .scan-error p {
+      margin: 0 0 13px;
+
+      color: #aaa;
+
+      font-size: 13px;
+
+      line-height: 1.5;
+    }
+
+
+    /* =====================================================
+       QUICK GUIDE
+    ===================================================== */
+
+    .guide {
+      display: grid;
+
+      gap: 12px;
+
+      margin-top: 5px;
+    }
+
+    .guide-item {
+      display: flex;
+
+      align-items: flex-start;
+
+      gap: 13px;
+
+      padding: 13px;
+
+      border-radius: 15px;
+
+      background: rgba(255,255,255,.035);
+
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .guide-number {
+      flex: 0 0 34px;
+
+      width: 34px;
+      height: 34px;
+
+      display: flex;
+
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 10px;
+
+      background: rgba(214,173,85,.12);
+
+      color: #d6ad55;
+
+      font-size: 12px;
+
+      font-weight: 900;
+    }
+
+    .guide-text strong {
+      display: block;
+
+      margin-bottom: 4px;
+
+      font-size: 14px;
+    }
+
+    .guide-text span {
+      color: #999;
+
+      font-size: 13px;
+
+      line-height: 1.5;
+    }
+
+
+    /* =====================================================
+       BOTTOM NAV
+    ===================================================== */
+
+    .bottom-nav {
+      position: fixed;
+
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      z-index: 100;
+
+      background: rgba(7,7,7,.96);
+
+      backdrop-filter: blur(20px);
+
+      border-top:
+        1px solid rgba(255,255,255,.08);
+    }
+
+    .bottom-nav-inner {
+      width: 100%;
+      max-width: 700px;
+
+      margin: auto;
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(4,1fr);
+
+      padding:
+        9px 7px
+        calc(9px + env(safe-area-inset-bottom));
+    }
+
+    .bottom-item {
+      color: #777;
+
+      text-decoration: none;
+
+      text-align: center;
+
+      font-size: 11px;
+
+      line-height: 1.5;
+
+      padding: 4px 2px;
+    }
+
+    .bottom-item-icon {
+      display: block;
+
+      font-size: 20px;
+
+      line-height: 1.2;
+
+      margin-bottom: 2px;
+    }
+
+    .bottom-item.active {
+      color: #d6ad55;
+    }
+
+
+    /* =====================================================
+       DESKTOP
+    ===================================================== */
+
+    @media (min-width: 700px) {
+
+      .scan-main {
+        padding-top: 45px;
+      }
+
+      .scan-card {
+        padding: 28px;
+      }
+
+      .scan-btn {
+        max-width: 500px;
+
+        display: block;
+
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .scan-btn + .scan-btn {
+        margin-top: 12px;
+      }
+
+    }
+
+  </style>
 
 </head>
 
+
 <body>
+
 
 <!-- =====================================================
      HEADER
 ===================================================== -->
 
-<header class="header">
+<header class="scan-header">
 
-  <div class="container header-inner">
+  <div class="scan-header-inner">
 
-    <a href="index.html" class="logo">
+    <a
+      href="index.html"
+      class="scan-logo"
+    >
       SCANBELI
     </a>
 
     <a
       href="buyer.html"
-      class="header-btn"
+      class="scan-header-btn"
     >
       👤 Data Pembeli
     </a>
@@ -53,539 +680,602 @@
 </header>
 
 
+
 <!-- =====================================================
      MAIN
 ===================================================== -->
 
-<main class="container">
+<main class="scan-main">
 
-  <section class="section">
 
-    <div class="section-header">
+  <!-- HERO -->
 
-      <div class="hero-badge">
-        📷 SCANBELI
+  <section class="scan-hero">
+
+    <div class="scan-badge">
+      ✦ SCAN & BELI
+    </div>
+
+    <h1>
+      Scan.
+      <br>
+      <span>Belanja.</span>
+      <br>
+      Selesai.
+    </h1>
+
+    <p>
+      Scan QR dari penjual menggunakan kamera
+      atau pilih screenshot QR dari HP Anda.
+    </p>
+
+  </section>
+
+
+
+  <!-- ===================================================
+       CAMERA CARD
+  ==================================================== -->
+
+  <section class="scan-card">
+
+    <div class="scan-card-title">
+
+      <div class="scan-card-title-icon">
+        📷
       </div>
 
-      <h1>
-        Scan QR
-        <br>
-
-        <span style="color:#d6ad55;">
-          & Langsung Beli
-        </span>
-      </h1>
-
-      <p>
-        Scan QR dari penjual menggunakan kamera
-        atau pilih gambar QR dari media HP Anda.
-      </p>
-
-    </div>
-
-
-    <!-- =================================================
-         CAMERA SCANNER
-    ================================================== -->
-
-    <div class="form-card">
-
-      <h2>
-        📷 Scan dengan Kamera
-      </h2>
-
-      <p>
-        Arahkan kamera HP ke QR SCANBELI milik penjual.
-      </p>
-
-
-      <div
-        id="reader"
-        style="
-          width:100%;
-          max-width:420px;
-          margin:20px auto;
-          overflow:hidden;
-          border-radius:18px;
-        "
-      ></div>
-
-
-      <button
-        id="startCamera"
-        class="btn btn-primary full"
-        type="button"
-      >
-        📷 MULAI SCAN KAMERA
-      </button>
-
-
-      <button
-        id="stopCamera"
-        class="btn btn-secondary full hidden"
-        type="button"
-      >
-        ✕ HENTIKAN SCAN
-      </button>
-
-    </div>
-
-
-    <!-- =================================================
-         SCAN DARI MEDIA
-    ================================================== -->
-
-    <div class="form-card">
-
-      <h2>
-        🖼️ Scan QR dari Media
-      </h2>
-
-      <p>
-        Jika QR ada di screenshot, WhatsApp,
-        galeri, atau foto yang tersimpan di HP,
-        pilih gambarnya di sini.
-      </p>
-
-
-      <label
-        for="qrImage"
-        class="btn btn-primary full"
-        style="
-          display:block;
-          text-align:center;
-          cursor:pointer;
-        "
-      >
-        🖼️ PILIH GAMBAR QR
-      </label>
-
-
-      <input
-        id="qrImage"
-        type="file"
-        accept="image/*"
-        capture="environment"
-        style="display:none;"
-      >
-
-
-      <div
-        id="imagePreview"
-        class="hidden"
-        style="
-          margin-top:20px;
-          text-align:center;
-        "
-      >
-
-        <img
-          id="previewImage"
-          alt="Preview QR"
-          style="
-            width:100%;
-            max-width:300px;
-            max-height:300px;
-            object-fit:contain;
-            border-radius:16px;
-            border:1px solid rgba(255,255,255,.12);
-          "
-        >
-
+      <div>
+        <h2>
+          Scan dengan Kamera
+        </h2>
       </div>
 
     </div>
 
-
-    <!-- =================================================
-         CARA MENDAPATKAN QR
-    ================================================== -->
-
-    <div class="form-card">
-
-      <h2>
-        💡 Cara Scan QR Penjual
-      </h2>
+    <p class="scan-card-description">
+      Arahkan kamera HP ke QR SCANBELI milik penjual.
+    </p>
 
 
-      <div
-        style="
-          display:grid;
-          gap:14px;
-        "
-      >
-
-        <div class="buyer-data">
-
-          <strong>
-            1. Temukan QR SCANBELI
-          </strong>
-
-          <p>
-            QR dapat diberikan penjual melalui
-            toko, poster, kemasan produk,
-            WhatsApp, Instagram, atau media lainnya.
-          </p>
-
-        </div>
+    <div id="reader"></div>
 
 
-        <div class="buyer-data">
-
-          <strong>
-            2. Scan QR
-          </strong>
-
-          <p>
-            Tekan tombol
-            <b>Mulai Scan Kamera</b>
-            lalu arahkan kamera ke QR.
-          </p>
-
-        </div>
+    <button
+      id="startCamera"
+      type="button"
+      class="scan-btn scan-btn-primary"
+    >
+      📷 MULAI SCAN KAMERA
+    </button>
 
 
-        <div class="buyer-data">
+    <button
+      id="stopCamera"
+      type="button"
+      class="scan-btn scan-btn-secondary"
+      style="display:none;"
+    >
+      ✕ HENTIKAN KAMERA
+    </button>
 
-          <strong>
-            3. Jika QR berupa foto
-          </strong>
-
-          <p>
-            Pilih
-            <b>Pilih Gambar QR</b>
-            kemudian ambil screenshot atau foto QR
-            dari galeri HP.
-          </p>
-
-        </div>
-
-
-        <div class="buyer-data">
-
-          <strong>
-            4. Checkout
-          </strong>
-
-          <p>
-            Setelah QR berhasil dibaca,
-            SCANBELI akan membuka halaman produk
-            secara otomatis.
-          </p>
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- =================================================
-         STATUS
-    ================================================== -->
 
     <div
-      id="scanStatus"
-      class="form-card hidden"
-      style="text-align:center;"
+      id="cameraStatus"
+      class="scan-status"
+    >
+      Mengaktifkan kamera...
+    </div>
+
+  </section>
+
+
+
+  <!-- ===================================================
+       MEDIA CARD
+  ==================================================== -->
+
+  <section class="scan-card">
+
+    <div class="scan-card-title">
+
+      <div class="scan-card-title-icon">
+        🖼️
+      </div>
+
+      <h2>
+        Scan dari Screenshot
+      </h2>
+
+    </div>
+
+    <p class="scan-card-description">
+      Punya QR dalam screenshot, Galeri, WhatsApp,
+      atau foto? Pilih gambarnya di sini.
+    </p>
+
+
+    <label
+      for="qrImage"
+      class="scan-btn scan-btn-primary"
+      style="
+        display:block;
+        text-align:center;
+        cursor:pointer;
+      "
+    >
+      🖼️ PILIH SCREENSHOT / FOTO QR
+    </label>
+
+
+    <input
+      id="qrImage"
+      class="file-input"
+      type="file"
+      accept="image/*"
     >
 
-      <div
-        id="scanStatusText"
-      >
-        Membaca QR...
+
+    <!-- PREVIEW -->
+
+    <div
+      id="imagePreviewBox"
+      class="image-preview-box"
+    >
+
+      <div class="image-preview-title">
+        GAMBAR QR YANG DIPILIH
       </div>
+
+      <img
+        id="previewImage"
+        alt="Screenshot QR SCANBELI"
+      >
 
     </div>
 
 
-    <!-- =================================================
-         ERROR
-    ================================================== -->
+    <div
+      id="imageStatus"
+      class="scan-status"
+    >
+      Membaca QR dari gambar...
+    </div>
+
 
     <div
-      id="scanError"
-      class="form-card hidden"
-      style="text-align:center;"
+      id="imageError"
+      class="scan-error"
     >
 
-      <h3>
-        ⚠️ QR Tidak Ditemukan
-      </h3>
+      <strong>
+        ⚠️ QR belum terbaca
+      </strong>
 
-      <p id="scanErrorText">
-        Pastikan gambar berisi QR SCANBELI yang jelas.
+      <p>
+        Pastikan QR terlihat utuh, tidak terlalu buram,
+        dan memiliki pencahayaan yang cukup.
       </p>
 
       <button
-        id="retryButton"
-        class="btn btn-secondary full"
+        id="retryImage"
         type="button"
+        class="scan-btn scan-btn-secondary"
       >
-        🔄 COBA LAGI
+        🔄 PILIH GAMBAR LAIN
       </button>
-
-    </div>
-
-
-    <!-- =================================================
-         DATA PEMBELI
-    ================================================== -->
-
-    <div class="form-card">
-
-      <h2>
-        📍 Data Pengiriman
-      </h2>
-
-      <p>
-        Data pembeli disimpan di perangkat Anda
-        sehingga tidak perlu mengetiknya berulang kali.
-      </p>
-
-
-      <a
-        href="buyer.html"
-        class="btn btn-secondary full"
-      >
-        ✏️ ATUR DATA PENGIRIMAN
-      </a>
 
     </div>
 
   </section>
 
+
+
+  <!-- ===================================================
+       CARA MENGGUNAKAN
+  ==================================================== -->
+
+  <section class="scan-card">
+
+    <div class="scan-card-title">
+
+      <div class="scan-card-title-icon">
+        ✨
+      </div>
+
+      <h2>
+        Cara Menggunakan
+      </h2>
+
+    </div>
+
+
+    <div class="guide">
+
+      <div class="guide-item">
+
+        <div class="guide-number">
+          01
+        </div>
+
+        <div class="guide-text">
+
+          <strong>
+            Cari QR SCANBELI
+          </strong>
+
+          <span>
+            QR bisa berada di toko, produk,
+            kemasan, poster, WhatsApp,
+            atau media sosial penjual.
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="guide-item">
+
+        <div class="guide-number">
+          02
+        </div>
+
+        <div class="guide-text">
+
+          <strong>
+            Scan QR
+          </strong>
+
+          <span>
+            Gunakan kamera atau pilih
+            screenshot QR dari HP.
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="guide-item">
+
+        <div class="guide-number">
+          03
+        </div>
+
+        <div class="guide-text">
+
+          <strong>
+            Checkout
+          </strong>
+
+          <span>
+            Produk akan dibuka otomatis
+            di halaman checkout.
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="guide-item">
+
+        <div class="guide-number">
+          04
+        </div>
+
+        <div class="guide-text">
+
+          <strong>
+            Bayar
+          </strong>
+
+          <span>
+            Periksa pesanan kemudian
+            lanjutkan pembayaran.
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- ===================================================
+       DATA PEMBELI
+  ==================================================== -->
+
+  <section class="scan-card">
+
+    <div class="scan-card-title">
+
+      <div class="scan-card-title-icon">
+        📍
+      </div>
+
+      <h2>
+        Data Pengiriman
+      </h2>
+
+    </div>
+
+    <p class="scan-card-description">
+      Simpan nama, nomor WhatsApp, dan alamat
+      pengiriman di HP agar tidak perlu mengisi
+      setiap kali membeli.
+    </p>
+
+
+    <a
+      href="buyer.html"
+      class="scan-btn scan-btn-secondary"
+      style="
+        display:block;
+        text-align:center;
+        text-decoration:none;
+      "
+    >
+      ✏️ EDIT DATA PENGIRIMAN
+    </a>
+
+  </section>
+
+
 </main>
+
 
 
 <!-- =====================================================
      BOTTOM NAVIGATION
 ===================================================== -->
 
-<nav
-  style="
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    z-index:50;
-    background:rgba(7,7,7,.96);
-    border-top:1px solid rgba(255,255,255,.08);
-    backdrop-filter:blur(15px);
-  "
->
+<nav class="bottom-nav">
 
-  <div
-    class="container"
-    style="
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:5px;
-      padding:10px 8px;
-    "
-  >
+  <div class="bottom-nav-inner">
+
 
     <a
       href="index.html"
-      style="
-        text-align:center;
-        color:#aaa;
-        text-decoration:none;
-        font-size:12px;
-      "
+      class="bottom-item"
     >
-      🏠
-      <br>
+
+      <span class="bottom-item-icon">
+        🏠
+      </span>
+
       Beranda
+
     </a>
 
 
     <a
       href="scan.html"
-      style="
-        text-align:center;
-        color:#d6ad55;
-        text-decoration:none;
-        font-size:12px;
-      "
+      class="bottom-item active"
     >
-      📷
-      <br>
+
+      <span class="bottom-item-icon">
+        📷
+      </span>
+
       Scan
+
     </a>
 
 
     <a
       href="buyer.html"
-      style="
-        text-align:center;
-        color:#aaa;
-        text-decoration:none;
-        font-size:12px;
-      "
+      class="bottom-item"
     >
-      👤
-      <br>
+
+      <span class="bottom-item-icon">
+        👤
+      </span>
+
       Pembeli
+
     </a>
 
 
     <a
       href="orders.html"
-      style="
-        text-align:center;
-        color:#aaa;
-        text-decoration:none;
-        font-size:12px;
-      "
+      class="bottom-item"
     >
-      📦
-      <br>
+
+      <span class="bottom-item-icon">
+        📦
+      </span>
+
       Pesanan
+
     </a>
+
 
   </div>
 
 </nav>
 
 
+
 <!-- =====================================================
-     SCRIPT
+     JAVASCRIPT
 ===================================================== -->
 
 <script>
 
-const readerElement = document.getElementById("reader");
+"use strict";
 
-const startCameraButton =
+
+/* =====================================================
+   ELEMENT
+===================================================== */
+
+const startCamera =
   document.getElementById("startCamera");
 
-const stopCameraButton =
+const stopCamera =
   document.getElementById("stopCamera");
 
 const qrImage =
   document.getElementById("qrImage");
 
-const imagePreview =
-  document.getElementById("imagePreview");
+const reader =
+  document.getElementById("reader");
+
+const cameraStatus =
+  document.getElementById("cameraStatus");
+
+const imagePreviewBox =
+  document.getElementById("imagePreviewBox");
 
 const previewImage =
   document.getElementById("previewImage");
 
-const scanStatus =
-  document.getElementById("scanStatus");
+const imageStatus =
+  document.getElementById("imageStatus");
 
-const scanStatusText =
-  document.getElementById("scanStatusText");
+const imageError =
+  document.getElementById("imageError");
 
-const scanError =
-  document.getElementById("scanError");
-
-const scanErrorText =
-  document.getElementById("scanErrorText");
-
-const retryButton =
-  document.getElementById("retryButton");
+const retryImage =
+  document.getElementById("retryImage");
 
 
-let scanner = null;
-let scanning = false;
-let openingCheckout = false;
+/* =====================================================
+   STATE
+===================================================== */
+
+let html5QrCode = null;
+
+let cameraRunning = false;
+
+let alreadyOpened = false;
 
 
-// =====================================================
-// SHOW STATUS
-// =====================================================
+/* =====================================================
+   STATUS
+===================================================== */
 
-function showStatus(text) {
+function cameraMessage(message) {
 
-  scanError.classList.add("hidden");
+  cameraStatus.textContent = message;
 
-  scanStatus.classList.remove("hidden");
-
-  scanStatusText.textContent = text;
+  cameraStatus.classList.add("active");
 
 }
 
 
-// =====================================================
-// SHOW ERROR
-// =====================================================
+function hideCameraMessage() {
 
-function showError(text) {
-
-  scanStatus.classList.add("hidden");
-
-  scanError.classList.remove("hidden");
-
-  scanErrorText.textContent = text;
+  cameraStatus.classList.remove("active");
 
 }
 
 
-// =====================================================
-// CHECK QR RESULT
-// =====================================================
+function imageMessage(message) {
 
-function handleQRResult(decodedText) {
+  imageStatus.textContent = message;
 
-  if (openingCheckout) return;
+  imageStatus.classList.add("active");
 
-  openingCheckout = true;
-
-  showStatus("QR berhasil dibaca. Membuka checkout...");
+}
 
 
-  let url = decodedText.trim();
+function hideImageMessage() {
+
+  imageStatus.classList.remove("active");
+
+}
+
+
+/* =====================================================
+   QR RESULT
+===================================================== */
+
+function processQR(decodedText) {
+
+  if (alreadyOpened) {
+    return;
+  }
+
+  alreadyOpened = true;
+
+
+  const value =
+    String(decodedText || "").trim();
+
+
+  if (!value) {
+
+    alreadyOpened = false;
+
+    return;
+
+  }
+
+
+  cameraMessage(
+    "✓ QR berhasil dibaca. Membuka checkout..."
+  );
+
+
+  imageMessage(
+    "✓ QR berhasil dibaca. Membuka checkout..."
+  );
 
 
   /*
-   * QR SCANBELI biasanya berisi:
+   * QR SCANBELI biasanya berupa:
    *
-   * https://domain.com/checkout.html?product=...
+   * checkout.html?product=xxxxx
    *
-   * Jika berupa URL langsung,
-   * buka URL tersebut.
+   * atau URL lengkap GitHub Pages.
    */
 
   try {
 
+    /* ==============================================
+       URL
+    ============================================== */
+
     if (
-      url.startsWith("http://") ||
-      url.startsWith("https://")
+      value.startsWith("http://") ||
+      value.startsWith("https://")
     ) {
 
-      const parsed =
-        new URL(url);
+      const url =
+        new URL(value);
+
+
+      const product =
+        url.searchParams.get("product");
+
 
       /*
-       * Jika URL menuju checkout SCANBELI,
-       * langsung buka.
+       * Kalau QR sudah berisi checkout.html
        */
 
       if (
-        parsed.pathname.endsWith(
-          "/checkout.html"
-        ) ||
-        parsed.pathname.endsWith(
+        url.pathname.includes(
           "checkout.html"
         )
       ) {
 
-        window.location.href = url;
+        window.location.href =
+          value;
 
         return;
+
       }
 
 
       /*
-       * Jika URL masih berupa halaman lain
-       * tetapi mengandung parameter product,
-       * arahkan ke checkout.
+       * Kalau URL mengandung product
        */
-
-      const product =
-        parsed.searchParams.get("product");
 
       if (product) {
 
@@ -594,112 +1284,111 @@ function handleQRResult(decodedText) {
           encodeURIComponent(product);
 
         return;
+
       }
 
 
       /*
-       * QR adalah link biasa.
+       * URL biasa
        */
 
-      window.location.href = url;
+      window.location.href =
+        value;
 
       return;
+
     }
 
 
-    /*
-     * Jika QR hanya berisi data produk,
-     * misalnya:
-     *
-     * {"name":"Kaos Anime","price":100000}
-     *
-     * atau Base64 JSON,
-     * teruskan ke checkout.
-     */
+    /* ==============================================
+       DATA LANGSUNG
+    ============================================== */
 
     window.location.href =
       "checkout.html?product=" +
-      encodeURIComponent(url);
+      encodeURIComponent(value);
 
   } catch (error) {
 
-    console.error(error);
-
-    showError(
-      "QR berhasil dibaca tetapi formatnya tidak dikenali."
+    console.error(
+      "QR ERROR:",
+      error
     );
 
-    openingCheckout = false;
+    alreadyOpened = false;
+
+    imageError.classList.add(
+      "active"
+    );
 
   }
 
 }
 
 
-// =====================================================
-// START CAMERA
-// =====================================================
+/* =====================================================
+   CAMERA SCANNER
+===================================================== */
 
-async function startCamera() {
+async function startCameraScanner() {
 
-  if (scanning) return;
+  if (cameraRunning) {
+    return;
+  }
 
-  openingCheckout = false;
 
-  scanError.classList.add("hidden");
+  alreadyOpened = false;
 
-  showStatus(
-    "Mengaktifkan kamera..."
+  hideCameraMessage();
+
+  imageError.classList.remove(
+    "active"
   );
 
 
   try {
 
-    scanner =
-      new Html5Qrcode("reader");
+    cameraMessage(
+      "Meminta izin kamera..."
+    );
 
 
-    await scanner.start(
+    html5QrCode =
+      new Html5Qrcode(
+        "reader"
+      );
+
+
+    await html5QrCode.start(
 
       {
-        facingMode: "environment"
+        facingMode: {
+          exact: "environment"
+        }
       },
 
       {
         fps: 10,
 
-        qrbox: function(
-          viewfinderWidth,
-          viewfinderHeight
-        ) {
+        qrbox: {
+          width: 250,
+          height: 250
+        },
 
-          const size =
-            Math.min(
-              viewfinderWidth,
-              viewfinderHeight
-            ) * 0.75;
-
-          return {
-            width: size,
-            height: size
-          };
-
-        }
+        aspectRatio: 1
 
       },
 
       function(decodedText) {
 
-        handleQRResult(decodedText);
+        processQR(decodedText);
 
       },
 
       function(errorMessage) {
 
         /*
-         * Error scan frame biasa.
-         * Tidak perlu ditampilkan agar
-         * layar tetap bersih.
+         * Tidak menampilkan error setiap frame.
          */
 
       }
@@ -707,117 +1396,273 @@ async function startCamera() {
     );
 
 
-    scanning = true;
+    cameraRunning = true;
 
-    startCameraButton.classList.add(
-      "hidden"
-    );
 
-    stopCameraButton.classList.remove(
-      "hidden"
-    );
+    startCamera.style.display =
+      "none";
 
-    showStatus(
+    stopCamera.style.display =
+      "block";
+
+
+    cameraMessage(
       "Arahkan kamera ke QR SCANBELI..."
     );
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      "CAMERA ERROR:",
+      error
+    );
 
-    scanStatus.classList.add("hidden");
 
-    showError(
-      "Kamera tidak dapat digunakan. Pastikan izin kamera diberikan."
+    /*
+     * Fallback kamera tanpa exact.
+     * Beberapa HP/browser tidak menerima
+     * facingMode exact.
+     */
+
+    try {
+
+      if (html5QrCode) {
+
+        try {
+          await html5QrCode.clear();
+        } catch (e) {}
+
+      }
+
+
+      html5QrCode =
+        new Html5Qrcode(
+          "reader"
+        );
+
+
+      await html5QrCode.start(
+
+        {
+          facingMode: "environment"
+        },
+
+        {
+          fps: 10,
+
+          qrbox: {
+            width: 250,
+            height: 250
+          },
+
+          aspectRatio: 1
+
+        },
+
+        function(decodedText) {
+
+          processQR(decodedText);
+
+        },
+
+        function() {}
+
+      );
+
+
+      cameraRunning = true;
+
+
+      startCamera.style.display =
+        "none";
+
+      stopCamera.style.display =
+        "block";
+
+
+      cameraMessage(
+        "Arahkan kamera ke QR SCANBELI..."
+      );
+
+    } catch (finalError) {
+
+      console.error(
+        "CAMERA FINAL ERROR:",
+        finalError
+      );
+
+
+      cameraMessage(
+        "Kamera tidak dapat digunakan. Periksa izin kamera browser."
+      );
+
+    }
+
+  }
+
+}
+
+
+/* =====================================================
+   STOP CAMERA
+===================================================== */
+
+async function stopCameraScanner() {
+
+  if (
+    !html5QrCode ||
+    !cameraRunning
+  ) {
+    return;
+  }
+
+
+  try {
+
+    await html5QrCode.stop();
+
+  } catch (error) {
+
+    console.error(
+      error
     );
 
   }
 
-}
-
-
-// =====================================================
-// STOP CAMERA
-// =====================================================
-
-async function stopCamera() {
-
-  if (!scanner || !scanning) return;
 
   try {
 
-    await scanner.stop();
+    await html5QrCode.clear();
 
-    await scanner.clear();
+  } catch (error) {}
 
-  } catch (error) {
 
-    console.error(error);
+  cameraRunning = false;
 
-  }
 
-  scanning = false;
+  startCamera.style.display =
+    "block";
 
-  startCameraButton.classList.remove(
-    "hidden"
-  );
+  stopCamera.style.display =
+    "none";
 
-  stopCameraButton.classList.add(
-    "hidden"
-  );
 
-  scanStatus.classList.add(
-    "hidden"
-  );
+  hideCameraMessage();
 
 }
 
 
-// =====================================================
-// SCAN DARI GAMBAR / MEDIA
-// =====================================================
+/* =====================================================
+   SCAN GAMBAR / SCREENSHOT
+===================================================== */
 
 qrImage.addEventListener(
   "change",
   async function(event) {
 
     const file =
+      event.target.files &&
       event.target.files[0];
 
-    if (!file) return;
+
+    if (!file) {
+      return;
+    }
 
 
-    openingCheckout = false;
+    alreadyOpened = false;
 
-    scanError.classList.add(
-      "hidden"
+
+    imageError.classList.remove(
+      "active"
     );
 
 
     /*
-     * Tampilkan preview
+     * Pastikan file memang gambar.
      */
 
-    const imageURL =
-      URL.createObjectURL(file);
+    if (
+      !file.type ||
+      !file.type.startsWith("image/")
+    ) {
 
-    previewImage.src =
-      imageURL;
+      imageError.classList.add(
+        "active"
+      );
 
-    imagePreview.classList.remove(
-      "hidden"
-    );
+      return;
+
+    }
 
 
-    showStatus(
-      "Membaca QR dari gambar..."
+    /*
+     * =============================================
+     * TAMPILKAN SCREENSHOT TERLEBIH DAHULU
+     * =============================================
+     *
+     * Menggunakan FileReader supaya preview
+     * langsung tampil di HP.
+     */
+
+    try {
+
+      const readerFile =
+        new FileReader();
+
+
+      readerFile.onload =
+        function(e) {
+
+          previewImage.src =
+            e.target.result;
+
+          imagePreviewBox.classList.add(
+            "active"
+          );
+
+        };
+
+
+      readerFile.onerror =
+        function() {
+
+          imagePreviewBox.classList.remove(
+            "active"
+          );
+
+        };
+
+
+      readerFile.readAsDataURL(
+        file
+      );
+
+    } catch (error) {
+
+      console.error(
+        "PREVIEW ERROR:",
+        error
+      );
+
+    }
+
+
+    /*
+     * =============================================
+     * BACA QR
+     * =============================================
+     */
+
+    imageMessage(
+      "🔎 Membaca QR dari screenshot..."
     );
 
 
     try {
 
       /*
-       * Scanner khusus untuk file.
+       * Buat scanner sementara.
        */
 
       const fileScanner =
@@ -840,17 +1685,31 @@ qrImage.addEventListener(
       } catch (e) {}
 
 
-      handleQRResult(
+      /*
+       * Jika berhasil
+       */
+
+      processQR(
         decodedText
       );
 
     } catch (error) {
 
-      console.error(error);
-
-      showError(
-        "QR tidak terbaca dari gambar. Gunakan gambar yang lebih jelas dan pastikan seluruh QR terlihat."
+      console.error(
+        "IMAGE QR ERROR:",
+        error
       );
+
+
+      hideImageMessage();
+
+
+      imageError.classList.add(
+        "active"
+      );
+
+
+      alreadyOpened = false;
 
     }
 
@@ -858,55 +1717,60 @@ qrImage.addEventListener(
 );
 
 
-// =====================================================
-// BUTTON EVENTS
-// =====================================================
+/* =====================================================
+   BUTTON
+===================================================== */
 
-startCameraButton.addEventListener(
+startCamera.addEventListener(
   "click",
-  startCamera
+  startCameraScanner
 );
 
 
-stopCameraButton.addEventListener(
+stopCamera.addEventListener(
   "click",
-  stopCamera
+  stopCameraScanner
 );
 
 
-retryButton.addEventListener(
+retryImage.addEventListener(
   "click",
   function() {
 
-    scanError.classList.add(
-      "hidden"
+    imageError.classList.remove(
+      "active"
     );
+
+    imagePreviewBox.classList.remove(
+      "active"
+    );
+
+    hideImageMessage();
 
     qrImage.value = "";
 
-    imagePreview.classList.add(
-      "hidden"
-    );
-
-    startCamera();
+    qrImage.click();
 
   }
 );
 
 
-// =====================================================
-// CLEANUP
-// =====================================================
+/* =====================================================
+   CLEANUP
+===================================================== */
 
 window.addEventListener(
   "beforeunload",
   function() {
 
-    if (scanner && scanning) {
+    if (
+      html5QrCode &&
+      cameraRunning
+    ) {
 
-      scanner.stop().catch(
-        () => {}
-      );
+      html5QrCode
+        .stop()
+        .catch(() => {});
 
     }
 
@@ -915,12 +1779,6 @@ window.addEventListener(
 
 </script>
 
-
-<!-- =====================================================
-     BOTTOM SPACE
-===================================================== -->
-
-<div style="height:80px;"></div>
 
 </body>
 </html>
