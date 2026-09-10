@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-
   <meta charset="UTF-8">
 
   <meta
@@ -10,313 +8,395 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>Beli - SCANBELI</title>
-
-  <link
-    rel="stylesheet"
-    href="style.css"
+  <meta
+    name="theme-color"
+    content="#070707"
   >
 
-</head>
+  <meta
+    name="description"
+    content="SCANBELI Checkout"
+  >
 
+  <title>Checkout — SCANBELI</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
 
 <body>
 
-
-<!-- HEADER -->
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
 <header class="header">
 
   <div class="container header-inner">
 
-    <a
-      href="index.html"
-      class="logo"
-    >
+    <a href="index.html" class="logo">
       SCANBELI
     </a>
 
-    <a
-      href="buyer.html"
-      class="header-btn"
-    >
-      Edit Data
-    </a>
+    <nav class="nav">
+
+      <a href="index.html">
+        Beranda
+      </a>
+
+      <a href="orders.html">
+        Pesanan
+      </a>
+
+    </nav>
 
   </div>
 
 </header>
 
 
+<!-- =====================================================
+     CHECKOUT
+===================================================== -->
 
-<!-- MAIN -->
+<main class="checkout-page">
 
-<main class="container page-container">
+  <div class="container">
 
-
-  <!-- LOADING -->
-
-  <div
-    id="checkoutLoading"
-    class="loading"
-  >
-    Memuat produk...
-  </div>
+    <div class="checkout-wrapper">
 
 
+      <!-- HEADER -->
 
-  <!-- ERROR -->
+      <div class="checkout-header">
 
-  <div
-    id="checkoutError"
-    class="error-box"
-    style="display:none;"
-  ></div>
+        <div class="hero-badge">
+          🔒 CHECKOUT AMAN
+        </div>
 
+        <h1>
+          Selesaikan
+          <span style="color:#d6ad55;">
+            pesanan
+          </span>
+        </h1>
 
+        <p>
+          Periksa produk dan data pengiriman
+          sebelum melakukan pembayaran.
+        </p>
 
-  <!-- CHECKOUT -->
-
-  <section
-    id="checkoutContent"
-    style="display:none;"
-  >
-
-
-    <!-- ========================= -->
-    <!-- PRODUK -->
-    <!-- ========================= -->
-
-    <div class="product-card">
-
-      <div class="badge">
-        PRODUK
       </div>
 
 
-      <h1 id="checkoutProductName">
-        -
-      </h1>
-
+      <!-- LOADING -->
 
       <div
-        id="checkoutProductCode"
-        class="product-code"
+        id="checkoutLoading"
+        class="loading"
+      >
+        Memuat produk...
+      </div>
+
+
+      <!-- ERROR -->
+
+      <div
+        id="checkoutError"
+        class="checkout-error"
+        style="display:none;"
       ></div>
 
 
-      <div
-        id="checkoutProductPrice"
-        class="price"
+      <!-- CONTENT -->
+
+      <section
+        id="checkoutContent"
+        style="display:none;"
       >
-        Rp0
-      </div>
 
-    </div>
+        <div class="checkout-card">
 
 
+          <!-- =================================================
+               PRODUCT
+          ================================================== -->
 
-    <!-- ========================= -->
-    <!-- PEMBELI -->
-    <!-- ========================= -->
+          <div class="checkout-product">
 
-    <div class="form-card">
+            <div class="checkout-product-label">
+              PRODUK
+            </div>
 
-      <h2>
-        📍 Dikirim ke
-      </h2>
+            <h2 id="checkoutProductName">
+              —
+            </h2>
+
+            <div
+              id="checkoutProductCode"
+              style="
+                color:#777;
+                font-size:12px;
+                margin-top:4px;
+              "
+            >
+              —
+            </div>
+
+            <div
+              id="checkoutProductPrice"
+              class="checkout-product-price"
+            >
+              Rp 0
+            </div>
+
+          </div>
 
 
-      <div class="buyer-data">
+          <!-- =================================================
+               BUYER DATA
+          ================================================== -->
 
-
-        <div class="data-row">
-
-          <small>
-            Nama
-          </small>
-
-          <input
-            id="buyerName"
-            type="text"
-            placeholder="Nama lengkap"
+          <div
+            style="
+              margin-top:30px;
+              margin-bottom:15px;
+            "
           >
 
-        </div>
+            <div
+              class="hero-badge"
+              style="margin-bottom:12px;"
+            >
+              DATA PENGIRIMAN
+            </div>
+
+            <p
+              style="
+                color:#777;
+                font-size:13px;
+              "
+            >
+              Pastikan data penerima sudah benar.
+            </p>
+
+          </div>
 
 
+          <!-- NAME -->
 
-        <div class="data-row">
+          <div class="form-group">
 
-          <small>
-            Nomor HP
-          </small>
+            <label for="buyerName">
+              Nama Lengkap
+            </label>
 
-          <input
-            id="buyerPhone"
-            type="tel"
-            placeholder="08xxxxxxxxxx"
+            <input
+              type="text"
+              id="buyerName"
+              name="buyerName"
+              placeholder="Masukkan nama lengkap"
+              autocomplete="name"
+            >
+
+          </div>
+
+
+          <!-- PHONE -->
+
+          <div class="form-group">
+
+            <label for="buyerPhone">
+              Nomor HP
+            </label>
+
+            <input
+              type="tel"
+              id="buyerPhone"
+              name="buyerPhone"
+              placeholder="08xxxxxxxxxx"
+              autocomplete="tel"
+            >
+
+          </div>
+
+
+          <!-- ADDRESS -->
+
+          <div class="form-group">
+
+            <label for="buyerAddress">
+              Alamat Pengiriman
+            </label>
+
+            <textarea
+              id="buyerAddress"
+              name="buyerAddress"
+              placeholder="Nama jalan, nomor rumah, kecamatan, kota, provinsi..."
+              autocomplete="street-address"
+            ></textarea>
+
+          </div>
+
+
+          <!-- EDIT DATA -->
+
+          <button
+            type="button"
+            id="editBuyerButton"
+            class="btn btn-secondary"
+            style="
+              width:100%;
+              margin-bottom:25px;
+            "
           >
+            ✏️ Ubah Data Pembeli
+          </button>
+
+
+          <!-- =================================================
+               SUMMARY
+          ================================================== -->
+
+          <div class="summary">
+
+            <div
+              style="
+                margin-bottom:12px;
+                color:#ddd;
+                font-size:14px;
+                font-weight:800;
+              "
+            >
+              RINGKASAN PEMBAYARAN
+            </div>
+
+
+            <!-- PRODUCT PRICE -->
+
+            <div class="summary-row">
+
+              <span>
+                Harga Produk
+              </span>
+
+              <strong id="summaryPrice">
+                Rp 0
+              </strong>
+
+            </div>
+
+
+            <!-- FEE -->
+
+            <div class="summary-row">
+
+              <span>
+                Fee SCANBELI
+              </span>
+
+              <strong id="summaryFee">
+                Rp 0
+              </strong>
+
+            </div>
+
+
+            <!-- TOTAL -->
+
+            <div class="summary-row total">
+
+              <span>
+                Total
+              </span>
+
+              <strong id="summaryTotal">
+                Rp 0
+              </strong>
+
+            </div>
+
+          </div>
+
+
+          <!-- =================================================
+               PAY
+          ================================================== -->
+
+          <button
+            type="button"
+            id="payButton"
+            class="btn btn-primary"
+          >
+            🔐 BAYAR SEKARANG
+          </button>
+
+
+          <div
+            style="
+              text-align:center;
+              margin-top:15px;
+              color:#666;
+              font-size:11px;
+              line-height:1.6;
+            "
+          >
+            Dengan melanjutkan pembayaran,
+            Anda menyetujui proses transaksi SCANBELI.
+          </div>
+
 
         </div>
 
-
-
-        <div class="data-row">
-
-          <small>
-            Alamat
-          </small>
-
-          <textarea
-            id="buyerAddress"
-            rows="4"
-            placeholder="Alamat lengkap untuk pengiriman"
-          ></textarea>
-
-        </div>
-
-
-      </div>
-
-
-      <a
-        href="buyer.html"
-        class="edit-address"
-      >
-        ✏️ Ubah data pembeli
-      </a>
+      </section>
 
     </div>
 
-
-
-    <!-- ========================= -->
-    <!-- RINGKASAN -->
-    <!-- ========================= -->
-
-    <div class="payment-card">
-
-      <h2>
-        Ringkasan
-      </h2>
-
-
-
-      <div class="total-row">
-
-        <span>
-          Harga produk
-        </span>
-
-        <strong id="summaryPrice">
-          Rp0
-        </strong>
-
-      </div>
-
-
-
-      <div class="total-row">
-
-        <span>
-          Fee SCANBELI
-        </span>
-
-        <strong id="summaryFee">
-          Rp0
-        </strong>
-
-      </div>
-
-
-
-      <hr>
-
-
-
-      <div class="grand-total">
-
-        <span>
-          Total
-        </span>
-
-        <strong id="summaryTotal">
-          Rp0
-        </strong>
-
-      </div>
-
-
-
-      <button
-        id="payButton"
-        class="btn full"
-        type="button"
-      >
-        BAYAR
-      </button>
-
-
-      <p class="prototype-note">
-
-        Pembayaran asli akan dihubungkan
-        pada tahap berikutnya.
-
-      </p>
-
-
-    </div>
-
-
-  </section>
-
-
-
-  <!-- ========================= -->
-  <!-- BELUM ADA DATA PEMBELI -->
-  <!-- ========================= -->
-
-  <section
-    id="noBuyer"
-    class="form-card"
-    style="display:none;"
-  >
-
-    <h2>
-      Data pengiriman belum tersedia
-    </h2>
-
-
-    <p>
-      Isi nama, nomor HP dan alamat satu kali.
-      Data disimpan di perangkat Anda.
-    </p>
-
-
-    <a
-      href="buyer.html"
-      class="btn full"
-      id="fillBuyerButton"
-    >
-      Isi Data Pembeli
-    </a>
-
-  </section>
-
+  </div>
 
 </main>
 
 
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
-<!-- SCRIPT -->
+<footer class="footer">
+
+  <div class="container">
+
+    <div
+      style="
+        font-size:19px;
+        font-weight:900;
+        letter-spacing:2px;
+        color:#d6ad55;
+        margin-bottom:7px;
+      "
+    >
+      SCANBELI
+    </div>
+
+    <p>
+      Scan QR. Checkout. Selesai.
+    </p>
+
+    <p style="margin-top:10px;">
+      © 2026 SCANBELI
+    </p>
+
+  </div>
+
+</footer>
+
+
+<!-- =====================================================
+     SCRIPT
+===================================================== -->
 
 <script
   type="module"
   src="script.js"
 ></script>
 
-
 </body>
-
 </html>
