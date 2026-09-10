@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-
   <meta charset="UTF-8">
 
   <meta
@@ -11,153 +10,154 @@
 
   <title>Buat QR - SCANBELI</title>
 
-  <link
-    rel="stylesheet"
-    href="style.css"
-  >
+  <link rel="stylesheet" href="style.css">
 
+  <!-- Library QR Code -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 
 <body>
 
 <header class="header">
 
-  <a href="index.html" class="back">
-    ← SCANBELI
-  </a>
+  <div class="logo">
+    <span>B</span>
+    SCANBELI
+  </div>
+
+  <nav>
+    <a href="index.html">Beranda</a>
+    <a href="buyer.html">Data Pembeli</a>
+    <a href="seller-orders.html">Pesanan Masuk</a>
+  </nav>
 
 </header>
 
 
 <main class="container">
 
-  <div class="page-title">
+  <div class="card">
 
-    <div class="badge">
-      UNTUK PENJUAL
-    </div>
-
-    <h1>
-      Buat QR Produk
-    </h1>
+    <h1>Buat QR Produk</h1>
 
     <p>
-      Masukkan produk dan harga,
-      kemudian buat QR SCANBELI.
+      Buat QR untuk produk Anda.
+      Pembeli cukup scan QR untuk membuka checkout.
     </p>
+
+
+    <form id="sellerForm">
+
+      <div class="form-group">
+
+        <label for="productName">
+          Nama Produk
+        </label>
+
+        <input
+          type="text"
+          id="productName"
+          placeholder="Contoh: Kaos Anime"
+          maxlength="100"
+          required
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="productPrice">
+          Harga
+        </label>
+
+        <input
+          type="number"
+          id="productPrice"
+          placeholder="100000"
+          min="1"
+          required
+        >
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="productCode">
+          Kode Produk
+          <small>(opsional)</small>
+        </label>
+
+        <input
+          type="text"
+          id="productCode"
+          placeholder="Contoh: KAOS-001"
+          maxlength="50"
+        >
+
+      </div>
+
+
+      <button
+        type="submit"
+        id="createQRButton"
+        class="btn"
+      >
+        Buat QR
+      </button>
+
+    </form>
 
   </div>
 
 
-  <form
-    id="sellerForm"
-    class="form-card"
-  >
+  <!-- HASIL QR -->
 
-    <label for="productName">
-      Nama Produk
-    </label>
-
-    <input
-      type="text"
-      id="productName"
-      placeholder="Contoh: Kaos Anime"
-      required
-    >
-
-
-    <label for="productPrice">
-      Harga
-    </label>
-
-    <input
-      type="number"
-      id="productPrice"
-      placeholder="100000"
-      min="1"
-      required
-    >
-
-
-    <label for="productCode">
-      Kode Produk
-    </label>
-
-    <input
-      type="text"
-      id="productCode"
-      placeholder="KAOS001"
-      required
-    >
-
-
-    <button
-      type="submit"
-      class="btn full"
-    >
-      Buat QR
-    </button>
-
-  </form>
-
-
-  <section
+  <div
     id="qrResult"
-    class="qr-card hidden"
+    class="card"
+    style="display:none;"
   >
 
-    <div class="badge">
-      QR BERHASIL DIBUAT
-    </div>
-
-    <h2 id="qrProductName">
-      Produk
-    </h2>
+    <h2>QR Produk</h2>
 
     <div
-      id="qrCode"
-      class="qr-code"
+      id="qrcode"
+      style="
+        display:flex;
+        justify-content:center;
+        margin:20px 0;
+      "
     ></div>
 
-    <h3 id="qrProductPrice">
-      Rp0
-    </h3>
-
     <p>
-      Scan QR ini menggunakan kamera HP.
+      Scan QR ini untuk membuka halaman checkout.
     </p>
 
+    <div id="checkoutLink"></div>
 
-    <div class="link-box">
-
-      <span>
-        Link produk:
-      </span>
-
-      <div id="qrLink"></div>
-
-    </div>
+  </div>
 
 
-    <button
-      id="copyLink"
-      class="btn full"
-      type="button"
-    >
-      Salin Link
-    </button>
+  <!-- ERROR -->
 
-  </section>
+  <div
+    id="errorBox"
+    class="card"
+    style="
+      display:none;
+      color:red;
+    "
+  ></div>
 
 </main>
 
 
-<!-- QR CODE LIBRARY -->
 <script
-  src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+  type="module"
+  src="script.js"
 ></script>
-
-<script type="module" src="script.js"></script>
 
 </body>
 </html>
