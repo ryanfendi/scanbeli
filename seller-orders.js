@@ -10,98 +10,201 @@ import {
   initAnonymousAuth
 } from "./firebase.js";
 
-function rupiah(number) {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    maximumFractionDigits: 0
-  }).format(Number(number) || 0);
+
+// =========================================
+// ELEMENT
+// =========================================
+
+const loading =
+  document.getElementById("loading");
+
+const errorBox =
+  document.getElementById("error");
+
+const empty =
+  document.getElementById("empty");
+
+const container =
+  document.getElementById(
+    "ordersContainer"
+  );
+
+
+// =========================================
+// RUPIAH
+// =========================================
+
+function rupiah(value) {
+
+  return new Intl.NumberFormat(
+    "id-ID",
+    {
+      style: "currency",
+      currency: "IDR",
+      maximumFractionDigits: 0
+    }
+  ).format(
+    Number(value) || 0
+  );
+
 }
+
+
+// =========================================
+// ESCAPE
+// =========================================
 
 function escapeHTML(value) {
+
   return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+
+    .replaceAll("&", "&amp;")
+
+    .replaceAll("<", "&lt;")
+
+    .replaceAll(">", "&gt;")
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
 }
 
+
+// =========================================
+// STATUS
+// =========================================
+
+function statusText(status) {
+
+  const map = {
+
+    MENUNGGU_PEMBAYARAN:
+      "Menunggu Pembayaran",
+
+    DIBAYAR:
+      "Sudah Dibayar",
+
+    DIPROSES:
+      "Sedang Diproses",
+
+    DIKIRIM:
+      "Dikirim",
+
+    SELESAI:
+      "Selesai",
+
+    DIBATALKAN:
+      "Dibatalkan"
+
+  };
+
+
+  return (
+    map[status] ||
+    status ||
+    "Tidak diketahui"
+  );
+
+}
+
+
+// =========================================
+// LOAD
+// =========================================
+
 async function loadOrders() {
-
-  const loading =
-    document.getElementById(
-      "loading"
-    );
-
-  const error =
-    document.getElementById(
-      "error"
-    );
-
-  const empty =
-    document.getElementById(
-      "empty"
-    );
-
-  const container =
-    document.getElementById(
-      "ordersContainer"
-    );
 
   try {
 
     loading.style.display =
       "block";
 
+    errorBox.innerHTML =
+      "";
+
+    empty.style.display =
+      "none";
+
+
+    // Anonymous seller
     const user =
       await initAnonymousAuth();
 
-    if (!user) {
-      throw new Error(
-        "Authentication gagal."
-      );
-    }
 
-    /*
-      Hanya mengambil order
-      milik seller yang sedang
-      login secara anonim.
-
-      Tidak memakai orderBy(),
-      sehingga tidak membutuhkan
-      composite index.
-    */
-
-    const q = query(
-      collection(db, "orders"),
-      where(
-        "sellerUid",
-        "==",
-        user.uid
-      )
+    console.log(
+      "Seller UID:",
+      user.uid
     );
+
+
+    // Query tanpa orderBy
+    // sehingga tidak membutuhkan
+    // composite index.
+
+    const q =
+      query(
+
+        collection(
+          db,
+          "orders"
+        ),
+
+        where(
+          "sellerUid",
+          "==",
+          user.uid
+        )
+
+      );
+
 
     const snapshot =
       await getDocs(q);
 
-    const orders =
-      snapshot.docs.map(
-        function (doc) {
-          return {
-            id: doc.id,
-            ...doc.data()
-          };
-        }
-      );
 
-    /*
-      Urutkan di HP,
-      bukan menggunakan orderBy Firestore.
-    */
+    loading.style.display =
+      "none";
 
+
+    if (snapshot.empty) {
+
+      empty.style.display =
+        "block";
+
+      return;
+
+    }
+
+
+    const orders = [];
+
+
+    snapshot.forEach(
+      documentSnapshot => {
+
+        orders.push({
+
+          id:
+            documentSnapshot.id,
+
+          ...documentSnapshot.data()
+
+        });
+
+      }
+    );
+
+
+    // Terbaru → teratas
     orders.sort(
-      function (a, b) {
+      (a, b) => {
 
         const aTime =
           a.createdAt?.seconds ||
@@ -112,120 +215,246 @@ async function loadOrders() {
           0;
 
         return bTime - aTime;
+
       }
     );
 
-    loading.style.display =
-      "none";
 
-    if (!orders.length) {
+    renderOrders(
+      orders
+    );
 
-      empty.style.display =
-        "block";
-
-      return;
-    }
-
-    container.innerHTML =
-      orders.map(
-        function (order) {
-
-          return `
-            <div class="order-card">
-
-              <h3>
-                ${escapeHTML(
-                  order.product?.name ||
-                  "Produk"
-                )}
-              </h3>
-
-              <p>
-                <strong>
-                  Order:
-                </strong>
-                ${escapeHTML(
-                  order.orderId
-                )}
-              </p>
-
-              <p>
-                <strong>
-                  Harga:
-                </strong>
-                ${rupiah(
-                  order.price
-                )}
-              </p>
-
-              <p>
-                <strong>
-                  Total:
-                </strong>
-                ${rupiah(
-                  order.total
-                )}
-              </p>
-
-              <p>
-                <strong>
-                  Status:
-                </strong>
-                ${escapeHTML(
-                  order.status
-                )}
-              </p>
-
-              <hr>
-
-              <h4>
-                Data Pembeli
-              </h4>
-
-              <p>
-                Nama:
-                ${escapeHTML(
-                  order.buyerName
-                )}
-              </p>
-
-              <p>
-                HP:
-                ${escapeHTML(
-                  order.buyerPhone
-                )}
-              </p>
-
-              <p>
-                Alamat:
-                ${escapeHTML(
-                  order.buyerAddress
-                )}
-              </p>
-
-            </div>
-          `;
-
-        }
-      ).join("");
 
   } catch (err) {
 
-    console.error(err);
+    console.error(
+      "Seller orders error:",
+      err
+    );
+
 
     loading.style.display =
       "none";
 
-    error.innerHTML = `
-      <div class="error">
-        Gagal memuat pesanan:
-        <br>
-        ${escapeHTML(
-          err.message
-        )}
+
+    errorBox.innerHTML = `
+
+      <div class="error-box">
+
+        <strong>
+          Gagal memuat pesanan
+        </strong>
+
+        <p>
+          ${escapeHTML(
+            err.message
+          )}
+        </p>
+
       </div>
+
     `;
+
   }
+
 }
+
+
+// =========================================
+// RENDER
+// =========================================
+
+function renderOrders(
+  orders
+) {
+
+  container.innerHTML =
+    "";
+
+
+  orders.forEach(
+    order => {
+
+      const product =
+        order.product || {};
+
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "order-card";
+
+
+      card.innerHTML = `
+
+        <div class="order-header">
+
+          <div>
+
+            <h3>
+              ${escapeHTML(
+                product.name ||
+                "Produk"
+              )}
+            </h3>
+
+            ${
+              product.code
+                ? `
+                  <small>
+                    Kode:
+                    ${escapeHTML(
+                      product.code
+                    )}
+                  </small>
+                `
+                : ""
+            }
+
+          </div>
+
+
+          <span class="status-badge">
+
+            ${escapeHTML(
+              statusText(
+                order.status
+              )
+            )}
+
+          </span>
+
+        </div>
+
+
+
+        <div class="order-info">
+
+          <p>
+
+            <strong>
+              Order
+            </strong>
+
+            <br>
+
+            ${escapeHTML(
+              order.orderId
+            )}
+
+          </p>
+
+
+          <p>
+
+            <strong>
+              Pembeli
+            </strong>
+
+            <br>
+
+            ${escapeHTML(
+              order.buyerName
+            )}
+
+          </p>
+
+
+          <p>
+
+            <strong>
+              Nomor HP
+            </strong>
+
+            <br>
+
+            ${escapeHTML(
+              order.buyerPhone
+            )}
+
+          </p>
+
+
+          <p>
+
+            <strong>
+              Alamat Pengiriman
+            </strong>
+
+            <br>
+
+            ${escapeHTML(
+              order.buyerAddress
+            )}
+
+          </p>
+
+
+          <p>
+
+            <strong>
+              Harga Produk
+            </strong>
+
+            <br>
+
+            ${rupiah(
+              order.price
+            )}
+
+          </p>
+
+
+          <p>
+
+            <strong>
+              Fee SCANBELI
+            </strong>
+
+            <br>
+
+            ${rupiah(
+              order.fee
+            )}
+
+          </p>
+
+
+          <p class="order-total">
+
+            <strong>
+              Total
+            </strong>
+
+            <br>
+
+            ${rupiah(
+              order.total
+            )}
+
+          </p>
+
+        </div>
+
+      `;
+
+
+      container.appendChild(
+        card
+      );
+
+    }
+  );
+
+}
+
+
+// =========================================
+// START
+// =========================================
 
 loadOrders();
