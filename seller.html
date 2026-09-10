@@ -2,55 +2,158 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Buat QR Produk - SCANBELI</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#070707"
+  >
+
+  <meta
+    name="description"
+    content="Buat QR produk dengan SCANBELI"
+  >
+
+  <title>Buat QR Produk — SCANBELI</title>
 
   <link rel="stylesheet" href="style.css">
 
-  <!-- QR Code -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- QR CODE LIBRARY -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
+  ></script>
+
 </head>
 
 <body>
 
-  <!-- HEADER -->
-  <header class="header">
-    <div class="container header-inner">
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
-      <a href="index.html" class="logo">
-        SCANBELI
+<header class="header">
+
+  <div class="container header-inner">
+
+    <a href="index.html" class="logo">
+      SCANBELI
+    </a>
+
+    <nav class="nav">
+
+      <a href="index.html">
+        Beranda
       </a>
 
-      <nav class="nav">
-        <a href="index.html">Beranda</a>
-        <a href="buyer.html">Data Pembeli</a>
-        <a href="seller-orders.html">Pesanan Masuk</a>
-      </nav>
+      <a href="orders.html">
+        Pesanan
+      </a>
 
-    </div>
-  </header>
+      <a href="seller-orders.html">
+        Pesanan Masuk
+      </a>
+
+    </nav>
+
+  </div>
+
+</header>
 
 
-  <!-- MAIN -->
-  <main class="container page-container">
+<!-- =====================================================
+     MAIN
+===================================================== -->
 
-    <section class="page-header">
-      <h1>Buat QR Produk</h1>
+<main class="page-container">
+
+  <div class="container">
+
+    <!-- PAGE HEADER -->
+
+    <div class="page-header">
+
+      <div class="hero-badge">
+        ✦ SELLER CENTER
+      </div>
+
+      <h1>
+        Buat QR
+        <span style="color:#d6ad55;">
+          Produk
+        </span>
+      </h1>
 
       <p>
-        Buat QR untuk produk Anda.
-        Pembeli cukup scan QR untuk membuka checkout.
+        Buat QR khusus untuk produk Anda dan
+        bagikan kepada pelanggan.
       </p>
-    </section>
+
+    </div>
 
 
-    <!-- FORM -->
-    <section class="card">
+    <!-- =================================================
+         SELLER PANEL
+    ================================================== -->
 
-      <form id="sellerForm">
+    <section class="seller-panel">
+
+      <div
+        style="
+          margin-bottom:25px;
+          padding-bottom:20px;
+          border-bottom:1px solid rgba(255,255,255,.07);
+        "
+      >
+
+        <div
+          style="
+            font-size:11px;
+            color:#d6ad55;
+            font-weight:900;
+            letter-spacing:1.5px;
+            margin-bottom:6px;
+          "
+        >
+          QR PRODUK
+        </div>
+
+        <h2
+          style="
+            font-size:24px;
+            margin-bottom:6px;
+          "
+        >
+          Buat QR baru
+        </h2>
+
+        <p
+          style="
+            color:#777;
+            font-size:13px;
+          "
+        >
+          Pelanggan akan diarahkan langsung
+          ke halaman checkout produk.
+        </p>
+
+      </div>
+
+
+      <!-- =================================================
+           PRODUCT FORM
+      ================================================== -->
+
+      <form id="productForm">
+
+
+        <!-- NAMA PRODUK -->
 
         <div class="form-group">
+
           <label for="productName">
             Nama Produk
           </label>
@@ -58,14 +161,19 @@
           <input
             type="text"
             id="productName"
+            name="productName"
             placeholder="Contoh: Kaos Anime"
             maxlength="100"
             required
           >
+
         </div>
 
 
+        <!-- HARGA -->
+
         <div class="form-group">
+
           <label for="productPrice">
             Harga Produk
           </label>
@@ -73,487 +181,793 @@
           <input
             type="number"
             id="productPrice"
-            placeholder="100000"
+            name="productPrice"
+            placeholder="Contoh: 100000"
             min="1"
+            step="1"
+            inputmode="numeric"
             required
           >
+
+          <div
+            style="
+              margin-top:6px;
+              color:#666;
+              font-size:11px;
+            "
+          >
+            Masukkan harga dalam Rupiah.
+          </div>
+
         </div>
 
 
+        <!-- KODE -->
+
         <div class="form-group">
+
           <label for="productCode">
             Kode Produk
-            <span>(opsional)</span>
           </label>
 
           <input
             type="text"
             id="productCode"
+            name="productCode"
             placeholder="Contoh: KAOS001"
             maxlength="50"
+            required
           >
+
         </div>
 
 
-        <!-- FIREBASE STATUS -->
-        <div
-          id="firebaseStatus"
-          class="status-box"
-          style="display:none;"
-        >
-          <span id="firebaseStatusText"></span>
-        </div>
-
-
-        <!-- ERROR -->
-        <div
-          id="errorBox"
-          class="error-box"
-          style="display:none;"
-        >
-          <span id="errorMessage"></span>
-        </div>
-
+        <!-- BUTTON -->
 
         <button
           type="submit"
-          id="createQRButton"
+          id="generateQR"
           class="btn btn-primary"
+          style="
+            width:100%;
+            min-height:55px;
+            margin-top:5px;
+          "
         >
-          Buat QR
+          ✦ BUAT QR PRODUK
         </button>
 
       </form>
 
+
+      <!-- =================================================
+           QR RESULT
+      ================================================== -->
+
+      <div
+        id="qrResult"
+        style="
+          display:none;
+          margin-top:30px;
+          padding-top:30px;
+          border-top:1px solid rgba(255,255,255,.08);
+        "
+      >
+
+        <div
+          style="
+            text-align:center;
+            margin-bottom:20px;
+          "
+        >
+
+          <div
+            class="hero-badge"
+            style="
+              margin-bottom:12px;
+            "
+          >
+            QR BERHASIL DIBUAT
+          </div>
+
+          <h2
+            id="qrProductName"
+            style="
+              font-size:23px;
+              margin-bottom:5px;
+            "
+          >
+            —
+          </h2>
+
+          <p
+            id="qrProductPrice"
+            style="
+              color:#d6ad55;
+              font-size:18px;
+              font-weight:800;
+            "
+          >
+            Rp 0
+          </p>
+
+        </div>
+
+
+        <!-- QR -->
+
+        <div
+          id="qrcode"
+          class="qr-container"
+        ></div>
+
+
+        <!-- QR INFO -->
+
+        <div
+          style="
+            margin-top:20px;
+            padding:15px;
+            background:rgba(255,255,255,.025);
+            border:1px solid rgba(255,255,255,.07);
+            border-radius:15px;
+            text-align:center;
+          "
+        >
+
+          <div
+            style="
+              color:#666;
+              font-size:11px;
+              margin-bottom:5px;
+            "
+          >
+            KODE PRODUK
+          </div>
+
+          <strong
+            id="qrProductCode"
+            style="
+              color:#fff;
+              font-size:15px;
+              letter-spacing:1px;
+            "
+          >
+            —
+          </strong>
+
+        </div>
+
+
+        <!-- ACTION -->
+
+        <div
+          class="hero-actions"
+          style="
+            margin-top:20px;
+            justify-content:center;
+          "
+        >
+
+          <button
+            type="button"
+            id="downloadQR"
+            class="btn btn-primary"
+          >
+            ↓ SIMPAN QR
+          </button>
+
+          <button
+            type="button"
+            id="shareQR"
+            class="btn btn-secondary"
+          >
+            ↗ BAGIKAN
+          </button>
+
+        </div>
+
+
+        <!-- URL -->
+
+        <div
+          style="
+            margin-top:18px;
+            padding:13px;
+            background:rgba(255,255,255,.025);
+            border-radius:12px;
+            word-break:break-all;
+            text-align:center;
+            color:#666;
+            font-size:10px;
+          "
+        >
+
+          <span id="qrUrl">
+            —
+          </span>
+
+        </div>
+
+      </div>
+
     </section>
 
 
-    <!-- HASIL QR -->
+    <!-- =================================================
+         SELLER INFORMATION
+    ================================================== -->
+
     <section
-      id="qrResult"
-      class="card qr-result"
-      style="display:none;"
+      class="section"
+      style="
+        padding-bottom:0;
+      "
     >
 
-      <h2>QR Produk Berhasil Dibuat</h2>
+      <div class="section-header">
 
-      <div id="qrProductInfo"></div>
+        <div class="hero-badge">
+          TIPS
+        </div>
 
-      <div
-        id="qrcode"
-        class="qrcode-container"
-      ></div>
-
-
-      <div class="form-group">
-
-        <label for="checkoutLink">
-          Link Checkout
-        </label>
-
-        <input
-          type="text"
-          id="checkoutLink"
-          readonly
-        >
+        <h2>
+          Gunakan QR
+          <span style="color:#d6ad55;">
+            di mana saja.
+          </span>
+        </h2>
 
       </div>
 
 
-      <button
-        type="button"
-        id="copyLinkButton"
-        class="btn btn-secondary"
-      >
-        Salin Link
-      </button>
+      <div class="features">
+
+        <div class="feature-card">
+
+          <div class="feature-icon">
+            📦
+          </div>
+
+          <h3>
+            Kemasan
+          </h3>
+
+          <p>
+            Tempel QR pada kemasan produk
+            agar pelanggan mudah melakukan
+            pembelian.
+          </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+          <div class="feature-icon">
+            📱
+          </div>
+
+          <h3>
+            Media Sosial
+          </h3>
+
+          <p>
+            Bagikan QR kepada pelanggan
+            melalui WhatsApp atau media sosial.
+          </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+          <div class="feature-icon">
+            🏪
+          </div>
+
+          <h3>
+            Toko
+          </h3>
+
+          <p>
+            Tampilkan QR di meja kasir,
+            etalase, banner, atau katalog.
+          </p>
+
+        </div>
+
+      </div>
 
     </section>
 
-  </main>
+  </div>
+
+</main>
 
 
-  <!-- SCRIPT SELLER -->
-  <script type="module">
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
-    import { initAnonymousAuth } from "./firebase.js";
+<footer class="footer">
 
+  <div class="container">
 
-    const sellerForm =
-      document.getElementById("sellerForm");
+    <div
+      style="
+        font-size:19px;
+        font-weight:900;
+        letter-spacing:2px;
+        color:#d6ad55;
+        margin-bottom:7px;
+      "
+    >
+      SCANBELI
+    </div>
 
-    const productName =
-      document.getElementById("productName");
+    <p>
+      Scan QR. Checkout. Selesai.
+    </p>
 
-    const productPrice =
-      document.getElementById("productPrice");
+    <p style="margin-top:10px;">
+      © 2026 SCANBELI
+    </p>
 
-    const productCode =
-      document.getElementById("productCode");
+  </div>
 
-    const createQRButton =
-      document.getElementById("createQRButton");
-
-    const qrResult =
-      document.getElementById("qrResult");
-
-    const qrCode =
-      document.getElementById("qrcode");
-
-    const qrProductInfo =
-      document.getElementById("qrProductInfo");
-
-    const checkoutLink =
-      document.getElementById("checkoutLink");
-
-    const copyLinkButton =
-      document.getElementById("copyLinkButton");
-
-    const firebaseStatus =
-      document.getElementById("firebaseStatus");
-
-    const firebaseStatusText =
-      document.getElementById("firebaseStatusText");
-
-    const errorBox =
-      document.getElementById("errorBox");
-
-    const errorMessage =
-      document.getElementById("errorMessage");
+</footer>
 
 
-    let sellerUser = null;
+<!-- =====================================================
+     FIREBASE + QR LOGIC
+===================================================== -->
+
+<script type="module">
+
+import {
+  initAnonymousAuth
+} from "./firebase.js";
 
 
-    // ==============================
-    // FIREBASE
-    // ==============================
+/* =====================================================
+   ELEMENT
+===================================================== */
 
-    async function initSeller() {
+const form =
+  document.getElementById("productForm");
 
-      try {
+const productNameInput =
+  document.getElementById("productName");
 
-        firebaseStatus.style.display = "block";
+const productPriceInput =
+  document.getElementById("productPrice");
 
-        firebaseStatusText.textContent =
-          "Menghubungkan...";
+const productCodeInput =
+  document.getElementById("productCode");
 
-        sellerUser =
-          await initAnonymousAuth();
+const qrResult =
+  document.getElementById("qrResult");
 
-        firebaseStatusText.textContent =
-          "Siap membuat QR.";
+const qrcodeElement =
+  document.getElementById("qrcode");
 
-        setTimeout(() => {
-          firebaseStatus.style.display = "none";
-        }, 1500);
+const qrProductName =
+  document.getElementById("qrProductName");
 
-      } catch (error) {
+const qrProductPrice =
+  document.getElementById("qrProductPrice");
 
-        console.error(error);
+const qrProductCode =
+  document.getElementById("qrProductCode");
 
-        firebaseStatusText.textContent =
-          "Firebase gagal terhubung.";
+const qrUrl =
+  document.getElementById("qrUrl");
 
-        errorBox.style.display = "block";
+const downloadQR =
+  document.getElementById("downloadQR");
 
-        errorMessage.textContent =
-          error.message || "Firebase gagal terhubung.";
+const shareQR =
+  document.getElementById("shareQR");
 
-      }
 
+/* =====================================================
+   FIREBASE USER
+===================================================== */
+
+let sellerUser = null;
+
+try {
+
+  sellerUser =
+    await initAnonymousAuth();
+
+} catch (error) {
+
+  console.error(
+    "Firebase Auth Error:",
+    error
+  );
+
+}
+
+
+/* =====================================================
+   FORMAT RUPIAH
+===================================================== */
+
+function formatRupiah(value) {
+
+  return new Intl.NumberFormat(
+    "id-ID",
+    {
+      style: "currency",
+      currency: "IDR",
+      maximumFractionDigits: 0
+    }
+  ).format(value);
+
+}
+
+
+/* =====================================================
+   ENCODE PRODUCT
+===================================================== */
+
+function encodeProduct(product) {
+
+  const json =
+    JSON.stringify(product);
+
+  const bytes =
+    new TextEncoder().encode(json);
+
+  let binary = "";
+
+  bytes.forEach(byte => {
+
+    binary +=
+      String.fromCharCode(byte);
+
+  });
+
+  return btoa(binary);
+
+}
+
+
+/* =====================================================
+   CREATE QR
+===================================================== */
+
+form.addEventListener(
+  "submit",
+  function(event) {
+
+    event.preventDefault();
+
+
+    const name =
+      productNameInput.value.trim();
+
+    const price =
+      Number(productPriceInput.value);
+
+    const code =
+      productCodeInput.value.trim();
+
+
+    if (!name) {
+
+      alert(
+        "Nama produk wajib diisi."
+      );
+
+      productNameInput.focus();
+
+      return;
     }
 
 
-    // ==============================
-    // ENCODE PRODUK
-    // ==============================
+    if (
+      !Number.isFinite(price) ||
+      price <= 0
+    ) {
 
-    function encodeProduct(product) {
+      alert(
+        "Harga produk tidak valid."
+      );
 
-      const json =
-        JSON.stringify(product);
+      productPriceInput.focus();
 
-      const bytes =
-        new TextEncoder().encode(json);
+      return;
+    }
 
-      let binary = "";
 
-      bytes.forEach(byte => {
-        binary += String.fromCharCode(byte);
+    if (!code) {
+
+      alert(
+        "Kode produk wajib diisi."
+      );
+
+      productCodeInput.focus();
+
+      return;
+    }
+
+
+    if (!sellerUser) {
+
+      alert(
+        "Koneksi akun belum siap. Silakan coba lagi."
+      );
+
+      return;
+    }
+
+
+    /* ===============================================
+       PRODUCT OBJECT
+    =============================================== */
+
+    const product = {
+
+      name: name,
+
+      price: price,
+
+      code: code,
+
+      sellerUid:
+        sellerUser.uid
+
+    };
+
+
+    /* ===============================================
+       CREATE CHECKOUT URL
+    =============================================== */
+
+    const encoded =
+      encodeProduct(product);
+
+
+    const url =
+      new URL(
+        "checkout.html",
+        window.location.href
+      );
+
+
+    url.searchParams.set(
+      "product",
+      encoded
+    );
+
+
+    const checkoutUrl =
+      url.toString();
+
+
+    /* ===============================================
+       SHOW QR
+    =============================================== */
+
+    qrcodeElement.innerHTML = "";
+
+    new QRCode(
+      qrcodeElement,
+      {
+        text: checkoutUrl,
+
+        width: 220,
+
+        height: 220,
+
+        colorDark: "#000000",
+
+        colorLight: "#ffffff",
+
+        correctLevel:
+          QRCode.CorrectLevel.H
+      }
+    );
+
+
+    /* ===============================================
+       UPDATE UI
+    =============================================== */
+
+    qrProductName.textContent =
+      name;
+
+    qrProductPrice.textContent =
+      formatRupiah(price);
+
+    qrProductCode.textContent =
+      code;
+
+    qrUrl.textContent =
+      checkoutUrl;
+
+
+    qrResult.style.display =
+      "block";
+
+
+    /* ===============================================
+       SCROLL
+    =============================================== */
+
+    setTimeout(() => {
+
+      qrResult.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
       });
 
-      return btoa(binary);
+    }, 100);
+
+  }
+);
+
+
+/* =====================================================
+   DOWNLOAD QR
+===================================================== */
+
+downloadQR.addEventListener(
+  "click",
+  function() {
+
+    const canvas =
+      qrcodeElement.querySelector(
+        "canvas"
+      );
+
+    const image =
+      qrcodeElement.querySelector(
+        "img"
+      );
+
+
+    let dataUrl = null;
+
+
+    if (canvas) {
+
+      dataUrl =
+        canvas.toDataURL(
+          "image/png"
+        );
+
+    } else if (image) {
+
+      dataUrl =
+        image.src;
 
     }
 
 
-    // ==============================
-    // BUAT QR
-    // ==============================
+    if (!dataUrl) {
 
-    sellerForm.addEventListener(
-      "submit",
-      async function(event) {
+      alert(
+        "QR belum tersedia."
+      );
 
-        event.preventDefault();
+      return;
+    }
 
-        errorBox.style.display = "none";
 
-        const name =
-          productName.value.trim();
+    const link =
+      document.createElement("a");
 
-        const price =
-          Number(productPrice.value);
 
-        const code =
-          productCode.value.trim();
+    link.href =
+      dataUrl;
 
+    link.download =
+      "SCANBELI-QR-" +
+      (
+        productCodeInput.value
+        .trim() ||
+        "produk"
+      ) +
+      ".png";
 
-        if (!name) {
 
-          errorBox.style.display = "block";
-
-          errorMessage.textContent =
-            "Nama produk wajib diisi.";
-
-          return;
-
-        }
-
-
-        if (!price || price <= 0) {
-
-          errorBox.style.display = "block";
-
-          errorMessage.textContent =
-            "Harga produk tidak valid.";
-
-          return;
-
-        }
-
-
-        try {
-
-          createQRButton.disabled = true;
-
-          createQRButton.textContent =
-            "Membuat QR...";
-
-
-          // Pastikan seller mempunyai UID
-          if (!sellerUser) {
-
-            sellerUser =
-              await initAnonymousAuth();
-
-          }
-
-
-          const product = {
-
-            name: name,
-
-            price: price,
-
-            code: code,
-
-            sellerUid: sellerUser.uid
-
-          };
-
-
-          /*
-           * URL otomatis mengikuti
-           * GitHub Pages Anda.
-           *
-           * Tidak perlu memasukkan URL manual.
-           */
-
-          const url =
-            new URL(
-              "checkout.html",
-              window.location.href
-            );
-
-
-          url.searchParams.set(
-            "product",
-            encodeProduct(product)
-          );
-
-
-          const checkoutUrl =
-            url.href;
-
-
-          // Bersihkan QR lama
-          qrCode.innerHTML = "";
-
-
-          // Buat QR
-          new QRCode(
-            qrCode,
-            {
-              text: checkoutUrl,
-              width: 240,
-              height: 240,
-              correctLevel:
-                QRCode.CorrectLevel.M
-            }
-          );
-
-
-          // Informasi produk
-          qrProductInfo.innerHTML = `
-
-            <div class="product-preview">
-
-              <strong>${escapeHTML(name)}</strong>
-
-              <span>
-                Rp ${formatRupiah(price)}
-              </span>
-
-              ${
-                code
-                  ? `<small>Kode: ${escapeHTML(code)}</small>`
-                  : ""
-              }
-
-            </div>
-
-          `;
-
-
-          checkoutLink.value =
-            checkoutUrl;
-
-
-          qrResult.style.display =
-            "block";
-
-
-          // Scroll ke QR
-          qrResult.scrollIntoView({
-            behavior: "smooth",
-            block: "start"
-          });
-
-
-        } catch (error) {
-
-          console.error(error);
-
-          errorBox.style.display =
-            "block";
-
-          errorMessage.textContent =
-            error.message ||
-            "Gagal membuat QR.";
-
-        } finally {
-
-          createQRButton.disabled =
-            false;
-
-          createQRButton.textContent =
-            "Buat QR";
-
-        }
-
-      }
+    document.body.appendChild(
+      link
     );
 
+    link.click();
 
-    // ==============================
-    // SALIN LINK
-    // ==============================
+    link.remove();
 
-    copyLinkButton.addEventListener(
-      "click",
-      async function() {
+  }
+);
 
-        try {
 
-          await navigator.clipboard.writeText(
-            checkoutLink.value
-          );
+/* =====================================================
+   SHARE QR / URL
+===================================================== */
 
-          copyLinkButton.textContent =
-            "✓ Link Disalin";
+shareQR.addEventListener(
+  "click",
+  async function() {
 
-          setTimeout(() => {
+    const url =
+      qrUrl.textContent.trim();
 
-            copyLinkButton.textContent =
-              "Salin Link";
 
-          }, 1500);
+    if (!url || url === "—") {
 
-        } catch (error) {
+      alert(
+        "QR belum dibuat."
+      );
 
-          checkoutLink.select();
+      return;
+    }
 
-          document.execCommand("copy");
 
-          copyLinkButton.textContent =
-            "✓ Link Disalin";
+    const productName =
+      productNameInput.value.trim();
 
-          setTimeout(() => {
 
-            copyLinkButton.textContent =
-              "Salin Link";
+    const shareData = {
 
-          }, 1500);
+      title:
+        "Beli " +
+        productName +
+        " di SCANBELI",
 
-        }
+      text:
+        "Silakan checkout produk " +
+        productName +
+        " melalui SCANBELI.",
 
+      url:
+        url
+
+    };
+
+
+    try {
+
+      if (
+        navigator.share
+      ) {
+
+        await navigator.share(
+          shareData
+        );
+
+        return;
       }
-    );
 
 
-    // ==============================
-    // FORMAT RUPIAH
-    // ==============================
-
-    function formatRupiah(number) {
-
-      return new Intl.NumberFormat(
-        "id-ID"
-      ).format(number);
-
-    }
+      await navigator.clipboard.writeText(
+        url
+      );
 
 
-    // ==============================
-    // ESCAPE HTML
-    // ==============================
+      alert(
+        "Link checkout berhasil disalin."
+      );
 
-    function escapeHTML(value) {
+    } catch (error) {
 
-      return String(value)
-
-        .replaceAll("&", "&amp;")
-
-        .replaceAll("<", "&lt;")
-
-        .replaceAll(">", "&gt;")
-
-        .replaceAll('"', "&quot;")
-
-        .replaceAll("'", "&#039;");
+      console.log(
+        "Share dibatalkan:",
+        error
+      );
 
     }
 
+  }
+);
 
-    // ==============================
-    // START
-    // ==============================
-
-    initSeller();
-
-  </script>
+</script>
 
 </body>
 </html>
