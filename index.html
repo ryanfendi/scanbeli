@@ -2,84 +2,513 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SCANBELI</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#070707"
+  >
+
+  <meta
+    name="description"
+    content="SCANBELI - Scan QR, checkout, dan bayar dengan mudah."
+  >
+
+  <title>SCANBELI — Transaksi Lebih Mudah</title>
+
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<header class="header">
-  <div class="logo">SCANBELI</div>
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
-  <a href="buyer.html" class="header-btn">
-    Data Pengiriman
-  </a>
+<header class="header">
+
+  <div class="container header-inner">
+
+    <a href="index.html" class="logo">
+      SCANBELI
+    </a>
+
+    <nav class="nav">
+
+      <a href="#cara-kerja">
+        Cara Kerja
+      </a>
+
+      <a href="seller.html">
+        Buat QR
+      </a>
+
+      <a href="orders.html">
+        Pesanan
+      </a>
+
+    </nav>
+
+  </div>
+
 </header>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
 
 <main>
 
-  <section class="hero">
+<section class="hero">
 
-    <div class="badge">
-      SCAN • BELI • KIRIM
+  <div class="container">
+
+    <div class="hero-content">
+
+      <div class="hero-badge">
+        ✦ TRANSAKSI DIGITAL LEBIH MUDAH
+      </div>
+
+      <h1>
+        Scan.
+        <br>
+
+        <span>Belanja.</span>
+
+        <br>
+
+        Selesai.
+      </h1>
+
+      <p>
+        SCANBELI menghubungkan QR produk dengan
+        halaman checkout yang sederhana, cepat,
+        dan nyaman digunakan dari HP.
+      </p>
+
+      <div class="hero-actions">
+
+        <a
+          href="seller.html"
+          class="btn btn-primary"
+          id="heroPostButton"
+        >
+          ✦ BUAT QR PRODUK
+        </a>
+
+        <a
+          href="#cara-kerja"
+          class="btn btn-secondary"
+        >
+          Lihat Cara Kerja
+        </a>
+
+      </div>
+
     </div>
 
-    <h1>
-      Belanja cukup<br>
-      <span>Scan & Bayar</span>
-    </h1>
+  </div>
 
-    <p>
-      Scan QR produk, data pengiriman langsung muncul,
-      lalu pembeli tinggal melanjutkan pembelian.
-    </p>
+</section>
 
-    <div class="buttons">
 
-      <a href="buyer.html" class="btn">
-        Atur Data Pembeli
+<!-- =====================================================
+     STATS
+===================================================== -->
+
+<section class="container">
+
+  <div class="stats">
+
+    <div class="stat-card">
+
+      <strong id="activeNeedsCount">
+        —
+      </strong>
+
+      <span>
+        Transaksi
+      </span>
+
+    </div>
+
+    <div class="stat-card">
+
+      <strong>
+        1%
+      </strong>
+
+      <span>
+        Fee SCANBELI
+      </span>
+
+    </div>
+
+    <div class="stat-card">
+
+      <strong>
+        24/7
+      </strong>
+
+      <span>
+        Bisa digunakan
+      </span>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     CARA KERJA
+===================================================== -->
+
+<section
+  class="section"
+  id="cara-kerja"
+>
+
+  <div class="container">
+
+    <div class="section-header">
+
+      <div class="hero-badge">
+        CARA KERJA
+      </div>
+
+      <h2>
+        Semudah
+        <span style="color:#d6ad55;">
+          3 langkah.
+        </span>
+      </h2>
+
+      <p>
+        Tidak perlu proses yang rumit.
+      </p>
+
+    </div>
+
+
+    <div class="features">
+
+
+      <!-- STEP 1 -->
+
+      <div class="feature-card">
+
+        <div class="feature-icon">
+          01
+        </div>
+
+        <h3>
+          Buat QR
+        </h3>
+
+        <p>
+          Seller membuat QR khusus untuk
+          setiap produk atau layanan.
+        </p>
+
+      </div>
+
+
+      <!-- STEP 2 -->
+
+      <div class="feature-card">
+
+        <div class="feature-icon">
+          02
+        </div>
+
+        <h3>
+          Buyer Scan
+        </h3>
+
+        <p>
+          Buyer cukup memindai QR dan
+          langsung masuk ke halaman checkout.
+        </p>
+
+      </div>
+
+
+      <!-- STEP 3 -->
+
+      <div class="feature-card">
+
+        <div class="feature-icon">
+          03
+        </div>
+
+        <h3>
+          Checkout
+        </h3>
+
+        <p>
+          Isi data pengiriman, periksa total,
+          lalu lanjutkan pembayaran.
+        </p>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     KEUNGGULAN
+===================================================== -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="section-header">
+
+      <div class="hero-badge">
+        SCANBELI
+      </div>
+
+      <h2>
+        Dibuat untuk
+        <span style="color:#d6ad55;">
+          praktis.
+        </span>
+      </h2>
+
+    </div>
+
+
+    <div class="features">
+
+
+      <div class="feature-card">
+
+        <div class="feature-icon">
+          ⚡
+        </div>
+
+        <h3>
+          Cepat
+        </h3>
+
+        <p>
+          Buyer langsung menuju checkout
+          tanpa harus mencari produk lagi.
+        </p>
+
+      </div>
+
+
+      <div class="feature-card">
+
+        <div class="feature-icon">
+          🔒
+        </div>
+
+        <h3>
+          Sederhana
+        </h3>
+
+        <p>
+          Data pembeli disimpan di perangkat
+          agar tidak perlu mengisi berulang kali.
+        </p>
+
+      </div>
+
+
+      <div class="feature-card">
+
+        <div class="feature-icon">
+          📱
+        </div>
+
+        <h3>
+          Mobile First
+        </h3>
+
+        <p>
+          Dirancang agar nyaman digunakan
+          melalui smartphone.
+        </p>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     CTA SELLER
+===================================================== -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div
+      class="checkout-product"
+      style="
+        text-align:center;
+        padding:45px 25px;
+      "
+    >
+
+      <div class="checkout-product-label">
+        UNTUK SELLER
+      </div>
+
+      <h2
+        style="
+          font-size:clamp(28px,7vw,46px);
+          margin-bottom:12px;
+        "
+      >
+        Jadikan produk Anda
+        <br>
+        <span style="color:#d6ad55;">
+          siap di-scan.
+        </span>
+      </h2>
+
+      <p
+        style="
+          max-width:520px;
+          margin:0 auto 25px;
+          color:#aaa;
+        "
+      >
+        Buat QR produk dan bagikan ke pelanggan,
+        toko, kemasan, media sosial, atau tempat
+        lainnya.
+      </p>
+
+      <a
+        href="seller.html"
+        class="btn btn-primary"
+      >
+        ✦ BUAT QR SEKARANG
       </a>
 
-      <a href="seller.html" class="btn dark">
-        Buat QR Produk
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     PESANAN
+===================================================== -->
+
+<section class="section">
+
+  <div class="container">
+
+    <div class="section-header">
+
+      <div class="hero-badge">
+        PESANAN
+      </div>
+
+      <h2>
+        Kelola transaksi
+      </h2>
+
+      <p>
+        Lihat pesanan yang telah dibuat.
+      </p>
+
+    </div>
+
+
+    <div
+      class="hero-actions"
+      style="justify-content:center;"
+    >
+
+      <a
+        href="orders.html"
+        class="btn btn-secondary"
+      >
+        📦 PESANAN SAYA
+      </a>
+
+      <a
+        href="seller-orders.html"
+        class="btn btn-primary"
+      >
+        🛍️ PESANAN SELLER
       </a>
 
     </div>
 
-  </section>
+  </div>
 
+</section>
 
-  <section class="steps">
-
-    <div class="step">
-      <div class="step-icon">📱</div>
-      <h3>1. Scan</h3>
-      <p>
-        Scan QR SCANBELI pada produk.
-      </p>
-    </div>
-
-    <div class="step">
-      <div class="step-icon">📍</div>
-      <h3>2. Alamat Otomatis</h3>
-      <p>
-        Data pengiriman yang tersimpan di HP langsung muncul.
-      </p>
-    </div>
-
-    <div class="step">
-      <div class="step-icon">💳</div>
-      <h3>3. Bayar</h3>
-      <p>
-        Tinggal lanjutkan pembayaran.
-      </p>
-    </div>
-
-  </section>
 
 </main>
 
-<script type="module" src="script.js"></script>
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+  <div class="container">
+
+    <div
+      style="
+        font-size:20px;
+        font-weight:900;
+        letter-spacing:2px;
+        color:#d6ad55;
+        margin-bottom:8px;
+      "
+    >
+      SCANBELI
+    </div>
+
+    <p>
+      Scan QR. Checkout. Selesai.
+    </p>
+
+    <p style="margin-top:12px;">
+      © 2026 SCANBELI
+    </p>
+
+  </div>
+
+</footer>
+
+
+<!-- =====================================================
+     SCRIPT
+===================================================== -->
+
+<script
+  type="module"
+  src="script.js"
+></script>
 
 </body>
 </html>
