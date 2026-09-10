@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Pesanan Masuk - SCANBELI</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="header">
+
+  <div class="logo">
+    <span>B</span>
+    SCANBELI
+  </div>
+
+  <a href="seller.html">
+    Buat QR
+  </a>
+
+</header>
+
+<main class="container">
+
+  <h1>Pesanan Masuk</h1>
+
+  <p>
+    Semua pesanan yang masuk
+    melalui QR Anda.
+  </p>
+
+  <div id="loading">
+    Memuat pesanan...
+  </div>
+
+  <div id="error"></div>
+
+  <div id="empty" style="display:none;">
+    Belum ada pesanan masuk.
+  </div>
+
+  <div id="ordersContainer"></div>
+
+</main>
+
+<script
+  type="module"
+  src="seller-orders.js"
+></script>
+
+</body>
+</html>
