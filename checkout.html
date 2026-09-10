@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -18,12 +20,20 @@
     content="SCANBELI Checkout"
   >
 
-  <title>Checkout — SCANBELI</title>
+  <title>
+    Checkout — SCANBELI
+  </title>
 
-  <link rel="stylesheet" href="style.css">
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
 </head>
 
+
 <body>
+
 
 <!-- =====================================================
      HEADER
@@ -33,9 +43,14 @@
 
   <div class="container header-inner">
 
-    <a href="index.html" class="logo">
+
+    <a
+      href="index.html"
+      class="logo"
+    >
       SCANBELI
     </a>
+
 
     <nav class="nav">
 
@@ -43,15 +58,23 @@
         Beranda
       </a>
 
+
+      <a href="index.html#pembeli">
+        Data Pembeli
+      </a>
+
+
       <a href="orders.html">
-        Pesanan
+        Pesanan Saya
       </a>
 
     </nav>
 
+
   </div>
 
 </header>
+
 
 
 <!-- =====================================================
@@ -60,300 +83,483 @@
 
 <main class="checkout-page">
 
-  <div class="container">
 
-    <div class="checkout-wrapper">
+  <div class="container checkout-wrapper">
 
 
-      <!-- HEADER -->
+    <!-- =================================================
+         LOADING
+    ================================================== -->
+
+    <div
+      id="checkoutLoading"
+      class="loading"
+    >
+
+      <div class="spinner"></div>
+
+      <p>
+        Memuat produk...
+      </p>
+
+    </div>
+
+
+
+    <!-- =================================================
+         ERROR
+    ================================================== -->
+
+    <div
+      id="checkoutError"
+      class="card"
+      style="
+        display:none;
+        max-width:650px;
+        margin:40px auto;
+        text-align:center;
+        padding:35px;
+      "
+    >
+
+      <div
+        style="
+          font-size:45px;
+          margin-bottom:15px;
+        "
+      >
+        ⚠️
+      </div>
+
+
+      <h2>
+        Produk Tidak Ditemukan
+      </h2>
+
+
+      <p
+        style="
+          color:#aaa;
+          line-height:1.7;
+        "
+      >
+        QR produk tidak valid atau
+        data produk tidak ditemukan.
+      </p>
+
+
+      <a
+        href="index.html"
+        class="btn btn-primary"
+        style="
+          margin-top:15px;
+        "
+      >
+        KEMBALI KE BERANDA
+      </a>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         CONTENT
+    ================================================== -->
+
+    <div
+      id="checkoutContent"
+      style="display:none;"
+    >
+
+
+      <!-- =================================================
+           HEADER CHECKOUT
+      ================================================= -->
 
       <div class="checkout-header">
 
+
         <div class="hero-badge">
-          🔒 CHECKOUT AMAN
+          ✦ SCANBELI CHECKOUT
         </div>
 
+
         <h1>
-          Selesaikan
-          <span style="color:#d6ad55;">
-            pesanan
-          </span>
+          Checkout
         </h1>
+
 
         <p>
           Periksa produk dan data pengiriman
           sebelum melakukan pembayaran.
         </p>
 
+
       </div>
 
 
-      <!-- LOADING -->
 
-      <div
-        id="checkoutLoading"
-        class="loading"
-      >
-        Memuat produk...
-      </div>
+      <!-- =================================================
+           PRODUK
+      ================================================= -->
+
+      <div class="checkout-card">
 
 
-      <!-- ERROR -->
-
-      <div
-        id="checkoutError"
-        class="checkout-error"
-        style="display:none;"
-      ></div>
+        <div class="checkout-product">
 
 
-      <!-- CONTENT -->
-
-      <section
-        id="checkoutContent"
-        style="display:none;"
-      >
-
-        <div class="checkout-card">
-
-
-          <!-- =================================================
-               PRODUCT
-          ================================================== -->
-
-          <div class="checkout-product">
-
-            <div class="checkout-product-label">
-              PRODUK
-            </div>
-
-            <h2 id="checkoutProductName">
-              —
-            </h2>
-
-            <div
-              id="checkoutProductCode"
-              style="
-                color:#777;
-                font-size:12px;
-                margin-top:4px;
-              "
-            >
-              —
-            </div>
-
-            <div
-              id="checkoutProductPrice"
-              class="checkout-product-price"
-            >
-              Rp 0
-            </div>
-
+          <div class="checkout-product-label">
+            PRODUK
           </div>
 
 
-          <!-- =================================================
-               BUYER DATA
-          ================================================== -->
+          <h2
+            id="checkoutProductName"
+          >
+            Memuat produk...
+          </h2>
+
 
           <div
+            id="checkoutProductCode"
             style="
-              margin-top:30px;
-              margin-bottom:15px;
+              color:#888;
+              font-size:13px;
+              margin-top:6px;
             "
           >
-
-            <div
-              class="hero-badge"
-              style="margin-bottom:12px;"
-            >
-              DATA PENGIRIMAN
-            </div>
-
-            <p
-              style="
-                color:#777;
-                font-size:13px;
-              "
-            >
-              Pastikan data penerima sudah benar.
-            </p>
-
           </div>
 
 
-          <!-- NAME -->
-
-          <div class="form-group">
-
-            <label for="buyerName">
-              Nama Lengkap
-            </label>
-
-            <input
-              type="text"
-              id="buyerName"
-              name="buyerName"
-              placeholder="Masukkan nama lengkap"
-              autocomplete="name"
-            >
-
+          <div
+            id="checkoutProductPrice"
+            class="checkout-product-price"
+          >
+            Rp0
           </div>
 
 
-          <!-- PHONE -->
+        </div>
 
-          <div class="form-group">
 
-            <label for="buyerPhone">
-              Nomor HP
-            </label>
+      </div>
 
-            <input
-              type="tel"
-              id="buyerPhone"
-              name="buyerPhone"
-              placeholder="08xxxxxxxxxx"
-              autocomplete="tel"
-            >
 
+
+      <!-- =================================================
+           DATA PEMBELI
+      ================================================= -->
+
+      <div
+        class="checkout-card"
+        style="
+          margin-top:20px;
+        "
+      >
+
+
+        <div
+          style="
+            margin-bottom:25px;
+          "
+        >
+
+          <div
+            class="checkout-product-label"
+          >
+            DATA PEMBELI
           </div>
 
 
-          <!-- ADDRESS -->
-
-          <div class="form-group">
-
-            <label for="buyerAddress">
-              Alamat Pengiriman
-            </label>
-
-            <textarea
-              id="buyerAddress"
-              name="buyerAddress"
-              placeholder="Nama jalan, nomor rumah, kecamatan, kota, provinsi..."
-              autocomplete="street-address"
-            ></textarea>
-
-          </div>
+          <h2
+            style="
+              margin:8px 0 8px;
+              font-size:24px;
+            "
+          >
+            Informasi Pengiriman
+          </h2>
 
 
-          <!-- EDIT DATA -->
+          <p
+            style="
+              margin:0;
+              color:#888;
+              line-height:1.6;
+              font-size:14px;
+            "
+          >
+            Pastikan nama, WhatsApp, dan
+            alamat pengiriman sudah benar.
+          </p>
+
+        </div>
+
+
+
+        <!-- =================================================
+             NAMA
+        ================================================== -->
+
+        <div class="form-group">
+
+
+          <label for="buyerName">
+            Nama Lengkap
+          </label>
+
+
+          <input
+            type="text"
+            id="buyerName"
+            placeholder="Masukkan nama lengkap"
+            autocomplete="name"
+            maxlength="100"
+            required
+          >
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             WHATSAPP
+        ================================================== -->
+
+        <div class="form-group">
+
+
+          <label for="buyerPhone">
+            Nomor WhatsApp
+          </label>
+
+
+          <input
+            type="tel"
+            id="buyerPhone"
+            placeholder="Contoh: 081234567890"
+            autocomplete="tel"
+            maxlength="20"
+            required
+          >
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             ALAMAT
+        ================================================== -->
+
+        <div class="form-group">
+
+
+          <label for="buyerAddress">
+            Alamat Lengkap Pengiriman
+          </label>
+
+
+          <textarea
+            id="buyerAddress"
+            rows="6"
+            maxlength="500"
+            placeholder="Nama jalan, nomor rumah, RT/RW, kelurahan, kecamatan, kota/kabupaten, provinsi, kode pos"
+            autocomplete="street-address"
+            required
+          ></textarea>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             UBAH DATA DI CHECKOUT
+        ================================================== -->
+
+        <div
+          style="
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:12px;
+            flex-wrap:wrap;
+            margin-top:5px;
+          "
+        >
+
+
+          <span
+            style="
+              color:#777;
+              font-size:12px;
+            "
+          >
+            Data tersimpan di perangkat Anda.
+          </span>
+
 
           <button
             type="button"
             id="editBuyerButton"
             class="btn btn-secondary"
             style="
-              width:100%;
-              margin-bottom:25px;
+              font-size:13px;
             "
           >
-            ✏️ Ubah Data Pembeli
+            ✏️ UBAH DATA
           </button>
 
 
-          <!-- =================================================
-               SUMMARY
-          ================================================== -->
+        </div>
 
-          <div class="summary">
 
-            <div
-              style="
-                margin-bottom:12px;
-                color:#ddd;
-                font-size:14px;
-                font-weight:800;
-              "
+      </div>
+
+
+
+      <!-- =================================================
+           RINGKASAN
+      ================================================== -->
+
+      <div
+        class="checkout-card"
+        style="
+          margin-top:20px;
+        "
+      >
+
+
+        <div class="summary">
+
+
+          <div class="summary-row">
+
+            <span>
+              Harga Produk
+            </span>
+
+
+            <strong
+              id="summaryPrice"
             >
-              RINGKASAN PEMBAYARAN
-            </div>
-
-
-            <!-- PRODUCT PRICE -->
-
-            <div class="summary-row">
-
-              <span>
-                Harga Produk
-              </span>
-
-              <strong id="summaryPrice">
-                Rp 0
-              </strong>
-
-            </div>
-
-
-            <!-- FEE -->
-
-            <div class="summary-row">
-
-              <span>
-                Fee SCANBELI
-              </span>
-
-              <strong id="summaryFee">
-                Rp 0
-              </strong>
-
-            </div>
-
-
-            <!-- TOTAL -->
-
-            <div class="summary-row total">
-
-              <span>
-                Total
-              </span>
-
-              <strong id="summaryTotal">
-                Rp 0
-              </strong>
-
-            </div>
+              Rp0
+            </strong>
 
           </div>
 
 
-          <!-- =================================================
-               PAY
-          ================================================== -->
 
-          <button
-            type="button"
-            id="payButton"
-            class="btn btn-primary"
-          >
-            🔐 BAYAR SEKARANG
-          </button>
+          <div class="summary-row">
+
+            <span>
+              Fee SCANBELI
+            </span>
+
+
+            <strong
+              id="summaryFee"
+            >
+              Rp0
+            </strong>
+
+          </div>
+
 
 
           <div
+            class="summary-row"
             style="
-              text-align:center;
               margin-top:15px;
-              color:#666;
-              font-size:11px;
-              line-height:1.6;
+              padding-top:18px;
+              border-top:1px solid rgba(255,255,255,.08);
             "
           >
-            Dengan melanjutkan pembayaran,
-            Anda menyetujui proses transaksi SCANBELI.
+
+            <span
+              style="
+                font-size:16px;
+                font-weight:800;
+              "
+            >
+              TOTAL
+            </span>
+
+
+            <strong
+              id="summaryTotal"
+              style="
+                font-size:24px;
+                color:#d6ad55;
+              "
+            >
+              Rp0
+            </strong>
+
           </div>
 
 
         </div>
 
-      </section>
+
+      </div>
+
+
+
+      <!-- =================================================
+           BAYAR
+      ================================================== -->
+
+      <div
+        style="
+          margin-top:25px;
+          text-align:center;
+        "
+      >
+
+
+        <button
+          type="button"
+          id="payButton"
+          class="btn btn-primary"
+          style="
+            width:100%;
+            max-width:700px;
+            min-height:58px;
+            font-size:17px;
+            font-weight:900;
+          "
+        >
+          💳 BAYAR SEKARANG
+        </button>
+
+
+        <p
+          style="
+            margin-top:12px;
+            color:#777;
+            font-size:12px;
+            line-height:1.6;
+          "
+        >
+          Periksa kembali produk dan alamat
+          sebelum melakukan pembayaran.
+        </p>
+
+
+      </div>
+
 
     </div>
 
   </div>
 
 </main>
+
 
 
 <!-- =====================================================
@@ -364,33 +570,342 @@
 
   <div class="container">
 
+
     <div
       style="
-        font-size:19px;
+        font-size:20px;
         font-weight:900;
         letter-spacing:2px;
         color:#d6ad55;
-        margin-bottom:7px;
+        margin-bottom:8px;
       "
     >
       SCANBELI
     </div>
 
+
     <p>
       Scan QR. Checkout. Selesai.
     </p>
 
-    <p style="margin-top:10px;">
+
+    <p style="margin-top:12px;">
       © 2026 SCANBELI
     </p>
+
 
   </div>
 
 </footer>
 
 
+
 <!-- =====================================================
-     SCRIPT
+     PEMBACA DATA PEMBELI
+===================================================== -->
+
+<script>
+
+document.addEventListener(
+  "DOMContentLoaded",
+  function () {
+
+
+    const BUYER_KEY =
+      "scanbeli_buyer_v1";
+
+
+    const buyerName =
+      document.getElementById(
+        "buyerName"
+      );
+
+
+    const buyerPhone =
+      document.getElementById(
+        "buyerPhone"
+      );
+
+
+    const buyerAddress =
+      document.getElementById(
+        "buyerAddress"
+      );
+
+
+    const editBuyerButton =
+      document.getElementById(
+        "editBuyerButton"
+      );
+
+
+
+    /* ==============================================
+       LOAD DATA PEMBELI
+    ============================================== */
+
+    function loadBuyerData() {
+
+      try {
+
+        const raw =
+          localStorage.getItem(
+            BUYER_KEY
+          );
+
+
+        if (!raw) {
+          return;
+        }
+
+
+        const buyer =
+          JSON.parse(raw);
+
+
+        if (!buyer) {
+          return;
+        }
+
+
+        buyerName.value =
+          buyer.name || "";
+
+
+        buyerPhone.value =
+          buyer.phone || "";
+
+
+        buyerAddress.value =
+          buyer.address || "";
+
+
+      } catch (error) {
+
+        console.error(
+          "Gagal memuat data pembeli:",
+          error
+        );
+
+      }
+
+    }
+
+
+
+    /* ==============================================
+       SIMPAN PERUBAHAN DARI CHECKOUT
+    ============================================== */
+
+    function saveBuyerData() {
+
+      const name =
+        buyerName.value.trim();
+
+
+      const phone =
+        buyerPhone.value.trim();
+
+
+      const address =
+        buyerAddress.value.trim();
+
+
+      if (!name) {
+
+        alert(
+          "Nama lengkap wajib diisi."
+        );
+
+        buyerName.focus();
+
+        return false;
+
+      }
+
+
+      if (phone.length < 8) {
+
+        alert(
+          "Nomor WhatsApp tidak valid."
+        );
+
+        buyerPhone.focus();
+
+        return false;
+
+      }
+
+
+      if (address.length < 10) {
+
+        alert(
+          "Alamat lengkap wajib diisi."
+        );
+
+        buyerAddress.focus();
+
+        return false;
+
+      }
+
+
+      try {
+
+        localStorage.setItem(
+          BUYER_KEY,
+          JSON.stringify({
+
+            name: name,
+
+            phone: phone,
+
+            address: address
+
+          })
+        );
+
+
+        return true;
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert(
+          "Data pembeli gagal disimpan."
+        );
+
+        return false;
+
+      }
+
+    }
+
+
+
+    /* ==============================================
+       UBAH DATA
+    ============================================== */
+
+    editBuyerButton.addEventListener(
+      "click",
+      function () {
+
+        if (
+          saveBuyerData()
+        ) {
+
+          editBuyerButton.textContent =
+            "✓ DATA TERSIMPAN";
+
+
+          setTimeout(
+            function () {
+
+              editBuyerButton.textContent =
+                "✏️ UBAH DATA";
+
+            },
+            2000
+          );
+
+        }
+
+      }
+    );
+
+
+
+    /* ==============================================
+       SIMPAN KETIKA FIELD BERUBAH
+    ============================================== */
+
+    [
+      buyerName,
+      buyerPhone,
+      buyerAddress
+    ].forEach(
+      function (input) {
+
+        input.addEventListener(
+          "change",
+          function () {
+
+            const raw =
+              localStorage.getItem(
+                BUYER_KEY
+              );
+
+
+            let oldData = {};
+
+            try {
+
+              oldData =
+                raw
+                  ? JSON.parse(raw)
+                  : {};
+
+            } catch {
+
+              oldData = {};
+
+            }
+
+
+            oldData.name =
+              buyerName.value.trim();
+
+
+            oldData.phone =
+              buyerPhone.value.trim();
+
+
+            oldData.address =
+              buyerAddress.value.trim();
+
+
+            try {
+
+              localStorage.setItem(
+                BUYER_KEY,
+                JSON.stringify(oldData)
+              );
+
+            } catch (error) {
+
+              console.warn(
+                "Gagal menyimpan data pembeli:",
+                error
+              );
+
+            }
+
+          }
+        );
+
+      }
+    );
+
+
+
+    /* ==============================================
+       INITIAL
+    ============================================== */
+
+    loadBuyerData();
+
+  }
+);
+
+</script>
+
+
+
+<!-- =====================================================
+     SCRIPT UTAMA
 ===================================================== -->
 
 <script
@@ -398,5 +913,7 @@
   src="script.js"
 ></script>
 
+
 </body>
+
 </html>
