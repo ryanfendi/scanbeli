@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Beli - SCANBELI</title>
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
+</head>
+
+<body>
+
+<header class="header">
+
+  <div class="logo">
+    SCANBELI
+  </div>
+
+  <a
+    href="buyer.html"
+    class="header-btn"
+  >
+    Edit Alamat
+  </a>
+
+</header>
+
+
+<main class="container">
+
+
+  <div
+    id="checkoutLoading"
+    class="loading"
+  >
+    Memuat produk...
+  </div>
+
+
+  <section
+    id="checkout"
+    class="hidden"
+  >
+
+
+    <!-- PRODUK -->
+
+    <div class="product-card">
+
+      <div class="badge">
+        PRODUK
+      </div>
+
+      <h1 id="productName">
+        -
+      </h1>
+
+      <div
+        id="productPrice"
+        class="price"
+      >
+        Rp0
+      </div>
+
+    </div>
+
+
+    <!-- PEMBELI -->
+
+    <div class="form-card">
+
+      <h2>
+        📍 Dikirim ke
+      </h2>
+
+
+      <div class="buyer-data">
+
+        <div class="data-row">
+
+          <small>
+            Nama
+          </small>
+
+          <strong id="buyerName">
+            -
+          </strong>
+
+        </div>
+
+
+        <div class="data-row">
+
+          <small>
+            Nomor HP
+          </small>
+
+          <strong id="buyerPhone">
+            -
+          </strong>
+
+        </div>
+
+
+        <div class="data-row">
+
+          <small>
+            Alamat
+          </small>
+
+          <strong id="buyerAddress">
+            -
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <a
+        href="buyer.html"
+        class="edit-address"
+      >
+        ✏️ Ubah nama / alamat
+      </a>
+
+    </div>
+
+
+    <!-- TOTAL -->
+
+    <div class="payment-card">
+
+      <h2>
+        Ringkasan
+      </h2>
+
+
+      <div class="total-row">
+
+        <span>
+          Harga produk
+        </span>
+
+        <strong id="summaryPrice">
+          Rp0
+        </strong>
+
+      </div>
+
+
+      <div class="total-row">
+
+        <span>
+          Fee SCANBELI
+        </span>
+
+        <strong id="summaryFee">
+          Rp0
+        </strong>
+
+      </div>
+
+
+      <hr>
+
+
+      <div class="grand-total">
+
+        <span>
+          Total
+        </span>
+
+        <strong id="summaryTotal">
+          Rp0
+        </strong>
+
+      </div>
+
+
+      <button
+        id="payButton"
+        class="btn full"
+        type="button"
+      >
+        BAYAR
+      </button>
+
+
+      <p class="prototype-note">
+        Pembayaran asli akan dihubungkan
+        pada tahap berikutnya.
+      </p>
+
+    </div>
+
+
+  </section>
+
+
+  <!-- BELUM ADA DATA -->
+
+  <section
+    id="noBuyer"
+    class="form-card hidden"
+  >
+
+    <h2>
+      Data pengiriman belum tersedia
+    </h2>
+
+    <p>
+      Isi nama, nomor HP dan alamat satu kali.
+    </p>
+
+    <a
+      href="buyer.html"
+      class="btn full"
+    >
+      Isi Data Pembeli
+    </a>
+
+  </section>
+
+</main>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
