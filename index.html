@@ -1,696 +1,1234 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-
   <meta charset="UTF-8">
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
   >
 
-  <meta
-    name="theme-color"
-    content="#070707"
-  >
+  <meta name="theme-color" content="#070707">
 
-  <meta
-    name="description"
-    content="SCANBELI - Scan QR, checkout, dan bayar dengan mudah."
-  >
+  <title>SCANBELI — Scan. Belanja. Selesai.</title>
 
-  <title>SCANBELI — Transaksi Lebih Mudah</title>
+  <style>
+    :root {
+      --bg: #070707;
+      --bg-soft: #0d0d0d;
+      --card: rgba(20, 20, 20, 0.82);
 
-  <link
-    rel="stylesheet"
-    href="style.css"
-  >
+      --gold: #d6ad55;
+      --gold-light: #f4d98b;
+      --gold-dark: #9d762d;
 
+      --text: #ffffff;
+      --text-soft: #b8b8b8;
+      --muted: #777;
+
+      --border: rgba(214, 173, 85, 0.20);
+
+      --green: #37d67a;
+      --red: #ff5c5c;
+
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+      background:
+        radial-gradient(
+          circle at 50% -10%,
+          rgba(214,173,85,0.18),
+          transparent 38%
+        ),
+        radial-gradient(
+          circle at 100% 40%,
+          rgba(214,173,85,0.06),
+          transparent 35%
+        ),
+        #070707;
+
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: 90px;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 620px;
+      margin: auto;
+      min-height: 100vh;
+    }
+
+    /* =========================
+       TOP BAR
+    ========================= */
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+
+      height: 68px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 18px;
+
+      background: rgba(7,7,7,0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+
+      border-bottom: 1px solid rgba(214,173,85,0.10);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .brand-icon {
+      width: 38px;
+      height: 38px;
+
+      border-radius: 12px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 19px;
+      font-weight: 900;
+
+      color: #080808;
+
+      background:
+        linear-gradient(
+          145deg,
+          var(--gold-light),
+          var(--gold),
+          var(--gold-dark)
+        );
+
+      box-shadow:
+        0 5px 20px rgba(214,173,85,0.22);
+    }
+
+    .brand-text {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .brand-sub {
+      font-size: 9px;
+      color: var(--gold);
+      letter-spacing: 1.4px;
+      margin-top: 2px;
+    }
+
+    .top-status {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+
+      padding: 8px 11px;
+
+      border: 1px solid var(--border);
+      border-radius: 30px;
+
+      background: rgba(214,173,85,0.05);
+
+      font-size: 10px;
+      color: var(--text-soft);
+    }
+
+    .online-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 10px rgba(55,214,122,0.7);
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    main {
+      padding: 18px;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+
+      padding: 27px 22px 23px;
+
+      border-radius: 28px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(214,173,85,0.15),
+          rgba(18,18,18,0.92) 48%,
+          rgba(7,7,7,0.98)
+        );
+
+      border: 1px solid rgba(214,173,85,0.22);
+
+      box-shadow:
+        0 20px 70px rgba(0,0,0,0.45),
+        inset 0 1px rgba(255,255,255,0.04);
+    }
+
+    .hero::before {
+      content: "";
+
+      position: absolute;
+
+      width: 220px;
+      height: 220px;
+
+      right: -100px;
+      top: -100px;
+
+      border-radius: 50%;
+
+      background: rgba(214,173,85,0.13);
+
+      filter: blur(35px);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+
+      padding: 7px 11px;
+
+      border-radius: 30px;
+
+      background: rgba(214,173,85,0.09);
+
+      border: 1px solid rgba(214,173,85,0.20);
+
+      color: var(--gold-light);
+
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .hero h1 {
+      position: relative;
+
+      margin-top: 17px;
+
+      font-size: 35px;
+      line-height: 1.05;
+
+      letter-spacing: -1.5px;
+    }
+
+    .hero h1 span {
+      color: var(--gold-light);
+    }
+
+    .hero p {
+      position: relative;
+
+      margin-top: 13px;
+
+      color: var(--text-soft);
+
+      font-size: 13px;
+      line-height: 1.65;
+
+      max-width: 420px;
+    }
+
+    /* =========================
+       MAIN SCAN BUTTON
+    ========================= */
+
+    .scan-button {
+      position: relative;
+
+      width: 100%;
+
+      margin-top: 23px;
+
+      min-height: 66px;
+
+      border: 0;
+      border-radius: 19px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 11px;
+
+      cursor: pointer;
+
+      color: #090909;
+
+      font-size: 15px;
+      font-weight: 900;
+
+      letter-spacing: .5px;
+
+      background:
+        linear-gradient(
+          135deg,
+          #f7dda0,
+          #d6ad55,
+          #a77c2d
+        );
+
+      box-shadow:
+        0 12px 35px rgba(214,173,85,0.25);
+
+      transition: .2s;
+    }
+
+    .scan-button:active {
+      transform: scale(.98);
+    }
+
+    .scan-icon {
+      font-size: 23px;
+    }
+
+    .scan-small {
+      display: block;
+      font-size: 9px;
+      font-weight: 700;
+      opacity: .65;
+      margin-top: 2px;
+      letter-spacing: 0;
+    }
+
+    /* =========================
+       QUICK MENU
+    ========================= */
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      margin: 27px 2px 12px;
+    }
+
+    .section-title h2 {
+      font-size: 15px;
+      letter-spacing: .2px;
+    }
+
+    .section-title span {
+      color: var(--gold);
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .quick-menu {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .quick-card {
+      min-height: 105px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      text-align: center;
+
+      border-radius: 19px;
+
+      border: 1px solid var(--border);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,0.045),
+          rgba(255,255,255,0.015)
+        );
+
+      transition: .2s;
+    }
+
+    .quick-card:active {
+      transform: scale(.97);
+      border-color: rgba(214,173,85,.45);
+    }
+
+    .quick-icon {
+      width: 43px;
+      height: 43px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 14px;
+
+      background: rgba(214,173,85,0.09);
+
+      border: 1px solid rgba(214,173,85,0.17);
+
+      font-size: 21px;
+
+      margin-bottom: 9px;
+    }
+
+    .quick-title {
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .quick-desc {
+      color: var(--muted);
+      font-size: 8px;
+      margin-top: 4px;
+    }
+
+    /* =========================
+       BUYER CARD
+    ========================= */
+
+    .buyer-card {
+      border-radius: var(--radius);
+
+      border: 1px solid var(--border);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(214,173,85,.075),
+          rgba(18,18,18,.8)
+        );
+
+      padding: 18px;
+    }
+
+    .buyer-top {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .buyer-avatar {
+      width: 49px;
+      height: 49px;
+
+      border-radius: 16px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background:
+        linear-gradient(
+          145deg,
+          var(--gold-light),
+          var(--gold-dark)
+        );
+
+      color: #080808;
+
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .buyer-name {
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .buyer-phone {
+      margin-top: 3px;
+      font-size: 10px;
+      color: var(--text-soft);
+    }
+
+    .buyer-address {
+      margin-top: 15px;
+
+      padding: 12px 13px;
+
+      border-radius: 14px;
+
+      background: rgba(0,0,0,.25);
+
+      color: var(--text-soft);
+
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .buyer-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 11px;
+    }
+
+    .small-button {
+      flex: 1;
+
+      min-height: 38px;
+
+      border-radius: 12px;
+
+      border: 1px solid var(--border);
+
+      background: rgba(255,255,255,.025);
+
+      color: var(--text);
+
+      font-size: 10px;
+      font-weight: 800;
+
+      cursor: pointer;
+    }
+
+    .small-button.gold {
+      color: var(--gold-light);
+    }
+
+    /* =========================
+       BUYER FORM
+    ========================= */
+
+    .buyer-form {
+      display: none;
+
+      margin-top: 13px;
+
+      padding: 16px;
+
+      border-radius: 18px;
+
+      background: rgba(0,0,0,.22);
+
+      border: 1px solid rgba(214,173,85,.12);
+    }
+
+    .buyer-form.active {
+      display: block;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    .form-group label {
+      display: block;
+
+      margin-bottom: 6px;
+
+      color: var(--text-soft);
+
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+
+      border: 1px solid rgba(255,255,255,.09);
+
+      outline: none;
+
+      background: rgba(255,255,255,.045);
+
+      color: white;
+
+      border-radius: 12px;
+
+      padding: 12px;
+
+      font-size: 12px;
+    }
+
+    .form-group textarea {
+      min-height: 78px;
+      resize: vertical;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: rgba(214,173,85,.55);
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .form-actions button {
+      flex: 1;
+
+      min-height: 42px;
+
+      border-radius: 12px;
+
+      cursor: pointer;
+
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    .save-button {
+      border: 0;
+
+      color: #080808;
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--gold-light),
+          var(--gold)
+        );
+    }
+
+    .cancel-button {
+      border: 1px solid var(--border);
+
+      color: var(--text);
+
+      background: transparent;
+    }
+
+    .saved-message {
+      display: none;
+
+      margin-top: 10px;
+
+      color: var(--green);
+
+      font-size: 10px;
+
+      text-align: center;
+    }
+
+    /* =========================
+       STATS
+    ========================= */
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 9px;
+    }
+
+    .stat-card {
+      padding: 15px 10px;
+
+      text-align: center;
+
+      border-radius: 17px;
+
+      background: rgba(255,255,255,.025);
+
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .stat-value {
+      font-size: 17px;
+      font-weight: 900;
+
+      color: var(--gold-light);
+    }
+
+    .stat-label {
+      margin-top: 5px;
+
+      color: var(--muted);
+
+      font-size: 8px;
+      line-height: 1.3;
+    }
+
+    /* =========================
+       HOW IT WORKS
+    ========================= */
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+
+      padding: 14px;
+
+      border-radius: 17px;
+
+      background: rgba(255,255,255,.025);
+
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .step-number {
+      flex-shrink: 0;
+
+      width: 36px;
+      height: 36px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 12px;
+
+      background: rgba(214,173,85,.10);
+
+      color: var(--gold-light);
+
+      font-weight: 900;
+      font-size: 12px;
+    }
+
+    .step-title {
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .step-text {
+      margin-top: 3px;
+
+      color: var(--muted);
+
+      font-size: 9px;
+      line-height: 1.4;
+    }
+
+    /* =========================
+       SELLER CTA
+    ========================= */
+
+    .seller-card {
+      padding: 20px;
+
+      border-radius: 22px;
+
+      border: 1px solid rgba(214,173,85,.20);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(214,173,85,.10),
+          rgba(14,14,14,.9)
+        );
+    }
+
+    .seller-card h2 {
+      font-size: 17px;
+    }
+
+    .seller-card p {
+      margin-top: 7px;
+
+      color: var(--text-soft);
+
+      font-size: 10px;
+      line-height: 1.6;
+    }
+
+    .seller-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      min-height: 46px;
+
+      margin-top: 14px;
+
+      border-radius: 14px;
+
+      border: 1px solid var(--border);
+
+      color: var(--gold-light);
+
+      background: rgba(214,173,85,.07);
+
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      padding: 25px 18px 10px;
+
+      text-align: center;
+
+      color: var(--muted);
+
+      font-size: 9px;
+
+      line-height: 1.7;
+    }
+
+    footer strong {
+      color: var(--gold);
+    }
+
+    /* =========================
+       BOTTOM NAV
+    ========================= */
+
+    .bottom-nav {
+      position: fixed;
+
+      left: 50%;
+      bottom: 0;
+
+      transform: translateX(-50%);
+
+      z-index: 200;
+
+      width: 100%;
+      max-width: 620px;
+
+      padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+
+      background:
+        rgba(8,8,8,.92);
+
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+
+      border-top: 1px solid rgba(214,173,85,.13);
+
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+    }
+
+    .bottom-item {
+      position: relative;
+
+      min-height: 57px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      gap: 4px;
+
+      color: #777;
+
+      font-size: 8px;
+      font-weight: 700;
+    }
+
+    .bottom-icon {
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .bottom-item.active {
+      color: var(--gold-light);
+    }
+
+    .bottom-item.scan {
+      margin-top: -23px;
+    }
+
+    .bottom-item.scan .bottom-icon {
+      width: 55px;
+      height: 55px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 18px;
+
+      color: #080808;
+
+      background:
+        linear-gradient(
+          145deg,
+          var(--gold-light),
+          var(--gold),
+          var(--gold-dark)
+        );
+
+      border: 4px solid #070707;
+
+      box-shadow:
+        0 7px 25px rgba(214,173,85,.30);
+
+      font-size: 25px;
+    }
+
+    .bottom-item.scan span:last-child {
+      color: var(--gold-light);
+      margin-top: 3px;
+    }
+
+    /* =========================
+       DESKTOP
+    ========================= */
+
+    @media (min-width: 700px) {
+
+      body {
+        padding-bottom: 20px;
+      }
+
+      .app {
+        max-width: 1100px;
+      }
+
+      main {
+        padding: 30px;
+      }
+
+      .hero {
+        padding: 42px;
+      }
+
+      .hero h1 {
+        font-size: 50px;
+      }
+
+      .hero p {
+        font-size: 15px;
+      }
+
+      .quick-menu {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .bottom-nav {
+        display: none;
+      }
+
+      .topbar {
+        padding: 0 30px;
+      }
+
+      .topbar::after {
+        content: "Scan • Belanja • Selesai";
+
+        color: var(--gold);
+
+        font-size: 10px;
+
+        letter-spacing: 1px;
+      }
+    }
+  </style>
 </head>
-
 
 <body>
 
+<div class="app">
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
+  <!-- =========================
+       TOP BAR
+  ========================== -->
 
-<header class="header">
+  <header class="topbar">
 
-  <div class="container header-inner">
+    <a href="index.html" class="brand">
 
-    <a
-      href="index.html"
-      class="logo"
-    >
-      SCANBELI
+      <div class="brand-icon">
+        S
+      </div>
+
+      <div>
+        <div class="brand-text">
+          SCANBELI
+        </div>
+
+        <div class="brand-sub">
+          SCAN • BELANJA • SELESAI
+        </div>
+      </div>
+
     </a>
 
+    <div class="top-status">
+      <span class="online-dot"></span>
+      Aktif
+    </div>
 
-    <nav class="nav">
-
-      <a href="#cara-kerja">
-        Cara Kerja
-      </a>
-
-      <a href="#pembeli">
-        Pembeli
-      </a>
-
-      <a href="seller.html">
-        Penjual / Buat QR
-      </a>
-
-      <a href="orders.html">
-        Pesanan Saya
-      </a>
-
-    </nav>
-
-  </div>
-
-</header>
+  </header>
 
 
+  <main>
 
-<!-- =====================================================
-     MAIN
-===================================================== -->
+    <!-- =========================
+         HERO
+    ========================== -->
 
-<main>
-
-
-<!-- =====================================================
-     HERO
-===================================================== -->
-
-<section class="hero">
-
-  <div class="container">
-
-    <div class="hero-content">
+    <section class="hero">
 
       <div class="hero-badge">
-        ✦ TRANSAKSI DIGITAL LEBIH MUDAH
+        ✦ CARA BELANJA BARU
       </div>
-
 
       <h1>
-
-        Scan.
-        <br>
-
-        <span>
-          Belanja.
-        </span>
-
-        <br>
-
+        Scan.<br>
+        <span>Belanja.</span><br>
         Selesai.
-
       </h1>
 
-
       <p>
-
-        SCANBELI menghubungkan QR produk
-        dengan halaman checkout yang
-        sederhana, cepat, dan nyaman
-        digunakan dari HP.
-
+        Scan QR produk dari penjual, periksa pesanan,
+        lalu bayar dengan mudah. Tanpa menu yang rumit.
       </p>
 
+      <a href="scan.html" class="scan-button">
 
-      <div class="hero-actions">
-
-
-        <a
-          href="#pembeli"
-          class="btn btn-primary"
-        >
-          🛒 UNTUK PEMBELI
-        </a>
-
-
-        <a
-          href="seller.html"
-          class="btn btn-secondary"
-          id="heroPostButton"
-        >
-          ✦ BUAT QR PRODUK
-        </a>
-
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     STATS
-===================================================== -->
-
-<section class="container">
-
-  <div class="stats">
-
-
-    <div class="stat-card">
-
-      <strong id="activeNeedsCount">
-        —
-      </strong>
-
-      <span>
-        Transaksi
-      </span>
-
-    </div>
-
-
-    <div class="stat-card">
-
-      <strong>
-        1%
-      </strong>
-
-      <span>
-        Fee SCANBELI
-      </span>
-
-    </div>
-
-
-    <div class="stat-card">
-
-      <strong>
-        24/7
-      </strong>
-
-      <span>
-        Bisa digunakan
-      </span>
-
-    </div>
-
-
-  </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     CARA KERJA
-===================================================== -->
-
-<section
-  class="section"
-  id="cara-kerja"
->
-
-  <div class="container">
-
-
-    <div class="section-header">
-
-
-      <div class="hero-badge">
-        CARA KERJA
-      </div>
-
-
-      <h2>
-
-        Semudah
-
-        <span style="color:#d6ad55;">
-          3 langkah.
+        <span class="scan-icon">
+          📷
         </span>
 
+        <span>
+          SCAN QR & BELANJA
+          <small class="scan-small">
+            Arahkan kamera ke QR produk
+          </small>
+        </span>
+
+      </a>
+
+    </section>
+
+
+    <!-- =========================
+         MENU CEPAT
+    ========================== -->
+
+    <div class="section-title">
+
+      <h2>
+        Menu Cepat
       </h2>
 
-
-      <p>
-        Tidak perlu proses yang rumit.
-      </p>
-
+      <span>
+        MUDAH & CEPAT
+      </span>
 
     </div>
 
+    <section class="quick-menu">
 
+      <a href="scan.html" class="quick-card">
 
-    <div class="features">
-
-
-      <!-- STEP 1 -->
-
-      <div class="feature-card">
-
-        <div class="feature-icon">
-          01
+        <div class="quick-icon">
+          📷
         </div>
 
-        <h3>
+        <div class="quick-title">
           Scan QR
-        </h3>
-
-        <p>
-          Pembeli scan QR SCANBELI
-          yang terdapat pada produk.
-        </p>
-
-      </div>
-
-
-
-      <!-- STEP 2 -->
-
-      <div class="feature-card">
-
-        <div class="feature-icon">
-          02
         </div>
 
-        <h3>
-          Checkout
-        </h3>
-
-        <p>
-          Periksa produk kemudian
-          isi data pengiriman.
-        </p>
-
-      </div>
-
-
-
-      <!-- STEP 3 -->
-
-      <div class="feature-card">
-
-        <div class="feature-icon">
-          03
+        <div class="quick-desc">
+          Belanja produk
         </div>
 
-        <h3>
-          Bayar
-        </h3>
-
-        <p>
-          Periksa total pembayaran
-          lalu lanjutkan pembayaran.
-        </p>
-
-      </div>
+      </a>
 
 
-    </div>
+      <a href="#pembeli" class="quick-card">
 
-  </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     PUSAT PEMBELI
-===================================================== -->
-
-<section
-  class="section buyer-section"
-  id="pembeli"
->
-
-  <div class="container">
-
-
-    <div class="section-header">
-
-
-      <div class="hero-badge">
-        ✦ PUSAT PEMBELI
-      </div>
-
-
-      <h2>
-
-        Data
-
-        <span style="color:#d6ad55;">
-          Pengiriman
-        </span>
-
-      </h2>
-
-
-      <p>
-        Simpan data Anda sekali dan gunakan
-        kembali saat melakukan checkout.
-      </p>
-
-
-    </div>
-
-
-
-    <!-- =================================================
-         BUYER PROFILE CARD
-    ================================================== -->
-
-    <div
-      id="buyerProfileCard"
-      class="card"
-      style="
-        max-width:700px;
-        margin:0 auto;
-        padding:30px;
-      "
-    >
-
-
-      <!-- HEADER CARD -->
-
-      <div
-        style="
-          display:flex;
-          justify-content:space-between;
-          align-items:center;
-          gap:15px;
-          margin-bottom:25px;
-          padding-bottom:20px;
-          border-bottom:1px solid rgba(255,255,255,.08);
-        "
-      >
-
-        <div>
-
-          <div
-            style="
-              color:#d6ad55;
-              font-size:12px;
-              font-weight:800;
-              letter-spacing:1.5px;
-              margin-bottom:7px;
-            "
-          >
-            PROFIL PEMBELI
-          </div>
-
-
-          <h3
-            style="
-              margin:0;
-              font-size:22px;
-            "
-          >
-            Data Pengiriman Saya
-          </h3>
-
-        </div>
-
-
-        <div
-          id="buyerStatusIcon"
-          style="
-            width:48px;
-            height:48px;
-            min-width:48px;
-            border-radius:50%;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            background:rgba(214,173,85,.10);
-            border:1px solid rgba(214,173,85,.25);
-            font-size:22px;
-          "
-        >
+        <div class="quick-icon">
           👤
         </div>
 
-      </div>
-
-
-
-      <!-- =================================================
-           DATA TAMPILAN
-      ================================================= -->
-
-      <div id="buyerDisplay">
-
-
-        <div
-          style="
-            display:grid;
-            gap:15px;
-          "
-        >
-
-
-          <!-- NAMA -->
-
-          <div
-            style="
-              padding:17px;
-              border-radius:14px;
-              background:rgba(255,255,255,.035);
-              border:1px solid rgba(255,255,255,.07);
-            "
-          >
-
-            <div
-              style="
-                color:#888;
-                font-size:12px;
-                margin-bottom:6px;
-              "
-            >
-              NAMA LENGKAP
-            </div>
-
-
-            <div
-              id="buyerDisplayName"
-              style="
-                font-size:16px;
-                font-weight:700;
-              "
-            >
-              Belum diisi
-            </div>
-
-          </div>
-
-
-
-          <!-- WHATSAPP -->
-
-          <div
-            style="
-              padding:17px;
-              border-radius:14px;
-              background:rgba(255,255,255,.035);
-              border:1px solid rgba(255,255,255,.07);
-            "
-          >
-
-            <div
-              style="
-                color:#888;
-                font-size:12px;
-                margin-bottom:6px;
-              "
-            >
-              NOMOR WHATSAPP
-            </div>
-
-
-            <div
-              id="buyerDisplayPhone"
-              style="
-                font-size:16px;
-                font-weight:700;
-              "
-            >
-              Belum diisi
-            </div>
-
-          </div>
-
-
-
-          <!-- ALAMAT -->
-
-          <div
-            style="
-              padding:17px;
-              border-radius:14px;
-              background:rgba(255,255,255,.035);
-              border:1px solid rgba(255,255,255,.07);
-            "
-          >
-
-            <div
-              style="
-                color:#888;
-                font-size:12px;
-                margin-bottom:6px;
-              "
-            >
-              ALAMAT LENGKAP PENGIRIMAN
-            </div>
-
-
-            <div
-              id="buyerDisplayAddress"
-              style="
-                font-size:15px;
-                line-height:1.7;
-                color:#ddd;
-                white-space:pre-wrap;
-              "
-            >
-              Belum diisi
-            </div>
-
-          </div>
-
-
+        <div class="quick-title">
+          Data Saya
         </div>
 
-
-
-        <!-- BUTTON -->
-
-        <div
-          style="
-            display:flex;
-            gap:12px;
-            margin-top:22px;
-            flex-wrap:wrap;
-          "
-        >
-
-          <button
-            type="button"
-            id="editBuyerButton"
-            class="btn btn-primary"
-            style="
-              flex:1;
-            "
-          >
-            ➕ ISI DATA PENGIRIMAN
-          </button>
-
-
-          <button
-            type="button"
-            id="deleteBuyerButton"
-            class="btn btn-danger"
-            style="
-              flex:0 0 auto;
-            "
-          >
-            🗑️
-          </button>
-
+        <div class="quick-desc">
+          Nama & alamat
         </div>
 
+      </a>
+
+
+      <a href="orders.html" class="quick-card">
+
+        <div class="quick-icon">
+          📦
+        </div>
+
+        <div class="quick-title">
+          Pesanan
+        </div>
+
+        <div class="quick-desc">
+          Lihat transaksi
+        </div>
+
+      </a>
+
+    </section>
+
+
+    <!-- =========================
+         PEMBELI
+    ========================== -->
+
+    <div class="section-title" id="pembeli">
+
+      <h2>
+        Data Pembeli
+      </h2>
+
+      <span>
+        TERSIMPAN DI HP
+      </span>
+
+    </div>
+
+    <section class="buyer-card">
+
+      <div class="buyer-top">
+
+        <div class="buyer-avatar" id="buyerAvatar">
+          👤
+        </div>
+
+        <div>
+
+          <div class="buyer-name" id="buyerDisplayName">
+            Data belum diisi
+          </div>
+
+          <div class="buyer-phone" id="buyerDisplayPhone">
+            Tambahkan data pembeli
+          </div>
+
+        </div>
 
       </div>
 
 
-
-      <!-- =================================================
-           FORM PEMBELI
-      ================================================= -->
-
-      <form
-        id="buyerForm"
-        style="display:none;"
-      >
+      <div class="buyer-address" id="buyerDisplayAddress">
+        📍 Alamat belum diisi
+      </div>
 
 
-        <!-- NAMA -->
+      <div class="buyer-actions">
+
+        <button
+          type="button"
+          class="small-button gold"
+          id="editBuyerButton"
+        >
+          ✏️ UBAH DATA
+        </button>
+
+        <button
+          type="button"
+          class="small-button"
+          id="deleteBuyerButton"
+        >
+          🗑️ HAPUS
+        </button>
+
+      </div>
+
+
+      <!-- FORM -->
+
+      <form class="buyer-form" id="buyerForm">
 
         <div class="form-group">
 
-          <label for="buyerFullName">
-            Nama Lengkap
+          <label>
+            NAMA LENGKAP
           </label>
-
 
           <input
             type="text"
             id="buyerFullName"
-            name="buyerFullName"
             placeholder="Masukkan nama lengkap"
             autocomplete="name"
-            maxlength="100"
             required
           >
 
         </div>
 
 
-
-        <!-- WHATSAPP -->
-
         <div class="form-group">
 
-          <label for="buyerWhatsApp">
-            Nomor WhatsApp
+          <label>
+            NOMOR WHATSAPP
           </label>
-
 
           <input
             type="tel"
             id="buyerWhatsApp"
-            name="buyerWhatsApp"
-            placeholder="Contoh: 081234567890"
+            placeholder="08xxxxxxxxxx"
             autocomplete="tel"
-            maxlength="20"
             required
           >
-
-
-          <small
-            style="
-              display:block;
-              margin-top:7px;
-              color:#888;
-              font-size:12px;
-            "
-          >
-            Gunakan nomor WhatsApp yang aktif.
-          </small>
 
         </div>
 
 
-
-        <!-- ALAMAT -->
-
         <div class="form-group">
 
-          <label for="buyerAddress">
-            Alamat Lengkap Pengiriman
+          <label>
+            ALAMAT PENGIRIMAN
           </label>
-
 
           <textarea
             id="buyerAddress"
-            name="buyerAddress"
-            rows="6"
-            maxlength="500"
-            placeholder="Nama jalan, nomor rumah, RT/RW, kelurahan, kecamatan, kota/kabupaten, provinsi, kode pos"
+            placeholder="Masukkan alamat lengkap"
             autocomplete="street-address"
             required
           ></textarea>
@@ -698,32 +1236,19 @@
         </div>
 
 
-
-        <!-- BUTTON -->
-
-        <div
-          style="
-            display:flex;
-            gap:12px;
-            flex-wrap:wrap;
-          "
-        >
+        <div class="form-actions">
 
           <button
             type="submit"
-            class="btn btn-primary"
-            style="
-              flex:1;
-            "
+            class="save-button"
           >
-            💾 SIMPAN PERUBAHAN
+            SIMPAN DATA
           </button>
-
 
           <button
             type="button"
+            class="cancel-button"
             id="cancelBuyerButton"
-            class="btn btn-secondary"
           >
             BATAL
           </button>
@@ -731,872 +1256,570 @@
         </div>
 
 
-
         <div
+          class="saved-message"
           id="buyerSavedMessage"
-          style="
-            display:none;
-            margin-top:15px;
-            padding:13px;
-            border-radius:12px;
-            text-align:center;
-            background:rgba(40,200,120,.08);
-            border:1px solid rgba(40,200,120,.2);
-            color:#8ff0bd;
-            font-size:14px;
-          "
         >
-          ✓ Data pengiriman berhasil diperbarui.
+          ✓ Data pembeli berhasil disimpan
         </div>
-
 
       </form>
 
-
-    </div>
-
+    </section>
 
 
-    <!-- =================================================
-         MENU CEPAT PEMBELI
-    ================================================== -->
+    <!-- =========================
+         INFO
+    ========================== -->
 
-    <div
-      class="buyer-grid"
-      style="
-        margin-top:30px;
-      "
-    >
-
-
-      <div class="buyer-card">
-
-        <div class="buyer-icon">
-          📷
-        </div>
-
-        <h3>
-          Scan Produk
-        </h3>
-
-        <p>
-          Scan QR SCANBELI pada produk
-          untuk langsung menuju checkout.
-        </p>
-
-      </div>
-
-
-
-      <div class="buyer-card">
-
-        <div class="buyer-icon">
-          📝
-        </div>
-
-        <h3>
-          Data Tersimpan
-        </h3>
-
-        <p>
-          Nama, WhatsApp dan alamat dapat
-          digunakan kembali saat checkout.
-        </p>
-
-      </div>
-
-
-
-      <div class="buyer-card">
-
-        <div class="buyer-icon">
-          ✏️
-        </div>
-
-        <h3>
-          Ubah Kapan Saja
-        </h3>
-
-        <p>
-          Jika pindah alamat atau mengganti
-          nomor, data dapat diperbarui.
-        </p>
-
-      </div>
-
-
-
-      <div class="buyer-card">
-
-        <div class="buyer-icon">
-          📦
-        </div>
-
-        <h3>
-          Pesanan Saya
-        </h3>
-
-        <p>
-          Lihat transaksi yang pernah
-          dilakukan dari perangkat Anda.
-        </p>
-
-
-        <a
-          href="orders.html"
-          class="btn btn-secondary"
-          style="
-            margin-top:15px;
-            width:100%;
-          "
-        >
-          LIHAT PESANAN
-        </a>
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     KEUNGGULAN
-===================================================== -->
-
-<section class="section">
-
-  <div class="container">
-
-
-    <div class="section-header">
-
-      <div class="hero-badge">
-        SCANBELI
-      </div>
-
+    <div class="section-title">
 
       <h2>
-
-        Dibuat untuk
-
-        <span style="color:#d6ad55;">
-          praktis.
-        </span>
-
+        SCANBELI
       </h2>
+
+      <span>
+        SEDERHANA
+      </span>
 
     </div>
 
+    <section class="stats">
 
+      <div class="stat-card">
 
-    <div class="features">
-
-
-      <div class="feature-card">
-
-        <div class="feature-icon">
-          ⚡
+        <div class="stat-value">
+          1%
         </div>
 
-        <h3>
-          Cepat
-        </h3>
-
-        <p>
-          Buyer langsung menuju checkout
-          tanpa harus mencari produk lagi.
-        </p>
+        <div class="stat-label">
+          Biaya platform
+        </div>
 
       </div>
 
 
+      <div class="stat-card">
 
-      <div class="feature-card">
-
-        <div class="feature-icon">
-          🔒
+        <div class="stat-value">
+          QR
         </div>
 
-        <h3>
-          Data Lokal
-        </h3>
-
-        <p>
-          Data pembeli disimpan di perangkat
-          sehingga tidak perlu mengisi berulang kali.
-        </p>
+        <div class="stat-label">
+          Satu scan untuk mulai
+        </div>
 
       </div>
 
 
+      <div class="stat-card">
 
-      <div class="feature-card">
-
-        <div class="feature-icon">
-          📱
+        <div class="stat-value">
+          24/7
         </div>
 
-        <h3>
-          Mobile First
-        </h3>
-
-        <p>
-          Dirancang agar nyaman digunakan
-          melalui smartphone.
-        </p>
+        <div class="stat-label">
+          Bisa digunakan kapan saja
+        </div>
 
       </div>
 
+    </section>
+
+
+    <!-- =========================
+         CARA KERJA
+    ========================== -->
+
+    <div class="section-title">
+
+      <h2>
+        Cara Kerja
+      </h2>
+
+      <span>
+        3 LANGKAH
+      </span>
 
     </div>
 
-  </div>
+    <section class="steps">
 
-</section>
+      <div class="step">
 
+        <div class="step-number">
+          01
+        </div>
 
+        <div>
 
-<!-- =====================================================
-     CTA SELLER
-===================================================== -->
+          <div class="step-title">
+            Scan QR
+          </div>
 
-<section class="section">
+          <div class="step-text">
+            Scan QR produk milik penjual.
+          </div>
 
-  <div class="container">
+        </div>
 
-
-    <div
-      class="checkout-product"
-      style="
-        text-align:center;
-        padding:45px 25px;
-      "
-    >
-
-
-      <div class="checkout-product-label">
-        UNTUK SELLER
       </div>
 
 
-      <h2
-        style="
-          font-size:clamp(28px,7vw,46px);
-          margin-bottom:12px;
-        "
-      >
+      <div class="step">
 
-        Jadikan produk Anda
+        <div class="step-number">
+          02
+        </div>
 
-        <br>
+        <div>
 
-        <span style="color:#d6ad55;">
-          siap di-scan.
-        </span>
+          <div class="step-title">
+            Periksa & Bayar
+          </div>
 
+          <div class="step-text">
+            Periksa produk dan data pengiriman,
+            kemudian lanjutkan pembayaran.
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="step">
+
+        <div class="step-number">
+          03
+        </div>
+
+        <div>
+
+          <div class="step-title">
+            Pesanan Diproses
+          </div>
+
+          <div class="step-text">
+            Penjual menerima informasi pesanan.
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         PENJUAL
+    ========================== -->
+
+    <div class="section-title">
+
+      <h2>
+        Untuk Penjual
       </h2>
 
+      <span>
+        GRATIS MULAI
+      </span>
 
-      <p
-        style="
-          max-width:520px;
-          margin:0 auto 25px;
-          color:#aaa;
-        "
-      >
+    </div>
 
-        Buat QR produk dan bagikan kepada
-        pelanggan, toko, kemasan, media sosial,
-        atau tempat lainnya.
+    <section class="seller-card">
 
+      <h2>
+        Buat QR Produk Anda
+      </h2>
+
+      <p>
+        Buat QR untuk produk, tampilkan di toko,
+        meja kasir, kemasan, poster atau media sosial.
       </p>
-
 
       <a
         href="seller.html"
-        class="btn btn-primary"
+        class="seller-button"
       >
-        ✦ BUAT QR SEKARANG
+        ✦ BUAT QR PRODUK
       </a>
 
-
-    </div>
-
-  </div>
-
-</section>
+    </section>
 
 
+    <!-- =========================
+         FOOTER
+    ========================== -->
 
-<!-- =====================================================
-     PESANAN
-===================================================== -->
+    <footer>
 
-<section class="section">
+      <strong>SCANBELI</strong><br>
 
-  <div class="container">
+      Scan. Belanja. Selesai.
 
+      <br><br>
 
-    <div class="section-header">
-
-      <div class="hero-badge">
-        PESANAN
-      </div>
-
-
-      <h2>
-        Kelola transaksi
-      </h2>
-
-
-      <p>
-        Lihat pesanan yang telah dibuat.
-      </p>
-
-    </div>
-
-
-
-    <div
-      class="hero-actions"
-      style="
-        justify-content:center;
-      "
-    >
-
-      <a
-        href="orders.html"
-        class="btn btn-secondary"
-      >
-        📦 PESANAN SAYA
-      </a>
-
-
-      <a
-        href="seller-orders.html"
-        class="btn btn-primary"
-      >
-        🛍️ PESANAN SELLER
-      </a>
-
-    </div>
-
-
-  </div>
-
-</section>
-
-
-</main>
-
-
-
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
-<footer class="footer">
-
-  <div class="container">
-
-
-    <div
-      style="
-        font-size:20px;
-        font-weight:900;
-        letter-spacing:2px;
-        color:#d6ad55;
-        margin-bottom:8px;
-      "
-    >
-      SCANBELI
-    </div>
-
-
-    <p>
-      Scan QR. Checkout. Selesai.
-    </p>
-
-
-    <p style="margin-top:12px;">
       © 2026 SCANBELI
-    </p>
+      <br>
+
+      Belanja lebih sederhana dengan QR.
+
+    </footer>
+
+  </main>
 
 
-  </div>
+  <!-- =========================
+       BOTTOM NAV
+  ========================== -->
 
-</footer>
+  <nav class="bottom-nav">
+
+    <a
+      href="index.html"
+      class="bottom-item active"
+    >
+
+      <span class="bottom-icon">
+        ⌂
+      </span>
+
+      <span>
+        Beranda
+      </span>
+
+    </a>
 
 
+    <a
+      href="orders.html"
+      class="bottom-item"
+    >
 
-<!-- =====================================================
-     SCRIPT PEMBELI
-===================================================== -->
+      <span class="bottom-icon">
+        📦
+      </span>
+
+      <span>
+        Pesanan
+      </span>
+
+    </a>
+
+
+    <a
+      href="scan.html"
+      class="bottom-item scan"
+    >
+
+      <span class="bottom-icon">
+        📷
+      </span>
+
+      <span>
+        SCAN
+      </span>
+
+    </a>
+
+
+    <a
+      href="seller.html"
+      class="bottom-item"
+    >
+
+      <span class="bottom-icon">
+        🏪
+      </span>
+
+      <span>
+        Penjual
+      </span>
+
+    </a>
+
+
+    <a
+      href="#pembeli"
+      class="bottom-item"
+    >
+
+      <span class="bottom-icon">
+        👤
+      </span>
+
+      <span>
+        Saya
+      </span>
+
+    </a>
+
+  </nav>
+
+</div>
+
+
+<!-- =========================
+     BUYER DATA SCRIPT
+========================== -->
 
 <script>
 
-document.addEventListener(
-  "DOMContentLoaded",
-  function () {
+  const BUYER_KEY = "scanbeli_buyer_v1";
+
+  const buyerForm =
+    document.getElementById("buyerForm");
+
+  const editBuyerButton =
+    document.getElementById("editBuyerButton");
+
+  const cancelBuyerButton =
+    document.getElementById("cancelBuyerButton");
+
+  const deleteBuyerButton =
+    document.getElementById("deleteBuyerButton");
+
+  const buyerFullName =
+    document.getElementById("buyerFullName");
+
+  const buyerWhatsApp =
+    document.getElementById("buyerWhatsApp");
+
+  const buyerAddress =
+    document.getElementById("buyerAddress");
+
+  const buyerDisplayName =
+    document.getElementById("buyerDisplayName");
+
+  const buyerDisplayPhone =
+    document.getElementById("buyerDisplayPhone");
+
+  const buyerDisplayAddress =
+    document.getElementById("buyerDisplayAddress");
+
+  const buyerSavedMessage =
+    document.getElementById("buyerSavedMessage");
+
+  const buyerAvatar =
+    document.getElementById("buyerAvatar");
 
 
-    const BUYER_KEY =
-      "scanbeli_buyer_v1";
+  function loadBuyerData() {
 
+    try {
 
-    const buyerDisplay =
-      document.getElementById(
-        "buyerDisplay"
-      );
+      const raw =
+        localStorage.getItem(BUYER_KEY);
 
-
-    const buyerForm =
-      document.getElementById(
-        "buyerForm"
-      );
-
-
-    const buyerDisplayName =
-      document.getElementById(
-        "buyerDisplayName"
-      );
-
-
-    const buyerDisplayPhone =
-      document.getElementById(
-        "buyerDisplayPhone"
-      );
-
-
-    const buyerDisplayAddress =
-      document.getElementById(
-        "buyerDisplayAddress"
-      );
-
-
-    const buyerFullName =
-      document.getElementById(
-        "buyerFullName"
-      );
-
-
-    const buyerWhatsApp =
-      document.getElementById(
-        "buyerWhatsApp"
-      );
-
-
-    const buyerAddress =
-      document.getElementById(
-        "buyerAddress"
-      );
-
-
-    const editBuyerButton =
-      document.getElementById(
-        "editBuyerButton"
-      );
-
-
-    const cancelBuyerButton =
-      document.getElementById(
-        "cancelBuyerButton"
-      );
-
-
-    const deleteBuyerButton =
-      document.getElementById(
-        "deleteBuyerButton"
-      );
-
-
-    const buyerSavedMessage =
-      document.getElementById(
-        "buyerSavedMessage"
-      );
-
-
-
-    /* ==============================================
-       AMBIL DATA
-    ============================================== */
-
-    function getBuyer() {
-
-      try {
-
-        const raw =
-          localStorage.getItem(
-            BUYER_KEY
-          );
-
-
-        if (!raw) {
-          return null;
-        }
-
-
-        const buyer =
-          JSON.parse(raw);
-
-
-        if (
-          !buyer ||
-          typeof buyer !== "object"
-        ) {
-          return null;
-        }
-
-
-        return buyer;
-
-      } catch (error) {
-
-        console.error(
-          "Gagal membaca data pembeli:",
-          error
-        );
-
-        return null;
-
-      }
-
-    }
-
-
-
-    /* ==============================================
-       TAMPILKAN DATA
-    ============================================== */
-
-    function renderBuyer() {
-
-      const buyer =
-        getBuyer();
-
-
-      if (!buyer) {
+      if (!raw) {
 
         buyerDisplayName.textContent =
-          "Belum diisi";
-
+          "Data belum diisi";
 
         buyerDisplayPhone.textContent =
-          "Belum diisi";
-
+          "Tambahkan data pembeli";
 
         buyerDisplayAddress.textContent =
-          "Belum diisi";
+          "📍 Alamat belum diisi";
 
-
-        editBuyerButton.textContent =
-          "➕ ISI DATA PENGIRIMAN";
-
+        buyerAvatar.textContent =
+          "👤";
 
         return;
+      }
+
+      const data =
+        JSON.parse(raw);
+
+      buyerFullName.value =
+        data.name || "";
+
+      buyerWhatsApp.value =
+        data.phone || "";
+
+      buyerAddress.value =
+        data.address || "";
+
+      buyerDisplayName.textContent =
+        data.name || "Data belum diisi";
+
+      buyerDisplayPhone.textContent =
+        data.phone || "Nomor belum diisi";
+
+      buyerDisplayAddress.textContent =
+        data.address
+          ? "📍 " + data.address
+          : "📍 Alamat belum diisi";
+
+      if (data.name) {
+
+        buyerAvatar.textContent =
+          data.name
+            .trim()
+            .charAt(0)
+            .toUpperCase();
 
       }
 
+    } catch (error) {
 
-      buyerDisplayName.textContent =
-        buyer.name || "Belum diisi";
-
-
-      buyerDisplayPhone.textContent =
-        buyer.phone || "Belum diisi";
-
-
-      buyerDisplayAddress.textContent =
-        buyer.address || "Belum diisi";
-
-
-      editBuyerButton.textContent =
-        "✏️ UBAH DATA PENGIRIMAN";
+      console.error(
+        "Gagal membaca data pembeli:",
+        error
+      );
 
     }
 
+  }
 
 
-    /* ==============================================
-       BUKA FORM
-    ============================================== */
+  function openBuyerForm() {
 
-    editBuyerButton.addEventListener(
-      "click",
-      function () {
+    buyerForm.classList.add("active");
 
+    buyerFullName.focus();
 
-        const buyer =
-          getBuyer();
-
-
-        if (buyer) {
-
-          buyerFullName.value =
-            buyer.name || "";
-
-
-          buyerWhatsApp.value =
-            buyer.phone || "";
-
-
-          buyerAddress.value =
-            buyer.address || "";
-
-        } else {
-
-          buyerFullName.value =
-            "";
-
-
-          buyerWhatsApp.value =
-            "";
-
-
-          buyerAddress.value =
-            "";
-
-        }
-
-
-        buyerDisplay.style.display =
-          "none";
-
-
-        buyerForm.style.display =
-          "block";
-
-
-        buyerFullName.focus();
-
-      }
-    );
-
-
-
-    /* ==============================================
-       BATAL
-    ============================================== */
-
-    cancelBuyerButton.addEventListener(
-      "click",
-      function () {
-
-        buyerForm.style.display =
-          "none";
-
-
-        buyerDisplay.style.display =
-          "block";
-
-      }
-    );
-
-
-
-    /* ==============================================
-       SIMPAN DATA
-    ============================================== */
-
-    buyerForm.addEventListener(
-      "submit",
-      function (event) {
-
-        event.preventDefault();
-
-
-        const name =
-          buyerFullName.value.trim();
-
-
-        const phone =
-          buyerWhatsApp.value.trim();
-
-
-        const address =
-          buyerAddress.value.trim();
-
-
-
-        if (name.length < 2) {
-
-          alert(
-            "Masukkan nama lengkap Anda."
-          );
-
-          buyerFullName.focus();
-
-          return;
-
-        }
-
-
-
-        if (phone.length < 8) {
-
-          alert(
-            "Masukkan nomor WhatsApp yang valid."
-          );
-
-          buyerWhatsApp.focus();
-
-          return;
-
-        }
-
-
-
-        if (address.length < 10) {
-
-          alert(
-            "Masukkan alamat lengkap pengiriman."
-          );
-
-          buyerAddress.focus();
-
-          return;
-
-        }
-
-
-
-        const buyer = {
-
-          name: name,
-
-          phone: phone,
-
-          address: address
-
-        };
-
-
-
-        try {
-
-          localStorage.setItem(
-            BUYER_KEY,
-            JSON.stringify(buyer)
-          );
-
-
-          renderBuyer();
-
-
-          buyerForm.style.display =
-            "none";
-
-
-          buyerDisplay.style.display =
-            "block";
-
-
-          buyerSavedMessage.style.display =
-            "block";
-
-
-          setTimeout(
-            function () {
-
-              buyerSavedMessage.style.display =
-                "none";
-
-            },
-            3000
-          );
-
-
-        } catch (error) {
-
-          console.error(error);
-
-
-          alert(
-            "Data gagal disimpan di perangkat."
-          );
-
-        }
-
-      }
-    );
-
-
-
-    /* ==============================================
-       HAPUS DATA
-    ============================================== */
-
-    deleteBuyerButton.addEventListener(
-      "click",
-      function () {
-
-
-        const buyer =
-          getBuyer();
-
-
-        if (!buyer) {
-
-          alert(
-            "Belum ada data pembeli yang tersimpan."
-          );
-
-          return;
-
-        }
-
-
-
-        const confirmDelete =
-          confirm(
-            "Apakah Anda yakin ingin menghapus data pembeli?"
-          );
-
-
-        if (!confirmDelete) {
-          return;
-        }
-
-
-
-        localStorage.removeItem(
-          BUYER_KEY
-        );
-
-
-        renderBuyer();
-
-
-        alert(
-          "Data pembeli berhasil dihapus."
-        );
-
-      }
-    );
-
-
-
-    /* ==============================================
-       INITIAL
-    ============================================== */
-
-    renderBuyer();
+    buyerSavedMessage.style.display =
+      "none";
 
   }
-);
+
+
+  function closeBuyerForm() {
+
+    buyerForm.classList.remove("active");
+
+  }
+
+
+  editBuyerButton.addEventListener(
+    "click",
+    openBuyerForm
+  );
+
+
+  cancelBuyerButton.addEventListener(
+    "click",
+    closeBuyerForm
+  );
+
+
+  buyerForm.addEventListener(
+    "submit",
+    function(event) {
+
+      event.preventDefault();
+
+      const name =
+        buyerFullName.value.trim();
+
+      const phone =
+        buyerWhatsApp.value.trim();
+
+      const address =
+        buyerAddress.value.trim();
+
+
+      if (!name || !phone || !address) {
+
+        alert(
+          "Lengkapi nama, WhatsApp, dan alamat."
+        );
+
+        return;
+      }
+
+
+      const data = {
+        name,
+        phone,
+        address
+      };
+
+
+      localStorage.setItem(
+        BUYER_KEY,
+        JSON.stringify(data)
+      );
+
+
+      loadBuyerData();
+
+
+      buyerSavedMessage.style.display =
+        "block";
+
+
+      setTimeout(() => {
+
+        buyerSavedMessage.style.display =
+          "none";
+
+        closeBuyerForm();
+
+      }, 900);
+
+    }
+  );
+
+
+  deleteBuyerButton.addEventListener(
+    "click",
+    function() {
+
+      const existing =
+        localStorage.getItem(BUYER_KEY);
+
+      if (!existing) {
+
+        alert(
+          "Belum ada data pembeli."
+        );
+
+        return;
+      }
+
+
+      const confirmDelete =
+        confirm(
+          "Hapus data pembeli dari perangkat ini?"
+        );
+
+
+      if (!confirmDelete) {
+        return;
+      }
+
+
+      localStorage.removeItem(
+        BUYER_KEY
+      );
+
+
+      buyerFullName.value = "";
+      buyerWhatsApp.value = "";
+      buyerAddress.value = "";
+
+
+      loadBuyerData();
+
+
+      closeBuyerForm();
+
+    }
+  );
+
+
+  loadBuyerData();
 
 </script>
 
 
-
-<!-- =====================================================
-     SCRIPT UTAMA SCANBELI
-===================================================== -->
+<!--
+  script.js tetap digunakan untuk
+  fungsi checkout / transaksi yang sudah ada.
+-->
 
 <script
   type="module"
@@ -1605,5 +1828,4 @@ document.addEventListener(
 
 
 </body>
-
 </html>
