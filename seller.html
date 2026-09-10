@@ -1,106 +1,56 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
-
-  <title>Buat QR - SCANBELI</title>
+  <title>Buat QR Produk - SCANBELI</title>
 
   <link rel="stylesheet" href="style.css">
 
-  <!-- QRCode -->
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
-  ></script>
-
+  <!-- QR Code -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
-
 
 <body>
 
-
-  <!-- =========================
-       HEADER
-  ========================== -->
-
+  <!-- HEADER -->
   <header class="header">
-
     <div class="container header-inner">
 
-      <a
-        href="index.html"
-        class="logo"
-      >
-
-        <span class="logo-icon">B</span>
-
-        <span>
-          SCANBELI
-        </span>
-
+      <a href="index.html" class="logo">
+        SCANBELI
       </a>
 
-
       <nav class="nav">
-
-        <a href="index.html">
-          Beranda
-        </a>
-
-        <a href="buyer.html">
-          Data Pembeli
-        </a>
-
-        <a href="seller-orders.html">
-          Pesanan Masuk
-        </a>
-
+        <a href="index.html">Beranda</a>
+        <a href="buyer.html">Data Pembeli</a>
+        <a href="seller-orders.html">Pesanan Masuk</a>
       </nav>
 
     </div>
-
   </header>
 
 
-
-  <!-- =========================
-       MAIN
-  ========================== -->
-
+  <!-- MAIN -->
   <main class="container page-container">
+
+    <section class="page-header">
+      <h1>Buat QR Produk</h1>
+
+      <p>
+        Buat QR untuk produk Anda.
+        Pembeli cukup scan QR untuk membuka checkout.
+      </p>
+    </section>
 
 
     <!-- FORM -->
-
     <section class="card">
-
-      <div class="section-header">
-
-        <h1>
-          Buat QR Produk
-        </h1>
-
-        <p>
-          Buat QR untuk produk Anda.
-          Pembeli cukup scan QR untuk membuka checkout.
-        </p>
-
-      </div>
-
 
       <form id="sellerForm">
 
-
-        <!-- NAMA -->
-
         <div class="form-group">
-
           <label for="productName">
             Nama Produk
           </label>
@@ -108,19 +58,14 @@
           <input
             type="text"
             id="productName"
-            name="productName"
             placeholder="Contoh: Kaos Anime"
             maxlength="100"
             required
           >
-
         </div>
 
 
-        <!-- HARGA -->
-
         <div class="form-group">
-
           <label for="productPrice">
             Harga Produk
           </label>
@@ -128,40 +73,47 @@
           <input
             type="number"
             id="productPrice"
-            name="productPrice"
             placeholder="100000"
             min="1"
-            step="1"
-            inputmode="numeric"
             required
           >
-
         </div>
 
 
-        <!-- KODE -->
-
         <div class="form-group">
-
           <label for="productCode">
             Kode Produk
-            <span>
-              (opsional)
-            </span>
+            <span>(opsional)</span>
           </label>
 
           <input
             type="text"
             id="productCode"
-            name="productCode"
             placeholder="Contoh: KAOS001"
             maxlength="50"
           >
-
         </div>
 
 
-        <!-- BUTTON -->
+        <!-- FIREBASE STATUS -->
+        <div
+          id="firebaseStatus"
+          class="status-box"
+          style="display:none;"
+        >
+          <span id="firebaseStatusText"></span>
+        </div>
+
+
+        <!-- ERROR -->
+        <div
+          id="errorBox"
+          class="error-box"
+          style="display:none;"
+        >
+          <span id="errorMessage"></span>
+        </div>
+
 
         <button
           type="submit"
@@ -176,509 +128,222 @@
     </section>
 
 
-
-    <!-- =========================
-         STATUS
-    ========================== -->
-
-    <div
-      id="firebaseStatus"
-      class="status-box"
-      style="display:none;"
-    >
-
-      <span id="firebaseStatusText">
-        Menyiapkan SCANBELI...
-      </span>
-
-    </div>
-
-
-
-    <!-- =========================
-         ERROR
-    ========================== -->
-
-    <section
-      id="errorBox"
-      class="card error-card"
-      style="display:none;"
-    >
-
-      <h3>
-        Terjadi masalah
-      </h3>
-
-      <p id="errorMessage"></p>
-
-    </section>
-
-
-
-    <!-- =========================
-         QR RESULT
-    ========================== -->
-
+    <!-- HASIL QR -->
     <section
       id="qrResult"
       class="card qr-result"
       style="display:none;"
     >
 
-      <div class="section-header">
+      <h2>QR Produk Berhasil Dibuat</h2>
 
-        <h2>
-          QR Produk
-        </h2>
-
-        <p id="qrProductInfo"></p>
-
-      </div>
-
-
-      <!-- QR -->
+      <div id="qrProductInfo"></div>
 
       <div
         id="qrcode"
-        class="qr-box"
+        class="qrcode-container"
       ></div>
 
 
-      <!-- LINK -->
+      <div class="form-group">
 
-      <div
-        id="checkoutLink"
-        class="checkout-link"
-      ></div>
+        <label for="checkoutLink">
+          Link Checkout
+        </label>
 
-
-      <div class="info-box">
-
-        <strong>
-          Cara menggunakan QR
-        </strong>
-
-        <ol>
-
-          <li>
-            Simpan atau screenshot QR.
-          </li>
-
-          <li>
-            Tempelkan pada produk atau toko.
-          </li>
-
-          <li>
-            Pembeli scan QR.
-          </li>
-
-          <li>
-            Pembeli langsung masuk ke checkout.
-          </li>
-
-        </ol>
+        <input
+          type="text"
+          id="checkoutLink"
+          readonly
+        >
 
       </div>
 
-    </section>
 
+      <button
+        type="button"
+        id="copyLinkButton"
+        class="btn btn-secondary"
+      >
+        Salin Link
+      </button>
+
+    </section>
 
   </main>
 
 
-
-  <!-- =========================
-       SELLER SCRIPT
-  ========================== -->
-
+  <!-- SCRIPT SELLER -->
   <script type="module">
 
-    import {
-      initAnonymousAuth
-    } from "./firebase.js";
+    import { initAnonymousAuth } from "./firebase.js";
 
 
-    /* =========================
-       ELEMENT
-    ========================== */
-
-    const form =
-      document.getElementById(
-        "sellerForm"
-      );
-
+    const sellerForm =
+      document.getElementById("sellerForm");
 
     const productName =
-      document.getElementById(
-        "productName"
-      );
-
+      document.getElementById("productName");
 
     const productPrice =
-      document.getElementById(
-        "productPrice"
-      );
-
+      document.getElementById("productPrice");
 
     const productCode =
-      document.getElementById(
-        "productCode"
-      );
+      document.getElementById("productCode");
 
-
-    const button =
-      document.getElementById(
-        "createQRButton"
-      );
-
+    const createQRButton =
+      document.getElementById("createQRButton");
 
     const qrResult =
-      document.getElementById(
-        "qrResult"
-      );
-
+      document.getElementById("qrResult");
 
     const qrCode =
-      document.getElementById(
-        "qrcode"
-      );
-
+      document.getElementById("qrcode");
 
     const qrProductInfo =
-      document.getElementById(
-        "qrProductInfo"
-      );
-
+      document.getElementById("qrProductInfo");
 
     const checkoutLink =
-      document.getElementById(
-        "checkoutLink"
-      );
+      document.getElementById("checkoutLink");
 
-
-    const errorBox =
-      document.getElementById(
-        "errorBox"
-      );
-
-
-    const errorMessage =
-      document.getElementById(
-        "errorMessage"
-      );
-
+    const copyLinkButton =
+      document.getElementById("copyLinkButton");
 
     const firebaseStatus =
-      document.getElementById(
-        "firebaseStatus"
-      );
-
+      document.getElementById("firebaseStatus");
 
     const firebaseStatusText =
-      document.getElementById(
-        "firebaseStatusText"
-      );
+      document.getElementById("firebaseStatusText");
+
+    const errorBox =
+      document.getElementById("errorBox");
+
+    const errorMessage =
+      document.getElementById("errorMessage");
 
 
-
-    /* =========================
-       ESCAPE
-    ========================== */
-
-    function escapeHTML(
-      value
-    ) {
-
-      return String(
-        value ?? ""
-      )
-
-        .replace(
-          /&/g,
-          "&amp;"
-        )
-
-        .replace(
-          /</g,
-          "&lt;"
-        )
-
-        .replace(
-          />/g,
-          "&gt;"
-        )
-
-        .replace(
-          /"/g,
-          "&quot;"
-        )
-
-        .replace(
-          /'/g,
-          "&#039;"
-        );
-
-    }
+    let sellerUser = null;
 
 
-
-    /* =========================
-       RUPIAH
-    ========================== */
-
-    function rupiah(
-      value
-    ) {
-
-      return new Intl.NumberFormat(
-        "id-ID",
-        {
-          style: "currency",
-          currency: "IDR",
-          maximumFractionDigits: 0
-        }
-      ).format(
-        Number(value) || 0
-      );
-
-    }
-
-
-
-    /* =========================
-       GENERATE CODE
-    ========================== */
-
-    function generateCode() {
-
-      return (
-        "SB-" +
-        Math.random()
-          .toString(36)
-          .substring(2, 8)
-          .toUpperCase()
-      );
-
-    }
-
-
-
-    /* =========================
-       ENCODE
-    ========================== */
-
-    function encodeProduct(
-      product
-    ) {
-
-      const json =
-        JSON.stringify(
-          product
-        );
-
-
-      const encoded =
-        encodeURIComponent(
-          json
-        ).replace(
-          /%([0-9A-F]{2})/g,
-          function (
-            match,
-            p1
-          ) {
-
-            return String.fromCharCode(
-              parseInt(
-                p1,
-                16
-              )
-            );
-
-          }
-        );
-
-
-      return btoa(
-        encoded
-      );
-
-    }
-
-
-
-    /* =========================
-       ERROR
-    ========================== */
-
-    function showError(
-      message
-    ) {
-
-      errorMessage.textContent =
-        message;
-
-      errorBox.style.display =
-        "block";
-
-      errorBox.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-      });
-
-    }
-
-
-
-    /* =========================
-       FIREBASE
-    ========================== */
-
-    let sellerUser =
-      null;
-
+    // ==============================
+    // FIREBASE
+    // ==============================
 
     async function initSeller() {
 
       try {
 
-        firebaseStatus.style.display =
-          "block";
+        firebaseStatus.style.display = "block";
 
         firebaseStatusText.textContent =
-          "Menyiapkan SCANBELI...";
-
+          "Menghubungkan...";
 
         sellerUser =
           await initAnonymousAuth();
 
+        firebaseStatusText.textContent =
+          "Siap membuat QR.";
 
-        if (
-          !sellerUser ||
-          !sellerUser.uid
-        ) {
+        setTimeout(() => {
+          firebaseStatus.style.display = "none";
+        }, 1500);
 
-          throw new Error(
-            "Firebase Anonymous Authentication gagal."
-          );
+      } catch (error) {
 
-        }
-
-
-        console.log(
-          "Seller UID:",
-          sellerUser.uid
-        );
-
-
-        firebaseStatus.style.display =
-          "none";
-
-
-      } catch (
-        error
-      ) {
-
-        console.error(
-          error
-        );
-
+        console.error(error);
 
         firebaseStatusText.textContent =
-          "Firebase belum siap: " +
-          error.message;
+          "Firebase gagal terhubung.";
+
+        errorBox.style.display = "block";
+
+        errorMessage.textContent =
+          error.message || "Firebase gagal terhubung.";
 
       }
 
     }
 
 
+    // ==============================
+    // ENCODE PRODUK
+    // ==============================
 
-    /* =========================
-       BUAT QR
-    ========================== */
+    function encodeProduct(product) {
 
-    form.addEventListener(
+      const json =
+        JSON.stringify(product);
+
+      const bytes =
+        new TextEncoder().encode(json);
+
+      let binary = "";
+
+      bytes.forEach(byte => {
+        binary += String.fromCharCode(byte);
+      });
+
+      return btoa(binary);
+
+    }
+
+
+    // ==============================
+    // BUAT QR
+    // ==============================
+
+    sellerForm.addEventListener(
       "submit",
-      async function (
-        event
-      ) {
+      async function(event) {
 
         event.preventDefault();
 
-
-        errorBox.style.display =
-          "none";
-
-
-        qrResult.style.display =
-          "none";
-
+        errorBox.style.display = "none";
 
         const name =
           productName.value.trim();
 
-
         const price =
-          Number(
-            productPrice.value
-          );
+          Number(productPrice.value);
 
-
-        let code =
+        const code =
           productCode.value.trim();
 
 
-        /* VALIDASI */
-
         if (!name) {
 
-          showError(
-            "Nama produk wajib diisi."
-          );
+          errorBox.style.display = "block";
+
+          errorMessage.textContent =
+            "Nama produk wajib diisi.";
 
           return;
 
         }
 
 
-        if (
-          !price ||
-          price <= 0
-        ) {
+        if (!price || price <= 0) {
 
-          showError(
-            "Harga produk harus lebih dari Rp0."
-          );
+          errorBox.style.display = "block";
+
+          errorMessage.textContent =
+            "Harga produk tidak valid.";
 
           return;
 
         }
-
-
-        if (!code) {
-
-          code =
-            generateCode();
-
-        }
-
-
-        button.disabled =
-          true;
-
-        button.textContent =
-          "Membuat QR...";
 
 
         try {
 
+          createQRButton.disabled = true;
 
-          /* Pastikan Firebase */
+          createQRButton.textContent =
+            "Membuat QR...";
 
-          if (
-            !sellerUser ||
-            !sellerUser.uid
-          ) {
+
+          // Pastikan seller mempunyai UID
+          if (!sellerUser) {
 
             sellerUser =
               await initAnonymousAuth();
@@ -686,49 +351,25 @@
           }
 
 
-          if (
-            !sellerUser ||
-            !sellerUser.uid
-          ) {
-
-            throw new Error(
-              "Firebase Authentication gagal."
-            );
-
-          }
-
-
-          /* DATA PRODUK */
-
           const product = {
 
-            name:
-              name,
+            name: name,
 
-            price:
-              price,
+            price: price,
 
-            code:
-              code,
+            code: code,
 
-            sellerUid:
-              sellerUser.uid
+            sellerUid: sellerUser.uid
 
           };
 
 
-          /* ENCODE */
-
-          const encoded =
-            encodeProduct(
-              product
-            );
-
-
           /*
-            URL otomatis mengikuti
-            GitHub Pages.
-          */
+           * URL otomatis mengikuti
+           * GitHub Pages Anda.
+           *
+           * Tidak perlu memasukkan URL manual.
+           */
 
           const url =
             new URL(
@@ -739,186 +380,85 @@
 
           url.searchParams.set(
             "product",
-            encoded
+            encodeProduct(product)
           );
 
 
-          /* Bersihkan QR */
-
-          qrCode.innerHTML =
-            "";
+          const checkoutUrl =
+            url.href;
 
 
-          /* Buat QR */
-
-          if (
-            typeof QRCode ===
-            "undefined"
-          ) {
-
-            throw new Error(
-              "QRCode belum termuat. Periksa koneksi internet lalu refresh halaman."
-            );
-
-          }
+          // Bersihkan QR lama
+          qrCode.innerHTML = "";
 
 
+          // Buat QR
           new QRCode(
             qrCode,
             {
-
-              text:
-                url.href,
-
-              width:
-                240,
-
-              height:
-                240,
-
+              text: checkoutUrl,
+              width: 240,
+              height: 240,
               correctLevel:
                 QRCode.CorrectLevel.M
-
             }
           );
 
 
-          /* INFO */
+          // Informasi produk
+          qrProductInfo.innerHTML = `
 
-          qrProductInfo.innerHTML =
-            `
-              <strong>
-                ${escapeHTML(
-                  name
-                )}
-              </strong>
-              <br>
-              ${rupiah(
-                price
-              )}
-              <br>
-              Kode:
-              ${escapeHTML(
+            <div class="product-preview">
+
+              <strong>${escapeHTML(name)}</strong>
+
+              <span>
+                Rp ${formatRupiah(price)}
+              </span>
+
+              ${
                 code
-              )}
-            `;
+                  ? `<small>Kode: ${escapeHTML(code)}</small>`
+                  : ""
+              }
+
+            </div>
+
+          `;
 
 
-          /* LINK */
-
-          checkoutLink.innerHTML =
-            `
-              <label>
-                Link Checkout
-              </label>
-
-              <input
-                id="checkoutUrlInput"
-                type="text"
-                value="${escapeHTML(
-                  url.href
-                )}"
-                readonly
-              >
-
-              <button
-                type="button"
-                id="copyLinkButton"
-                class="btn"
-              >
-                Salin Link
-              </button>
-            `;
+          checkoutLink.value =
+            checkoutUrl;
 
 
           qrResult.style.display =
             "block";
 
 
-          /* COPY */
-
-          const copyButton =
-            document.getElementById(
-              "copyLinkButton"
-            );
-
-
-          const urlInput =
-            document.getElementById(
-              "checkoutUrlInput"
-            );
-
-
-          copyButton.addEventListener(
-            "click",
-            async function () {
-
-              try {
-
-                await navigator.clipboard.writeText(
-                  url.href
-                );
-
-                copyButton.textContent =
-                  "Berhasil Disalin";
-
-                setTimeout(
-                  function () {
-
-                    copyButton.textContent =
-                      "Salin Link";
-
-                  },
-                  2000
-                );
-
-              } catch {
-
-                urlInput.select();
-
-                document.execCommand(
-                  "copy"
-                );
-
-                copyButton.textContent =
-                  "Berhasil Disalin";
-
-              }
-
-            }
-          );
-
-
-          /* SCROLL */
-
+          // Scroll ke QR
           qrResult.scrollIntoView({
             behavior: "smooth",
             block: "start"
           });
 
 
-        } catch (
-          error
-        ) {
+        } catch (error) {
 
-          console.error(
-            "Gagal membuat QR:",
-            error
-          );
+          console.error(error);
 
+          errorBox.style.display =
+            "block";
 
-          showError(
+          errorMessage.textContent =
             error.message ||
-            "Gagal membuat QR."
-          );
-
+            "Gagal membuat QR.";
 
         } finally {
 
-          button.disabled =
+          createQRButton.disabled =
             false;
 
-          button.textContent =
+          createQRButton.textContent =
             "Buat QR";
 
         }
@@ -927,13 +467,93 @@
     );
 
 
+    // ==============================
+    // SALIN LINK
+    // ==============================
 
-    /* START */
+    copyLinkButton.addEventListener(
+      "click",
+      async function() {
+
+        try {
+
+          await navigator.clipboard.writeText(
+            checkoutLink.value
+          );
+
+          copyLinkButton.textContent =
+            "✓ Link Disalin";
+
+          setTimeout(() => {
+
+            copyLinkButton.textContent =
+              "Salin Link";
+
+          }, 1500);
+
+        } catch (error) {
+
+          checkoutLink.select();
+
+          document.execCommand("copy");
+
+          copyLinkButton.textContent =
+            "✓ Link Disalin";
+
+          setTimeout(() => {
+
+            copyLinkButton.textContent =
+              "Salin Link";
+
+          }, 1500);
+
+        }
+
+      }
+    );
+
+
+    // ==============================
+    // FORMAT RUPIAH
+    // ==============================
+
+    function formatRupiah(number) {
+
+      return new Intl.NumberFormat(
+        "id-ID"
+      ).format(number);
+
+    }
+
+
+    // ==============================
+    // ESCAPE HTML
+    // ==============================
+
+    function escapeHTML(value) {
+
+      return String(value)
+
+        .replaceAll("&", "&amp;")
+
+        .replaceAll("<", "&lt;")
+
+        .replaceAll(">", "&gt;")
+
+        .replaceAll('"', "&quot;")
+
+        .replaceAll("'", "&#039;");
+
+    }
+
+
+    // ==============================
+    // START
+    // ==============================
 
     initSeller();
 
   </script>
 
 </body>
-
 </html>
