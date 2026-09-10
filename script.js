@@ -1,831 +1,758 @@
-/* =====================================================
-   SCANBELI V1
-   ===================================================== */
+import {
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import {
+  db,
+  auth,
+  initAnonymousAuth
+} from "./firebase.js";
 
 const BUYER_KEY = "scanbeli_buyer_v1";
 const ORDERS_KEY = "scanbeli_orders_v1";
 
+let anonymousUser = null;
 
-/* =====================================================
-   FORMAT RUPIAH
-   ===================================================== */
+/* =========================
+   INIT FIREBASE
+========================= */
 
-function rupiah(value) {
+async function initFirebase() {
+  try {
+    anonymousUser = await initAnonymousAuth();
+    console.log("Firebase Anonymous UID:", anonymousUser.uid);
+    return anonymousUser;
+  } catch (error) {
+    console.error("Firebase Auth Error:", error);
+    return null;
+  }
+}
 
+/* =========================
+   HELPER
+========================= */
+
+function rupiah(number) {
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
     maximumFractionDigits: 0
-  }).format(Number(value));
-
+  }).format(Number(number) || 0);
 }
 
+function generateOrderId() {
+  return "SB-" + Math.random()
+    .toString(36)
+    .substring(2, 8)
+    .toUpperCase();
+}
 
-/* =====================================================
-   DATA PEMBELI
-   ===================================================== */
+function generateSellerCode() {
+  return "SELLER-" + Math.random()
+    .toString(36)
+    .substring(2, 10)
+    .toUpperCase();
+}
+
+function escapeHTML(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+/* =========================
+   BUYER LOCAL DATA
+========================= */
 
 function getBuyer() {
-
   try {
-
-    const data =
-      localStorage.getItem(BUYER_KEY);
+    const data = localStorage.getItem(BUYER_KEY);
 
     if (!data) {
       return null;
     }
 
     return JSON.parse(data);
-
-  } catch {
-
+  } catch (error) {
+    console.error("Gagal membaca data buyer:", error);
     return null;
-
   }
-
 }
 
-
-function saveBuyer(data) {
-
+function saveBuyer(buyer) {
   localStorage.setItem(
     BUYER_KEY,
-    JSON.stringify(data)
+    JSON.stringify(buyer)
   );
-
 }
 
+/* =========================
+   SELLER UID
+========================= */
 
-/* =====================================================
-   HALAMAN BUYER
-   ===================================================== */
+async function getSellerUid() {
+  const user = await initFirebase();
 
-const buyerForm =
-  document.getElementById("buyerForm");
-
-
-if (buyerForm) {
-
-  const buyer =
-    getBuyer();
-
-
-  /* Isi otomatis jika sudah pernah menyimpan */
-
-  if (buyer) {
-
-    document.getElementById("buyerName").value =
-      buyer.name || "";
-
-    document.getElementById("buyerPhone").value =
-      buyer.phone || "";
-
-    document.getElementById("buyerAddress").value =
-      buyer.address || "";
-
+  if (!user) {
+    throw new Error("Firebase Authentication gagal.");
   }
 
-
-  buyerForm.addEventListener(
-    "submit",
-    function(event) {
-
-      event.preventDefault();
-
-
-      const name =
-        document
-          .getElementById("buyerName")
-          .value
-          .trim();
-
-
-      const phone =
-        document
-          .getElementById("buyerPhone")
-          .value
-          .trim();
-
-
-      const address =
-        document
-          .getElementById("buyerAddress")
-          .value
-          .trim();
-
-
-      if (!name || !phone || !address) {
-
-        showMessage(
-          "Lengkapi semua data.",
-          true
-        );
-
-        return;
-
-      }
-
-
-      saveBuyer({
-        name,
-        phone,
-        address
-      });
-
-
-      showMessage(
-        "✓ Data berhasil disimpan."
-      );
-
-
-      setTimeout(() => {
-
-        window.location.href =
-          "index.html";
-
-      }, 700);
-
-    }
-  );
-
+  return user.uid;
 }
 
-
-function showMessage(
-  text,
-  error = false
-) {
-
-  const message =
-    document.getElementById(
-      "buyerMessage"
-    );
-
-  if (!message) return;
-
-  message.textContent = text;
-
-  message.style.color =
-    error ? "#c62828" : "#087443";
-
-}
-
-
-/* =====================================================
-   BUAT QR PENJUAL
-   ===================================================== */
-
-const sellerForm =
-  document.getElementById("sellerForm");
-
-
-if (sellerForm) {
-
-  sellerForm.addEventListener(
-    "submit",
-    function(event) {
-
-      event.preventDefault();
-
-
-      const productName =
-        document
-          .getElementById("productName")
-          .value
-          .trim();
-
-
-      const productPrice =
-        Number(
-          document
-            .getElementById("productPrice")
-            .value
-        );
-
-
-      const productCode =
-        document
-          .getElementById("productCode")
-          .value
-          .trim();
-
-
-      if (
-        !productName ||
-        !productPrice ||
-        !productCode
-      ) {
-
-        alert(
-          "Lengkapi data produk."
-        );
-
-        return;
-
-      }
-
-
-      /*
-       * DATA PRODUK
-       *
-       * Untuk V1 kita masukkan data produk
-       * ke dalam link QR.
-       *
-       * Belum menggunakan database.
-       */
-
-      const product = {
-
-        name: productName,
-
-        price: productPrice,
-
-        code: productCode
-
-      };
-
-
-      const encoded =
-        encodeProduct(product);
-
-
-      /*
-       * Link checkout.
-       */
-
-      const base =
-        window.location.href
-          .replace("seller.html", "");
-
-
-      const checkoutUrl =
-        base +
-        "checkout.html?product=" +
-        encoded;
-
-
-      /* Tampilkan QR */
-
-      const qrResult =
-        document.getElementById(
-          "qrResult"
-        );
-
-
-      qrResult.classList.remove(
-        "hidden"
-      );
-
-
-      document.getElementById(
-        "qrProductName"
-      ).textContent =
-        productName;
-
-
-      document.getElementById(
-        "qrProductPrice"
-      ).textContent =
-        rupiah(productPrice);
-
-
-      document.getElementById(
-        "qrLink"
-      ).textContent =
-        checkoutUrl;
-
-
-      const qrContainer =
-        document.getElementById(
-          "qrCode"
-        );
-
-
-      qrContainer.innerHTML = "";
-
-
-      new QRCode(
-        qrContainer,
-        {
-          text: checkoutUrl,
-          width: 220,
-          height: 220
-        }
-      );
-
-
-      /* Tombol salin */
-
-      document.getElementById(
-        "copyLink"
-      ).onclick = async function() {
-
-        try {
-
-          await navigator.clipboard.writeText(
-            checkoutUrl
-          );
-
-          this.textContent =
-            "✓ Link Disalin";
-
-          setTimeout(() => {
-
-            this.textContent =
-              "Salin Link";
-
-          }, 2000);
-
-        } catch {
-
-          prompt(
-            "Salin link berikut:",
-            checkoutUrl
-          );
-
-        }
-
-      };
-
-    }
-  );
-
-}
-
-
-/* =====================================================
-   ENCODE PRODUK
-   ===================================================== */
+/* =========================
+   ENCODE PRODUCT
+========================= */
 
 function encodeProduct(product) {
-
   const json = JSON.stringify(product);
 
   return btoa(
     encodeURIComponent(json)
-      .replace(/%([0-9A-F]{2})/g, function(match, p1) {
+      .replace(/%([0-9A-F]{2})/g, function (match, p1) {
         return String.fromCharCode(
           parseInt(p1, 16)
         );
       })
   );
-
 }
 
-
-/* =====================================================
-   DECODE PRODUK
-   ===================================================== */
+/* =========================
+   DECODE PRODUCT
+========================= */
 
 function decodeProduct(encoded) {
-
   try {
+    const binary = atob(encoded);
 
-    const binary =
-      atob(encoded);
+    const percentEncoded = Array.from(binary)
+      .map(function (char) {
+        return "%" +
+          char.charCodeAt(0)
+            .toString(16)
+            .padStart(2, "0");
+      })
+      .join("");
 
-    const bytes =
-      Array.from(binary, char =>
-        "%" +
-        char.charCodeAt(0)
-          .toString(16)
-          .padStart(2, "0")
-      ).join("");
-
-    const json =
-      decodeURIComponent(bytes);
+    const json = decodeURIComponent(percentEncoded);
 
     return JSON.parse(json);
 
   } catch (error) {
-
-    console.error(error);
-
+    console.error("Gagal decode product:", error);
     return null;
-
   }
-
 }
 
+/* =========================
+   BUYER PAGE
+========================= */
 
-/* =====================================================
-   CHECKOUT
-   ===================================================== */
+function initBuyerPage() {
+  const form = document.getElementById("buyerForm");
 
-function loadCheckout() {
-
-  const loading =
-    document.getElementById(
-      "checkoutLoading"
-    );
-
-
-  const checkout =
-    document.getElementById(
-      "checkout"
-    );
-
-
-  const noBuyer =
-    document.getElementById(
-      "noBuyer"
-    );
-
-
-  if (!loading || !checkout) {
+  if (!form) {
     return;
   }
 
+  const nameInput =
+    document.getElementById("buyerName");
+
+  const phoneInput =
+    document.getElementById("buyerPhone");
+
+  const addressInput =
+    document.getElementById("buyerAddress");
+
+  const existingBuyer = getBuyer();
+
+  if (existingBuyer) {
+    if (nameInput) {
+      nameInput.value = existingBuyer.name || "";
+    }
+
+    if (phoneInput) {
+      phoneInput.value = existingBuyer.phone || "";
+    }
+
+    if (addressInput) {
+      addressInput.value =
+        existingBuyer.address || "";
+    }
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const buyer = {
+      name: nameInput?.value.trim() || "",
+      phone: phoneInput?.value.trim() || "",
+      address: addressInput?.value.trim() || ""
+    };
+
+    if (!buyer.name) {
+      alert("Nama wajib diisi.");
+      return;
+    }
+
+    if (!buyer.phone) {
+      alert("Nomor HP wajib diisi.");
+      return;
+    }
+
+    if (!buyer.address) {
+      alert("Alamat wajib diisi.");
+      return;
+    }
+
+    saveBuyer(buyer);
+
+    alert("Data pembeli berhasil disimpan.");
+
+    window.location.href = "index.html";
+  });
+}
+
+/* =========================
+   SELLER PAGE
+========================= */
+
+async function initSellerPage() {
+  const form = document.getElementById("sellerForm");
+
+  if (!form) {
+    return;
+  }
+
+  const nameInput =
+    document.getElementById("productName");
+
+  const priceInput =
+    document.getElementById("productPrice");
+
+  const codeInput =
+    document.getElementById("productCode");
+
+  const result =
+    document.getElementById("qrResult");
+
+  const qrContainer =
+    document.getElementById("qrcode");
+
+  let sellerUid = null;
+
+  try {
+    sellerUid = await getSellerUid();
+
+    console.log(
+      "Seller anonymous UID:",
+      sellerUid
+    );
+
+  } catch (error) {
+    console.error(error);
+
+    if (result) {
+      result.innerHTML = `
+        <div class="error">
+          Firebase belum siap.
+        </div>
+      `;
+    }
+
+    return;
+  }
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const name =
+      nameInput?.value.trim() || "";
+
+    const price =
+      Number(priceInput?.value || 0);
+
+    const code =
+      codeInput?.value.trim() ||
+      generateOrderId();
+
+    if (!name) {
+      alert("Nama produk wajib diisi.");
+      return;
+    }
+
+    if (!price || price <= 0) {
+      alert("Harga produk harus lebih dari 0.");
+      return;
+    }
+
+    const product = {
+      name,
+      price,
+      code,
+      sellerUid
+    };
+
+    const encoded =
+      encodeProduct(product);
+
+    /*
+      URL mengikuti alamat GitHub Pages
+      tempat seller.html berada.
+    */
+
+    const checkoutUrl =
+      new URL(
+        "checkout.html",
+        window.location.href
+      );
+
+    checkoutUrl.searchParams.set(
+      "product",
+      encoded
+    );
+
+    if (qrContainer) {
+      qrContainer.innerHTML = "";
+    }
+
+    if (
+      typeof QRCode !== "undefined" &&
+      qrContainer
+    ) {
+      new QRCode(qrContainer, {
+        text: checkoutUrl.href,
+        width: 240,
+        height: 240
+      });
+    }
+
+    if (result) {
+      result.innerHTML = `
+        <div class="success">
+          <h3>QR berhasil dibuat</h3>
+
+          <p>
+            Produk:
+            <strong>
+              ${escapeHTML(name)}
+            </strong>
+          </p>
+
+          <p>
+            Harga:
+            <strong>
+              ${rupiah(price)}
+            </strong>
+          </p>
+
+          <p>
+            QR ini sudah terhubung
+            dengan akun teknis penjual.
+          </p>
+        </div>
+      `;
+    }
+
+    console.log(
+      "Checkout URL:",
+      checkoutUrl.href
+    );
+  });
+}
+
+/* =========================
+   CHECKOUT PAGE
+========================= */
+
+async function initCheckoutPage() {
+  const payButton =
+    document.getElementById("payButton");
+
+  if (!payButton) {
+    return;
+  }
 
   const params =
     new URLSearchParams(
       window.location.search
     );
 
-
-  const encodedProduct =
+  const encoded =
     params.get("product");
 
-
-  const product =
-    encodedProduct
-      ? decodeProduct(encodedProduct)
-      : null;
-
-
-  if (!product) {
-
-    loading.textContent =
-      "Produk tidak ditemukan.";
-
+  if (!encoded) {
+    alert("Produk tidak ditemukan.");
     return;
-
   }
 
+  const product =
+    decodeProduct(encoded);
+
+  if (!product) {
+    alert("Data produk tidak valid.");
+    return;
+  }
 
   const buyer =
     getBuyer();
 
+  const productName =
+    document.getElementById("productName");
+
+  const productPrice =
+    document.getElementById("productPrice");
+
+  const buyerName =
+    document.getElementById("buyerName");
+
+  const buyerPhone =
+    document.getElementById("buyerPhone");
+
+  const buyerAddress =
+    document.getElementById("buyerAddress");
+
+  const feeElement =
+    document.getElementById("fee");
+
+  const totalElement =
+    document.getElementById("total");
+
+  if (productName) {
+    productName.textContent =
+      product.name || "Produk";
+  }
+
+  if (productPrice) {
+    productPrice.textContent =
+      rupiah(product.price);
+  }
+
+  if (buyerName) {
+    buyerName.textContent =
+      buyer?.name || "Belum diisi";
+  }
+
+  if (buyerPhone) {
+    buyerPhone.textContent =
+      buyer?.phone || "Belum diisi";
+  }
+
+  if (buyerAddress) {
+    buyerAddress.textContent =
+      buyer?.address || "Belum diisi";
+  }
 
   /*
-   * BELUM ADA DATA PEMBELI
-   */
+    Fee prototype 1%.
+    Ini BELUM merupakan fee payment gateway.
+  */
+
+  const fee =
+    Math.round(Number(product.price) * 0.01);
+
+  const total =
+    Number(product.price) + fee;
+
+  if (feeElement) {
+    feeElement.textContent =
+      rupiah(fee);
+  }
+
+  if (totalElement) {
+    totalElement.textContent =
+      rupiah(total);
+  }
 
   if (!buyer) {
+    payButton.disabled = true;
 
-    loading.classList.add(
-      "hidden"
-    );
+    payButton.textContent =
+      "Isi Data Pembeli Dahulu";
 
-    noBuyer.classList.remove(
-      "hidden"
+    payButton.addEventListener(
+      "click",
+      function () {
+        window.location.href =
+          "buyer.html";
+      }
     );
 
     return;
-
   }
 
+  payButton.addEventListener(
+    "click",
+    async function () {
 
-  /*
-   * TAMPILKAN PRODUK
-   */
+      if (payButton.disabled) {
+        return;
+      }
 
-  document.getElementById(
-    "productName"
-  ).textContent =
-    product.name;
+      payButton.disabled = true;
 
+      payButton.textContent =
+        "Menyimpan Pesanan...";
 
-  document.getElementById(
-    "productPrice"
-  ).textContent =
-    rupiah(product.price);
+      try {
 
+        /*
+          Pastikan buyer memiliki
+          Firebase Anonymous Auth.
+        */
 
-  /*
-   * TAMPILKAN DATA PEMBELI
-   */
+        const buyerUser =
+          await initFirebase();
 
-  document.getElementById(
-    "buyerName"
-  ).textContent =
-    buyer.name;
+        if (!buyerUser) {
+          throw new Error(
+            "Firebase Authentication gagal."
+          );
+        }
 
+        if (!product.sellerUid) {
+          throw new Error(
+            "ID penjual tidak ditemukan pada QR."
+          );
+        }
 
-  document.getElementById(
-    "buyerPhone"
-  ).textContent =
-    buyer.phone;
+        const orderId =
+          generateOrderId();
 
+        const orderData = {
 
-  document.getElementById(
-    "buyerAddress"
-  ).textContent =
-    buyer.address;
+          orderId,
 
+          sellerUid:
+            product.sellerUid,
 
-  /*
-   * FEE PROTOTYPE
-   *
-   * Untuk sementara 1%.
-   */
+          product: {
+            name:
+              product.name || "",
+            code:
+              product.code || ""
+          },
 
-  const fee =
-    Math.round(
-      product.price * 0.01
-    );
+          price:
+            Number(product.price) || 0,
 
+          fee,
 
-  const total =
-    product.price + fee;
+          total,
 
+          buyerName:
+            buyer.name,
 
-  document.getElementById(
-    "summaryPrice"
-  ).textContent =
-    rupiah(product.price);
+          buyerPhone:
+            buyer.phone,
 
+          buyerAddress:
+            buyer.address,
 
-  document.getElementById(
-    "summaryFee"
-  ).textContent =
-    rupiah(fee);
+          status:
+            "MENUNGGU_PEMBAYARAN",
 
+          createdAt:
+            serverTimestamp()
+        };
 
-  document.getElementById(
-    "summaryTotal"
-  ).textContent =
-    rupiah(total);
+        /*
+          Simpan online ke Firestore.
+        */
 
+        await addDoc(
+          collection(db, "orders"),
+          orderData
+        );
 
-  loading.classList.add(
-    "hidden"
+        /*
+          Simpan salinan lokal
+          supaya orders.html tetap
+          bisa menampilkan pesanan.
+        */
+
+        const localOrders =
+          JSON.parse(
+            localStorage.getItem(
+              ORDERS_KEY
+            ) || "[]"
+          );
+
+        localOrders.unshift({
+          ...orderData,
+          createdAt:
+            new Date().toISOString()
+        });
+
+        localStorage.setItem(
+          ORDERS_KEY,
+          JSON.stringify(localOrders)
+        );
+
+        /*
+          Berhasil.
+        */
+
+        window.location.href =
+          "orders.html";
+
+      } catch (error) {
+
+        console.error(
+          "Gagal membuat pesanan:",
+          error
+        );
+
+        alert(
+          "Gagal menyimpan pesanan.\n\n" +
+          error.message
+        );
+
+        payButton.disabled =
+          false;
+
+        payButton.textContent =
+          "Bayar Sekarang";
+      }
+    }
   );
-
-
-  checkout.classList.remove(
-    "hidden"
-  );
-
-
-  /*
-   * TOMBOL BAYAR
-   */
-
-  document.getElementById(
-    "payButton"
-  ).onclick = function() {
-
-    createOrder(
-      product,
-      buyer,
-      fee,
-      total
-    );
-
-  };
-
 }
 
+/* =========================
+   ORDERS PAGE
+========================= */
 
-/* =====================================================
-   BUAT ORDER PROTOTYPE
-   ===================================================== */
+function initOrdersPage() {
 
-function createOrder(
-  product,
-  buyer,
-  fee,
-  total
-) {
-
-  const orders =
-    getOrders();
-
-
-  const order = {
-
-    id:
-      "SB-" +
-      Date.now()
-        .toString(36)
-        .toUpperCase(),
-
-    product: product.name,
-
-    productCode:
-      product.code,
-
-    price:
-      product.price,
-
-    fee:
-      fee,
-
-    total:
-      total,
-
-    buyer: {
-
-      name:
-        buyer.name,
-
-      phone:
-        buyer.phone,
-
-      address:
-        buyer.address
-
-    },
-
-    status:
-      "Menunggu Pembayaran",
-
-    createdAt:
-      new Date().toISOString()
-
-  };
-
-
-  orders.unshift(order);
-
-
-  localStorage.setItem(
-    ORDERS_KEY,
-    JSON.stringify(orders)
-  );
-
-
-  alert(
-    "Order berhasil dibuat!\n\n" +
-    "Nomor: " +
-    order.id
-  );
-
-
-  window.location.href =
-    "orders.html";
-
-}
-
-
-/* =====================================================
-   AMBIL ORDER
-   ===================================================== */
-
-function getOrders() {
-
-  try {
-
-    return JSON.parse(
-      localStorage.getItem(
-        ORDERS_KEY
-      )
-    ) || [];
-
-  } catch {
-
-    return [];
-
-  }
-
-}
-
-
-/* =====================================================
-   HALAMAN ORDER
-   ===================================================== */
-
-function loadOrders() {
-
-  const list =
+  const container =
+    document.getElementById(
+      "ordersContainer"
+    ) ||
+    document.getElementById(
+      "orderList"
+    ) ||
     document.getElementById(
       "ordersList"
     );
 
+  if (!container) {
+    return;
+  }
 
-  if (!list) return;
+  let orders = [];
 
-
-  const orders =
-    getOrders();
-
+  try {
+    orders =
+      JSON.parse(
+        localStorage.getItem(
+          ORDERS_KEY
+        ) || "[]"
+      );
+  } catch (error) {
+    orders = [];
+  }
 
   if (!orders.length) {
 
-    list.innerHTML = `
-      <div class="form-card">
-        <h2>Belum ada pesanan</h2>
-        <p>
-          Pesanan akan muncul di sini.
-        </p>
+    container.innerHTML = `
+      <div class="empty">
+        Belum ada pesanan.
       </div>
     `;
 
     return;
-
   }
 
-
-  list.innerHTML =
-    orders.map(order => {
+  container.innerHTML =
+    orders.map(function (order) {
 
       return `
-
-        <div class="order">
+        <div class="order-card">
 
           <h3>
-            ${escapeHTML(order.product)}
+            ${escapeHTML(
+              order.product?.name ||
+              "Produk"
+            )}
           </h3>
 
           <p>
-            Order:
-            <strong>
-              ${escapeHTML(order.id)}
-            </strong>
+            <strong>Order:</strong>
+            ${escapeHTML(
+              order.orderId
+            )}
           </p>
 
           <p>
-            Total:
-            <strong>
-              ${rupiah(order.total)}
-            </strong>
+            <strong>Total:</strong>
+            ${rupiah(order.total)}
           </p>
 
-          <span class="status">
-            ${escapeHTML(order.status)}
-          </span>
+          <p>
+            <strong>Status:</strong>
+            ${escapeHTML(
+              order.status
+            )}
+          </p>
 
           <hr>
 
           <p>
-            <strong>
-              ${escapeHTML(order.buyer.name)}
-            </strong>
-            <br>
+            ${escapeHTML(
+              order.buyerName
+            )}
+          </p>
 
-            ${escapeHTML(order.buyer.phone)}
-            <br>
+          <p>
+            ${escapeHTML(
+              order.buyerPhone
+            )}
+          </p>
 
-            ${escapeHTML(order.buyer.address)}
+          <p>
+            ${escapeHTML(
+              order.buyerAddress
+            )}
           </p>
 
         </div>
-
       `;
 
     }).join("");
-
 }
 
+/* =========================
+   PAGE START
+========================= */
 
-/* =====================================================
-   ESCAPE HTML
-   ===================================================== */
+document.addEventListener(
+  "DOMContentLoaded",
+  async function () {
 
-function escapeHTML(value) {
+    console.log(
+      "SCANBELI V1.5"
+    );
 
-  return String(value)
+    /*
+      Buyer dan orders tidak harus
+      menunggu Firebase untuk tampil.
+    */
 
-    .replaceAll("&", "&amp;")
+    initBuyerPage();
+    initOrdersPage();
 
-    .replaceAll("<", "&lt;")
+    /*
+      Seller dan checkout membutuhkan
+      Firebase.
+    */
 
-    .replaceAll(">", "&gt;")
+    await initSellerPage();
+    await initCheckoutPage();
 
-    .replaceAll('"', "&quot;")
-
-    .replaceAll("'", "&#039;");
-
-}
-
-
-/* =====================================================
-   JALANKAN CHECKOUT
-   ===================================================== */
-
-if (
-  document.getElementById(
-    "checkout"
-  )
-) {
-
-  loadCheckout();
-
-}
-
-
-/* =====================================================
-   JALANKAN ORDERS
-   ===================================================== */
-
-if (
-  document.getElementById(
-    "ordersList"
-  )
-) {
-
-  loadOrders();
-
-}
+  }
+);
