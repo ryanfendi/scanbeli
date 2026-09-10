@@ -1,48 +1,338 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1.0"
+>
 
-  <meta
-    name="theme-color"
-    content="#070707"
-  >
+<meta
+  name="theme-color"
+  content="#070707"
+>
 
-  <meta
-    name="description"
-    content="SCANBELI Checkout"
-  >
+<title>Checkout — SCANBELI</title>
 
-  <title>
-    Checkout — SCANBELI
-  </title>
+<link rel="stylesheet" href="style.css">
 
-  <link
-    rel="stylesheet"
-    href="style.css"
-  >
+<style>
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+
+  margin: 0;
+
+  background:
+    radial-gradient(
+      circle at 50% -10%,
+      rgba(214,173,85,0.18),
+      transparent 40%
+    ),
+    #070707;
+
+  color: #fff;
+
+  font-family:
+    Inter,
+    system-ui,
+    sans-serif;
+}
+
+.page {
+
+  width:
+    calc(100% - 24px);
+
+  max-width: 620px;
+
+  margin: auto;
+
+  padding:
+    18px 0 70px;
+}
+
+.top {
+
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  align-items: center;
+
+  margin-bottom: 18px;
+}
+
+.logo {
+
+  color: #f4d98b;
+
+  font-size: 20px;
+
+  font-weight: 900;
+
+  letter-spacing: 2px;
+}
+
+.back {
+
+  color: #999;
+
+  font-size: 11px;
+}
+
+.loading,
+.error,
+.card {
+
+  border-radius: 22px;
+
+  border:
+    1px solid
+    rgba(214,173,85,0.14);
+
+  background: #111;
+}
+
+.loading {
+
+  padding: 28px;
+
+  text-align: center;
+
+  color: #999;
+}
+
+.error {
+
+  padding: 22px;
+
+  color: #ff7777;
+
+  line-height: 1.6;
+
+  font-size: 12px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.card {
+
+  padding: 21px;
+
+  margin-top: 13px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(214,173,85,0.07),
+      #111
+    );
+}
+
+.badge {
+
+  display: inline-block;
+
+  padding: 6px 10px;
+
+  border-radius: 30px;
+
+  color: #f4d98b;
+
+  background:
+    rgba(214,173,85,0.08);
+
+  font-size: 9px;
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+}
+
+.product h1 {
+
+  margin:
+    14px 0 5px;
+
+  font-size: 28px;
+
+  letter-spacing: -1px;
+}
+
+.product-code {
+
+  color: #777;
+
+  font-size: 10px;
+}
+
+.price {
+
+  margin-top: 13px;
+
+  color: #f4d98b;
+
+  font-size: 25px;
+
+  font-weight: 900;
+}
+
+.card-title {
+
+  margin:
+    13px 0 17px;
+
+  font-size: 17px;
+}
+
+.data-row {
+
+  margin:
+    12px 0;
+}
+
+.data-row small {
+
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: #777;
+
+  font-size: 9px;
+
+  font-weight: 800;
+}
+
+.data-row strong {
+
+  display: block;
+
+  font-size: 12px;
+
+  line-height: 1.5;
+
+  word-break: break-word;
+}
+
+.edit {
+
+  display: block;
+
+  margin-top: 16px;
+
+  padding: 12px;
+
+  border-radius: 12px;
+
+  text-align: center;
+
+  background: #171717;
+
+  color: #f4d98b;
+
+  font-size: 10px;
+
+  font-weight: 900;
+}
+
+.row {
+
+  display: flex;
+
+  justify-content:
+    space-between;
+
+  gap: 15px;
+
+  margin: 11px 0;
+
+  font-size: 12px;
+}
+
+.row span {
+
+  color: #888;
+}
+
+.total {
+
+  padding-top: 13px;
+
+  margin-top: 15px;
+
+  border-top:
+    1px solid #292929;
+
+  font-size: 15px;
+
+  font-weight: 900;
+}
+
+.total strong {
+
+  color: #f4d98b;
+
+  font-size: 20px;
+}
+
+.pay {
+
+  width: 100%;
+
+  min-height: 52px;
+
+  margin-top: 20px;
+
+  border: 0;
+
+  border-radius: 15px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f4d98b,
+      #d6ad55
+    );
+
+  color: #080808;
+
+  font-size: 13px;
+
+  font-weight: 900;
+}
+
+.note {
+
+  margin-top: 12px;
+
+  color: #666;
+
+  text-align: center;
+
+  font-size: 10px;
+
+  line-height: 1.6;
+}
+
+</style>
 
 </head>
 
-
 <body>
 
+<div class="page">
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
-
-<header class="header">
-
-  <div class="container header-inner">
-
+  <div class="top">
 
     <a
       href="index.html"
@@ -51,869 +341,565 @@
       SCANBELI
     </a>
 
-
-    <nav class="nav">
-
-      <a href="index.html">
-        Beranda
-      </a>
-
-
-      <a href="index.html#pembeli">
-        Data Pembeli
-      </a>
-
-
-      <a href="orders.html">
-        Pesanan Saya
-      </a>
-
-    </nav>
-
+    <a
+      href="scan.html"
+      class="back"
+    >
+      ← Scan
+    </a>
 
   </div>
 
-</header>
+
+  <div
+    id="loading"
+    class="loading"
+  >
+    Memuat produk...
+  </div>
 
 
-
-<!-- =====================================================
-     CHECKOUT
-===================================================== -->
-
-<main class="checkout-page">
+  <div
+    id="error"
+    class="error hidden"
+  ></div>
 
 
-  <div class="container checkout-wrapper">
+  <main
+    id="checkout"
+    class="hidden"
+  >
 
 
-    <!-- =================================================
-         LOADING
-    ================================================== -->
+    <!-- PRODUK -->
 
-    <div
-      id="checkoutLoading"
-      class="loading"
-    >
+    <section class="card product">
 
-      <div class="spinner"></div>
-
-      <p>
-        Memuat produk...
-      </p>
-
-    </div>
-
-
-
-    <!-- =================================================
-         ERROR
-    ================================================== -->
-
-    <div
-      id="checkoutError"
-      class="card"
-      style="
-        display:none;
-        max-width:650px;
-        margin:40px auto;
-        text-align:center;
-        padding:35px;
-      "
-    >
-
-      <div
-        style="
-          font-size:45px;
-          margin-bottom:15px;
-        "
-      >
-        ⚠️
+      <div class="badge">
+        PRODUK
       </div>
 
+      <h1 id="productName">
+        -
+      </h1>
 
-      <h2>
-        Produk Tidak Ditemukan
+      <div
+        id="productCode"
+        class="product-code"
+      ></div>
+
+      <div
+        id="productPrice"
+        class="price"
+      >
+        Rp0
+      </div>
+
+    </section>
+
+
+    <!-- PEMBELI -->
+
+    <section class="card">
+
+      <div class="badge">
+        PENGIRIMAN
+      </div>
+
+      <h2 class="card-title">
+        📍 Dikirim ke
       </h2>
 
 
-      <p
-        style="
-          color:#aaa;
-          line-height:1.7;
-        "
-      >
-        QR produk tidak valid atau
-        data produk tidak ditemukan.
-      </p>
+      <div class="data-row">
+
+        <small>
+          NAMA
+        </small>
+
+        <strong id="buyerName">
+          -
+        </strong>
+
+      </div>
+
+
+      <div class="data-row">
+
+        <small>
+          WHATSAPP
+        </small>
+
+        <strong id="buyerPhone">
+          -
+        </strong>
+
+      </div>
+
+
+      <div class="data-row">
+
+        <small>
+          ALAMAT
+        </small>
+
+        <strong id="buyerAddress">
+          -
+        </strong>
+
+      </div>
 
 
       <a
-        href="index.html"
-        class="btn btn-primary"
-        style="
-          margin-top:15px;
-        "
+        href="buyer.html"
+        class="edit"
       >
-        KEMBALI KE BERANDA
+        ✏️ UBAH DATA PEMBELI
       </a>
 
-
-    </div>
-
+    </section>
 
 
-    <!-- =================================================
-         CONTENT
-    ================================================== -->
+    <!-- RINGKASAN -->
 
-    <div
-      id="checkoutContent"
-      style="display:none;"
-    >
+    <section class="card">
 
-
-      <!-- =================================================
-           HEADER CHECKOUT
-      ================================================= -->
-
-      <div class="checkout-header">
+      <div class="badge">
+        RINGKASAN
+      </div>
 
 
-        <div class="hero-badge">
-          ✦ SCANBELI CHECKOUT
-        </div>
+      <div class="row">
 
+        <span>
+          Harga produk
+        </span>
 
-        <h1>
-          Checkout
-        </h1>
-
-
-        <p>
-          Periksa produk dan data pengiriman
-          sebelum melakukan pembayaran.
-        </p>
-
+        <strong id="summaryPrice">
+          Rp0
+        </strong>
 
       </div>
 
 
+      <div class="row">
 
-      <!-- =================================================
-           PRODUK
-      ================================================= -->
+        <span>
+          Fee SCANBELI
+        </span>
 
-      <div class="checkout-card">
-
-
-        <div class="checkout-product">
-
-
-          <div class="checkout-product-label">
-            PRODUK
-          </div>
-
-
-          <h2
-            id="checkoutProductName"
-          >
-            Memuat produk...
-          </h2>
-
-
-          <div
-            id="checkoutProductCode"
-            style="
-              color:#888;
-              font-size:13px;
-              margin-top:6px;
-            "
-          >
-          </div>
-
-
-          <div
-            id="checkoutProductPrice"
-            class="checkout-product-price"
-          >
-            Rp0
-          </div>
-
-
-        </div>
-
+        <strong id="summaryFee">
+          Rp0
+        </strong>
 
       </div>
 
 
+      <div class="row total">
 
-      <!-- =================================================
-           DATA PEMBELI
-      ================================================= -->
+        <span>
+          Total
+        </span>
 
-      <div
-        class="checkout-card"
-        style="
-          margin-top:20px;
-        "
+        <strong id="summaryTotal">
+          Rp0
+        </strong>
+
+      </div>
+
+
+      <button
+        id="payButton"
+        class="pay"
+        type="button"
       >
+        BAYAR
+      </button>
 
 
-        <div
-          style="
-            margin-bottom:25px;
-          "
-        >
+      <div class="note">
 
-          <div
-            class="checkout-product-label"
-          >
-            DATA PEMBELI
-          </div>
-
-
-          <h2
-            style="
-              margin:8px 0 8px;
-              font-size:24px;
-            "
-          >
-            Informasi Pengiriman
-          </h2>
-
-
-          <p
-            style="
-              margin:0;
-              color:#888;
-              line-height:1.6;
-              font-size:14px;
-            "
-          >
-            Pastikan nama, WhatsApp, dan
-            alamat pengiriman sudah benar.
-          </p>
-
-        </div>
-
-
-
-        <!-- =================================================
-             NAMA
-        ================================================== -->
-
-        <div class="form-group">
-
-
-          <label for="buyerName">
-            Nama Lengkap
-          </label>
-
-
-          <input
-            type="text"
-            id="buyerName"
-            placeholder="Masukkan nama lengkap"
-            autocomplete="name"
-            maxlength="100"
-            required
-          >
-
-
-        </div>
-
-
-
-        <!-- =================================================
-             WHATSAPP
-        ================================================== -->
-
-        <div class="form-group">
-
-
-          <label for="buyerPhone">
-            Nomor WhatsApp
-          </label>
-
-
-          <input
-            type="tel"
-            id="buyerPhone"
-            placeholder="Contoh: 081234567890"
-            autocomplete="tel"
-            maxlength="20"
-            required
-          >
-
-
-        </div>
-
-
-
-        <!-- =================================================
-             ALAMAT
-        ================================================== -->
-
-        <div class="form-group">
-
-
-          <label for="buyerAddress">
-            Alamat Lengkap Pengiriman
-          </label>
-
-
-          <textarea
-            id="buyerAddress"
-            rows="6"
-            maxlength="500"
-            placeholder="Nama jalan, nomor rumah, RT/RW, kelurahan, kecamatan, kota/kabupaten, provinsi, kode pos"
-            autocomplete="street-address"
-            required
-          ></textarea>
-
-
-        </div>
-
-
-
-        <!-- =================================================
-             UBAH DATA DI CHECKOUT
-        ================================================== -->
-
-        <div
-          style="
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            gap:12px;
-            flex-wrap:wrap;
-            margin-top:5px;
-          "
-        >
-
-
-          <span
-            style="
-              color:#777;
-              font-size:12px;
-            "
-          >
-            Data tersimpan di perangkat Anda.
-          </span>
-
-
-          <button
-            type="button"
-            id="editBuyerButton"
-            class="btn btn-secondary"
-            style="
-              font-size:13px;
-            "
-          >
-            ✏️ UBAH DATA
-          </button>
-
-
-        </div>
-
+        Setelah pembayaran berhasil,
+        pesanan akan dibuat.
 
       </div>
 
+    </section>
 
+  </main>
 
-      <!-- =================================================
-           RINGKASAN
-      ================================================== -->
+</div>
 
-      <div
-        class="checkout-card"
-        style="
-          margin-top:20px;
-        "
-      >
-
-
-        <div class="summary">
-
-
-          <div class="summary-row">
-
-            <span>
-              Harga Produk
-            </span>
-
-
-            <strong
-              id="summaryPrice"
-            >
-              Rp0
-            </strong>
-
-          </div>
-
-
-
-          <div class="summary-row">
-
-            <span>
-              Fee SCANBELI
-            </span>
-
-
-            <strong
-              id="summaryFee"
-            >
-              Rp0
-            </strong>
-
-          </div>
-
-
-
-          <div
-            class="summary-row"
-            style="
-              margin-top:15px;
-              padding-top:18px;
-              border-top:1px solid rgba(255,255,255,.08);
-            "
-          >
-
-            <span
-              style="
-                font-size:16px;
-                font-weight:800;
-              "
-            >
-              TOTAL
-            </span>
-
-
-            <strong
-              id="summaryTotal"
-              style="
-                font-size:24px;
-                color:#d6ad55;
-              "
-            >
-              Rp0
-            </strong>
-
-          </div>
-
-
-        </div>
-
-
-      </div>
-
-
-
-      <!-- =================================================
-           BAYAR
-      ================================================== -->
-
-      <div
-        style="
-          margin-top:25px;
-          text-align:center;
-        "
-      >
-
-
-        <button
-          type="button"
-          id="payButton"
-          class="btn btn-primary"
-          style="
-            width:100%;
-            max-width:700px;
-            min-height:58px;
-            font-size:17px;
-            font-weight:900;
-          "
-        >
-          💳 BAYAR SEKARANG
-        </button>
-
-
-        <p
-          style="
-            margin-top:12px;
-            color:#777;
-            font-size:12px;
-            line-height:1.6;
-          "
-        >
-          Periksa kembali produk dan alamat
-          sebelum melakukan pembayaran.
-        </p>
-
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-</main>
-
-
-
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
-<footer class="footer">
-
-  <div class="container">
-
-
-    <div
-      style="
-        font-size:20px;
-        font-weight:900;
-        letter-spacing:2px;
-        color:#d6ad55;
-        margin-bottom:8px;
-      "
-    >
-      SCANBELI
-    </div>
-
-
-    <p>
-      Scan QR. Checkout. Selesai.
-    </p>
-
-
-    <p style="margin-top:12px;">
-      © 2026 SCANBELI
-    </p>
-
-
-  </div>
-
-</footer>
-
-
-
-<!-- =====================================================
-     PEMBACA DATA PEMBELI
-===================================================== -->
 
 <script>
 
-document.addEventListener(
-  "DOMContentLoaded",
-  function () {
+const BUYER_KEY =
+  "scanbeli_buyer_v1";
+
+const ORDERS_KEY =
+  "scanbeli_orders_v1";
 
 
-    const BUYER_KEY =
-      "scanbeli_buyer_v1";
+const params =
+  new URLSearchParams(
+    window.location.search
+  );
 
 
-    const buyerName =
-      document.getElementById(
-        "buyerName"
-      );
+const loading =
+  document.getElementById("loading");
+
+const errorBox =
+  document.getElementById("error");
+
+const checkout =
+  document.getElementById("checkout");
 
 
-    const buyerPhone =
-      document.getElementById(
-        "buyerPhone"
-      );
+function rupiah(value) {
 
-
-    const buyerAddress =
-      document.getElementById(
-        "buyerAddress"
-      );
-
-
-    const editBuyerButton =
-      document.getElementById(
-        "editBuyerButton"
-      );
-
-
-
-    /* ==============================================
-       LOAD DATA PEMBELI
-    ============================================== */
-
-    function loadBuyerData() {
-
-      try {
-
-        const raw =
-          localStorage.getItem(
-            BUYER_KEY
-          );
-
-
-        if (!raw) {
-          return;
-        }
-
-
-        const buyer =
-          JSON.parse(raw);
-
-
-        if (!buyer) {
-          return;
-        }
-
-
-        buyerName.value =
-          buyer.name || "";
-
-
-        buyerPhone.value =
-          buyer.phone || "";
-
-
-        buyerAddress.value =
-          buyer.address || "";
-
-
-      } catch (error) {
-
-        console.error(
-          "Gagal memuat data pembeli:",
-          error
-        );
-
-      }
-
+  return new Intl.NumberFormat(
+    "id-ID",
+    {
+      style: "currency",
+      currency: "IDR",
+      maximumFractionDigits: 0
     }
+  ).format(
+    Number(value) || 0
+  );
+
+}
 
 
+function showError(message) {
 
-    /* ==============================================
-       SIMPAN PERUBAHAN DARI CHECKOUT
-    ============================================== */
+  loading.classList.add(
+    "hidden"
+  );
 
-    function saveBuyerData() {
+  errorBox.textContent =
+    message;
 
-      const name =
-        buyerName.value.trim();
+  errorBox.classList.remove(
+    "hidden"
+  );
 
-
-      const phone =
-        buyerPhone.value.trim();
-
-
-      const address =
-        buyerAddress.value.trim();
+}
 
 
-      if (!name) {
+function decodeProduct(raw) {
 
-        alert(
-          "Nama lengkap wajib diisi."
-        );
+  try {
 
-        buyerName.focus();
+    const normalized =
+      raw
+        .replace(/-/g, "+")
+        .replace(/_/g, "/");
 
-        return false;
-
-      }
-
-
-      if (phone.length < 8) {
-
-        alert(
-          "Nomor WhatsApp tidak valid."
-        );
-
-        buyerPhone.focus();
-
-        return false;
-
-      }
-
-
-      if (address.length < 10) {
-
-        alert(
-          "Alamat lengkap wajib diisi."
-        );
-
-        buyerAddress.focus();
-
-        return false;
-
-      }
-
-
-      try {
-
-        localStorage.setItem(
-          BUYER_KEY,
-          JSON.stringify({
-
-            name: name,
-
-            phone: phone,
-
-            address: address
-
-          })
-        );
-
-
-        return true;
-
-
-      } catch (error) {
-
-        console.error(error);
-
-        alert(
-          "Data pembeli gagal disimpan."
-        );
-
-        return false;
-
-      }
-
-    }
-
-
-
-    /* ==============================================
-       UBAH DATA
-    ============================================== */
-
-    editBuyerButton.addEventListener(
-      "click",
-      function () {
-
-        if (
-          saveBuyerData()
-        ) {
-
-          editBuyerButton.textContent =
-            "✓ DATA TERSIMPAN";
-
-
-          setTimeout(
-            function () {
-
-              editBuyerButton.textContent =
-                "✏️ UBAH DATA";
-
-            },
-            2000
-          );
-
-        }
-
-      }
+    return JSON.parse(
+      atob(normalized)
     );
 
+  } catch (error) {
 
+    try {
 
-    /* ==============================================
-       SIMPAN KETIKA FIELD BERUBAH
-    ============================================== */
+      return JSON.parse(
+        decodeURIComponent(raw)
+      );
 
-    [
-      buyerName,
-      buyerPhone,
-      buyerAddress
-    ].forEach(
-      function (input) {
+    } catch (error2) {
 
-        input.addEventListener(
-          "change",
-          function () {
+      return null;
 
-            const raw =
-              localStorage.getItem(
-                BUYER_KEY
-              );
-
-
-            let oldData = {};
-
-            try {
-
-              oldData =
-                raw
-                  ? JSON.parse(raw)
-                  : {};
-
-            } catch {
-
-              oldData = {};
-
-            }
-
-
-            oldData.name =
-              buyerName.value.trim();
-
-
-            oldData.phone =
-              buyerPhone.value.trim();
-
-
-            oldData.address =
-              buyerAddress.value.trim();
-
-
-            try {
-
-              localStorage.setItem(
-                BUYER_KEY,
-                JSON.stringify(oldData)
-              );
-
-            } catch (error) {
-
-              console.warn(
-                "Gagal menyimpan data pembeli:",
-                error
-              );
-
-            }
-
-          }
-        );
-
-      }
-    );
-
-
-
-    /* ==============================================
-       INITIAL
-    ============================================== */
-
-    loadBuyerData();
+    }
 
   }
-);
+
+}
+
+
+function loadCheckout() {
+
+  const raw =
+    params.get("product");
+
+
+  if (!raw) {
+
+    showError(
+      "Data produk tidak ditemukan di QR."
+    );
+
+    return;
+
+  }
+
+
+  const product =
+    decodeProduct(raw);
+
+
+  if (!product) {
+
+    showError(
+      "Data produk pada QR tidak valid."
+    );
+
+    return;
+
+  }
+
+
+  let buyer = null;
+
+
+  try {
+
+    buyer =
+      JSON.parse(
+        localStorage.getItem(
+          BUYER_KEY
+        ) || "null"
+      );
+
+  } catch (error) {
+
+    buyer = null;
+
+  }
+
+
+  /*
+   * BELUM ADA DATA PEMBELI
+   */
+
+  if (
+    !buyer ||
+    !buyer.name ||
+    !buyer.phone ||
+    !buyer.address
+  ) {
+
+    localStorage.setItem(
+      "scanbeli_return_url",
+      window.location.href
+    );
+
+    window.location.href =
+      "buyer.html";
+
+    return;
+
+  }
+
+
+  const productName =
+    product.name ||
+    product.nama ||
+    "Produk";
+
+
+  const price =
+    Number(
+      product.price ??
+      product.harga ??
+      0
+    );
+
+
+  const fee =
+    Math.round(
+      price * 0.01
+    );
+
+
+  const total =
+    price + fee;
+
+
+  document.getElementById(
+    "productName"
+  ).textContent =
+    productName;
+
+
+  document.getElementById(
+    "productCode"
+  ).textContent =
+    product.code
+      ? "Kode: " + product.code
+      : "";
+
+
+  document.getElementById(
+    "productPrice"
+  ).textContent =
+    rupiah(price);
+
+
+  document.getElementById(
+    "buyerName"
+  ).textContent =
+    buyer.name;
+
+
+  document.getElementById(
+    "buyerPhone"
+  ).textContent =
+    buyer.phone;
+
+
+  document.getElementById(
+    "buyerAddress"
+  ).textContent =
+    buyer.address;
+
+
+  document.getElementById(
+    "summaryPrice"
+  ).textContent =
+    rupiah(price);
+
+
+  document.getElementById(
+    "summaryFee"
+  ).textContent =
+    rupiah(fee);
+
+
+  document.getElementById(
+    "summaryTotal"
+  ).textContent =
+    rupiah(total);
+
+
+  loading.classList.add(
+    "hidden"
+  );
+
+
+  checkout.classList.remove(
+    "hidden"
+  );
+
+
+  document.getElementById(
+    "payButton"
+  ).addEventListener(
+    "click",
+    function() {
+
+      createOrder({
+        product,
+        buyer,
+        price,
+        fee,
+        total
+      });
+
+    }
+  );
+
+}
+
+
+function createOrder(data) {
+
+  const orderId =
+    "SB-" +
+    Math.random()
+      .toString(36)
+      .substring(2, 8)
+      .toUpperCase();
+
+
+  const order = {
+
+    orderId,
+
+    product: {
+
+      name:
+        data.product.name ||
+        data.product.nama ||
+        "Produk",
+
+      code:
+        data.product.code ||
+        "",
+
+    },
+
+    buyer: {
+
+      name:
+        data.buyer.name,
+
+      phone:
+        data.buyer.phone,
+
+      address:
+        data.buyer.address
+
+    },
+
+    price:
+      data.price,
+
+    fee:
+      data.fee,
+
+    total:
+      data.total,
+
+    status:
+      "MENUNGGU_PEMBAYARAN",
+
+    createdAt:
+      new Date().toISOString()
+
+  };
+
+
+  let orders = [];
+
+  try {
+
+    orders =
+      JSON.parse(
+        localStorage.getItem(
+          ORDERS_KEY
+        ) || "[]"
+      );
+
+  } catch (error) {
+
+    orders = [];
+
+  }
+
+
+  orders.unshift(order);
+
+
+  localStorage.setItem(
+    ORDERS_KEY,
+    JSON.stringify(orders)
+  );
+
+
+  window.location.href =
+    "orders.html?order=" +
+    encodeURIComponent(orderId);
+
+}
+
+
+loadCheckout();
 
 </script>
 
-
-
-<!-- =====================================================
-     SCRIPT UTAMA
-===================================================== -->
-
-<script
-  type="module"
-  src="script.js"
-></script>
-
-
 </body>
-
 </html>
