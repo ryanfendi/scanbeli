@@ -6,377 +6,439 @@ import {
 
 import {
   db,
-  auth,
   initAnonymousAuth
 } from "./firebase.js";
 
-const BUYER_KEY = "scanbeli_buyer_v1";
-const ORDERS_KEY = "scanbeli_orders_v1";
 
-let anonymousUser = null;
+/* =====================================================
+   SCANBELI V1.5
+   =====================================================
 
-/* =========================
-   INIT FIREBASE
-========================= */
+   Fungsi:
+   - Buyer data tersimpan di HP
+   - Checkout membaca data buyer otomatis
+   - Produk dibaca dari QR
+   - Pesanan disimpan ke Firestore
+   - Pesanan juga disimpan lokal sebagai backup
+   - Tidak mengelola seller.html
+   - Tidak membuat profil seller
+   - Tidak menggunakan orderBy Firestore
 
-async function initFirebase() {
-  try {
-    anonymousUser = await initAnonymousAuth();
-    console.log("Firebase Anonymous UID:", anonymousUser.uid);
-    return anonymousUser;
-  } catch (error) {
-    console.error("Firebase Auth Error:", error);
-    return null;
-  }
-}
+===================================================== */
 
-/* =========================
+
+/* =====================================================
+   CONFIG
+===================================================== */
+
+const BUYER_KEY =
+  "scanbeli_buyer_v1";
+
+const ORDERS_KEY =
+  "scanbeli_orders_v1";
+
+const FEE_PERCENT =
+  0.01;
+
+
+/* =====================================================
    HELPER
-========================= */
+===================================================== */
 
-function rupiah(number) {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    maximumFractionDigits: 0
-  }).format(Number(number) || 0);
+function rupiah(value) {
+
+  return new Intl.NumberFormat(
+    "id-ID",
+    {
+      style: "currency",
+      currency: "IDR",
+      maximumFractionDigits: 0
+    }
+  ).format(
+    Number(value) || 0
+  );
+
 }
 
-function generateOrderId() {
-  return "SB-" + Math.random()
-    .toString(36)
-    .substring(2, 8)
-    .toUpperCase();
-}
-
-function generateSellerCode() {
-  return "SELLER-" + Math.random()
-    .toString(36)
-    .substring(2, 10)
-    .toUpperCase();
-}
 
 function escapeHTML(value) {
+
   return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
 }
 
-/* =========================
-   BUYER LOCAL DATA
-========================= */
+
+function generateOrderId() {
+
+  return (
+    "SB-" +
+    Math.random()
+      .toString(36)
+      .substring(2, 8)
+      .toUpperCase()
+  );
+
+}
+
+
+/* =====================================================
+   BUYER LOCAL STORAGE
+===================================================== */
 
 function getBuyer() {
+
   try {
-    const data = localStorage.getItem(BUYER_KEY);
+
+    const data =
+      localStorage.getItem(
+        BUYER_KEY
+      );
 
     if (!data) {
       return null;
     }
 
     return JSON.parse(data);
+
   } catch (error) {
-    console.error("Gagal membaca data buyer:", error);
+
+    console.error(
+      "Gagal membaca data buyer:",
+      error
+    );
+
     return null;
+
   }
+
 }
+
 
 function saveBuyer(buyer) {
-  localStorage.setItem(
-    BUYER_KEY,
-    JSON.stringify(buyer)
-  );
-}
 
-/* =========================
-   SELLER UID
-========================= */
-
-async function getSellerUid() {
-  const user = await initFirebase();
-
-  if (!user) {
-    throw new Error("Firebase Authentication gagal.");
-  }
-
-  return user.uid;
-}
-
-/* =========================
-   ENCODE PRODUCT
-========================= */
-
-function encodeProduct(product) {
-  const json = JSON.stringify(product);
-
-  return btoa(
-    encodeURIComponent(json)
-      .replace(/%([0-9A-F]{2})/g, function (match, p1) {
-        return String.fromCharCode(
-          parseInt(p1, 16)
-        );
-      })
-  );
-}
-
-/* =========================
-   DECODE PRODUCT
-========================= */
-
-function decodeProduct(encoded) {
   try {
-    const binary = atob(encoded);
 
-    const percentEncoded = Array.from(binary)
-      .map(function (char) {
-        return "%" +
-          char.charCodeAt(0)
-            .toString(16)
-            .padStart(2, "0");
-      })
-      .join("");
+    localStorage.setItem(
+      BUYER_KEY,
+      JSON.stringify(buyer)
+    );
 
-    const json = decodeURIComponent(percentEncoded);
-
-    return JSON.parse(json);
+    return true;
 
   } catch (error) {
-    console.error("Gagal decode product:", error);
-    return null;
+
+    console.error(
+      "Gagal menyimpan buyer:",
+      error
+    );
+
+    return false;
+
   }
+
 }
 
-/* =========================
+
+/* =====================================================
+   PRODUCT DECODER
+===================================================== */
+
+function decodeProduct(encoded) {
+
+  try {
+
+    if (!encoded) {
+      return null;
+    }
+
+    const binary =
+      atob(encoded);
+
+    let percentEncoded =
+      "";
+
+    for (
+      let i = 0;
+      i < binary.length;
+      i++
+    ) {
+
+      const code =
+        binary
+          .charCodeAt(i)
+          .toString(16)
+          .padStart(2, "0");
+
+      percentEncoded +=
+        "%" + code;
+
+    }
+
+    const json =
+      decodeURIComponent(
+        percentEncoded
+      );
+
+    return JSON.parse(
+      json
+    );
+
+  } catch (error) {
+
+    console.error(
+      "Decode produk gagal:",
+      error
+    );
+
+    return null;
+
+  }
+
+}
+
+
+/* =====================================================
+   FIREBASE AUTH
+===================================================== */
+
+async function getAnonymousUser() {
+
+  try {
+
+    const user =
+      await initAnonymousAuth();
+
+    if (
+      !user ||
+      !user.uid
+    ) {
+
+      throw new Error(
+        "Firebase Anonymous Authentication gagal."
+      );
+
+    }
+
+    return user;
+
+  } catch (error) {
+
+    console.error(
+      "Firebase Auth Error:",
+      error
+    );
+
+    throw error;
+
+  }
+
+}
+
+
+/* =====================================================
    BUYER PAGE
-========================= */
+===================================================== */
 
 function initBuyerPage() {
-  const form = document.getElementById("buyerForm");
+
+  const form =
+    document.getElementById(
+      "buyerForm"
+    );
 
   if (!form) {
     return;
   }
 
+
   const nameInput =
-    document.getElementById("buyerName");
+    document.getElementById(
+      "buyerName"
+    );
 
   const phoneInput =
-    document.getElementById("buyerPhone");
+    document.getElementById(
+      "buyerPhone"
+    );
 
   const addressInput =
-    document.getElementById("buyerAddress");
+    document.getElementById(
+      "buyerAddress"
+    );
 
-  const existingBuyer = getBuyer();
 
-  if (existingBuyer) {
+  /* Ambil data lama */
+
+  const buyer =
+    getBuyer();
+
+
+  if (buyer) {
+
     if (nameInput) {
-      nameInput.value = existingBuyer.name || "";
+
+      nameInput.value =
+        buyer.name || "";
+
     }
 
     if (phoneInput) {
-      phoneInput.value = existingBuyer.phone || "";
+
+      phoneInput.value =
+        buyer.phone || "";
+
     }
 
     if (addressInput) {
+
       addressInput.value =
-        existingBuyer.address || "";
+        buyer.address || "";
+
     }
+
   }
 
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
 
-    const buyer = {
-      name: nameInput?.value.trim() || "",
-      phone: phoneInput?.value.trim() || "",
-      address: addressInput?.value.trim() || ""
-    };
+  /* Simpan */
 
-    if (!buyer.name) {
-      alert("Nama wajib diisi.");
-      return;
-    }
+  form.addEventListener(
+    "submit",
+    function (event) {
 
-    if (!buyer.phone) {
-      alert("Nomor HP wajib diisi.");
-      return;
-    }
+      event.preventDefault();
 
-    if (!buyer.address) {
-      alert("Alamat wajib diisi.");
-      return;
-    }
 
-    saveBuyer(buyer);
+      const name =
+        nameInput?.value.trim() || "";
 
-    alert("Data pembeli berhasil disimpan.");
+      const phone =
+        phoneInput?.value.trim() || "";
 
-    window.location.href = "index.html";
-  });
-}
+      const address =
+        addressInput?.value.trim() || "";
 
-/* =========================
-   SELLER PAGE
-========================= */
 
-async function initSellerPage() {
-  const form = document.getElementById("sellerForm");
+      if (!name) {
 
-  if (!form) {
-    return;
-  }
+        alert(
+          "Nama wajib diisi."
+        );
 
-  const nameInput =
-    document.getElementById("productName");
+        nameInput?.focus();
 
-  const priceInput =
-    document.getElementById("productPrice");
+        return;
 
-  const codeInput =
-    document.getElementById("productCode");
+      }
 
-  const result =
-    document.getElementById("qrResult");
 
-  const qrContainer =
-    document.getElementById("qrcode");
+      if (!phone) {
 
-  let sellerUid = null;
+        alert(
+          "Nomor HP wajib diisi."
+        );
 
-  try {
-    sellerUid = await getSellerUid();
+        phoneInput?.focus();
 
-    console.log(
-      "Seller anonymous UID:",
-      sellerUid
-    );
+        return;
 
-  } catch (error) {
-    console.error(error);
+      }
 
-    if (result) {
-      result.innerHTML = `
-        <div class="error">
-          Firebase belum siap.
-        </div>
-      `;
-    }
 
-    return;
-  }
+      if (!address) {
 
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
+        alert(
+          "Alamat wajib diisi."
+        );
 
-    const name =
-      nameInput?.value.trim() || "";
+        addressInput?.focus();
 
-    const price =
-      Number(priceInput?.value || 0);
+        return;
 
-    const code =
-      codeInput?.value.trim() ||
-      generateOrderId();
+      }
 
-    if (!name) {
-      alert("Nama produk wajib diisi.");
-      return;
-    }
 
-    if (!price || price <= 0) {
-      alert("Harga produk harus lebih dari 0.");
-      return;
-    }
+      const saved =
+        saveBuyer({
+          name,
+          phone,
+          address
+        });
 
-    const product = {
-      name,
-      price,
-      code,
-      sellerUid
-    };
 
-    const encoded =
-      encodeProduct(product);
+      if (!saved) {
 
-    /*
-      URL mengikuti alamat GitHub Pages
-      tempat seller.html berada.
-    */
+        alert(
+          "Data gagal disimpan."
+        );
 
-    const checkoutUrl =
-      new URL(
-        "checkout.html",
-        window.location.href
+        return;
+
+      }
+
+
+      alert(
+        "Data pembeli berhasil disimpan."
       );
 
-    checkoutUrl.searchParams.set(
-      "product",
-      encoded
-    );
 
-    if (qrContainer) {
-      qrContainer.innerHTML = "";
+      window.location.href =
+        "index.html";
+
     }
+  );
 
-    if (
-      typeof QRCode !== "undefined" &&
-      qrContainer
-    ) {
-      new QRCode(qrContainer, {
-        text: checkoutUrl.href,
-        width: 240,
-        height: 240
-      });
-    }
-
-    if (result) {
-      result.innerHTML = `
-        <div class="success">
-          <h3>QR berhasil dibuat</h3>
-
-          <p>
-            Produk:
-            <strong>
-              ${escapeHTML(name)}
-            </strong>
-          </p>
-
-          <p>
-            Harga:
-            <strong>
-              ${rupiah(price)}
-            </strong>
-          </p>
-
-          <p>
-            QR ini sudah terhubung
-            dengan akun teknis penjual.
-          </p>
-        </div>
-      `;
-    }
-
-    console.log(
-      "Checkout URL:",
-      checkoutUrl.href
-    );
-  });
 }
 
-/* =========================
+
+/* =====================================================
    CHECKOUT PAGE
-========================= */
+===================================================== */
 
 async function initCheckoutPage() {
+
   const payButton =
-    document.getElementById("payButton");
+    document.getElementById(
+      "payButton"
+    );
+
+  /*
+    Kalau bukan checkout.html,
+    berhenti.
+  */
 
   if (!payButton) {
     return;
   }
+
+
+  /* =================================================
+     AMBIL PRODUCT DARI URL
+  ================================================= */
 
   const params =
     new URLSearchParams(
@@ -384,222 +446,508 @@ async function initCheckoutPage() {
     );
 
   const encoded =
-    params.get("product");
+    params.get(
+      "product"
+    );
+
 
   if (!encoded) {
-    alert("Produk tidak ditemukan.");
+
+    showCheckoutError(
+      "Data produk tidak ditemukan."
+    );
+
+    payButton.disabled =
+      true;
+
     return;
+
   }
+
 
   const product =
-    decodeProduct(encoded);
+    decodeProduct(
+      encoded
+    );
+
 
   if (!product) {
-    alert("Data produk tidak valid.");
+
+    showCheckoutError(
+      "Data produk tidak valid."
+    );
+
+    payButton.disabled =
+      true;
+
     return;
+
   }
+
+
+  console.log(
+    "Produk:",
+    product
+  );
+
+
+  /* =================================================
+     VALIDASI PRODUCT
+  ================================================= */
+
+  const productNameValue =
+    String(
+      product.name || ""
+    ).trim();
+
+  const productPriceValue =
+    Number(
+      product.price || 0
+    );
+
+  const sellerUid =
+    String(
+      product.sellerUid || ""
+    ).trim();
+
+
+  if (
+    !productNameValue
+  ) {
+
+    showCheckoutError(
+      "Nama produk tidak ditemukan."
+    );
+
+    payButton.disabled =
+      true;
+
+    return;
+
+  }
+
+
+  if (
+    !productPriceValue ||
+    productPriceValue <= 0
+  ) {
+
+    showCheckoutError(
+      "Harga produk tidak valid."
+    );
+
+    payButton.disabled =
+      true;
+
+    return;
+
+  }
+
+
+  if (!sellerUid) {
+
+    showCheckoutError(
+      "QR ini belum memiliki ID penjual. Buat QR baru dari seller.html."
+    );
+
+    payButton.disabled =
+      true;
+
+    return;
+
+  }
+
+
+  /* =================================================
+     ELEMENT CHECKOUT
+  ================================================= */
+
+  const productName =
+    document.getElementById(
+      "productName"
+    );
+
+  const productPrice =
+    document.getElementById(
+      "productPrice"
+    );
+
+  const buyerName =
+    document.getElementById(
+      "buyerName"
+    );
+
+  const buyerPhone =
+    document.getElementById(
+      "buyerPhone"
+    );
+
+  const buyerAddress =
+    document.getElementById(
+      "buyerAddress"
+    );
+
+  const feeElement =
+    document.getElementById(
+      "fee"
+    );
+
+  const totalElement =
+    document.getElementById(
+      "total"
+    );
+
+
+  /* =================================================
+     TAMPILKAN PRODUCT
+  ================================================= */
+
+  if (productName) {
+
+    productName.textContent =
+      productNameValue;
+
+  }
+
+
+  if (productPrice) {
+
+    productPrice.textContent =
+      rupiah(
+        productPriceValue
+      );
+
+  }
+
+
+  /* =================================================
+     BUYER
+  ================================================= */
 
   const buyer =
     getBuyer();
 
-  const productName =
-    document.getElementById("productName");
 
-  const productPrice =
-    document.getElementById("productPrice");
+  if (buyer) {
 
-  const buyerName =
-    document.getElementById("buyerName");
+    if (buyerName) {
 
-  const buyerPhone =
-    document.getElementById("buyerPhone");
+      buyerName.textContent =
+        buyer.name || "";
 
-  const buyerAddress =
-    document.getElementById("buyerAddress");
+    }
 
-  const feeElement =
-    document.getElementById("fee");
+    if (buyerPhone) {
 
-  const totalElement =
-    document.getElementById("total");
+      buyerPhone.textContent =
+        buyer.phone || "";
 
-  if (productName) {
-    productName.textContent =
-      product.name || "Produk";
+    }
+
+    if (buyerAddress) {
+
+      buyerAddress.textContent =
+        buyer.address || "";
+
+    }
+
+  } else {
+
+    if (buyerName) {
+
+      buyerName.textContent =
+        "Belum diisi";
+
+    }
+
+    if (buyerPhone) {
+
+      buyerPhone.textContent =
+        "Belum diisi";
+
+    }
+
+    if (buyerAddress) {
+
+      buyerAddress.textContent =
+        "Belum diisi";
+
+    }
+
   }
 
-  if (productPrice) {
-    productPrice.textContent =
-      rupiah(product.price);
-  }
 
-  if (buyerName) {
-    buyerName.textContent =
-      buyer?.name || "Belum diisi";
-  }
-
-  if (buyerPhone) {
-    buyerPhone.textContent =
-      buyer?.phone || "Belum diisi";
-  }
-
-  if (buyerAddress) {
-    buyerAddress.textContent =
-      buyer?.address || "Belum diisi";
-  }
-
-  /*
-    Fee prototype 1%.
-    Ini BELUM merupakan fee payment gateway.
-  */
+  /* =================================================
+     FEE
+  ================================================= */
 
   const fee =
-    Math.round(Number(product.price) * 0.01);
-
-  const total =
-    Number(product.price) + fee;
-
-  if (feeElement) {
-    feeElement.textContent =
-      rupiah(fee);
-  }
-
-  if (totalElement) {
-    totalElement.textContent =
-      rupiah(total);
-  }
-
-  if (!buyer) {
-    payButton.disabled = true;
-
-    payButton.textContent =
-      "Isi Data Pembeli Dahulu";
-
-    payButton.addEventListener(
-      "click",
-      function () {
-        window.location.href =
-          "buyer.html";
-      }
+    Math.round(
+      productPriceValue *
+      FEE_PERCENT
     );
 
-    return;
+
+  const total =
+    productPriceValue +
+    fee;
+
+
+  if (feeElement) {
+
+    feeElement.textContent =
+      rupiah(fee);
+
   }
+
+
+  if (totalElement) {
+
+    totalElement.textContent =
+      rupiah(total);
+
+  }
+
+
+  /* =================================================
+     JIKA BUYER BELUM DIISI
+  ================================================= */
+
+  if (!buyer) {
+
+    payButton.disabled =
+      false;
+
+    payButton.textContent =
+      "Isi Data Pembeli";
+
+    payButton.onclick =
+      function () {
+
+        window.location.href =
+          "buyer.html";
+
+      };
+
+    return;
+
+  }
+
+
+  /* =================================================
+     CEGAH DOUBLE CLICK
+  ================================================= */
+
+  let processing =
+    false;
+
+
+  /* =================================================
+     BUTTON BAYAR
+  ================================================= */
 
   payButton.addEventListener(
     "click",
     async function () {
 
-      if (payButton.disabled) {
+      if (processing) {
         return;
       }
 
-      payButton.disabled = true;
+
+      processing =
+        true;
+
+
+      payButton.disabled =
+        true;
 
       payButton.textContent =
         "Menyimpan Pesanan...";
 
+
       try {
 
-        /*
-          Pastikan buyer memiliki
-          Firebase Anonymous Auth.
-        */
+        /* =============================================
+           VALIDASI BUYER LAGI
+        ============================================= */
 
-        const buyerUser =
-          await initFirebase();
+        const currentBuyer =
+          getBuyer();
 
-        if (!buyerUser) {
+
+        if (
+          !currentBuyer ||
+          !currentBuyer.name ||
+          !currentBuyer.phone ||
+          !currentBuyer.address
+        ) {
+
           throw new Error(
-            "Firebase Authentication gagal."
+            "Data pembeli belum lengkap. Silakan isi Data Pembeli."
           );
+
         }
 
-        if (!product.sellerUid) {
+
+        /* =============================================
+           FIREBASE ANONYMOUS
+        ============================================= */
+
+        const user =
+          await getAnonymousUser();
+
+
+        if (!user.uid) {
+
           throw new Error(
-            "ID penjual tidak ditemukan pada QR."
+            "ID pengguna tidak tersedia."
           );
+
         }
+
+
+        /* =============================================
+           ORDER ID
+        ============================================= */
 
         const orderId =
           generateOrderId();
 
+
+        /* =============================================
+           DATA ORDER
+        ============================================= */
+
         const orderData = {
 
-          orderId,
+          orderId:
+
+            orderId,
+
 
           sellerUid:
-            product.sellerUid,
+
+            sellerUid,
+
+
+          buyerUid:
+
+            user.uid,
+
 
           product: {
+
             name:
-              product.name || "",
+              productNameValue,
+
             code:
               product.code || ""
+
           },
 
+
           price:
-            Number(product.price) || 0,
 
-          fee,
+            productPriceValue,
 
-          total,
+
+          fee:
+
+            fee,
+
+
+          total:
+
+            total,
+
 
           buyerName:
-            buyer.name,
+
+            currentBuyer.name,
+
 
           buyerPhone:
-            buyer.phone,
+
+            currentBuyer.phone,
+
 
           buyerAddress:
-            buyer.address,
+
+            currentBuyer.address,
+
 
           status:
+
             "MENUNGGU_PEMBAYARAN",
 
+
           createdAt:
+
             serverTimestamp()
+
         };
 
-        /*
-          Simpan online ke Firestore.
-        */
 
-        await addDoc(
-          collection(db, "orders"),
+        console.log(
+          "Menyimpan order:",
           orderData
         );
 
-        /*
-          Simpan salinan lokal
-          supaya orders.html tetap
-          bisa menampilkan pesanan.
-        */
 
-        const localOrders =
-          JSON.parse(
-            localStorage.getItem(
-              ORDERS_KEY
-            ) || "[]"
+        /* =============================================
+           SIMPAN KE FIRESTORE
+        ============================================= */
+
+        const docRef =
+          await addDoc(
+            collection(
+              db,
+              "orders"
+            ),
+            orderData
           );
 
-        localOrders.unshift({
-          ...orderData,
-          createdAt:
-            new Date().toISOString()
-        });
 
-        localStorage.setItem(
-          ORDERS_KEY,
-          JSON.stringify(localOrders)
+        console.log(
+          "Order Firestore berhasil:",
+          docRef.id
         );
 
+
+        /* =============================================
+           BACKUP LOCAL
+        ============================================= */
+
+        saveLocalOrder({
+          ...orderData,
+
+          firestoreId:
+            docRef.id,
+
+          createdAt:
+            new Date()
+              .toISOString()
+
+        });
+
+
+        /* =============================================
+           BERHASIL
+        ============================================= */
+
+        payButton.textContent =
+          "Pesanan Berhasil";
+
+
         /*
-          Berhasil.
+          Jangan menunggu lama.
+          Langsung ke halaman pesanan.
         */
 
         window.location.href =
           "orders.html";
+
 
       } catch (error) {
 
@@ -608,24 +956,187 @@ async function initCheckoutPage() {
           error
         );
 
-        alert(
-          "Gagal menyimpan pesanan.\n\n" +
-          error.message
-        );
+
+        processing =
+          false;
+
 
         payButton.disabled =
           false;
 
         payButton.textContent =
           "Bayar Sekarang";
+
+
+        showCheckoutError(
+          "Gagal menyimpan pesanan: " +
+          error.message
+        );
+
       }
+
     }
   );
+
 }
 
-/* =========================
+
+/* =====================================================
+   LOCAL ORDER BACKUP
+===================================================== */
+
+function saveLocalOrder(order) {
+
+  try {
+
+    let orders = [];
+
+
+    try {
+
+      orders =
+        JSON.parse(
+          localStorage.getItem(
+            ORDERS_KEY
+          ) || "[]"
+        );
+
+    } catch {
+
+      orders = [];
+
+    }
+
+
+    orders.unshift(
+      order
+    );
+
+
+    /*
+      Maksimal 100 order lokal.
+    */
+
+    if (
+      orders.length >
+      100
+    ) {
+
+      orders =
+        orders.slice(
+          0,
+          100
+        );
+
+    }
+
+
+    localStorage.setItem(
+      ORDERS_KEY,
+      JSON.stringify(
+        orders
+      )
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Backup order lokal gagal:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   CHECKOUT ERROR
+===================================================== */
+
+function showCheckoutError(
+  message
+) {
+
+  console.error(
+    message
+  );
+
+
+  let box =
+    document.getElementById(
+      "checkoutError"
+    );
+
+
+  /*
+    Kalau checkout.html belum
+    mempunyai error box, buat
+    otomatis.
+  */
+
+  if (!box) {
+
+    box =
+      document.createElement(
+        "div"
+      );
+
+    box.id =
+      "checkoutError";
+
+    box.style.cssText = `
+      margin:15px 0;
+      padding:15px;
+      border-radius:10px;
+      background:#fee2e2;
+      color:#991b1b;
+      font-weight:600;
+    `;
+
+
+    const payButton =
+      document.getElementById(
+        "payButton"
+      );
+
+
+    if (
+      payButton &&
+      payButton.parentNode
+    ) {
+
+      payButton.parentNode.insertBefore(
+        box,
+        payButton
+      );
+
+    } else {
+
+      document.body.prepend(
+        box
+      );
+
+    }
+
+  }
+
+
+  box.innerHTML =
+    escapeHTML(
+      message
+    );
+
+  box.style.display =
+    "block";
+
+}
+
+
+/* =====================================================
    ORDERS PAGE
-========================= */
+===================================================== */
 
 function initOrdersPage() {
 
@@ -640,119 +1151,205 @@ function initOrdersPage() {
       "ordersList"
     );
 
+
   if (!container) {
     return;
   }
 
+
   let orders = [];
 
+
   try {
+
     orders =
       JSON.parse(
         localStorage.getItem(
           ORDERS_KEY
         ) || "[]"
       );
-  } catch (error) {
+
+  } catch {
+
     orders = [];
+
   }
+
 
   if (!orders.length) {
 
     container.innerHTML = `
       <div class="empty">
-        Belum ada pesanan.
+        <h3>Belum ada pesanan</h3>
+        <p>
+          Pesanan yang Anda buat akan muncul di sini.
+        </p>
       </div>
     `;
 
     return;
+
   }
 
+
   container.innerHTML =
-    orders.map(function (order) {
+    orders.map(
+      function (order) {
 
-      return `
-        <div class="order-card">
+        const productName =
+          order.product?.name ||
+          "Produk";
 
-          <h3>
-            ${escapeHTML(
-              order.product?.name ||
-              "Produk"
-            )}
-          </h3>
 
-          <p>
-            <strong>Order:</strong>
-            ${escapeHTML(
-              order.orderId
-            )}
-          </p>
+        return `
 
-          <p>
-            <strong>Total:</strong>
-            ${rupiah(order.total)}
-          </p>
+          <div class="order-card">
 
-          <p>
-            <strong>Status:</strong>
-            ${escapeHTML(
-              order.status
-            )}
-          </p>
+            <h3>
+              ${escapeHTML(
+                productName
+              )}
+            </h3>
 
-          <hr>
 
-          <p>
-            ${escapeHTML(
-              order.buyerName
-            )}
-          </p>
+            <p>
 
-          <p>
-            ${escapeHTML(
-              order.buyerPhone
-            )}
-          </p>
+              <strong>
+                Order:
+              </strong>
 
-          <p>
-            ${escapeHTML(
-              order.buyerAddress
-            )}
-          </p>
+              ${escapeHTML(
+                order.orderId ||
+                "-"
+              )}
 
-        </div>
-      `;
+            </p>
 
-    }).join("");
+
+            <p>
+
+              <strong>
+                Harga:
+              </strong>
+
+              ${rupiah(
+                order.price
+              )}
+
+            </p>
+
+
+            <p>
+
+              <strong>
+                Biaya SCANBELI:
+              </strong>
+
+              ${rupiah(
+                order.fee
+              )}
+
+            </p>
+
+
+            <p>
+
+              <strong>
+                Total:
+              </strong>
+
+              ${rupiah(
+                order.total
+              )}
+
+            </p>
+
+
+            <p>
+
+              <strong>
+                Status:
+              </strong>
+
+              ${escapeHTML(
+                order.status ||
+                "MENUNGGU_PEMBAYARAN"
+              )}
+
+            </p>
+
+
+            <hr>
+
+
+            <h4>
+              Data Pengiriman
+            </h4>
+
+
+            <p>
+              ${escapeHTML(
+                order.buyerName
+              )}
+            </p>
+
+
+            <p>
+              ${escapeHTML(
+                order.buyerPhone
+              )}
+            </p>
+
+
+            <p>
+              ${escapeHTML(
+                order.buyerAddress
+              )}
+            </p>
+
+
+          </div>
+
+        `;
+
+      }
+    ).join("");
+
 }
 
-/* =========================
-   PAGE START
-========================= */
+
+/* =====================================================
+   PAGE INITIALIZATION
+===================================================== */
 
 document.addEventListener(
   "DOMContentLoaded",
-  async function () {
+  function () {
 
     console.log(
-      "SCANBELI V1.5"
+      "SCANBELI V1.5 aktif"
     );
 
+
     /*
-      Buyer dan orders tidak harus
-      menunggu Firebase untuk tampil.
+      Buyer page
     */
 
     initBuyerPage();
-    initOrdersPage();
+
 
     /*
-      Seller dan checkout membutuhkan
-      Firebase.
+      Orders page
     */
 
-    await initSellerPage();
-    await initCheckoutPage();
+    initOrdersPage();
+
+
+    /*
+      Checkout page
+    */
+
+    initCheckoutPage();
 
   }
 );
