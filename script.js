@@ -488,7 +488,49 @@ async function initCheckoutPage() {
 
   }
 
+const summaryPrice =
+  document.getElementById("summaryPrice");
 
+const summaryFee =
+  document.getElementById("summaryFee");
+
+const summaryTotal =
+  document.getElementById("summaryTotal");
+
+
+const price =
+  Number(product.price) || 0;
+
+const fee =
+  Math.round(price * FEE_PERCENT);
+
+const total =
+  price + fee;
+
+
+if (summaryPrice) {
+
+  summaryPrice.textContent =
+    rupiah(price);
+
+}
+
+
+if (summaryFee) {
+
+  summaryFee.textContent =
+    rupiah(fee);
+
+}
+
+
+if (summaryTotal) {
+
+  summaryTotal.textContent =
+    rupiah(total);
+
+}
+  
   // ===================================
   // DATA PEMBELI
   // ===================================
