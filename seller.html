@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+
   <meta charset="UTF-8">
 
   <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
   >
 
   <meta
@@ -15,588 +16,1126 @@
 
   <meta
     name="description"
-    content="Buat QR produk dengan SCANBELI"
+    content="SCANBELI - Buat QR produk dengan mudah."
   >
 
   <title>Buat QR Produk — SCANBELI</title>
 
-  <link rel="stylesheet" href="style.css">
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
 
-  <!-- QR CODE LIBRARY -->
+  <!-- ===================================================
+       QR CODE LIBRARY
+  ==================================================== -->
+
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"
   ></script>
 
+
+  <style>
+
+    /* =====================================================
+       SELLER PAGE
+    ===================================================== */
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #070707;
+      color: #ffffff;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    .seller-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+
+      background: rgba(7,7,7,.94);
+
+      backdrop-filter: blur(18px);
+
+      border-bottom:
+        1px solid rgba(255,255,255,.08);
+    }
+
+    .seller-header-inner {
+      width: 100%;
+      max-width: 900px;
+
+      margin: auto;
+
+      padding: 15px 17px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 10px;
+    }
+
+    .seller-logo {
+      color: #d6ad55;
+
+      text-decoration: none;
+
+      font-size: 21px;
+
+      font-weight: 900;
+
+      letter-spacing: 2px;
+    }
+
+    .seller-header-btn {
+      color: #ffffff;
+
+      text-decoration: none;
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+      padding: 9px 12px;
+
+      border-radius: 11px;
+
+      background:
+        rgba(214,173,85,.08);
+
+      border:
+        1px solid rgba(214,173,85,.28);
+    }
+
+
+    /* =====================================================
+       MAIN
+    ===================================================== */
+
+    .seller-main {
+      width: 100%;
+
+      max-width: 700px;
+
+      margin: auto;
+
+      padding:
+        28px 17px
+        110px;
+    }
+
+
+    /* =====================================================
+       TITLE
+    ===================================================== */
+
+    .seller-hero {
+      text-align: center;
+
+      margin-bottom: 25px;
+    }
+
+    .seller-badge {
+      display: inline-block;
+
+      padding: 8px 13px;
+
+      border-radius: 999px;
+
+      color: #d6ad55;
+
+      background:
+        rgba(214,173,85,.08);
+
+      border:
+        1px solid rgba(214,173,85,.3);
+
+      font-size: 11px;
+
+      font-weight: 800;
+
+      letter-spacing: 1.5px;
+    }
+
+    .seller-hero h1 {
+      margin:
+        17px 0 10px;
+
+      font-size:
+        clamp(32px, 8vw, 48px);
+
+      line-height: 1.05;
+
+      letter-spacing: -1.5px;
+    }
+
+    .seller-hero h1 span {
+      color: #d6ad55;
+    }
+
+    .seller-hero p {
+      margin: auto;
+
+      max-width: 520px;
+
+      color: #999;
+
+      font-size: 14px;
+
+      line-height: 1.65;
+    }
+
+
+    /* =====================================================
+       CARD
+    ===================================================== */
+
+    .seller-card {
+      margin-top: 16px;
+
+      padding: 21px;
+
+      border-radius: 22px;
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(255,255,255,.07),
+          rgba(255,255,255,.025)
+        );
+
+      border:
+        1px solid rgba(255,255,255,.09);
+
+      box-shadow:
+        0 18px 50px rgba(0,0,0,.3);
+    }
+
+    .seller-card h2 {
+      margin:
+        0 0 7px;
+
+      font-size: 20px;
+    }
+
+    .seller-card-description {
+      margin:
+        0 0 19px;
+
+      color: #999;
+
+      font-size: 13px;
+
+      line-height: 1.6;
+    }
+
+
+    /* =====================================================
+       FORM
+    ===================================================== */
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      display: block;
+
+      margin-bottom: 7px;
+
+      color: #dddddd;
+
+      font-size: 13px;
+
+      font-weight: 700;
+    }
+
+    .field input {
+      width: 100%;
+
+      height: 50px;
+
+      padding:
+        0 14px;
+
+      border-radius: 13px;
+
+      border:
+        1px solid rgba(255,255,255,.1);
+
+      outline: none;
+
+      background:
+        rgba(255,255,255,.055);
+
+      color: #ffffff;
+
+      font-size: 15px;
+    }
+
+    .field input:focus {
+      border-color:
+        rgba(214,173,85,.65);
+
+      box-shadow:
+        0 0 0 3px
+        rgba(214,173,85,.08);
+    }
+
+    .field input::placeholder {
+      color: #666;
+    }
+
+    .field small {
+      display: block;
+
+      margin-top: 6px;
+
+      color: #666;
+
+      font-size: 11px;
+    }
+
+
+    /* =====================================================
+       BUTTON
+    ===================================================== */
+
+    .seller-btn {
+      width: 100%;
+
+      min-height: 51px;
+
+      border: none;
+
+      border-radius: 14px;
+
+      padding:
+        13px 17px;
+
+      cursor: pointer;
+
+      font-size: 14px;
+
+      font-weight: 900;
+
+      transition:
+        transform .15s ease,
+        opacity .15s ease;
+    }
+
+    .seller-btn:active {
+      transform: scale(.98);
+    }
+
+    .seller-btn-primary {
+      color: #070707;
+
+      background:
+        linear-gradient(
+          135deg,
+          #e3c16f,
+          #b9913e
+        );
+    }
+
+    .seller-btn-secondary {
+      color: #ffffff;
+
+      background:
+        rgba(255,255,255,.06);
+
+      border:
+        1px solid rgba(255,255,255,.12);
+    }
+
+
+    /* =====================================================
+       QR RESULT
+    ===================================================== */
+
+    #qrResult {
+      display: none;
+    }
+
+    #qrResult.active {
+      display: block;
+    }
+
+
+    /* =====================================================
+       PRODUCT INFO
+    ===================================================== */
+
+    .generated-product {
+      text-align: center;
+
+      margin-bottom: 18px;
+    }
+
+    .generated-product-label {
+      color: #777;
+
+      font-size: 10px;
+
+      font-weight: 800;
+
+      letter-spacing: 1.4px;
+
+      margin-bottom: 7px;
+    }
+
+    .generated-product-name {
+      margin: 0;
+
+      color: #ffffff;
+
+      font-size: 23px;
+
+      font-weight: 900;
+    }
+
+    .generated-product-price {
+      margin-top: 6px;
+
+      color: #d6ad55;
+
+      font-size: 18px;
+
+      font-weight: 800;
+    }
+
+
+    /* =====================================================
+       QR WRAPPER
+    ===================================================== */
+
+    .qr-area {
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      padding:
+        22px 10px;
+
+      margin:
+        0 auto 18px;
+
+      border-radius: 22px;
+
+      background:
+        rgba(0,0,0,.55);
+
+      border:
+        1px solid rgba(255,255,255,.07);
+    }
+
+
+    /*
+     * INI BAGIAN PENTING
+     *
+     * QR dibuat putih dengan ukuran tetap
+     * dan padding cukup agar mudah dibaca kamera.
+     */
+
+    #qrcode {
+      width: 264px;
+
+      height: 264px;
+
+      padding: 12px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      background: #ffffff;
+
+      border-radius: 8px;
+    }
+
+    #qrcode img {
+      display: block;
+
+      width: 240px !important;
+
+      height: 240px !important;
+
+      max-width: 240px !important;
+
+      max-height: 240px !important;
+    }
+
+    #qrcode canvas {
+      display: block;
+
+      width: 240px !important;
+
+      height: 240px !important;
+
+      max-width: 240px !important;
+
+      max-height: 240px !important;
+    }
+
+
+    /* =====================================================
+       SCAN TIP
+    ===================================================== */
+
+    .qr-tip {
+      padding: 14px;
+
+      margin-bottom: 17px;
+
+      border-radius: 14px;
+
+      background:
+        rgba(214,173,85,.07);
+
+      border:
+        1px solid rgba(214,173,85,.17);
+
+      color: #aaa;
+
+      text-align: center;
+
+      font-size: 12px;
+
+      line-height: 1.6;
+    }
+
+    .qr-tip strong {
+      color: #d6ad55;
+    }
+
+
+    /* =====================================================
+       URL
+    ===================================================== */
+
+    .qr-url-box {
+      padding: 12px;
+
+      margin-bottom: 16px;
+
+      border-radius: 12px;
+
+      background:
+        rgba(255,255,255,.035);
+
+      border:
+        1px solid rgba(255,255,255,.07);
+    }
+
+    .qr-url-label {
+      color: #777;
+
+      font-size: 10px;
+
+      font-weight: 800;
+
+      margin-bottom: 6px;
+
+      letter-spacing: 1px;
+    }
+
+    #generatedUrl {
+      display: block;
+
+      word-break: break-all;
+
+      color: #aaa;
+
+      font-size: 11px;
+
+      line-height: 1.5;
+    }
+
+
+    /* =====================================================
+       ERROR
+    ===================================================== */
+
+    .seller-error {
+      display: none;
+
+      margin-top: 12px;
+
+      padding: 13px;
+
+      border-radius: 12px;
+
+      background:
+        rgba(255,70,70,.08);
+
+      border:
+        1px solid rgba(255,70,70,.18);
+
+      color: #ffb0b0;
+
+      font-size: 13px;
+
+      line-height: 1.5;
+    }
+
+    .seller-error.active {
+      display: block;
+    }
+
+
+    /* =====================================================
+       BOTTOM NAV
+    ===================================================== */
+
+    .seller-bottom {
+      position: fixed;
+
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      z-index: 90;
+
+      background:
+        rgba(7,7,7,.96);
+
+      backdrop-filter:
+        blur(20px);
+
+      border-top:
+        1px solid rgba(255,255,255,.08);
+    }
+
+    .seller-bottom-inner {
+      width: 100%;
+
+      max-width: 700px;
+
+      margin: auto;
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(4,1fr);
+
+      padding:
+        9px 7px
+        calc(
+          9px +
+          env(safe-area-inset-bottom)
+        );
+    }
+
+    .seller-nav-item {
+      text-align: center;
+
+      color: #777;
+
+      text-decoration: none;
+
+      font-size: 11px;
+
+      line-height: 1.4;
+    }
+
+    .seller-nav-item-icon {
+      display: block;
+
+      font-size: 20px;
+
+      margin-bottom: 3px;
+    }
+
+    .seller-nav-item.active {
+      color: #d6ad55;
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ===================================================== */
+
+    @media (max-width: 380px) {
+
+      #qrcode {
+        width: 244px;
+        height: 244px;
+      }
+
+      #qrcode img,
+      #qrcode canvas {
+        width: 220px !important;
+        height: 220px !important;
+      }
+
+      .seller-card {
+        padding: 17px;
+      }
+
+    }
+
+  </style>
+
 </head>
 
+
 <body>
+
 
 <!-- =====================================================
      HEADER
 ===================================================== -->
 
-<header class="header">
+<header class="seller-header">
 
-  <div class="container header-inner">
+  <div class="seller-header-inner">
 
-    <a href="index.html" class="logo">
+    <a
+      href="index.html"
+      class="seller-logo"
+    >
       SCANBELI
     </a>
 
-    <nav class="nav">
-
-      <a href="index.html">
-        Beranda
-      </a>
-
-      <a href="orders.html">
-        Pesanan
-      </a>
-
-      <a href="seller-orders.html">
-        Pesanan Masuk
-      </a>
-
-    </nav>
+    <a
+      href="seller-orders.html"
+      class="seller-header-btn"
+    >
+      📦 Pesanan Masuk
+    </a>
 
   </div>
 
 </header>
 
 
+
 <!-- =====================================================
      MAIN
 ===================================================== -->
 
-<main class="page-container">
+<main class="seller-main">
 
-  <div class="container">
 
-    <!-- PAGE HEADER -->
+  <!-- HERO -->
 
-    <div class="page-header">
+  <section class="seller-hero">
 
-      <div class="hero-badge">
-        ✦ SELLER CENTER
-      </div>
+    <div class="seller-badge">
+      ✦ UNTUK PENJUAL
+    </div>
 
-      <h1>
-        Buat QR
-        <span style="color:#d6ad55;">
-          Produk
-        </span>
-      </h1>
+    <h1>
+      Buat QR
+      <br>
+      <span>Produk Anda.</span>
+    </h1>
 
-      <p>
-        Buat QR khusus untuk produk Anda dan
-        bagikan kepada pelanggan.
-      </p>
+    <p>
+      Pembeli cukup scan QR ini untuk melihat
+      produk, checkout, dan melakukan pembayaran.
+    </p>
+
+  </section>
+
+
+
+  <!-- ===================================================
+       FORM PRODUK
+  ==================================================== -->
+
+  <section
+    id="productFormCard"
+    class="seller-card"
+  >
+
+    <h2>
+      🏷️ Data Produk
+    </h2>
+
+    <p class="seller-card-description">
+      Masukkan data produk. Setelah QR dibuat,
+      Anda bisa menyimpannya dan membagikannya
+      kepada pembeli.
+    </p>
+
+
+    <!-- NAMA -->
+
+    <div class="field">
+
+      <label for="productName">
+        Nama Produk
+      </label>
+
+      <input
+        id="productName"
+        type="text"
+        placeholder="Contoh: Kaos Anime"
+        maxlength="100"
+        autocomplete="off"
+      >
 
     </div>
 
 
-    <!-- =================================================
-         SELLER PANEL
-    ================================================== -->
+    <!-- HARGA -->
 
-    <section class="seller-panel">
+    <div class="field">
 
-      <div
-        style="
-          margin-bottom:25px;
-          padding-bottom:20px;
-          border-bottom:1px solid rgba(255,255,255,.07);
-        "
+      <label for="productPrice">
+        Harga Produk
+      </label>
+
+      <input
+        id="productPrice"
+        type="number"
+        inputmode="numeric"
+        min="1"
+        step="1"
+        placeholder="100000"
       >
 
-        <div
-          style="
-            font-size:11px;
-            color:#d6ad55;
-            font-weight:900;
-            letter-spacing:1.5px;
-            margin-bottom:6px;
-          "
-        >
-          QR PRODUK
-        </div>
+      <small>
+        Contoh: 100000 untuk Rp100.000
+      </small>
 
-        <h2
-          style="
-            font-size:24px;
-            margin-bottom:6px;
-          "
-        >
-          Buat QR baru
-        </h2>
-
-        <p
-          style="
-            color:#777;
-            font-size:13px;
-          "
-        >
-          Pelanggan akan diarahkan langsung
-          ke halaman checkout produk.
-        </p>
-
-      </div>
+    </div>
 
 
-      <!-- =================================================
-           PRODUCT FORM
-      ================================================== -->
+    <!-- KODE -->
 
-      <form id="productForm">
+    <div class="field">
 
+      <label for="productCode">
+        Kode Produk
+        <span style="color:#666;">
+          (opsional)
+        </span>
+      </label>
 
-        <!-- NAMA PRODUK -->
-
-        <div class="form-group">
-
-          <label for="productName">
-            Nama Produk
-          </label>
-
-          <input
-            type="text"
-            id="productName"
-            name="productName"
-            placeholder="Contoh: Kaos Anime"
-            maxlength="100"
-            required
-          >
-
-        </div>
-
-
-        <!-- HARGA -->
-
-        <div class="form-group">
-
-          <label for="productPrice">
-            Harga Produk
-          </label>
-
-          <input
-            type="number"
-            id="productPrice"
-            name="productPrice"
-            placeholder="Contoh: 100000"
-            min="1"
-            step="1"
-            inputmode="numeric"
-            required
-          >
-
-          <div
-            style="
-              margin-top:6px;
-              color:#666;
-              font-size:11px;
-            "
-          >
-            Masukkan harga dalam Rupiah.
-          </div>
-
-        </div>
-
-
-        <!-- KODE -->
-
-        <div class="form-group">
-
-          <label for="productCode">
-            Kode Produk
-          </label>
-
-          <input
-            type="text"
-            id="productCode"
-            name="productCode"
-            placeholder="Contoh: KAOS001"
-            maxlength="50"
-            required
-          >
-
-        </div>
-
-
-        <!-- BUTTON -->
-
-        <button
-          type="submit"
-          id="generateQR"
-          class="btn btn-primary"
-          style="
-            width:100%;
-            min-height:55px;
-            margin-top:5px;
-          "
-        >
-          ✦ BUAT QR PRODUK
-        </button>
-
-      </form>
-
-
-      <!-- =================================================
-           QR RESULT
-      ================================================== -->
-
-      <div
-        id="qrResult"
-        style="
-          display:none;
-          margin-top:30px;
-          padding-top:30px;
-          border-top:1px solid rgba(255,255,255,.08);
-        "
+      <input
+        id="productCode"
+        type="text"
+        placeholder="Contoh: KAOS001"
+        maxlength="50"
+        autocomplete="off"
       >
 
-        <div
-          style="
-            text-align:center;
-            margin-bottom:20px;
-          "
-        >
-
-          <div
-            class="hero-badge"
-            style="
-              margin-bottom:12px;
-            "
-          >
-            QR BERHASIL DIBUAT
-          </div>
-
-          <h2
-            id="qrProductName"
-            style="
-              font-size:23px;
-              margin-bottom:5px;
-            "
-          >
-            —
-          </h2>
-
-          <p
-            id="qrProductPrice"
-            style="
-              color:#d6ad55;
-              font-size:18px;
-              font-weight:800;
-            "
-          >
-            Rp 0
-          </p>
-
-        </div>
+    </div>
 
 
-        <!-- QR -->
-
-        <div
-          id="qrcode"
-          class="qr-container"
-        ></div>
-
-
-        <!-- QR INFO -->
-
-        <div
-          style="
-            margin-top:20px;
-            padding:15px;
-            background:rgba(255,255,255,.025);
-            border:1px solid rgba(255,255,255,.07);
-            border-radius:15px;
-            text-align:center;
-          "
-        >
-
-          <div
-            style="
-              color:#666;
-              font-size:11px;
-              margin-bottom:5px;
-            "
-          >
-            KODE PRODUK
-          </div>
-
-          <strong
-            id="qrProductCode"
-            style="
-              color:#fff;
-              font-size:15px;
-              letter-spacing:1px;
-            "
-          >
-            —
-          </strong>
-
-        </div>
+    <button
+      id="createQR"
+      type="button"
+      class="seller-btn seller-btn-primary"
+    >
+      ✦ BUAT QR PRODUK
+    </button>
 
 
-        <!-- ACTION -->
+    <div
+      id="formError"
+      class="seller-error"
+    ></div>
 
-        <div
-          class="hero-actions"
-          style="
-            margin-top:20px;
-            justify-content:center;
-          "
-        >
-
-          <button
-            type="button"
-            id="downloadQR"
-            class="btn btn-primary"
-          >
-            ↓ SIMPAN QR
-          </button>
-
-          <button
-            type="button"
-            id="shareQR"
-            class="btn btn-secondary"
-          >
-            ↗ BAGIKAN
-          </button>
-
-        </div>
+  </section>
 
 
-        <!-- URL -->
 
-        <div
-          style="
-            margin-top:18px;
-            padding:13px;
-            background:rgba(255,255,255,.025);
-            border-radius:12px;
-            word-break:break-all;
-            text-align:center;
-            color:#666;
-            font-size:10px;
-          "
-        >
+  <!-- ===================================================
+       QR RESULT
+  ==================================================== -->
 
-          <span id="qrUrl">
-            —
-          </span>
+  <section
+    id="qrResult"
+    class="seller-card"
+  >
 
-        </div>
+    <div class="generated-product">
 
+      <div class="generated-product-label">
+        QR PRODUK SIAP DIGUNAKAN
       </div>
 
-    </section>
+      <h2
+        id="generatedProductName"
+        class="generated-product-name"
+      >
+        -
+      </h2>
+
+      <div
+        id="generatedProductPrice"
+        class="generated-product-price"
+      >
+        Rp0
+      </div>
+
+    </div>
 
 
-    <!-- =================================================
-         SELLER INFORMATION
-    ================================================== -->
+    <!-- QR -->
 
-    <section
-      class="section"
+    <div class="qr-area">
+
+      <div id="qrcode"></div>
+
+    </div>
+
+
+    <!-- PETUNJUK -->
+
+    <div class="qr-tip">
+
+      📱 <strong>Tips agar mudah di-scan</strong>
+
+      <br>
+
+      Cetak atau tampilkan QR dengan ukuran
+      cukup besar, jangan dipotong, dan jangan
+      menutupi bagian putih di sekitar QR.
+
+    </div>
+
+
+    <!-- URL -->
+
+    <div class="qr-url-box">
+
+      <div class="qr-url-label">
+        LINK CHECKOUT
+      </div>
+
+      <span id="generatedUrl">
+        -
+      </span>
+
+    </div>
+
+
+    <!-- DOWNLOAD -->
+
+    <button
+      id="downloadQR"
+      type="button"
+      class="seller-btn seller-btn-primary"
+    >
+      ⬇️ SIMPAN QR KE HP
+    </button>
+
+
+    <!-- BUAT BARU -->
+
+    <button
+      id="newQR"
+      type="button"
+      class="seller-btn seller-btn-secondary"
+    >
+      ＋ BUAT QR PRODUK LAIN
+    </button>
+
+
+    <!-- SCAN TEST -->
+
+    <a
+      href="scan.html"
+      class="seller-btn seller-btn-secondary"
       style="
-        padding-bottom:0;
+        display:block;
+        text-align:center;
+        text-decoration:none;
+        margin-top:10px;
       "
     >
+      📷 TEST SCAN QR
+    </a>
 
-      <div class="section-header">
-
-        <div class="hero-badge">
-          TIPS
-        </div>
-
-        <h2>
-          Gunakan QR
-          <span style="color:#d6ad55;">
-            di mana saja.
-          </span>
-        </h2>
-
-      </div>
+  </section>
 
 
-      <div class="features">
-
-        <div class="feature-card">
-
-          <div class="feature-icon">
-            📦
-          </div>
-
-          <h3>
-            Kemasan
-          </h3>
-
-          <p>
-            Tempel QR pada kemasan produk
-            agar pelanggan mudah melakukan
-            pembelian.
-          </p>
-
-        </div>
-
-
-        <div class="feature-card">
-
-          <div class="feature-icon">
-            📱
-          </div>
-
-          <h3>
-            Media Sosial
-          </h3>
-
-          <p>
-            Bagikan QR kepada pelanggan
-            melalui WhatsApp atau media sosial.
-          </p>
-
-        </div>
-
-
-        <div class="feature-card">
-
-          <div class="feature-icon">
-            🏪
-          </div>
-
-          <h3>
-            Toko
-          </h3>
-
-          <p>
-            Tampilkan QR di meja kasir,
-            etalase, banner, atau katalog.
-          </p>
-
-        </div>
-
-      </div>
-
-    </section>
-
-  </div>
 
 </main>
 
 
+
 <!-- =====================================================
-     FOOTER
+     BOTTOM NAV
 ===================================================== -->
 
-<footer class="footer">
+<nav class="seller-bottom">
 
-  <div class="container">
+  <div class="seller-bottom-inner">
 
-    <div
-      style="
-        font-size:19px;
-        font-weight:900;
-        letter-spacing:2px;
-        color:#d6ad55;
-        margin-bottom:7px;
-      "
+    <a
+      href="index.html"
+      class="seller-nav-item"
     >
-      SCANBELI
-    </div>
 
-    <p>
-      Scan QR. Checkout. Selesai.
-    </p>
+      <span class="seller-nav-item-icon">
+        🏠
+      </span>
 
-    <p style="margin-top:10px;">
-      © 2026 SCANBELI
-    </p>
+      Beranda
+
+    </a>
+
+
+    <a
+      href="scan.html"
+      class="seller-nav-item"
+    >
+
+      <span class="seller-nav-item-icon">
+        📷
+      </span>
+
+      Scan
+
+    </a>
+
+
+    <a
+      href="seller.html"
+      class="seller-nav-item active"
+    >
+
+      <span class="seller-nav-item-icon">
+        ＋
+      </span>
+
+      Buat QR
+
+    </a>
+
+
+    <a
+      href="seller-orders.html"
+      class="seller-nav-item"
+    >
+
+      <span class="seller-nav-item-icon">
+        📦
+      </span>
+
+      Pesanan
+
+    </a>
 
   </div>
 
-</footer>
+</nav>
+
 
 
 <!-- =====================================================
-     FIREBASE + QR LOGIC
+     JAVASCRIPT
 ===================================================== -->
 
-<script type="module">
+<script>
 
-import {
-  initAnonymousAuth
-} from "./firebase.js";
+"use strict";
 
 
 /* =====================================================
    ELEMENT
 ===================================================== */
 
-const form =
-  document.getElementById("productForm");
-
 const productNameInput =
-  document.getElementById("productName");
-
-const productPriceInput =
-  document.getElementById("productPrice");
-
-const productCodeInput =
-  document.getElementById("productCode");
-
-const qrResult =
-  document.getElementById("qrResult");
-
-const qrcodeElement =
-  document.getElementById("qrcode");
-
-const qrProductName =
-  document.getElementById("qrProductName");
-
-const qrProductPrice =
-  document.getElementById("qrProductPrice");
-
-const qrProductCode =
-  document.getElementById("qrProductCode");
-
-const qrUrl =
-  document.getElementById("qrUrl");
-
-const downloadQR =
-  document.getElementById("downloadQR");
-
-const shareQR =
-  document.getElementById("shareQR");
-
-
-/* =====================================================
-   FIREBASE USER
-===================================================== */
-
-let sellerUser = null;
-
-try {
-
-  sellerUser =
-    await initAnonymousAuth();
-
-} catch (error) {
-
-  console.error(
-    "Firebase Auth Error:",
-    error
+  document.getElementById(
+    "productName"
   );
 
-}
+const productPriceInput =
+  document.getElementById(
+    "productPrice"
+  );
+
+const productCodeInput =
+  document.getElementById(
+    "productCode"
+  );
+
+const createQRButton =
+  document.getElementById(
+    "createQR"
+  );
+
+const formError =
+  document.getElementById(
+    "formError"
+  );
+
+const productFormCard =
+  document.getElementById(
+    "productFormCard"
+  );
+
+const qrResult =
+  document.getElementById(
+    "qrResult"
+  );
+
+const generatedProductName =
+  document.getElementById(
+    "generatedProductName"
+  );
+
+const generatedProductPrice =
+  document.getElementById(
+    "generatedProductPrice"
+  );
+
+const generatedUrl =
+  document.getElementById(
+    "generatedUrl"
+  );
+
+const qrcode =
+  document.getElementById(
+    "qrcode"
+  );
+
+const downloadQRButton =
+  document.getElementById(
+    "downloadQR"
+  );
+
+const newQRButton =
+  document.getElementById(
+    "newQR"
+  );
 
 
 /* =====================================================
-   FORMAT RUPIAH
+   STATE
 ===================================================== */
 
-function formatRupiah(value) {
+let currentQRData = null;
+
+let currentQRUrl = null;
+
+
+/* =====================================================
+   RUPIAH
+===================================================== */
+
+function rupiah(value) {
 
   return new Intl.NumberFormat(
     "id-ID",
@@ -605,33 +1144,116 @@ function formatRupiah(value) {
       currency: "IDR",
       maximumFractionDigits: 0
     }
-  ).format(value);
+  ).format(
+    Number(value) || 0
+  );
 
 }
 
 
 /* =====================================================
-   ENCODE PRODUCT
+   ESCAPE
 ===================================================== */
 
-function encodeProduct(product) {
+function escapeHTML(value) {
+
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* =====================================================
+   BASE64 UNICODE
+===================================================== */
+
+function encodeProduct(data) {
 
   const json =
-    JSON.stringify(product);
+    JSON.stringify(data);
 
   const bytes =
     new TextEncoder().encode(json);
 
   let binary = "";
 
-  bytes.forEach(byte => {
-
-    binary +=
-      String.fromCharCode(byte);
-
-  });
+  bytes.forEach(
+    byte => {
+      binary += String.fromCharCode(byte);
+    }
+  );
 
   return btoa(binary);
+
+}
+
+
+/* =====================================================
+   CREATE CHECKOUT URL
+===================================================== */
+
+function createCheckoutURL(data) {
+
+  /*
+   * Mengambil alamat GitHub Pages
+   * secara otomatis.
+   *
+   * Tidak perlu mengubah URL manual.
+   */
+
+  const checkoutURL =
+    new URL(
+      "checkout.html",
+      window.location.href
+    );
+
+
+  const encoded =
+    encodeProduct(data);
+
+
+  checkoutURL.searchParams.set(
+    "product",
+    encoded
+  );
+
+
+  return checkoutURL.toString();
+
+}
+
+
+/* =====================================================
+   SHOW ERROR
+===================================================== */
+
+function showError(message) {
+
+  formError.innerHTML =
+    message;
+
+  formError.classList.add(
+    "active"
+  );
+
+}
+
+
+/* =====================================================
+   HIDE ERROR
+===================================================== */
+
+function hideError() {
+
+  formError.classList.remove(
+    "active"
+  );
+
+  formError.innerHTML = "";
 
 }
 
@@ -640,173 +1262,167 @@ function encodeProduct(product) {
    CREATE QR
 ===================================================== */
 
-form.addEventListener(
-  "submit",
-  function(event) {
+createQRButton.addEventListener(
+  "click",
+  function() {
 
-    event.preventDefault();
+    hideError();
 
 
     const name =
       productNameInput.value.trim();
 
     const price =
-      Number(productPriceInput.value);
+      Number(
+        productPriceInput.value
+      );
 
     const code =
       productCodeInput.value.trim();
 
 
+    /* VALIDASI */
+
     if (!name) {
 
-      alert(
+      showError(
         "Nama produk wajib diisi."
       );
 
       productNameInput.focus();
 
       return;
+
     }
 
 
     if (
-      !Number.isFinite(price) ||
+      !price ||
       price <= 0
     ) {
 
-      alert(
-        "Harga produk tidak valid."
+      showError(
+        "Harga produk harus lebih dari Rp0."
       );
 
       productPriceInput.focus();
 
       return;
+
     }
 
 
-    if (!code) {
+    /* DATA PRODUK */
 
-      alert(
-        "Kode produk wajib diisi."
-      );
-
-      productCodeInput.focus();
-
-      return;
-    }
-
-
-    if (!sellerUser) {
-
-      alert(
-        "Koneksi akun belum siap. Silakan coba lagi."
-      );
-
-      return;
-    }
-
-
-    /* ===============================================
-       PRODUCT OBJECT
-    =============================================== */
-
-    const product = {
+    currentQRData = {
 
       name: name,
 
       price: price,
 
-      code: code,
-
-      sellerUid:
-        sellerUser.uid
+      code: code
 
     };
 
 
-    /* ===============================================
-       CREATE CHECKOUT URL
-    =============================================== */
+    /* URL CHECKOUT */
 
-    const encoded =
-      encodeProduct(product);
-
-
-    const url =
-      new URL(
-        "checkout.html",
-        window.location.href
+    currentQRUrl =
+      createCheckoutURL(
+        currentQRData
       );
 
 
-    url.searchParams.set(
-      "product",
-      encoded
-    );
+    /* TAMPILKAN INFO */
 
-
-    const checkoutUrl =
-      url.toString();
-
-
-    /* ===============================================
-       SHOW QR
-    =============================================== */
-
-    qrcodeElement.innerHTML = "";
-
-    new QRCode(
-      qrcodeElement,
-      {
-        text: checkoutUrl,
-
-        width: 220,
-
-        height: 220,
-
-        colorDark: "#000000",
-
-        colorLight: "#ffffff",
-
-        correctLevel:
-          QRCode.CorrectLevel.H
-      }
-    );
-
-
-    /* ===============================================
-       UPDATE UI
-    =============================================== */
-
-    qrProductName.textContent =
+    generatedProductName.textContent =
       name;
 
-    qrProductPrice.textContent =
-      formatRupiah(price);
+    generatedProductPrice.textContent =
+      rupiah(price);
 
-    qrProductCode.textContent =
-      code;
-
-    qrUrl.textContent =
-      checkoutUrl;
+    generatedUrl.textContent =
+      currentQRUrl;
 
 
-    qrResult.style.display =
-      "block";
+    /* BERSIHKAN QR LAMA */
+
+    qrcode.innerHTML = "";
 
 
-    /* ===============================================
-       SCROLL
-    =============================================== */
+    /*
+     * ===============================================
+     * QR CODE
+     * ===============================================
+     *
+     * Ukuran sebenarnya 240x240.
+     *
+     * Error correction H = tinggi.
+     *
+     * margin = 12px.
+     */
 
-    setTimeout(() => {
+    try {
 
-      qrResult.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
+      new QRCode(
+        qrcode,
+        {
+          text: currentQRUrl,
 
-    }, 100);
+          width: 240,
+
+          height: 240,
+
+          colorDark: "#000000",
+
+          colorLight: "#ffffff",
+
+          correctLevel:
+            QRCode.CorrectLevel.H
+        }
+      );
+
+    } catch (error) {
+
+      console.error(
+        "QR ERROR:",
+        error
+      );
+
+      showError(
+        "QR gagal dibuat. Muat ulang halaman lalu coba lagi."
+      );
+
+      return;
+
+    }
+
+
+    /* TAMPILKAN HASIL */
+
+    productFormCard.style.display =
+      "none";
+
+    qrResult.classList.add(
+      "active"
+    );
+
+
+    /*
+     * Scroll otomatis ke QR.
+     */
+
+    setTimeout(
+      function() {
+
+        qrResult.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+
+      },
+      100
+    );
 
   }
 );
@@ -816,158 +1432,210 @@ form.addEventListener(
    DOWNLOAD QR
 ===================================================== */
 
-downloadQR.addEventListener(
+downloadQRButton.addEventListener(
   "click",
   function() {
 
+    if (!qrcode) {
+      return;
+    }
+
+
     const canvas =
-      qrcodeElement.querySelector(
+      qrcode.querySelector(
         "canvas"
       );
 
     const image =
-      qrcodeElement.querySelector(
+      qrcode.querySelector(
         "img"
       );
 
 
-    let dataUrl = null;
+    let source = null;
 
 
     if (canvas) {
 
-      dataUrl =
+      source =
         canvas.toDataURL(
           "image/png"
         );
 
     } else if (image) {
 
-      dataUrl =
+      source =
         image.src;
 
     }
 
 
-    if (!dataUrl) {
+    if (!source) {
 
       alert(
-        "QR belum tersedia."
+        "QR belum siap. Silakan buat QR terlebih dahulu."
       );
 
       return;
+
     }
 
 
-    const link =
-      document.createElement("a");
+    /*
+     * Buat canvas 600x600 agar QR
+     * hasil simpan tetap tajam ketika
+     * dicetak atau diperbesar.
+     */
+
+    const output =
+      document.createElement(
+        "canvas"
+      );
+
+    output.width = 600;
+    output.height = 600;
 
 
-    link.href =
-      dataUrl;
-
-    link.download =
-      "SCANBELI-QR-" +
-      (
-        productCodeInput.value
-        .trim() ||
-        "produk"
-      ) +
-      ".png";
+    const ctx =
+      output.getContext(
+        "2d"
+      );
 
 
-    document.body.appendChild(
-      link
+    /*
+     * Background putih.
+     */
+
+    ctx.fillStyle =
+      "#ffffff";
+
+    ctx.fillRect(
+      0,
+      0,
+      600,
+      600
     );
 
-    link.click();
 
-    link.remove();
+    const img =
+      new Image();
+
+
+    img.onload =
+      function() {
+
+        /*
+         * QR 520x520
+         * dengan quiet zone 40px.
+         */
+
+        ctx.drawImage(
+          img,
+          40,
+          40,
+          520,
+          520
+        );
+
+
+        const link =
+          document.createElement(
+            "a"
+          );
+
+
+        link.download =
+          "SCANBELI-" +
+          (
+            currentQRData?.code ||
+            "QR"
+          ) +
+          ".png";
+
+
+        link.href =
+          output.toDataURL(
+            "image/png"
+          );
+
+
+        link.click();
+
+      };
+
+
+    img.src =
+      source;
 
   }
 );
 
 
 /* =====================================================
-   SHARE QR / URL
+   BUAT QR BARU
 ===================================================== */
 
-shareQR.addEventListener(
+newQRButton.addEventListener(
   "click",
-  async function() {
+  function() {
 
-    const url =
-      qrUrl.textContent.trim();
+    qrResult.classList.remove(
+      "active"
+    );
 
-
-    if (!url || url === "—") {
-
-      alert(
-        "QR belum dibuat."
-      );
-
-      return;
-    }
+    productFormCard.style.display =
+      "block";
 
 
-    const productName =
-      productNameInput.value.trim();
+    qrcode.innerHTML =
+      "";
 
 
-    const shareData = {
-
-      title:
-        "Beli " +
-        productName +
-        " di SCANBELI",
-
-      text:
-        "Silakan checkout produk " +
-        productName +
-        " melalui SCANBELI.",
-
-      url:
-        url
-
-    };
+    productNameInput.focus();
 
 
-    try {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
 
-      if (
-        navigator.share
-      ) {
+  }
+);
 
-        await navigator.share(
-          shareData
-        );
 
-        return;
+/* =====================================================
+   ENTER = BUAT QR
+===================================================== */
+
+[
+  productNameInput,
+  productPriceInput,
+  productCodeInput
+].forEach(
+  input => {
+
+    input.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (
+          event.key === "Enter"
+        ) {
+
+          event.preventDefault();
+
+          createQRButton.click();
+
+        }
+
       }
-
-
-      await navigator.clipboard.writeText(
-        url
-      );
-
-
-      alert(
-        "Link checkout berhasil disalin."
-      );
-
-    } catch (error) {
-
-      console.log(
-        "Share dibatalkan:",
-        error
-      );
-
-    }
+    );
 
   }
 );
 
 </script>
+
 
 </body>
 </html>
