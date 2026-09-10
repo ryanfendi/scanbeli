@@ -1,429 +1,117 @@
-import {
-  collection,
-  query,
-  where,
-  getDocs
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+<!DOCTYPE html>
+<html lang="id">
 
-import {
-  db,
-  initAnonymousAuth
-} from "./firebase.js";
+<head>
 
+  <meta charset="UTF-8">
 
-const loading =
-  document.getElementById("loading");
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-const error =
-  document.getElementById("error");
+  <title>Pesanan Masuk - SCANBELI</title>
 
-const empty =
-  document.getElementById("empty");
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
 
-const container =
-  document.getElementById("ordersContainer");
+</head>
 
 
-// =====================================
-// RUPIAH
-// =====================================
+<body>
 
-function rupiah(value) {
 
-  return new Intl.NumberFormat(
-    "id-ID",
-    {
-      style: "currency",
-      currency: "IDR",
-      maximumFractionDigits: 0
-    }
-  ).format(Number(value) || 0);
+<header class="header">
 
-}
+  <div class="container header-inner">
 
+    <a
+      href="index.html"
+      class="logo"
+    >
+      SCANBELI
+    </a>
 
-// =====================================
-// ESCAPE HTML
-// =====================================
 
-function escapeHTML(value) {
+    <nav class="nav">
 
-  return String(value ?? "")
+      <a href="index.html">
+        Beranda
+      </a>
 
-    .replaceAll("&", "&amp;")
+      <a href="seller.html">
+        Buat QR
+      </a>
 
-    .replaceAll("<", "&lt;")
+    </nav>
 
-    .replaceAll(">", "&gt;")
+  </div>
 
-    .replaceAll('"', "&quot;")
+</header>
 
-    .replaceAll("'", "&#039;");
 
-}
 
+<main class="container page-container">
 
-// =====================================
-// FORMAT STATUS
-// =====================================
 
-function statusText(status) {
+  <section class="page-header">
 
-  const map = {
+    <h1>
+      Pesanan Masuk
+    </h1>
 
-    MENUNGGU_PEMBAYARAN:
-      "Menunggu Pembayaran",
+    <p>
+      Pesanan yang masuk melalui QR produk Anda.
+    </p>
 
-    DIBAYAR:
-      "Sudah Dibayar",
+  </section>
 
-    DIPROSES:
-      "Sedang Diproses",
 
-    DIKIRIM:
-      "Dikirim",
 
-    SELESAI:
-      "Selesai",
+  <div
+    id="loading"
+    class="loading"
+  >
+    Memuat pesanan...
+  </div>
 
-    DIBATALKAN:
-      "Dibatalkan"
 
-  };
 
+  <div
+    id="error"
+  ></div>
 
-  return map[status] ||
-    status ||
-    "Tidak diketahui";
 
-}
 
+  <div
+    id="empty"
+    class="empty-state"
+    style="display:none;"
+  >
 
-// =====================================
-// LOAD ORDERS
-// =====================================
+    Belum ada pesanan masuk.
 
-async function loadOrders() {
+  </div>
 
-  try {
 
-    loading.style.display =
-      "block";
 
-    error.innerHTML = "";
+  <div
+    id="ordersContainer"
+  ></div>
 
-    empty.style.display =
-      "none";
 
+</main>
 
-    // Login anonymous
-    const user =
-      await initAnonymousAuth();
 
 
-    console.log(
-      "Seller UID:",
-      user.uid
-    );
+<script
+  type="module"
+  src="./seller-orders.js"
+></script>
 
 
-    // Ambil order milik seller
-    const q =
-      query(
+</body>
 
-        collection(
-          db,
-          "orders"
-        ),
-
-        where(
-          "sellerUid",
-          "==",
-          user.uid
-        )
-
-      );
-
-
-    const snapshot =
-      await getDocs(q);
-
-
-    loading.style.display =
-      "none";
-
-
-    if (snapshot.empty) {
-
-      empty.style.display =
-        "block";
-
-      return;
-
-    }
-
-
-    let orders = [];
-
-
-    snapshot.forEach(
-      doc => {
-
-        orders.push({
-
-          id: doc.id,
-
-          ...doc.data()
-
-        });
-
-      }
-    );
-
-
-    // Sort terbaru di atas
-    orders.sort(
-      (a, b) => {
-
-        const aTime =
-          a.createdAt?.seconds ||
-          0;
-
-        const bTime =
-          b.createdAt?.seconds ||
-          0;
-
-        return bTime - aTime;
-
-      }
-    );
-
-
-    renderOrders(orders);
-
-
-  } catch (err) {
-
-    console.error(err);
-
-
-    loading.style.display =
-      "none";
-
-
-    error.innerHTML = `
-
-      <div class="error-box">
-
-        <strong>
-          Gagal memuat pesanan
-        </strong>
-
-        <p>
-          ${escapeHTML(
-            err.message
-          )}
-        </p>
-
-      </div>
-
-    `;
-
-  }
-
-}
-
-
-// =====================================
-// RENDER
-// =====================================
-
-function renderOrders(orders) {
-
-  container.innerHTML =
-    "";
-
-
-  orders.forEach(
-    order => {
-
-      const product =
-        order.product || {};
-
-
-      const card =
-        document.createElement(
-          "div"
-        );
-
-
-      card.className =
-        "order-card";
-
-
-      card.innerHTML = `
-
-        <div class="order-header">
-
-          <div>
-
-            <strong>
-              ${escapeHTML(
-                product.name ||
-                "Produk"
-              )}
-            </strong>
-
-            ${
-              product.code
-                ? `
-                  <small>
-                    ${escapeHTML(
-                      product.code
-                    )}
-                  </small>
-                `
-                : ""
-            }
-
-          </div>
-
-          <span class="status-badge">
-
-            ${escapeHTML(
-              statusText(
-                order.status
-              )
-            )}
-
-          </span>
-
-        </div>
-
-
-        <div class="order-info">
-
-          <p>
-
-            <strong>
-              Order
-            </strong>
-
-            <br>
-
-            ${escapeHTML(
-              order.orderId
-            )}
-
-          </p>
-
-
-          <p>
-
-            <strong>
-              Pembeli
-            </strong>
-
-            <br>
-
-            ${escapeHTML(
-              order.buyerName
-            )}
-
-          </p>
-
-
-          <p>
-
-            <strong>
-              Nomor HP
-            </strong>
-
-            <br>
-
-            ${escapeHTML(
-              order.buyerPhone
-            )}
-
-          </p>
-
-
-          <p>
-
-            <strong>
-              Alamat Pengiriman
-            </strong>
-
-            <br>
-
-            ${escapeHTML(
-              order.buyerAddress
-            )}
-
-          </p>
-
-
-          <p>
-
-            <strong>
-              Harga Produk
-            </strong>
-
-            <br>
-
-            ${rupiah(
-              order.price
-            )}
-
-          </p>
-
-
-          <p>
-
-            <strong>
-              Fee SCANBELI
-            </strong>
-
-            <br>
-
-            ${rupiah(
-              order.fee
-            )}
-
-          </p>
-
-
-          <p class="order-total">
-
-            <strong>
-              Total
-            </strong>
-
-            <br>
-
-            ${rupiah(
-              order.total
-            )}
-
-          </p>
-
-        </div>
-
-      `;
-
-
-      container.appendChild(
-        card
-      );
-
-    }
-  );
-
-}
-
-
-// =====================================
-// START
-// =====================================
-
-loadOrders();
+</html>
