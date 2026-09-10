@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
 
   <meta charset="UTF-8">
@@ -18,26 +19,42 @@
 
 </head>
 
+
 <body>
+
+
+<!-- HEADER -->
 
 <header class="header">
 
-  <div class="logo">
-    SCANBELI
-  </div>
+  <div class="container header-inner">
 
-  <a
-    href="buyer.html"
-    class="header-btn"
-  >
-    Edit Alamat
-  </a>
+    <a
+      href="index.html"
+      class="logo"
+    >
+      SCANBELI
+    </a>
+
+    <a
+      href="buyer.html"
+      class="header-btn"
+    >
+      Edit Data
+    </a>
+
+  </div>
 
 </header>
 
 
-<main class="container">
 
+<!-- MAIN -->
+
+<main class="container page-container">
+
+
+  <!-- LOADING -->
 
   <div
     id="checkoutLoading"
@@ -47,13 +64,28 @@
   </div>
 
 
+
+  <!-- ERROR -->
+
+  <div
+    id="checkoutError"
+    class="error-box"
+    style="display:none;"
+  ></div>
+
+
+
+  <!-- CHECKOUT -->
+
   <section
-    id="checkout"
-    class="hidden"
+    id="checkoutContent"
+    style="display:none;"
   >
 
 
+    <!-- ========================= -->
     <!-- PRODUK -->
+    <!-- ========================= -->
 
     <div class="product-card">
 
@@ -61,12 +93,20 @@
         PRODUK
       </div>
 
-      <h1 id="productName">
+
+      <h1 id="checkoutProductName">
         -
       </h1>
 
+
       <div
-        id="productPrice"
+        id="checkoutProductCode"
+        class="product-code"
+      ></div>
+
+
+      <div
+        id="checkoutProductPrice"
         class="price"
       >
         Rp0
@@ -75,7 +115,10 @@
     </div>
 
 
+
+    <!-- ========================= -->
     <!-- PEMBELI -->
+    <!-- ========================= -->
 
     <div class="form-card">
 
@@ -86,17 +129,21 @@
 
       <div class="buyer-data">
 
+
         <div class="data-row">
 
           <small>
             Nama
           </small>
 
-          <strong id="buyerName">
-            -
-          </strong>
+          <input
+            id="buyerName"
+            type="text"
+            placeholder="Nama lengkap"
+          >
 
         </div>
+
 
 
         <div class="data-row">
@@ -105,11 +152,14 @@
             Nomor HP
           </small>
 
-          <strong id="buyerPhone">
-            -
-          </strong>
+          <input
+            id="buyerPhone"
+            type="tel"
+            placeholder="08xxxxxxxxxx"
+          >
 
         </div>
+
 
 
         <div class="data-row">
@@ -118,11 +168,14 @@
             Alamat
           </small>
 
-          <strong id="buyerAddress">
-            -
-          </strong>
+          <textarea
+            id="buyerAddress"
+            rows="4"
+            placeholder="Alamat lengkap untuk pengiriman"
+          ></textarea>
 
         </div>
+
 
       </div>
 
@@ -131,19 +184,23 @@
         href="buyer.html"
         class="edit-address"
       >
-        ✏️ Ubah nama / alamat
+        ✏️ Ubah data pembeli
       </a>
 
     </div>
 
 
-    <!-- TOTAL -->
+
+    <!-- ========================= -->
+    <!-- RINGKASAN -->
+    <!-- ========================= -->
 
     <div class="payment-card">
 
       <h2>
         Ringkasan
       </h2>
+
 
 
       <div class="total-row">
@@ -159,6 +216,7 @@
       </div>
 
 
+
       <div class="total-row">
 
         <span>
@@ -172,7 +230,9 @@
       </div>
 
 
+
       <hr>
+
 
 
       <div class="grand-total">
@@ -188,6 +248,7 @@
       </div>
 
 
+
       <button
         id="payButton"
         class="btn full"
@@ -198,9 +259,12 @@
 
 
       <p class="prototype-note">
+
         Pembayaran asli akan dihubungkan
         pada tahap berikutnya.
+
       </p>
+
 
     </div>
 
@@ -208,34 +272,51 @@
   </section>
 
 
-  <!-- BELUM ADA DATA -->
+
+  <!-- ========================= -->
+  <!-- BELUM ADA DATA PEMBELI -->
+  <!-- ========================= -->
 
   <section
     id="noBuyer"
-    class="form-card hidden"
+    class="form-card"
+    style="display:none;"
   >
 
     <h2>
       Data pengiriman belum tersedia
     </h2>
 
+
     <p>
       Isi nama, nomor HP dan alamat satu kali.
+      Data disimpan di perangkat Anda.
     </p>
+
 
     <a
       href="buyer.html"
       class="btn full"
+      id="fillBuyerButton"
     >
       Isi Data Pembeli
     </a>
 
   </section>
 
+
 </main>
 
 
-<script type="module" src="script.js"></script>
+
+<!-- SCRIPT -->
+
+<script
+  type="module"
+  src="script.js"
+></script>
+
 
 </body>
+
 </html>
