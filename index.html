@@ -43,10 +43,12 @@
         Cara Kerja
       </a>
 
-      <a href="#pembeli">Untuk Pembeli</a>
+      <a href="#pembeli">
+        Untuk Pembeli
+      </a>
 
       <a href="seller.html">
-       Untuk Penjual Buat QR
+        Untuk Penjual
       </a>
 
       <a href="orders.html">
@@ -96,18 +98,18 @@
       <div class="hero-actions">
 
         <a
-          href="seller.html"
+          href="#pembeli"
           class="btn btn-primary"
-          id="heroPostButton"
         >
-          ✦ BUAT QR PRODUK
+          🛒 BELANJA SEKARANG
         </a>
 
         <a
-          href="#cara-kerja"
+          href="seller.html"
           class="btn btn-secondary"
+          id="heroPostButton"
         >
-          Lihat Cara Kerja
+          ✦ BUAT QR PRODUK
         </a>
 
       </div>
@@ -201,9 +203,6 @@
 
     <div class="features">
 
-
-      <!-- STEP 1 -->
-
       <div class="feature-card">
 
         <div class="feature-icon">
@@ -211,18 +210,16 @@
         </div>
 
         <h3>
-          Buat QR
+          Scan QR
         </h3>
 
         <p>
-          Seller membuat QR khusus untuk
-          setiap produk atau layanan.
+          Pembeli scan QR SCANBELI
+          yang terdapat pada produk.
         </p>
 
       </div>
 
-
-      <!-- STEP 2 -->
 
       <div class="feature-card">
 
@@ -231,18 +228,16 @@
         </div>
 
         <h3>
-          Buyer Scan
+          Checkout
         </h3>
 
         <p>
-          Buyer cukup memindai QR dan
-          langsung masuk ke halaman checkout.
+          Periksa produk kemudian
+          isi data pengiriman.
         </p>
 
       </div>
 
-
-      <!-- STEP 3 -->
 
       <div class="feature-card">
 
@@ -251,17 +246,16 @@
         </div>
 
         <h3>
-          Checkout
+          Bayar
         </h3>
 
         <p>
-          Isi data pengiriman, periksa total,
+          Periksa total pembayaran
           lalu lanjutkan pembayaran.
         </p>
 
       </div>
 
-
     </div>
 
   </div>
@@ -269,91 +263,327 @@
 </section>
 
 
-<section class="section buyer-section" id="pembeli">
+<!-- =====================================================
+     PEMBELI
+===================================================== -->
+
+<section
+  class="section buyer-section"
+  id="pembeli"
+>
+
   <div class="container">
 
     <div class="section-header">
-      <span class="hero-badge">UNTUK PEMBELI</span>
-      <h2>Belanja Lebih Cepat dengan SCANBELI</h2>
+
+      <div class="hero-badge">
+        ✦ UNTUK PEMBELI
+      </div>
+
+      <h2>
+        Data Pengiriman
+      </h2>
+
       <p>
-        Scan QR produk, isi data pengiriman, lalu lakukan pembayaran.
-        Tidak perlu membuat akun pembeli.
+        Simpan data Anda di perangkat agar
+        checkout berikutnya lebih cepat.
       </p>
-    </div>
-
-    <div class="buyer-grid">
-
-      <div class="buyer-card">
-        <div class="buyer-icon">📷</div>
-
-        <h3>1. Scan QR</h3>
-
-        <p>
-          Scan QR SCANBELI yang tersedia pada produk,
-          toko, poster, atau media sosial.
-        </p>
-      </div>
-
-
-      <div class="buyer-card">
-        <div class="buyer-icon">🛒</div>
-
-        <h3>2. Checkout</h3>
-
-        <p>
-          Periksa produk, masukkan nama, nomor HP,
-          dan alamat pengiriman.
-        </p>
-      </div>
-
-
-      <div class="buyer-card">
-        <div class="buyer-icon">💳</div>
-
-        <h3>3. Bayar</h3>
-
-        <p>
-          Lanjutkan pembayaran melalui metode pembayaran
-          yang tersedia.
-        </p>
-      </div>
-
-
-      <div class="buyer-card">
-        <div class="buyer-icon">📦</div>
-
-        <h3>4. Pantau Pesanan</h3>
-
-        <p>
-          Setelah melakukan checkout, pembeli dapat melihat
-          riwayat pesanan dari perangkat yang digunakan.
-        </p>
-      </div>
 
     </div>
 
 
-    <div class="buyer-cta">
+    <!-- =================================================
+         FORM DATA PEMBELI
+    ================================================== -->
+
+    <div
+      class="card"
+      style="
+        max-width:680px;
+        margin:0 auto;
+        padding:30px;
+      "
+    >
+
+      <div
+        style="
+          margin-bottom:25px;
+          padding-bottom:18px;
+          border-bottom:1px solid rgba(255,255,255,.08);
+        "
+      >
+
+        <div
+          style="
+            font-size:13px;
+            color:#d6ad55;
+            font-weight:800;
+            letter-spacing:1.5px;
+            margin-bottom:8px;
+          "
+        >
+          INFORMASI PEMBELI
+        </div>
+
+        <h3
+          style="
+            margin:0 0 8px;
+            font-size:24px;
+          "
+        >
+          Lengkapi Data Anda
+        </h3>
+
+        <p
+          style="
+            margin:0;
+            color:#999;
+            line-height:1.6;
+            font-size:14px;
+          "
+        >
+          Data ini disimpan secara lokal di perangkat Anda
+          dan dapat diubah kapan saja.
+        </p>
+
+      </div>
+
+
+      <form id="buyerForm">
+
+
+        <!-- NAMA -->
+
+        <div class="form-group">
+
+          <label for="buyerFullName">
+            Nama Lengkap
+          </label>
+
+          <input
+            type="text"
+            id="buyerFullName"
+            name="buyerFullName"
+            placeholder="Masukkan nama lengkap"
+            autocomplete="name"
+            maxlength="100"
+            required
+          >
+
+        </div>
+
+
+        <!-- WHATSAPP -->
+
+        <div class="form-group">
+
+          <label for="buyerWhatsApp">
+            Nomor WhatsApp
+          </label>
+
+          <input
+            type="tel"
+            id="buyerWhatsApp"
+            name="buyerWhatsApp"
+            placeholder="Contoh: 081234567890"
+            autocomplete="tel"
+            maxlength="20"
+            required
+          >
+
+          <small
+            style="
+              display:block;
+              margin-top:7px;
+              color:#888;
+              font-size:12px;
+            "
+          >
+            Gunakan nomor WhatsApp yang aktif.
+          </small>
+
+        </div>
+
+
+        <!-- ALAMAT -->
+
+        <div class="form-group">
+
+          <label for="buyerAddress">
+            Alamat Lengkap Pengiriman
+          </label>
+
+          <textarea
+            id="buyerAddress"
+            name="buyerAddress"
+            rows="5"
+            maxlength="500"
+            placeholder="Nama jalan, nomor rumah, RT/RW, kelurahan, kecamatan, kota/kabupaten, provinsi, kode pos"
+            autocomplete="street-address"
+            required
+          ></textarea>
+
+        </div>
+
+
+        <!-- BUTTON -->
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+          style="
+            width:100%;
+            margin-top:5px;
+          "
+        >
+          💾 SIMPAN DATA PEMBELI
+        </button>
+
+
+        <div
+          id="buyerSavedMessage"
+          style="
+            display:none;
+            margin-top:15px;
+            padding:14px;
+            border-radius:12px;
+            background:rgba(40,200,120,.08);
+            border:1px solid rgba(40,200,120,.2);
+            color:#8ff0bd;
+            font-size:14px;
+            text-align:center;
+          "
+        >
+          ✓ Data pembeli berhasil disimpan.
+        </div>
+
+      </form>
+
+    </div>
+
+
+    <!-- =================================================
+         PENJELASAN
+    ================================================== -->
+
+    <div
+      class="buyer-grid"
+      style="margin-top:35px;"
+    >
+
+      <div class="buyer-card">
+
+        <div class="buyer-icon">
+          📷
+        </div>
+
+        <h3>
+          1. Scan QR
+        </h3>
+
+        <p>
+          Scan QR SCANBELI pada produk,
+          toko, kemasan, poster, atau media sosial.
+        </p>
+
+      </div>
+
+
+      <div class="buyer-card">
+
+        <div class="buyer-icon">
+          📝
+        </div>
+
+        <h3>
+          2. Data Otomatis
+        </h3>
+
+        <p>
+          Data pembeli yang telah disimpan
+          dapat digunakan kembali saat checkout.
+        </p>
+
+      </div>
+
+
+      <div class="buyer-card">
+
+        <div class="buyer-icon">
+          💳
+        </div>
+
+        <h3>
+          3. Bayar
+        </h3>
+
+        <p>
+          Periksa produk, biaya, alamat,
+          kemudian lanjutkan pembayaran.
+        </p>
+
+      </div>
+
+
+      <div class="buyer-card">
+
+        <div class="buyer-icon">
+          📦
+        </div>
+
+        <h3>
+          4. Pantau Pesanan
+        </h3>
+
+        <p>
+          Lihat pesanan yang telah dibuat
+          melalui menu Pesanan Saya.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================
+         PESANAN PEMBELI
+    ================================================== -->
+
+    <div
+      class="buyer-cta"
+      style="margin-top:35px;"
+    >
 
       <div>
-        <span class="hero-badge">SHOPPING MADE SIMPLE</span>
 
-        <h3>Sudah punya QR SCANBELI?</h3>
+        <span class="hero-badge">
+          PEMBELI
+        </span>
+
+        <h3>
+          Sudah melakukan pembelian?
+        </h3>
 
         <p>
-          Scan QR produk dan langsung menuju halaman checkout.
+          Lihat riwayat pesanan Anda di SCANBELI.
         </p>
+
       </div>
 
-      <a href="orders.html" class="btn btn-primary">
-        📦 Pesanan Saya
+      <a
+        href="orders.html"
+        class="btn btn-primary"
+      >
+        📦 PESANAN SAYA
       </a>
 
     </div>
 
   </div>
+
 </section>
-  
+
+
 <!-- =====================================================
      KEUNGGULAN
 ===================================================== -->
@@ -380,7 +610,6 @@
 
     <div class="features">
 
-
       <div class="feature-card">
 
         <div class="feature-icon">
@@ -406,12 +635,12 @@
         </div>
 
         <h3>
-          Sederhana
+          Data Lokal
         </h3>
 
         <p>
           Data pembeli disimpan di perangkat
-          agar tidak perlu mengisi berulang kali.
+          sehingga tidak perlu mengisi berulang kali.
         </p>
 
       </div>
@@ -433,7 +662,6 @@
         </p>
 
       </div>
-
 
     </div>
 
@@ -470,9 +698,11 @@
       >
         Jadikan produk Anda
         <br>
+
         <span style="color:#d6ad55;">
           siap di-scan.
         </span>
+
       </h2>
 
       <p
@@ -589,7 +819,169 @@
 
 
 <!-- =====================================================
-     SCRIPT
+     DATA PEMBELI
+===================================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const form = document.getElementById("buyerForm");
+
+  const nameInput =
+    document.getElementById("buyerFullName");
+
+  const whatsappInput =
+    document.getElementById("buyerWhatsApp");
+
+  const addressInput =
+    document.getElementById("buyerAddress");
+
+  const savedMessage =
+    document.getElementById("buyerSavedMessage");
+
+
+  const BUYER_KEY = "scanbeli_buyer_v1";
+
+
+  /* ==========================================
+     LOAD DATA YANG SUDAH TERSIMPAN
+  ========================================== */
+
+  try {
+
+    const saved =
+      localStorage.getItem(BUYER_KEY);
+
+    if (saved) {
+
+      const buyer = JSON.parse(saved);
+
+      nameInput.value =
+        buyer.name || "";
+
+      whatsappInput.value =
+        buyer.phone || "";
+
+      addressInput.value =
+        buyer.address || "";
+
+    }
+
+  } catch (error) {
+
+    console.warn(
+      "Data pembeli tidak dapat dimuat:",
+      error
+    );
+
+  }
+
+
+  /* ==========================================
+     SIMPAN DATA PEMBELI
+  ========================================== */
+
+  form.addEventListener("submit", (event) => {
+
+    event.preventDefault();
+
+
+    const name =
+      nameInput.value.trim();
+
+    const phone =
+      whatsappInput.value.trim();
+
+    const address =
+      addressInput.value.trim();
+
+
+    if (!name) {
+
+      alert("Silakan masukkan nama lengkap.");
+
+      nameInput.focus();
+
+      return;
+
+    }
+
+
+    if (!phone) {
+
+      alert("Silakan masukkan nomor WhatsApp.");
+
+      whatsappInput.focus();
+
+      return;
+
+    }
+
+
+    if (!address) {
+
+      alert(
+        "Silakan masukkan alamat lengkap pengiriman."
+      );
+
+      addressInput.focus();
+
+      return;
+
+    }
+
+
+    const buyer = {
+
+      name: name,
+
+      phone: phone,
+
+      address: address
+
+    };
+
+
+    try {
+
+      localStorage.setItem(
+        BUYER_KEY,
+        JSON.stringify(buyer)
+      );
+
+
+      savedMessage.style.display =
+        "block";
+
+
+      setTimeout(() => {
+
+        savedMessage.style.display =
+          "none";
+
+      }, 3000);
+
+
+    } catch (error) {
+
+      alert(
+        "Data tidak dapat disimpan di perangkat."
+      );
+
+      console.error(error);
+
+    }
+
+  });
+
+});
+
+</script>
+
+
+<!-- =====================================================
+     SCRIPT UTAMA
 ===================================================== -->
 
 <script
