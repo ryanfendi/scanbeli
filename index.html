@@ -15,7 +15,7 @@
 
   <meta
     name="description"
-    content="SCANBELI - Scan QR, belanja, dan bayar dengan mudah."
+    content="SCANBELI - Scan QR, pilih produk, checkout, dan bayar dengan mudah."
   >
 
   <title>SCANBELI — Scan. Belanja. Selesai.</title>
@@ -23,6 +23,11 @@
   <link rel="stylesheet" href="style.css">
 
   <style>
+
+    /* =====================================================
+       RESET
+    ===================================================== */
+
     * {
       box-sizing: border-box;
     }
@@ -33,21 +38,14 @@
 
     body {
       margin: 0;
-      background:
-        radial-gradient(
-          circle at 50% -10%,
-          rgba(214,173,85,0.18),
-          transparent 40%
-        ),
-        #070707;
+      background: #070707;
       color: #fff;
       font-family:
         Inter,
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
+        Arial,
+        Helvetica,
         sans-serif;
+      overflow-x: hidden;
     }
 
     a {
@@ -55,280 +53,589 @@
       color: inherit;
     }
 
-    .container {
-      width: calc(100% - 32px);
-      max-width: 1100px;
+    button {
+      font-family: inherit;
+    }
+
+
+    /* =====================================================
+       BACKGROUND
+    ===================================================== */
+
+    body::before {
+      content: "";
+      position: fixed;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: rgba(214,173,85,.08);
+      filter: blur(90px);
+      top: -180px;
+      right: -160px;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      width: 350px;
+      height: 350px;
+      border-radius: 50%;
+      background: rgba(214,173,85,.05);
+      filter: blur(100px);
+      bottom: -150px;
+      left: -150px;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+
+    /* =====================================================
+       CONTAINER
+    ===================================================== */
+
+    .sb-container {
+      width: min(1100px, calc(100% - 30px));
       margin: auto;
     }
 
-    /* HEADER */
 
-    .header {
+    /* =====================================================
+       HEADER
+    ===================================================== */
+
+    .sb-header {
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 1000;
 
-      background: rgba(7,7,7,0.92);
+      background: rgba(7,7,7,.88);
       backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
 
-      border-bottom:
-        1px solid rgba(214,173,85,0.12);
+      border-bottom: 1px solid rgba(255,255,255,.07);
     }
 
-    .header-inner {
+    .sb-header-inner {
       min-height: 68px;
 
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 15px;
     }
 
-    .logo {
-      color: #f4d98b;
-      font-size: 20px;
-      font-weight: 900;
+    .sb-logo {
+      font-size: 21px;
+      font-weight: 950;
       letter-spacing: 2px;
+      color: #d6ad55;
+
+      text-shadow:
+        0 0 18px rgba(214,173,85,.15);
     }
 
-    .nav {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    .nav a {
-      color: #999;
-      font-size: 11px;
-      font-weight: 800;
-
-      padding: 10px 11px;
-      border-radius: 12px;
-    }
-
-    .nav a:hover {
+    .sb-logo span {
       color: #fff;
-      background: #151515;
     }
 
-    /* HERO */
+    .sb-header-btn {
+      border: 1px solid rgba(214,173,85,.35);
+      background: rgba(214,173,85,.08);
+      color: #d6ad55;
 
-    .hero {
-      padding: 75px 0 40px;
+      padding: 9px 13px;
+      border-radius: 12px;
+
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+
+    /* =====================================================
+       HERO
+    ===================================================== */
+
+    .sb-hero {
+      padding: 55px 0 30px;
       text-align: center;
     }
 
-    .hero-content {
-      max-width: 720px;
-      margin: auto;
-    }
+    .sb-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
 
-    .hero-badge {
-      display: inline-block;
+      padding: 8px 13px;
+      border-radius: 999px;
 
-      padding: 7px 12px;
+      border: 1px solid rgba(214,173,85,.3);
+      background: rgba(214,173,85,.07);
 
-      border-radius: 30px;
+      color: #d6ad55;
 
-      background:
-        rgba(214,173,85,0.07);
-
-      border:
-        1px solid rgba(214,173,85,0.2);
-
-      color: #f4d98b;
-
-      font-size: 9px;
+      font-size: 10px;
       font-weight: 900;
-      letter-spacing: 1px;
+      letter-spacing: 1.2px;
+
+      animation: fadeUp .7s ease both;
     }
 
-    .hero h1 {
-      margin: 22px 0 18px;
+    .sb-hero h1 {
+      margin: 20px auto 15px;
+
+      max-width: 650px;
 
       font-size:
-        clamp(50px, 12vw, 92px);
+        clamp(40px, 13vw, 78px);
 
-      line-height: 0.92;
+      line-height: .95;
 
-      letter-spacing: -5px;
+      font-weight: 950;
+      letter-spacing: -3px;
+
+      animation: fadeUp .8s ease both;
     }
 
-    .hero h1 span {
+    .sb-hero h1 span {
       color: #d6ad55;
+
+      text-shadow:
+        0 0 35px rgba(214,173,85,.16);
     }
 
-    .hero p {
-      max-width: 580px;
+    .sb-hero p {
+      max-width: 560px;
       margin: auto;
 
-      color: #999;
+      color: #a9a9a9;
 
-      font-size: 14px;
+      font-size: 15px;
       line-height: 1.7;
+
+      animation: fadeUp .9s ease both;
     }
 
-    .hero-actions {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
+
+    /* =====================================================
+       HERO BUTTON
+    ===================================================== */
+
+    .sb-main-action {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
 
       gap: 10px;
 
-      margin-top: 28px;
+      max-width: 500px;
+      margin: 25px auto 0;
+
+      animation: fadeUp 1s ease both;
     }
 
-    /* BUTTON */
+    .sb-btn {
+      min-height: 52px;
 
-    .btn {
-      min-height: 48px;
+      border-radius: 15px;
 
       display: inline-flex;
       align-items: center;
       justify-content: center;
 
-      padding: 0 20px;
+      padding: 13px 16px;
 
-      border-radius: 14px;
-
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 900;
 
-      border: 1px solid
-        rgba(214,173,85,0.2);
+      transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        background .2s ease;
     }
 
-    .btn-primary {
-      background:
-        linear-gradient(
-          135deg,
-          #f4d98b,
-          #d6ad55
-        );
-
-      color: #080808;
+    .sb-btn:active {
+      transform: scale(.96);
     }
 
-    .btn-secondary {
-      background: #151515;
-      color: #eee;
+    .sb-btn-primary {
+      background: linear-gradient(
+        135deg,
+        #d6ad55,
+        #a87d2d
+      );
+
+      color: #090909;
+
+      box-shadow:
+        0 10px 35px rgba(214,173,85,.16);
     }
 
-    /* STATS */
+    .sb-btn-secondary {
+      background: #121212;
 
-    .stats {
+      border: 1px solid #292929;
+
+      color: #fff;
+    }
+
+
+    /* =====================================================
+       QUICK MENU
+    ===================================================== */
+
+    .sb-section {
+      padding: 32px 0;
+    }
+
+    .sb-section-title {
+      margin-bottom: 17px;
+    }
+
+    .sb-section-title small {
+      display: block;
+
+      color: #d6ad55;
+
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+
+      margin-bottom: 7px;
+    }
+
+    .sb-section-title h2 {
+      margin: 0;
+
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: -.7px;
+    }
+
+    .sb-section-title p {
+      margin: 7px 0 0;
+
+      color: #8d8d8d;
+
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+
+    .sb-menu-grid {
       display: grid;
+
       grid-template-columns:
-        repeat(3, 1fr);
+        repeat(2, 1fr);
 
       gap: 10px;
     }
 
-    .stat-card {
-      padding: 20px 10px;
+    .sb-menu-card {
+      position: relative;
 
-      text-align: center;
+      min-height: 120px;
 
-      border-radius: 20px;
+      padding: 17px;
+
+      border-radius: 18px;
 
       background:
         linear-gradient(
           145deg,
-          rgba(214,173,85,0.07),
-          #111
+          #151515,
+          #0c0c0c
         );
 
-      border:
-        1px solid rgba(214,173,85,0.14);
+      border: 1px solid rgba(255,255,255,.07);
+
+      overflow: hidden;
+
+      transition:
+        transform .25s ease,
+        border-color .25s ease;
     }
 
-    .stat-card strong {
-      display: block;
+    .sb-menu-card::after {
+      content: "";
 
-      color: #f4d98b;
+      position: absolute;
 
-      font-size: 25px;
+      width: 80px;
+      height: 80px;
+
+      border-radius: 50%;
+
+      background: rgba(214,173,85,.06);
+
+      right: -30px;
+      bottom: -30px;
     }
 
-    .stat-card span {
-      color: #777;
-      font-size: 10px;
+    .sb-menu-card:active {
+      transform: scale(.97);
     }
 
-    /* SECTION */
-
-    .section {
-      padding: 70px 0;
+    .sb-menu-icon {
+      font-size: 27px;
+      margin-bottom: 10px;
     }
 
-    .section-header {
-      max-width: 650px;
+    .sb-menu-card h3 {
+      margin: 0 0 5px;
 
-      margin:
-        0 auto 30px;
-
-      text-align: center;
+      font-size: 14px;
+      font-weight: 900;
     }
 
-    .section-header h2 {
-      margin: 14px 0 8px;
+    .sb-menu-card p {
+      margin: 0;
 
-      font-size:
-        clamp(30px, 7vw, 48px);
+      color: #888;
 
-      letter-spacing: -2px;
+      font-size: 11px;
+      line-height: 1.5;
     }
 
-    .section-header h2 span {
+
+    /* =====================================================
+       BUYER CARD
+    ===================================================== */
+
+    .sb-buyer-box {
+      padding: 21px;
+
+      border-radius: 22px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #171717,
+          #0d0d0d
+        );
+
+      border: 1px solid rgba(214,173,85,.2);
+
+      box-shadow:
+        0 20px 60px rgba(0,0,0,.3);
+
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sb-buyer-box::before {
+      content: "";
+
+      position: absolute;
+
+      width: 170px;
+      height: 170px;
+
+      border-radius: 50%;
+
+      background: rgba(214,173,85,.08);
+
+      filter: blur(25px);
+
+      top: -100px;
+      right: -70px;
+    }
+
+    .sb-buyer-top {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      margin-bottom: 17px;
+    }
+
+    .sb-buyer-icon {
+      width: 48px;
+      height: 48px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 15px;
+
+      background: rgba(214,173,85,.1);
+
+      font-size: 23px;
+    }
+
+    .sb-buyer-top h3 {
+      margin: 0 0 3px;
+
+      font-size: 17px;
+    }
+
+    .sb-buyer-top p {
+      margin: 0;
+
+      color: #888;
+      font-size: 11px;
+    }
+
+    .sb-buyer-buttons {
+      display: grid;
+      gap: 9px;
+    }
+
+    .sb-buyer-btn {
+      min-height: 48px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      padding: 0 15px;
+
+      border-radius: 13px;
+
+      background: #111;
+
+      border: 1px solid #292929;
+
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .sb-buyer-btn span:last-child {
       color: #d6ad55;
     }
 
-    .section-header p {
-      color: #999;
 
-      font-size: 13px;
-      line-height: 1.7;
-    }
+    /* =====================================================
+       FEATURES
+    ===================================================== */
 
-    /* FEATURES */
-
-    .features {
+    .sb-feature-grid {
       display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
-      gap: 14px;
+      gap: 10px;
     }
 
-    .feature-card {
+    .sb-feature {
+      display: flex;
+      gap: 14px;
+
+      padding: 18px;
+
+      border-radius: 17px;
+
+      background: #101010;
+
+      border: 1px solid #1e1e1e;
+    }
+
+    .sb-feature-number {
+      flex: 0 0 39px;
+
+      width: 39px;
+      height: 39px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border-radius: 12px;
+
+      background: rgba(214,173,85,.1);
+
+      color: #d6ad55;
+
+      font-weight: 950;
+      font-size: 12px;
+    }
+
+    .sb-feature h3 {
+      margin: 0 0 5px;
+      font-size: 14px;
+    }
+
+    .sb-feature p {
+      margin: 0;
+
+      color: #888;
+
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+
+    /* =====================================================
+       PRODUCT TYPE
+    ===================================================== */
+
+    .sb-type-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .sb-type {
+      padding: 20px 15px;
+
+      text-align: center;
+
+      border-radius: 17px;
+
+      background: #101010;
+
+      border: 1px solid #222;
+    }
+
+    .sb-type-icon {
+      font-size: 29px;
+      margin-bottom: 8px;
+    }
+
+    .sb-type h3 {
+      margin: 0 0 5px;
+      font-size: 14px;
+    }
+
+    .sb-type p {
+      margin: 0;
+
+      color: #858585;
+
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+
+    /* =====================================================
+       SELLER CTA
+    ===================================================== */
+
+    .sb-seller {
       padding: 25px;
 
-      border-radius: 20px;
+      border-radius: 23px;
 
       background:
         linear-gradient(
-          145deg,
-          rgba(214,173,85,0.07),
-          #111
+          135deg,
+          rgba(214,173,85,.13),
+          rgba(214,173,85,.025)
         );
 
-      border:
-        1px solid rgba(214,173,85,0.14);
+      border: 1px solid rgba(214,173,85,.22);
+
+      text-align: center;
     }
 
-    .feature-icon {
-      font-size: 28px;
-      margin-bottom: 16px;
+    .sb-seller h2 {
+      margin: 13px 0 9px;
+
+      font-size: 25px;
+      letter-spacing: -.7px;
     }
 
-    .feature-card h3 {
-      margin: 0 0 8px;
+    .sb-seller p {
+      margin: 0 auto 19px;
 
-      font-size: 16px;
-    }
-
-    .feature-card p {
-      margin: 0;
+      max-width: 500px;
 
       color: #999;
 
@@ -336,267 +643,226 @@
       line-height: 1.7;
     }
 
-    /* BUYER */
 
-    .buyer-grid {
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+
+    .sb-footer {
+      padding: 45px 0 100px;
+
+      border-top: 1px solid #151515;
+
+      text-align: center;
+    }
+
+    .sb-footer-logo {
+      color: #d6ad55;
+
+      font-weight: 950;
+
+      letter-spacing: 2px;
+
+      font-size: 19px;
+    }
+
+    .sb-footer p {
+      color: #666;
+
+      font-size: 11px;
+
+      margin: 9px 0 0;
+    }
+
+
+    /* =====================================================
+       BOTTOM NAV MOBILE
+    ===================================================== */
+
+    .sb-bottom-nav {
+      position: fixed;
+
+      bottom: 0;
+      left: 0;
+      right: 0;
+
+      z-index: 9999;
+
+      padding:
+        8px
+        10px
+        calc(8px + env(safe-area-inset-bottom));
+
+      background: rgba(10,10,10,.94);
+
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+
+      border-top: 1px solid rgba(255,255,255,.08);
+
       display: grid;
+      grid-template-columns: repeat(4, 1fr);
 
-      grid-template-columns:
-        repeat(4, 1fr);
-
-      gap: 12px;
+      max-width: 700px;
+      margin: auto;
     }
 
-    .buyer-card {
-      padding: 21px;
-
-      background: #101010;
-
-      border:
-        1px solid #222;
-
-      border-radius: 19px;
-    }
-
-    .buyer-icon {
-      font-size: 25px;
-      margin-bottom: 12px;
-    }
-
-    .buyer-card h3 {
-      margin: 0 0 8px;
-
-      font-size: 14px;
-    }
-
-    .buyer-card p {
-      color: #999;
-
-      font-size: 11px;
-      line-height: 1.6;
-    }
-
-    .buyer-card .btn {
-      width: 100%;
-      margin-top: 12px;
-    }
-
-    /* CTA */
-
-    .buyer-cta {
-      margin-top: 18px;
-
-      padding: 25px;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      gap: 15px;
-
-      border-radius: 20px;
-
-      background:
-        linear-gradient(
-          145deg,
-          rgba(214,173,85,0.09),
-          #111
-        );
-
-      border:
-        1px solid rgba(214,173,85,0.15);
-    }
-
-    .buyer-cta h3 {
-      margin: 10px 0 5px;
-    }
-
-    .buyer-cta p {
-      color: #999;
-      font-size: 11px;
-    }
-
-    /* FOOTER */
-
-    .footer {
-      padding: 50px 0 80px;
-
+    .sb-bottom-item {
       text-align: center;
 
       color: #777;
 
-      font-size: 11px;
+      font-size: 9px;
+      font-weight: 700;
     }
 
-    /* MOBILE */
+    .sb-bottom-icon {
+      display: block;
 
-    @media (max-width: 700px) {
+      font-size: 19px;
 
-      .container {
-        width:
-          calc(100% - 24px);
+      margin-bottom: 3px;
+    }
+
+    .sb-bottom-item.active {
+      color: #d6ad55;
+    }
+
+
+    /* =====================================================
+       ANIMATION
+    ===================================================== */
+
+    @keyframes fadeUp {
+
+      from {
+        opacity: 0;
+        transform: translateY(15px);
       }
 
-      .header-inner {
-        min-height: 62px;
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
 
-      .nav a {
+    }
+
+
+    /* =====================================================
+       DESKTOP
+    ===================================================== */
+
+    @media (min-width: 760px) {
+
+      .sb-menu-grid {
+        grid-template-columns:
+          repeat(4, 1fr);
+      }
+
+      .sb-feature-grid {
+        grid-template-columns:
+          repeat(3, 1fr);
+      }
+
+      .sb-type-grid {
+        grid-template-columns:
+          repeat(2, 1fr);
+        max-width: 700px;
+        margin: auto;
+      }
+
+      .sb-bottom-nav {
         display: none;
       }
 
-      .nav a:nth-child(2),
-      .nav a:nth-child(3),
-      .nav a:nth-child(4) {
-        display: block;
+      .sb-header-btn {
+        padding: 10px 16px;
       }
 
-      .nav a {
-        padding: 8px 7px;
-        font-size: 9px;
+      .sb-hero {
+        padding-top: 85px;
       }
 
-      .hero {
-        padding: 55px 0 30px;
-      }
-
-      .hero h1 {
-        letter-spacing: -3px;
-      }
-
-      .hero p {
-        font-size: 13px;
-      }
-
-      .hero-actions {
-        flex-direction: column;
-      }
-
-      .hero-actions .btn {
-        width: 100%;
-      }
-
-      .stats {
-        gap: 7px;
-      }
-
-      .stat-card {
-        padding: 17px 5px;
-      }
-
-      .features,
-      .buyer-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .section {
-        padding: 55px 0;
-      }
-
-      .buyer-cta {
-        display: block;
-        text-align: center;
-      }
-
-      .buyer-cta .btn {
-        width: 100%;
-        margin-top: 15px;
-      }
     }
+
   </style>
 </head>
 
+
 <body>
 
-<header class="header">
 
-  <div class="container header-inner">
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="sb-header">
+
+  <div class="sb-container sb-header-inner">
 
     <a
       href="index.html"
-      class="logo"
+      class="sb-logo"
     >
-      SCANBELI
+      SCAN<span>BELI</span>
     </a>
 
-    <nav class="nav">
-
-      <a href="#cara-kerja">
-        Cara Kerja
-      </a>
-
-      <a href="scan.html">
-        📷 Scan
-      </a>
-
-      <a href="buyer.html">
-        📍 Data
-      </a>
-
-      <a href="orders.html">
-        📦 Pesanan
-      </a>
-
-      <a href="seller.html">
-        Penjual
-      </a>
-
-    </nav>
+    <a
+      href="seller.html"
+      class="sb-header-btn"
+    >
+      🏪 Penjual
+    </a>
 
   </div>
 
 </header>
 
 
+<!-- =====================================================
+     HERO
+===================================================== -->
+
 <main>
 
-<!-- HERO -->
+<section class="sb-hero">
 
-<section class="hero">
+  <div class="sb-container">
 
-  <div class="container">
+    <div class="sb-badge">
+      ✦ TRANSAKSI DIGITAL LEBIH MUDAH
+    </div>
 
-    <div class="hero-content">
+    <h1>
+      Scan.
+      <br>
+      <span>Belanja.</span>
+      <br>
+      Selesai.
+    </h1>
 
-      <div class="hero-badge">
-        ✦ TRANSAKSI DIGITAL LEBIH MUDAH
-      </div>
+    <p>
+      Scan QR produk, pilih barang yang Anda inginkan,
+      masukkan data pengiriman, lalu checkout dengan mudah
+      langsung dari HP.
+    </p>
 
-      <h1>
-        Scan.
-        <br>
 
-        <span>Belanja.</span>
+    <div class="sb-main-action">
 
-        <br>
+      <a
+        href="scan.html"
+        class="sb-btn sb-btn-primary"
+      >
+        📷 SCAN QR
+      </a>
 
-        Selesai.
-      </h1>
-
-      <p>
-        Scan QR produk penjual,
-        data pengiriman langsung muncul,
-        lalu bayar.
-        Sederhana dan nyaman dari HP.
-      </p>
-
-      <div class="hero-actions">
-
-        <a
-          href="scan.html"
-          class="btn btn-primary"
-        >
-          📷 SCAN & BELANJA
-        </a>
-
-        <a
-          href="buyer.html"
-          class="btn btn-secondary"
-        >
-          📍 DATA PEMBELI
-        </a>
-
-      </div>
+      <a
+        href="buyer.html"
+        class="sb-btn sb-btn-secondary"
+      >
+        👤 DATA PEMBELI
+      </a>
 
     </div>
 
@@ -605,178 +871,38 @@
 </section>
 
 
-<!-- STATS -->
+<!-- =====================================================
+     MENU CEPAT
+===================================================== -->
 
-<section class="container">
+<section class="sb-section">
 
-  <div class="stats">
+  <div class="sb-container">
 
-    <div class="stat-card">
+    <div class="sb-section-title">
 
-      <strong id="activeNeedsCount">
-        —
-      </strong>
-
-      <span>
-        Transaksi
-      </span>
-
-    </div>
-
-    <div class="stat-card">
-
-      <strong>
-        1%
-      </strong>
-
-      <span>
-        Fee SCANBELI
-      </span>
-
-    </div>
-
-    <div class="stat-card">
-
-      <strong>
-        24/7
-      </strong>
-
-      <span>
-        Bisa digunakan
-      </span>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- CARA KERJA -->
-
-<section
-  class="section"
-  id="cara-kerja"
->
-
-  <div class="container">
-
-    <div class="section-header">
-
-      <div class="hero-badge">
-        CARA KERJA
-      </div>
+      <small>MENU UTAMA</small>
 
       <h2>
-        Semudah
-        <span>3 langkah.</span>
+        Mau melakukan apa?
       </h2>
 
       <p>
-        Tidak perlu proses yang rumit.
+        Semua fitur utama SCANBELI ada di sini.
       </p>
 
     </div>
 
 
-    <div class="features">
-
-      <div class="feature-card">
-
-        <div class="feature-icon">
-          📷
-        </div>
-
-        <h3>
-          1. Scan QR
-        </h3>
-
-        <p>
-          Scan QR SCANBELI
-          dari penjual.
-        </p>
-
-      </div>
+    <div class="sb-menu-grid">
 
 
-      <div class="feature-card">
+      <a
+        href="scan.html"
+        class="sb-menu-card"
+      >
 
-        <div class="feature-icon">
-          🛒
-        </div>
-
-        <h3>
-          2. Checkout
-        </h3>
-
-        <p>
-          Produk dan data pengiriman
-          langsung tampil.
-        </p>
-
-      </div>
-
-
-      <div class="feature-card">
-
-        <div class="feature-icon">
-          💳
-        </div>
-
-        <h3>
-          3. Bayar
-        </h3>
-
-        <p>
-          Periksa total dan
-          lakukan pembayaran.
-        </p>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- PEMBELI -->
-
-<section
-  class="section"
-  id="pembeli"
->
-
-  <div class="container">
-
-    <div class="section-header">
-
-      <div class="hero-badge">
-        UNTUK PEMBELI
-      </div>
-
-      <h2>
-        Belanja
-        <span>lebih cepat.</span>
-      </h2>
-
-      <p>
-        Nama lengkap, nomor WhatsApp,
-        dan alamat pengiriman disimpan
-        di perangkat Anda agar tidak perlu
-        diisi berulang kali.
-      </p>
-
-    </div>
-
-
-    <div class="buyer-grid">
-
-
-      <div class="buyer-card">
-
-        <div class="buyer-icon">
+        <div class="sb-menu-icon">
           📷
         </div>
 
@@ -785,83 +911,144 @@
         </h3>
 
         <p>
-          Scan QR produk dan
-          langsung masuk checkout.
+          Scan QR produk atau katalog penjual.
         </p>
 
-        <a
-          href="scan.html"
-          class="btn btn-primary"
-        >
-          SCAN SEKARANG
-        </a>
-
-      </div>
+      </a>
 
 
-      <div class="buyer-card">
+      <a
+        href="buyer.html"
+        class="sb-menu-card"
+      >
 
-        <div class="buyer-icon">
+        <div class="sb-menu-icon">
+          👤
+        </div>
+
+        <h3>
+          Data Pembeli
+        </h3>
+
+        <p>
+          Isi atau ubah nama, WhatsApp dan alamat.
+        </p>
+
+      </a>
+
+
+      <a
+        href="orders.html"
+        class="sb-menu-card"
+      >
+
+        <div class="sb-menu-icon">
+          🛒
+        </div>
+
+        <h3>
+          Pesanan Saya
+        </h3>
+
+        <p>
+          Lihat pesanan dan status transaksi.
+        </p>
+
+      </a>
+
+
+      <a
+        href="seller.html"
+        class="sb-menu-card"
+      >
+
+        <div class="sb-menu-icon">
+          🏪
+        </div>
+
+        <h3>
+          Untuk Penjual
+        </h3>
+
+        <p>
+          Buat produk, QR produk dan QR katalog.
+        </p>
+
+      </a>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     DATA PEMBELI
+===================================================== -->
+
+<section
+  class="sb-section"
+  id="pembeli"
+>
+
+  <div class="sb-container">
+
+    <div class="sb-buyer-box">
+
+      <div class="sb-buyer-top">
+
+        <div class="sb-buyer-icon">
           📍
         </div>
 
-        <h3>
-          Data Sekali
-        </h3>
+        <div>
 
-        <p>
-          Isi data pengiriman
-          satu kali.
-        </p>
+          <h3>
+            Data Pengiriman
+          </h3>
+
+          <p>
+            Simpan di perangkat agar checkout lebih cepat.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="sb-buyer-buttons">
 
         <a
           href="buyer.html"
-          class="btn btn-secondary"
+          class="sb-buyer-btn"
         >
-          EDIT DATA
+
+          <span>
+            ✏️ Isi / Ubah Data Pembeli
+          </span>
+
+          <span>
+            →
+          </span>
+
         </a>
 
-      </div>
-
-
-      <div class="buyer-card">
-
-        <div class="buyer-icon">
-          💳
-        </div>
-
-        <h3>
-          Bayar
-        </h3>
-
-        <p>
-          Produk sudah sesuai?
-          Tinggal bayar.
-        </p>
-
-      </div>
-
-
-      <div class="buyer-card">
-
-        <div class="buyer-icon">
-          📦
-        </div>
-
-        <h3>
-          Pesanan
-        </h3>
-
-        <p>
-          Lihat pesanan yang
-          pernah dibuat.
-        </p>
 
         <a
           href="orders.html"
-          class="btn btn-secondary"
+          class="sb-buyer-btn"
         >
-          LIHAT PESANAN
+
+          <span>
+            📦 Pesanan Saya
+          </span>
+
+          <span>
+            →
+          </span>
+
         </a>
 
       </div>
@@ -873,44 +1060,279 @@
 </section>
 
 
-<!-- SELLER -->
+<!-- =====================================================
+     CARA KERJA
+===================================================== -->
 
-<section class="section">
+<section
+  class="sb-section"
+  id="cara-kerja"
+>
 
-  <div class="container">
+  <div class="sb-container">
 
-    <div
-      class="buyer-cta"
-      style="text-align:center;"
-    >
+    <div class="sb-section-title">
 
-      <div style="width:100%;">
+      <small>CARA KERJA</small>
 
-        <div class="hero-badge">
-          UNTUK PENJUAL
+      <h2>
+        Semudah 4 langkah.
+      </h2>
+
+      <p>
+        Tidak perlu aplikasi tambahan.
+        Cukup gunakan browser HP.
+      </p>
+
+    </div>
+
+
+    <div class="sb-feature-grid">
+
+
+      <div class="sb-feature">
+
+        <div class="sb-feature-number">
+          01
         </div>
 
-        <h2>
-          Produk Anda
-          <span style="color:#d6ad55;">
-            siap di-scan.
-          </span>
-        </h2>
+        <div>
 
-        <p>
-          Buat QR produk dan bagikan
-          ke pelanggan, toko, kemasan,
-          poster, atau media sosial.
-        </p>
+          <h3>
+            Scan QR
+          </h3>
 
-        <a
-          href="seller.html"
-          class="btn btn-primary"
-        >
-          ✦ BUAT QR PRODUK
-        </a>
+          <p>
+            Pembeli scan QR produk atau QR katalog
+            milik penjual.
+          </p>
+
+        </div>
 
       </div>
+
+
+      <div class="sb-feature">
+
+        <div class="sb-feature-number">
+          02
+        </div>
+
+        <div>
+
+          <h3>
+            Pilih Produk
+          </h3>
+
+          <p>
+            QR bisa membuka satu produk atau
+            katalog berisi banyak produk.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="sb-feature">
+
+        <div class="sb-feature-number">
+          03
+        </div>
+
+        <div>
+
+          <h3>
+            Checkout
+          </h3>
+
+          <p>
+            Pembeli dapat membeli beberapa barang
+            sekaligus menggunakan keranjang.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="sb-feature">
+
+        <div class="sb-feature-number">
+          04
+        </div>
+
+        <div>
+
+          <h3>
+            Bayar & Kirim
+          </h3>
+
+          <p>
+            Sistem menampilkan barang, berat,
+            pengiriman, fee dan total pembayaran.
+          </p>
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     JENIS PRODUK
+===================================================== -->
+
+<section class="sb-section">
+
+  <div class="sb-container">
+
+    <div class="sb-section-title">
+
+      <small>UNTUK BERBAGAI KEBUTUHAN</small>
+
+      <h2>
+        Produk fisik & digital.
+      </h2>
+
+      <p>
+        Penjual dapat menentukan jenis produk
+        sesuai kebutuhan.
+      </p>
+
+    </div>
+
+
+    <div class="sb-type-grid">
+
+
+      <div class="sb-type">
+
+        <div class="sb-type-icon">
+          📦
+        </div>
+
+        <h3>
+          Produk Fisik
+        </h3>
+
+        <p>
+          Barang dikirim menggunakan kurir,
+          dengan berat dan biaya pengiriman.
+        </p>
+
+      </div>
+
+
+      <div class="sb-type">
+
+        <div class="sb-type-icon">
+          ⚡
+        </div>
+
+        <h3>
+          Produk Digital
+        </h3>
+
+        <p>
+          Pulsa, token, ebook, edukasi,
+          link download dan produk digital lainnya.
+        </p>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     PENJUAL
+===================================================== -->
+
+<section class="sb-section">
+
+  <div class="sb-container">
+
+    <div class="sb-seller">
+
+      <div class="sb-badge">
+        UNTUK PENJUAL
+      </div>
+
+      <h2>
+        Produk Anda siap di-scan.
+      </h2>
+
+      <p>
+        Buat satu QR untuk satu produk atau satu QR
+        katalog untuk banyak produk. Tambahkan stok,
+        harga, gambar opsional, berat, jenis produk
+        dan pengaturan pengiriman.
+      </p>
+
+      <a
+        href="seller.html"
+        class="sb-btn sb-btn-primary"
+      >
+        🏪 BUKA HALAMAN PENJUAL
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     PESANAN SELLER
+===================================================== -->
+
+<section class="sb-section">
+
+  <div class="sb-container">
+
+    <div class="sb-section-title">
+
+      <small>TRANSAKSI</small>
+
+      <h2>
+        Kelola pesanan.
+      </h2>
+
+      <p>
+        Pembeli maupun penjual memiliki halaman
+        pesanan masing-masing.
+      </p>
+
+    </div>
+
+
+    <div class="sb-main-action">
+
+      <a
+        href="orders.html"
+        class="sb-btn sb-btn-secondary"
+      >
+        📦 Pesanan Saya
+      </a>
+
+      <a
+        href="seller-orders.html"
+        class="sb-btn sb-btn-primary"
+      >
+        🏪 Pesanan Penjual
+      </a>
 
     </div>
 
@@ -921,16 +1343,20 @@
 </main>
 
 
-<footer class="footer">
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
-  <div class="container">
+<footer class="sb-footer">
 
-    <div class="logo">
+  <div class="sb-container">
+
+    <div class="sb-footer-logo">
       SCANBELI
     </div>
 
     <p>
-      Scan QR. Checkout. Selesai.
+      Scan QR. Pilih Produk. Checkout. Selesai.
     </p>
 
     <p>
@@ -940,6 +1366,58 @@
   </div>
 
 </footer>
+
+
+<!-- =====================================================
+     MOBILE BOTTOM NAV
+===================================================== -->
+
+<nav class="sb-bottom-nav">
+
+  <a
+    href="index.html"
+    class="sb-bottom-item active"
+  >
+    <span class="sb-bottom-icon">
+      🏠
+    </span>
+    Beranda
+  </a>
+
+
+  <a
+    href="scan.html"
+    class="sb-bottom-item"
+  >
+    <span class="sb-bottom-icon">
+      📷
+    </span>
+    Scan
+  </a>
+
+
+  <a
+    href="buyer.html"
+    class="sb-bottom-item"
+  >
+    <span class="sb-bottom-icon">
+      👤
+    </span>
+    Pembeli
+  </a>
+
+
+  <a
+    href="orders.html"
+    class="sb-bottom-item"
+  >
+    <span class="sb-bottom-icon">
+      📦
+    </span>
+    Pesanan
+  </a>
+
+</nav>
 
 
 <script type="module" src="script.js"></script>
