@@ -1,1144 +1,1601 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0,
-      maximum-scale=1.0, user-scalable=no">
+  <meta charset="UTF-8">
 
-<meta name="theme-color" content="#070707">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+  >
 
-<meta name="description"
-      content="SCANBELI - Buat QR produk dan katalog tanpa database">
+  <meta
+    name="theme-color"
+    content="#070707"
+  >
 
-<title>Penjual - SCANBELI</title>
+  <meta
+    name="description"
+    content="SCANBELI Seller Center - Kelola produk dan buat QR Produk atau QR Katalog."
+  >
 
-<link rel="stylesheet" href="style.css">
+  <title>Seller Center - SCANBELI</title>
 
-<!-- Hanya library QR. Tidak membutuhkan script.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <link rel="stylesheet" href="style.css">
 
-<style>
+  <!-- QRCode.js -->
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js">
+  </script>
 
-*{
-    box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
-}
+  <style>
 
-html{
-    scroll-behavior:smooth;
-}
+    /* =========================================================
+       BASE
+    ========================================================= */
 
-body{
-    margin:0;
-    background:#070707;
-    color:#fff;
-    font-family:
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: #070707;
+      color: #fff;
+      font-family:
         Inter,
         system-ui,
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
         sans-serif;
-}
+    }
 
-button,
-input,
-select,
-textarea{
-    font:inherit;
-}
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
 
-button{
-    cursor:pointer;
-}
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
 
-a{
-    color:inherit;
-    text-decoration:none;
-}
+    .hidden {
+      display: none !important;
+    }
 
-/* =========================
-   PAGE
-========================= */
+    .container {
+      width: min(100% - 28px, 900px);
+      margin: auto;
+    }
 
-.seller-page{
-    min-height:100vh;
-    background:
-        radial-gradient(
-            circle at top right,
-            rgba(214,173,85,.10),
-            transparent 30%
-        ),
-        #070707;
-}
 
-/* =========================
-   HEADER
-========================= */
+    /* =========================================================
+       HEADER
+    ========================================================= */
 
-.seller-header{
-    position:sticky;
-    top:0;
-    z-index:100;
-    background:rgba(7,7,7,.94);
-    backdrop-filter:blur(15px);
-    border-bottom:1px solid rgba(214,173,85,.15);
-}
+    .seller-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
 
-.header-inner{
-    max-width:1100px;
-    margin:auto;
-    padding:14px 16px;
+      background:
+        rgba(7,7,7,.94);
 
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-}
+      backdrop-filter: blur(18px);
 
-.logo{
-    font-size:21px;
-    font-weight:900;
-    letter-spacing:2px;
-    color:#d6ad55;
-}
+      border-bottom:
+        1px solid #222;
+    }
 
-.home-button{
-    padding:9px 14px;
-    border:1px solid rgba(214,173,85,.35);
-    border-radius:12px;
-    color:#d6ad55;
-    font-size:13px;
-    font-weight:700;
-}
+    .header-inner {
+      min-height: 64px;
 
-/* =========================
-   CONTAINER
-========================= */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
 
-.container{
-    width:min(100% - 24px,1100px);
-    margin:auto;
-}
+      gap: 12px;
+    }
 
-/* =========================
-   HERO
-========================= */
+    .logo {
+      text-decoration: none;
 
-.hero{
-    padding:34px 0 20px;
-}
+      font-size: 20px;
+      font-weight: 1000;
 
-.hero-card{
-    border:1px solid rgba(214,173,85,.20);
-    border-radius:24px;
-    padding:25px 20px;
+      letter-spacing: 2px;
 
-    background:
+      color: #d6ad55;
+    }
+
+    .header-home {
+      text-decoration: none;
+
+      color: #fff;
+
+      border:
+        1px solid #303030;
+
+      background: #141414;
+
+      padding: 9px 13px;
+
+      border-radius: 12px;
+
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+
+    /* =========================================================
+       HERO
+    ========================================================= */
+
+    .hero {
+      padding: 30px 0 18px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+
+      padding: 8px 12px;
+
+      border:
+        1px solid rgba(214,173,85,.35);
+
+      border-radius: 999px;
+
+      background:
+        rgba(214,173,85,.07);
+
+      color: #d6ad55;
+
+      font-size: 11px;
+      font-weight: 900;
+
+      letter-spacing: 1px;
+    }
+
+    .hero h1 {
+      margin: 15px 0 10px;
+
+      font-size:
+        clamp(34px, 10vw, 58px);
+
+      line-height: .95;
+
+      letter-spacing: -2px;
+    }
+
+    .hero h1 span {
+      color: #d6ad55;
+    }
+
+    .hero p {
+      margin: 0;
+
+      color: #999;
+
+      line-height: 1.7;
+
+      max-width: 680px;
+    }
+
+
+    /* =========================================================
+       QUICK MENU
+    ========================================================= */
+
+    .quick-menu {
+      position: sticky;
+      top: 64px;
+
+      z-index: 900;
+
+      display: flex;
+
+      gap: 8px;
+
+      overflow-x: auto;
+
+      padding:
+        10px 0 13px;
+
+      scrollbar-width: none;
+
+      background:
         linear-gradient(
-            145deg,
-            rgba(214,173,85,.12),
-            rgba(255,255,255,.025)
+          to bottom,
+          #070707 70%,
+          rgba(7,7,7,0)
+        );
+    }
+
+    .quick-menu::-webkit-scrollbar {
+      display: none;
+    }
+
+    .quick-menu a {
+      flex:
+        0 0 auto;
+
+      text-decoration: none;
+
+      color: #ccc;
+
+      background: #111;
+
+      border:
+        1px solid #292929;
+
+      border-radius: 13px;
+
+      padding:
+        10px 13px;
+
+      font-size: 12px;
+
+      font-weight: 800;
+
+      transition: .2s;
+    }
+
+    .quick-menu a:hover,
+    .quick-menu a:active {
+      color: #d6ad55;
+
+      border-color: #d6ad55;
+
+      transform: translateY(-1px);
+    }
+
+
+    /* =========================================================
+       CARD
+    ========================================================= */
+
+    .card {
+      margin-top: 16px;
+
+      padding: 20px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #151515,
+          #0d0d0d
         );
 
-    box-shadow:
-        0 20px 60px rgba(0,0,0,.35);
-}
+      border:
+        1px solid #292929;
 
-.hero-badge{
-    display:inline-flex;
-    padding:7px 11px;
-    border-radius:999px;
+      border-radius: 23px;
 
-    background:rgba(214,173,85,.10);
-    border:1px solid rgba(214,173,85,.25);
-
-    color:#d6ad55;
-    font-size:11px;
-    font-weight:800;
-    letter-spacing:.5px;
-}
-
-.hero h1{
-    margin:14px 0 8px;
-    font-size:clamp(27px,7vw,42px);
-    line-height:1.1;
-}
-
-.hero p{
-    margin:0;
-    color:#aaa;
-    line-height:1.65;
-    font-size:14px;
-}
-
-/* =========================
-   NAV
-========================= */
-
-.seller-nav{
-    display:flex;
-    gap:8px;
-
-    overflow-x:auto;
-    padding:4px 0 14px;
-
-    scrollbar-width:none;
-}
-
-.seller-nav::-webkit-scrollbar{
-    display:none;
-}
-
-.seller-nav a{
-    flex:0 0 auto;
-
-    padding:10px 14px;
-
-    border-radius:12px;
-
-    background:#111;
-    border:1px solid #242424;
-
-    color:#aaa;
-
-    font-size:12px;
-    font-weight:700;
-}
-
-.seller-nav a.active{
-    color:#d6ad55;
-    border-color:rgba(214,173,85,.4);
-    background:rgba(214,173,85,.08);
-}
-
-/* =========================
-   SECTIONS
-========================= */
-
-.section{
-    margin:18px 0;
-}
-
-.card{
-    background:#0d0d0d;
-    border:1px solid #222;
-    border-radius:20px;
-    padding:18px;
-    box-shadow:0 12px 40px rgba(0,0,0,.20);
-}
-
-.section-title{
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-    gap:10px;
-
-    margin-bottom:16px;
-}
-
-.section-title h2{
-    margin:0;
-    font-size:18px;
-}
-
-.section-title p{
-    margin:5px 0 0;
-    color:#888;
-    font-size:12px;
-    line-height:1.5;
-}
-
-.count-badge{
-    min-width:30px;
-    height:30px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border-radius:10px;
-
-    color:#d6ad55;
-    background:rgba(214,173,85,.10);
-    border:1px solid rgba(214,173,85,.25);
-
-    font-size:12px;
-    font-weight:800;
-}
-
-/* =========================
-   FORM
-========================= */
-
-.form-group{
-    margin-bottom:15px;
-}
-
-.form-group label{
-    display:block;
-    margin-bottom:7px;
-
-    color:#ddd;
-    font-size:12px;
-    font-weight:700;
-}
-
-input,
-select,
-textarea{
-    width:100%;
-
-    background:#090909;
-    color:#fff;
-
-    border:1px solid #292929;
-    border-radius:13px;
-
-    padding:13px 14px;
-
-    outline:none;
-
-    transition:.2s;
-}
-
-input:focus,
-select:focus,
-textarea:focus{
-    border-color:#d6ad55;
-    box-shadow:0 0 0 3px rgba(214,173,85,.08);
-}
-
-textarea{
-    min-height:95px;
-    resize:vertical;
-}
-
-small.help{
-    display:block;
-    margin-top:6px;
-
-    color:#777;
-    font-size:11px;
-    line-height:1.5;
-}
-
-/* =========================
-   GRID
-========================= */
-
-.form-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:12px;
-}
-
-/* =========================
-   TYPE OPTIONS
-========================= */
-
-.type-options{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-}
-
-.type-option{
-    position:relative;
-}
-
-.type-option input{
-    position:absolute;
-    opacity:0;
-    pointer-events:none;
-}
-
-.type-option label{
-    display:block;
-
-    padding:14px;
-
-    border:1px solid #292929;
-    border-radius:14px;
-
-    background:#090909;
-
-    color:#aaa;
-
-    text-align:center;
-    cursor:pointer;
-}
-
-.type-option input:checked + label{
-    color:#d6ad55;
-
-    border-color:#d6ad55;
-
-    background:rgba(214,173,85,.08);
-}
-
-/* =========================
-   SHIPPING
-========================= */
-
-.shipping-options{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-}
-
-.shipping-option{
-    position:relative;
-}
-
-.shipping-option input{
-    position:absolute;
-    opacity:0;
-}
-
-.shipping-option label{
-    display:block;
-
-    padding:13px 10px;
-
-    border:1px solid #292929;
-    border-radius:13px;
-
-    background:#090909;
-
-    color:#aaa;
-
-    text-align:center;
-    font-size:12px;
-    cursor:pointer;
-}
-
-.shipping-option input:checked + label{
-    color:#d6ad55;
-    border-color:#d6ad55;
-    background:rgba(214,173,85,.08);
-}
-
-/* =========================
-   IMAGE
-========================= */
-
-.image-preview-box{
-    margin-top:10px;
-
-    min-height:160px;
-
-    display:none;
-    align-items:center;
-    justify-content:center;
-
-    overflow:hidden;
-
-    border-radius:16px;
-    border:1px solid #292929;
-    background:#090909;
-}
-
-.image-preview-box img{
-    width:100%;
-    max-height:260px;
-    object-fit:contain;
-}
-
-.image-status{
-    margin-top:7px;
-    color:#777;
-    font-size:11px;
-}
-
-/* =========================
-   BUTTON
-========================= */
-
-.primary-button,
-.secondary-button,
-.danger-button{
-    width:100%;
-
-    border-radius:13px;
-    padding:13px 15px;
-
-    font-weight:800;
-    font-size:13px;
-
-    border:0;
-}
-
-.primary-button{
-    background:#d6ad55;
-    color:#080808;
-}
-
-.primary-button:active{
-    transform:scale(.98);
-}
-
-.secondary-button{
-    background:#151515;
-    color:#d6ad55;
-    border:1px solid rgba(214,173,85,.30);
-}
-
-.danger-button{
-    background:rgba(220,70,70,.08);
-    color:#ff7777;
-    border:1px solid rgba(220,70,70,.25);
-}
-
-.button-row{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:10px;
-}
-
-.button-row.three{
-    grid-template-columns:repeat(3,1fr);
-}
-
-.cancel-edit{
-    display:none;
-    margin-top:9px;
-}
-
-/* =========================
-   COLLAPSIBLE GUIDE
-========================= */
-
-.guide{
-    margin-top:12px;
-
-    border:1px solid #252525;
-    border-radius:15px;
-
-    overflow:hidden;
-
-    background:#0a0a0a;
-}
-
-.guide summary{
-    list-style:none;
-
-    padding:14px;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-
-    cursor:pointer;
-
-    color:#d6ad55;
-
-    font-size:12px;
-    font-weight:800;
-}
-
-.guide summary::-webkit-details-marker{
-    display:none;
-}
-
-.guide-arrow{
-    transition:.2s;
-    font-size:16px;
-}
-
-.guide[open] .guide-arrow{
-    transform:rotate(180deg);
-}
-
-.guide-content{
-    padding:0 14px 15px;
-
-    border-top:1px solid #1f1f1f;
-
-    color:#999;
-    font-size:12px;
-    line-height:1.7;
-}
-
-.guide-content strong{
-    color:#ddd;
-}
-
-.guide-content ol,
-.guide-content ul{
-    padding-left:20px;
-}
-
-.guide-content li{
-    margin:6px 0;
-}
-
-.guide-box{
-    margin-top:10px;
-
-    padding:11px;
-
-    border-radius:12px;
-
-    background:#111;
-
-    border:1px solid #222;
-
-    color:#aaa;
-}
-
-.guide-box code{
-    color:#d6ad55;
-    word-break:break-all;
-}
-
-/* =========================
-   PRODUCTS
-========================= */
-
-.product-list{
-    display:grid;
-    gap:11px;
-}
-
-.product-item{
-    display:flex;
-    gap:12px;
-
-    padding:12px;
-
-    background:#090909;
-
-    border:1px solid #242424;
-    border-radius:16px;
-}
-
-.product-thumb{
-    width:75px;
-    height:75px;
-
-    flex:0 0 75px;
-
-    border-radius:12px;
-
-    overflow:hidden;
-
-    background:#151515;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    color:#666;
-    font-size:10px;
-    text-align:center;
-}
-
-.product-thumb img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-.product-info{
-    min-width:0;
-    flex:1;
-}
-
-.product-info h3{
-    margin:0 0 5px;
-
-    font-size:14px;
-
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-}
-
-.product-meta{
-    color:#888;
-    font-size:11px;
-    line-height:1.6;
-}
-
-.product-price{
-    color:#d6ad55;
-    font-weight:800;
-}
-
-.product-actions{
-    display:flex;
-    gap:6px;
-    margin-top:8px;
-}
-
-.product-actions button{
-    padding:7px 9px;
-
-    border-radius:9px;
-
-    border:1px solid #292929;
-
-    background:#151515;
-    color:#ddd;
-
-    font-size:10px;
-    font-weight:700;
-}
-
-.product-actions .delete{
-    color:#ff7777;
-}
-
-/* =========================
-   EMPTY
-========================= */
-
-.empty-products{
-    text-align:center;
-
-    padding:30px 15px;
-
-    color:#666;
-
-    font-size:12px;
-
-    border:1px dashed #292929;
-    border-radius:15px;
-}
-
-/* =========================
-   QR
-========================= */
-
-.qr-section{
-    scroll-margin-top:90px;
-}
-
-.qr-create{
-    display:grid;
-    gap:10px;
-}
-
-.qr-result{
-    display:none;
-
-    margin-top:16px;
-
-    text-align:center;
-
-    padding:18px;
-
-    border-radius:18px;
-
-    background:#fff;
-
-    color:#111;
-}
-
-.qr-result.show{
-    display:block;
-}
-
-.qr-brand{
-    margin-bottom:12px;
-
-    font-weight:900;
-    letter-spacing:2px;
-
-    color:#111;
-}
-
-.qr-store{
-    margin-top:5px;
-
-    font-size:13px;
-    font-weight:700;
-}
-
-.qr-box{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    margin:15px auto;
-
-    width:240px;
-    height:240px;
-
-    padding:10px;
-
-    background:#fff;
-
-    border-radius:8px;
-
-    border:3px solid #d6ad55;
-}
-
-.qr-box img,
-.qr-box canvas{
-    width:220px !important;
-    height:220px !important;
-}
-
-.qr-url{
-    padding:10px;
-
-    background:#f2f2f2;
-
-    border-radius:10px;
-
-    color:#555;
-
-    font-size:10px;
-
-    line-height:1.5;
-
-    word-break:break-all;
-
-    text-align:left;
-}
-
-.qr-actions{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-
-    gap:8px;
-
-    margin-top:10px;
-}
-
-.qr-actions button{
-    padding:11px;
-
-    border-radius:11px;
-
-    border:1px solid #ddd;
-
-    background:#111;
-
-    color:#fff;
-
-    font-size:11px;
-    font-weight:800;
-}
-
-.qr-actions button:first-child{
-    background:#d6ad55;
-    color:#111;
-    border-color:#d6ad55;
-}
-
-/* =========================
-   QR CATALOG NOTE
-========================= */
-
-.notice{
-    padding:12px;
-
-    border-radius:13px;
-
-    background:rgba(214,173,85,.06);
-
-    border:1px solid rgba(214,173,85,.18);
-
-    color:#aaa;
-
-    font-size:11px;
-
-    line-height:1.6;
-}
-
-/* =========================
-   FOOTER
-========================= */
-
-footer{
-    padding:35px 15px 50px;
-
-    text-align:center;
-
-    color:#555;
-
-    font-size:11px;
-}
-
-/* =========================
-   TOAST
-========================= */
-
-.toast{
-    position:fixed;
-
-    left:50%;
-    bottom:20px;
-
-    transform:translate(-50%,20px);
-
-    z-index:999;
-
-    opacity:0;
-    pointer-events:none;
-
-    width:min(calc(100% - 30px),400px);
-
-    padding:13px 15px;
-
-    border-radius:13px;
-
-    background:#d6ad55;
-    color:#090909;
-
-    text-align:center;
-
-    font-size:12px;
-    font-weight:800;
-
-    transition:.25s;
-}
-
-.toast.show{
-    opacity:1;
-    transform:translate(-50%,0);
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media(max-width:600px){
-
-    .form-grid{
-        grid-template-columns:1fr;
+      box-shadow:
+        0 15px 45px rgba(0,0,0,.25);
     }
 
-    .button-row.three{
-        grid-template-columns:1fr;
+    .card-title {
+      margin: 0 0 6px;
+
+      font-size: 21px;
     }
 
-    .qr-box{
-        width:230px;
-        height:230px;
+    .card-desc {
+      margin: 0 0 20px;
+
+      color: #8e8e8e;
+
+      font-size: 13px;
+
+      line-height: 1.7;
     }
 
-    .qr-box img,
-    .qr-box canvas{
-        width:210px !important;
-        height:210px !important;
+
+    /* =========================================================
+       STORE
+    ========================================================= */
+
+    .store-highlight {
+      border:
+        1px solid rgba(214,173,85,.35);
+
+      background:
+        linear-gradient(
+          145deg,
+          rgba(214,173,85,.08),
+          rgba(0,0,0,.15)
+        );
     }
 
-}
+    .store-label {
+      color: #d6ad55;
 
-</style>
+      font-size: 10px;
+
+      font-weight: 1000;
+
+      letter-spacing: 1.5px;
+
+      margin-bottom: 8px;
+    }
+
+    .store-row {
+      display: flex;
+
+      gap: 9px;
+    }
+
+    .store-row input {
+      flex: 1;
+    }
+
+
+    /* =========================================================
+       FORM
+    ========================================================= */
+
+    .form-group {
+      margin-bottom: 17px;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    label.main-label {
+      display: block;
+
+      margin-bottom: 8px;
+
+      color: #eee;
+
+      font-size: 13px;
+
+      font-weight: 850;
+    }
+
+    label.main-label span {
+      color: #777;
+
+      font-weight: 500;
+
+      font-size: 11px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+
+      color: #fff;
+
+      background: #080808;
+
+      border:
+        1px solid #303030;
+
+      border-radius: 14px;
+
+      padding: 14px;
+
+      outline: none;
+
+      transition:
+        border .2s,
+        box-shadow .2s;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #d6ad55;
+
+      box-shadow:
+        0 0 0 3px
+        rgba(214,173,85,.07);
+    }
+
+    textarea {
+      min-height: 95px;
+
+      resize: vertical;
+    }
+
+    .help {
+      display: block;
+
+      margin-top: 7px;
+
+      color: #6f6f6f;
+
+      font-size: 11px;
+
+      line-height: 1.6;
+    }
+
+
+    /* =========================================================
+       BUTTON
+    ========================================================= */
+
+    .btn {
+      border: 0;
+
+      cursor: pointer;
+
+      border-radius: 14px;
+
+      padding:
+        13px 16px;
+
+      font-weight: 900;
+
+      transition:
+        transform .18s,
+        opacity .18s;
+    }
+
+    .btn:active {
+      transform: scale(.98);
+    }
+
+    .btn-primary {
+      color: #080808;
+
+      background:
+        linear-gradient(
+          135deg,
+          #f1d17c,
+          #d6ad55
+        );
+    }
+
+    .btn-dark {
+      color: #eee;
+
+      background: #181818;
+
+      border:
+        1px solid #333;
+    }
+
+    .btn-danger {
+      color: #ff9090;
+
+      background: #190d0d;
+
+      border:
+        1px solid #452020;
+    }
+
+    .full {
+      width: 100%;
+    }
+
+
+    /* =========================================================
+       PRODUCT TYPE
+    ========================================================= */
+
+    .choice-grid {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 10px;
+    }
+
+    .choice {
+      position: relative;
+    }
+
+    .choice input {
+      position: absolute;
+
+      opacity: 0;
+
+      pointer-events: none;
+    }
+
+    .choice label {
+      display: block;
+
+      padding: 16px 12px;
+
+      text-align: center;
+
+      cursor: pointer;
+
+      background: #090909;
+
+      border:
+        1px solid #303030;
+
+      border-radius: 16px;
+    }
+
+    .choice input:checked + label {
+      border-color: #d6ad55;
+
+      color: #d6ad55;
+
+      background:
+        rgba(214,173,85,.08);
+
+      box-shadow:
+        inset 0 0 0 1px
+        rgba(214,173,85,.15);
+    }
+
+    .choice strong {
+      display: block;
+
+      margin-bottom: 5px;
+    }
+
+    .choice small {
+      color: #777;
+
+      font-size: 11px;
+    }
+
+
+    /* =========================================================
+       SUB CARD
+    ========================================================= */
+
+    .sub-card {
+      margin:
+        10px 0 18px;
+
+      padding: 15px;
+
+      border:
+        1px solid #292929;
+
+      border-radius: 17px;
+
+      background: #0a0a0a;
+    }
+
+    .physical-box {
+      border-left:
+        3px solid #777;
+    }
+
+    .digital-box {
+      border-left:
+        3px solid #d6ad55;
+    }
+
+
+    /* =========================================================
+       SHIPPING
+    ========================================================= */
+
+    .shipping-grid {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 9px;
+    }
+
+    .shipping-choice {
+      position: relative;
+    }
+
+    .shipping-choice input {
+      position: absolute;
+
+      opacity: 0;
+    }
+
+    .shipping-choice label {
+      display: block;
+
+      padding: 13px 8px;
+
+      text-align: center;
+
+      border:
+        1px solid #303030;
+
+      border-radius: 14px;
+
+      background: #080808;
+
+      cursor: pointer;
+
+      font-size: 12px;
+    }
+
+    .shipping-choice input:checked + label {
+      color: #d6ad55;
+
+      border-color: #d6ad55;
+
+      background:
+        rgba(214,173,85,.06);
+    }
+
+
+    /* =========================================================
+       IMAGE
+    ========================================================= */
+
+    .image-preview {
+      margin-top: 12px;
+
+      padding: 10px;
+
+      background: #070707;
+
+      border:
+        1px solid #292929;
+
+      border-radius: 16px;
+
+      text-align: center;
+    }
+
+    .image-preview img {
+      display: block;
+
+      width: 100%;
+
+      max-height: 230px;
+
+      object-fit: contain;
+
+      border-radius: 12px;
+
+      background: #111;
+    }
+
+    .image-status {
+      margin: 8px 0 0;
+
+      color: #999;
+
+      font-size: 11px;
+    }
+
+    .guide-link {
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 5px;
+
+      margin-top: 8px;
+
+      border: 0;
+
+      padding: 0;
+
+      color: #d6ad55;
+
+      background: transparent;
+
+      cursor: pointer;
+
+      font-size: 12px;
+
+      font-weight: 850;
+    }
+
+
+    /* =========================================================
+       ACCORDION
+    ========================================================= */
+
+    .accordion {
+      margin-top: 12px;
+
+      border:
+        1px solid #292929;
+
+      border-radius: 15px;
+
+      overflow: hidden;
+
+      background: #0a0a0a;
+    }
+
+    .accordion-head {
+      width: 100%;
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      gap: 10px;
+
+      border: 0;
+
+      background: transparent;
+
+      color: #fff;
+
+      padding: 14px;
+
+      cursor: pointer;
+
+      text-align: left;
+
+      font-weight: 850;
+    }
+
+    .arrow {
+      color: #d6ad55;
+
+      transition:
+        transform .25s;
+    }
+
+    .accordion.open .arrow {
+      transform: rotate(180deg);
+    }
+
+    .accordion-body {
+      display: none;
+
+      padding:
+        0 14px 15px;
+
+      color: #999;
+
+      font-size: 12px;
+
+      line-height: 1.7;
+    }
+
+    .accordion.open .accordion-body {
+      display: block;
+    }
+
+    .guide-step {
+      padding:
+        11px 0;
+
+      border-bottom:
+        1px solid #202020;
+    }
+
+    .guide-step:last-child {
+      border-bottom: 0;
+    }
+
+    .guide-step strong {
+      display: block;
+
+      margin-bottom: 3px;
+
+      color: #eee;
+    }
+
+    .guide-example {
+      margin-top: 8px;
+
+      padding: 10px;
+
+      background: #060606;
+
+      border:
+        1px solid #252525;
+
+      border-radius: 10px;
+
+      color: #aaa;
+
+      word-break: break-all;
+    }
+
+
+    /* =========================================================
+       PRODUCT LIST
+    ========================================================= */
+
+    .list-head {
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      gap: 10px;
+
+      margin-bottom: 14px;
+    }
+
+    .count {
+      color: #d6ad55;
+
+      font-size: 12px;
+
+      font-weight: 900;
+    }
+
+    .product-list {
+      display: grid;
+
+      gap: 11px;
+    }
+
+    .product {
+      padding: 15px;
+
+      border:
+        1px solid #292929;
+
+      border-radius: 18px;
+
+      background: #0a0a0a;
+    }
+
+    .product-main {
+      display: flex;
+
+      gap: 12px;
+    }
+
+    .product-image {
+      width: 72px;
+
+      height: 72px;
+
+      flex:
+        0 0 72px;
+
+      border-radius: 13px;
+
+      overflow: hidden;
+
+      background: #151515;
+
+      border:
+        1px solid #292929;
+    }
+
+    .product-image img {
+      width: 100%;
+
+      height: 100%;
+
+      object-fit: cover;
+    }
+
+    .product-info {
+      flex: 1;
+
+      min-width: 0;
+    }
+
+    .product-name {
+      margin: 0 0 4px;
+
+      font-size: 15px;
+    }
+
+    .product-price {
+      color: #d6ad55;
+
+      font-weight: 950;
+
+      margin-bottom: 5px;
+    }
+
+    .product-meta {
+      color: #777;
+
+      font-size: 11px;
+
+      line-height: 1.7;
+    }
+
+    .product-actions {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 8px;
+
+      margin-top: 12px;
+    }
+
+    .mini-btn {
+      border:
+        1px solid #303030;
+
+      border-radius: 11px;
+
+      padding: 9px;
+
+      background: #151515;
+
+      color: #eee;
+
+      cursor: pointer;
+
+      font-size: 11px;
+
+      font-weight: 850;
+    }
+
+    .mini-btn.delete {
+      color: #ff8b8b;
+
+      border-color:
+        #412020;
+    }
+
+
+    /* =========================================================
+       QR SECTION
+    ========================================================= */
+
+    .qr-intro {
+      padding: 14px;
+
+      margin-bottom: 15px;
+
+      border:
+        1px solid rgba(214,173,85,.25);
+
+      border-radius: 16px;
+
+      background:
+        rgba(214,173,85,.05);
+
+      color: #aaa;
+
+      font-size: 12px;
+
+      line-height: 1.7;
+    }
+
+    .qr-grid {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 13px;
+    }
+
+    .qr-card {
+      padding: 16px;
+
+      border:
+        1px solid #292929;
+
+      border-radius: 20px;
+
+      background: #0a0a0a;
+
+      text-align: center;
+    }
+
+    .qr-card h3 {
+      margin:
+        0 0 6px;
+    }
+
+    .qr-card p {
+      margin:
+        0 0 13px;
+
+      color: #777;
+
+      font-size: 11px;
+
+      line-height: 1.6;
+    }
+
+    .qr-select {
+      margin-bottom: 9px;
+    }
+
+
+    /* =========================================================
+       QR DISPLAY
+    ========================================================= */
+
+    .qr-result {
+      margin-top: 16px;
+    }
+
+    .qr-frame {
+      width: fit-content;
+
+      max-width: 100%;
+
+      margin:
+        14px auto 10px;
+
+      padding: 12px;
+
+      background: #fff;
+
+      border:
+        5px solid #d6ad55;
+
+      border-radius: 18px;
+
+      box-shadow:
+        0 12px 35px
+        rgba(214,173,85,.12);
+    }
+
+    .qr-inner {
+      position: relative;
+
+      display: block;
+
+      width: 230px;
+
+      height: 230px;
+
+      background: #fff;
+    }
+
+    .qr-inner canvas {
+      display: block;
+
+      width: 230px !important;
+
+      height: 230px !important;
+    }
+
+    /*
+      Logo berada di tengah.
+      Ukurannya sengaja kecil dan mempunyai
+      area putih supaya modul QR tetap terbaca.
+    */
+
+    .qr-logo {
+      position: absolute;
+
+      left: 50%;
+
+      top: 50%;
+
+      transform:
+        translate(-50%, -50%);
+
+      width: 54px;
+
+      height: 54px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      background: #fff;
+
+      border-radius: 13px;
+
+      border:
+        2px solid #d6ad55;
+
+      box-shadow:
+        0 0 0 4px #fff;
+
+      z-index: 5;
+
+      pointer-events: none;
+    }
+
+    .qr-logo-text {
+      color: #070707;
+
+      font-size: 8px;
+
+      font-weight: 1000;
+
+      letter-spacing: .8px;
+
+      text-align: center;
+
+      line-height: 1.1;
+    }
+
+    .qr-logo-mark {
+      color: #d6ad55;
+
+      font-size: 17px;
+
+      line-height: 1;
+    }
+
+    .qr-brand {
+      color: #d6ad55;
+
+      font-size: 14px;
+
+      font-weight: 1000;
+
+      letter-spacing: 2px;
+    }
+
+    .qr-store {
+      color: #aaa;
+
+      font-size: 12px;
+
+      margin-top: 3px;
+    }
+
+    .qr-url {
+      margin-top: 11px;
+
+      padding: 10px;
+
+      border:
+        1px solid #252525;
+
+      background: #050505;
+
+      border-radius: 11px;
+
+      color: #777;
+
+      font-size: 10px;
+
+      line-height: 1.5;
+
+      text-align: left;
+
+      word-break: break-all;
+
+      max-height: 90px;
+
+      overflow: auto;
+    }
+
+    .qr-actions {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 8px;
+
+      margin-top: 9px;
+    }
+
+
+    /* =========================================================
+       QR WARNING
+    ========================================================= */
+
+    .qr-warning {
+      margin-top: 10px;
+
+      padding: 11px;
+
+      border:
+        1px solid #5a4821;
+
+      border-radius: 12px;
+
+      background:
+        rgba(214,173,85,.06);
+
+      color: #c9b37e;
+
+      font-size: 11px;
+
+      line-height: 1.6;
+    }
+
+
+    /* =========================================================
+       EMPTY
+    ========================================================= */
+
+    .empty {
+      padding: 30px 12px;
+
+      text-align: center;
+
+      color: #666;
+
+      border:
+        1px dashed #303030;
+
+      border-radius: 16px;
+
+      font-size: 12px;
+
+      line-height: 1.7;
+    }
+
+
+    /* =========================================================
+       TOAST
+    ========================================================= */
+
+    .toast {
+      position: fixed;
+
+      left: 50%;
+
+      bottom: 22px;
+
+      z-index: 99999;
+
+      transform:
+        translate(-50%, 30px);
+
+      opacity: 0;
+
+      pointer-events: none;
+
+      width:
+        min(calc(100% - 30px), 420px);
+
+      padding: 13px 16px;
+
+      border-radius: 14px;
+
+      background: #f1f1f1;
+
+      color: #080808;
+
+      text-align: center;
+
+      font-size: 12px;
+
+      font-weight: 900;
+
+      box-shadow:
+        0 15px 40px
+        rgba(0,0,0,.4);
+
+      transition: .25s ease;
+    }
+
+    .toast.show {
+      opacity: 1;
+
+      transform:
+        translate(-50%, 0);
+    }
+
+
+    /* =========================================================
+       FOOTER
+    ========================================================= */
+
+    .footer {
+      padding:
+        40px 0 60px;
+
+      text-align: center;
+
+      color: #555;
+
+      font-size: 11px;
+    }
+
+    .footer-logo {
+      color: #d6ad55;
+
+      font-size: 18px;
+
+      font-weight: 1000;
+
+      letter-spacing: 2px;
+
+      margin-bottom: 8px;
+    }
+
+
+    /* =========================================================
+       MOBILE
+    ========================================================= */
+
+    @media (max-width: 700px) {
+
+      .container {
+        width:
+          min(100% - 22px, 900px);
+      }
+
+      .hero {
+        padding-top: 25px;
+      }
+
+      .card {
+        padding: 16px;
+
+        border-radius: 20px;
+      }
+
+      .store-row {
+        flex-direction: column;
+      }
+
+      .store-row .btn {
+        width: 100%;
+      }
+
+      .choice-grid,
+      .shipping-grid,
+      .qr-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .qr-inner,
+      .qr-inner canvas {
+        width: 220px !important;
+        height: 220px !important;
+      }
+
+      .product-main {
+        align-items: flex-start;
+      }
+
+    }
+
+
+    @media (min-width: 701px) {
+
+      .seller-form-layout {
+        display: grid;
+
+        grid-template-columns:
+          1fr 1fr;
+
+        gap: 15px;
+      }
+
+      .seller-form-layout
+      .full-width {
+        grid-column:
+          1 / -1;
+      }
+
+    }
+
+  </style>
+
 </head>
 
 <body>
 
-<div class="seller-page">
 
-<!-- =========================
-     HEADER
-========================= -->
+  <!-- =========================================================
+       HEADER
+  ========================================================== -->
 
-<header class="seller-header">
+  <header class="seller-header">
 
-    <div class="header-inner">
+    <div class="container header-inner">
 
-        <div class="logo">
-            SCANBELI
-        </div>
+      <a
+        href="index.html"
+        class="logo"
+      >
+        SCANBELI
+      </a>
 
-        <a href="index.html" class="home-button">
-            ← Beranda
-        </a>
-
-    </div>
-
-</header>
-
-
-<main class="container">
-
-<!-- =========================
-     HERO
-========================= -->
-
-<section class="hero">
-
-    <div class="hero-card">
-
-        <span class="hero-badge">
-            PANEL PENJUAL
-        </span>
-
-        <h1>
-            Buat QR Produk Anda
-        </h1>
-
-        <p>
-            Buat QR untuk satu produk atau seluruh katalog.
-            Pembeli cukup scan QR untuk melihat produk dan melakukan pembelian.
-        </p>
+      <a
+        href="index.html"
+        class="header-home"
+      >
+        🏠 Beranda
+      </a>
 
     </div>
 
-</section>
+  </header>
 
 
-<!-- =========================
-     NAV
-========================= -->
-
-<nav class="seller-nav">
-
-    <a href="#toko" class="active">
-        Toko
-    </a>
-
-    <a href="#produk">
-        Produk
-    </a>
-
-    <a href="#qr">
-        QR
-    </a>
-
-    <a href="orders.html">
-        Pesanan Masuk
-    </a>
-
-</nav>
+  <main class="container">
 
 
-<!-- =========================
-     TOKO
-========================= -->
+    <!-- =======================================================
+         HERO
+    ======================================================== -->
 
-<section class="section" id="toko">
+    <section class="hero">
 
-    <div class="card">
+      <div class="badge">
+        ✦ SELLER CENTER
+      </div>
 
-        <div class="section-title">
+      <h1>
+        Jual lebih
+        <br>
+        <span>mudah.</span>
+      </h1>
 
-            <div>
-                <h2>
-                    🏪 Identitas Toko
-                </h2>
+      <p>
+        Buat produk, atur stok, lalu buat QR.
+        Pembeli cukup scan QR untuk melihat produk
+        dan melakukan checkout.
+      </p>
 
-                <p>
-                    Nama ini akan muncul pada halaman pembeli.
-                </p>
-            </div>
+    </section>
 
-        </div>
 
-        <div class="form-group">
+    <!-- =======================================================
+         QUICK MENU
+    ======================================================== -->
 
-            <label for="storeName">
-                Nama toko / penjual
-            </label>
+    <nav class="quick-menu">
 
-            <input
-                id="storeName"
-                type="text"
-                maxlength="80"
-                placeholder="Contoh: Toko Ryan"
-            >
+      <a href="#toko">
+        🏪 Toko
+      </a>
 
-        </div>
+      <a href="#tambah-produk">
+        ＋ Produk
+      </a>
+
+      <a href="#produk-saya">
+        📦 Produk Saya
+      </a>
+
+      <a href="#qr">
+        ▣ Buat QR
+      </a>
+
+      <a href="seller-orders.html">
+        🛍️ Pesanan
+      </a>
+
+    </nav>
+
+
+    <!-- =======================================================
+         TOKO
+    ======================================================== -->
+
+    <section
+      class="card store-highlight"
+      id="toko"
+    >
+
+      <div class="store-label">
+        IDENTITAS TOKO
+      </div>
+
+      <h2 class="card-title">
+        🏪 Nama Toko
+      </h2>
+
+      <p class="card-desc">
+        Nama toko cukup dimasukkan sekali.
+        Produk berikutnya otomatis menggunakan
+        nama toko ini.
+      </p>
+
+      <div class="store-row">
+
+        <input
+          id="storeName"
+          type="text"
+          maxlength="80"
+          placeholder="Contoh: Toko Ryan"
+        >
 
         <button
-            id="saveStoreButton"
-            class="primary-button"
-            type="button"
+          id="saveStoreButton"
+          class="btn btn-primary"
+          type="button"
         >
-            Simpan Nama Toko
+          SIMPAN
         </button>
 
-    </div>
+      </div>
 
-</section>
-
-
-<!-- =========================
-     PRODUK
-========================= -->
-
-<section class="section" id="produk">
-
-    <div class="card">
-
-        <div class="section-title">
-
-            <div>
-                <h2 id="productFormTitle">
-                    ➕ Tambah Produk
-                </h2>
-
-                <p>
-                    Isi data produk yang akan muncul ketika QR discan.
-                </p>
-            </div>
-
-        </div>
+    </section>
 
 
-        <!-- Nama -->
+    <!-- =======================================================
+         TAMBAH PRODUK
+    ======================================================== -->
+
+    <section
+      class="card"
+      id="tambah-produk"
+    >
+
+      <h2 class="card-title">
+        ＋ Tambah Produk
+      </h2>
+
+      <p class="card-desc">
+        Isi informasi produk. Gambar bersifat opsional.
+        SCANBELI tidak menyimpan file gambar.
+      </p>
+
+
+      <div class="seller-form-layout">
+
+
+        <!-- NAMA -->
 
         <div class="form-group">
 
-            <label for="productName">
-                Nama produk
-            </label>
+          <label
+            class="main-label"
+            for="productName"
+          >
+            Nama Produk
+          </label>
 
-            <input
-                id="productName"
-                type="text"
-                maxlength="120"
-                placeholder="Contoh: Kaos Anime"
-            >
+          <input
+            id="productName"
+            type="text"
+            maxlength="100"
+            placeholder="Contoh: Kaos Anime"
+          >
 
         </div>
 
 
-        <!-- Harga + Kode -->
+        <!-- HARGA -->
 
-        <div class="form-grid">
+        <div class="form-group">
 
-            <div class="form-group">
+          <label
+            class="main-label"
+            for="productPrice"
+          >
+            Harga Produk
+          </label>
 
-                <label for="productPrice">
-                    Harga
-                </label>
+          <input
+            id="productPrice"
+            type="number"
+            min="0"
+            inputmode="numeric"
+            placeholder="100000"
+          >
 
-                <input
-                    id="productPrice"
-                    type="number"
-                    min="0"
-                    inputmode="numeric"
-                    placeholder="100000"
-                >
-
-            </div>
+        </div>
 
 
-            <div class="form-group">
+        <!-- KODE -->
 
-                <label for="productCode">
-                    Kode produk
-                </label>
+        <div class="form-group">
 
-                <input
-                    id="productCode"
-                    type="text"
-                    maxlength="50"
-                    placeholder="KAOS001"
-                >
+          <label
+            class="main-label"
+            for="productCode"
+          >
+            Kode Produk
+            <span>Opsional</span>
+          </label>
 
-            </div>
+          <input
+            id="productCode"
+            type="text"
+            maxlength="40"
+            placeholder="KAOS001"
+          >
 
         </div>
 
@@ -1147,2902 +1604,3382 @@ footer{
 
         <div class="form-group">
 
-            <label>
-                Jenis produk
-            </label>
+          <label class="main-label">
+            Jenis Produk
+          </label>
 
-            <div class="type-options">
+          <div class="choice-grid">
 
-                <div class="type-option">
+            <div class="choice">
 
-                    <input
-                        type="radio"
-                        id="typePhysical"
-                        name="productType"
-                        value="physical"
-                        checked
-                    >
+              <input
+                type="radio"
+                name="productType"
+                id="typePhysical"
+                value="physical"
+                checked
+              >
 
-                    <label for="typePhysical">
-                        📦 Produk Fisik
-                    </label>
+              <label for="typePhysical">
 
-                </div>
+                <strong>
+                  📦 Fisik
+                </strong>
 
-
-                <div class="type-option">
-
-                    <input
-                        type="radio"
-                        id="typeDigital"
-                        name="productType"
-                        value="digital"
-                    >
-
-                    <label for="typeDigital">
-                        💾 Produk Digital
-                    </label>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- =========================
-             FISIK
-        ========================= -->
-
-        <div id="physicalFields">
-
-            <div class="form-grid">
-
-                <div class="form-group">
-
-                    <label for="productStock">
-                        Stok
-                    </label>
-
-                    <input
-                        id="productStock"
-                        type="number"
-                        min="0"
-                        inputmode="numeric"
-                        placeholder="10"
-                    >
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="productWeight">
-                        Berat (gram)
-                    </label>
-
-                    <input
-                        id="productWeight"
-                        type="number"
-                        min="0"
-                        inputmode="numeric"
-                        placeholder="500"
-                    >
-
-                </div>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Pengiriman
-                </label>
-
-                <div class="shipping-options">
-
-                    <div class="shipping-option">
-
-                        <input
-                            type="radio"
-                            id="shippingCourier"
-                            name="shippingMethod"
-                            value="courier"
-                            checked
-                        >
-
-                        <label for="shippingCourier">
-                            🚚 Kurir
-                        </label>
-
-                    </div>
-
-
-                    <div class="shipping-option">
-
-                        <input
-                            type="radio"
-                            id="shippingSeller"
-                            name="shippingMethod"
-                            value="seller_delivery"
-                        >
-
-                        <label for="shippingSeller">
-                            🛵 Antar Sendiri
-                        </label>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="shippingNote">
-                    Catatan pengiriman
-                </label>
-
-                <textarea
-                    id="shippingNote"
-                    maxlength="500"
-                    placeholder="Contoh: Pengiriman setiap Senin-Sabtu."
-                ></textarea>
-
-            </div>
-
-
-            <details class="guide">
-
-                <summary>
-                    <span>
-                        🚚 Cara kerja pengiriman
-                    </span>
-
-                    <span class="guide-arrow">
-                        ▼
-                    </span>
-                </summary>
-
-                <div class="guide-content">
-
-                    <p>
-                        <strong>Kurir:</strong>
-                        pilih jika barang dikirim menggunakan jasa kurir.
-                    </p>
-
-                    <p>
-                        <strong>Antar Sendiri:</strong>
-                        pilih jika penjual sendiri yang mengantarkan barang
-                        kepada pembeli.
-                    </p>
-
-                    <div class="guide-box">
-                        Berat digunakan sebagai informasi untuk menentukan
-                        kebutuhan pengiriman. Biaya pengiriman dapat ditentukan
-                        sesuai sistem pengiriman yang digunakan.
-                    </div>
-
-                </div>
-
-            </details>
-
-        </div>
-
-
-        <!-- =========================
-             DIGITAL
-        ========================= -->
-
-        <div id="digitalFields" style="display:none;">
-
-            <div class="form-group">
-
-                <label for="digitalDelivery">
-                    Cara mengirim produk digital
-                </label>
-
-                <select id="digitalDelivery">
-
-                    <option value="whatsapp">
-                        WhatsApp
-                    </option>
-
-                    <option value="download">
-                        Link Download
-                    </option>
-
-                    <option value="whatsapp_download">
-                        WhatsApp + Link Download
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="digitalLink">
-                    Link download
-                </label>
-
-                <input
-                    id="digitalLink"
-                    type="url"
-                    placeholder="https://..."
-                >
-
-                <small class="help">
-                    Contoh: link Google Drive, Dropbox, atau website tempat
-                    file dapat diakses pembeli.
+                <small>
+                  Barang dikirim
                 </small>
 
+              </label>
+
             </div>
 
 
-            <div class="form-group">
+            <div class="choice">
 
-                <label for="digitalWhatsapp">
-                    Nomor WhatsApp
-                </label>
+              <input
+                type="radio"
+                name="productType"
+                id="typeDigital"
+                value="digital"
+              >
 
-                <input
-                    id="digitalWhatsapp"
-                    type="tel"
-                    inputmode="tel"
-                    placeholder="628123456789"
-                >
+              <label for="typeDigital">
 
-                <small class="help">
-                    Gunakan format internasional, contoh:
-                    628123456789.
+                <strong>
+                  💻 Digital
+                </strong>
+
+                <small>
+                  Dikirim online
                 </small>
 
-            </div>
-
-
-            <div class="form-group">
-
-                <label for="digitalDescription">
-                    Keterangan produk digital
-                </label>
-
-                <textarea
-                    id="digitalDescription"
-                    maxlength="1000"
-                    placeholder="Contoh: File PDF akan dikirim setelah pembayaran."
-                ></textarea>
+              </label>
 
             </div>
 
-
-            <details class="guide">
-
-                <summary>
-
-                    <span>
-                        💾 Cara menjual produk digital
-                    </span>
-
-                    <span class="guide-arrow">
-                        ▼
-                    </span>
-
-                </summary>
-
-                <div class="guide-content">
-
-                    <ol>
-
-                        <li>
-                            Upload file Anda ke tempat penyimpanan
-                            seperti Google Drive.
-                        </li>
-
-                        <li>
-                            Atur akses file agar pembeli dapat membukanya.
-                        </li>
-
-                        <li>
-                            Copy link file tersebut.
-                        </li>
-
-                        <li>
-                            Paste link ke kolom
-                            <strong>Link Download</strong>.
-                        </li>
-
-                        <li>
-                            Jika ingin mengirim lewat WhatsApp,
-                            masukkan nomor WhatsApp Anda.
-                        </li>
-
-                    </ol>
-
-                </div>
-
-            </details>
+          </div>
 
         </div>
 
 
-        <!-- =========================
-             GAMBAR
-        ========================= -->
+        <!-- =================================================
+             PHYSICAL
+        ================================================== -->
 
-        <div class="form-group">
+        <div
+          id="physicalFields"
+          class="sub-card physical-box full-width"
+        >
 
-            <label for="productImage">
-                Link gambar produk (opsional)
+          <div class="form-group">
+
+            <label
+              class="main-label"
+              for="productStock"
+            >
+              📦 Stok
             </label>
 
             <input
-                id="productImage"
-                type="url"
-                placeholder="https://..."
+              id="productStock"
+              type="number"
+              min="0"
+              value="1"
+              inputmode="numeric"
             >
 
             <small class="help">
-                SCANBELI tidak menyimpan gambar. Anda hanya memasukkan
-                link gambar yang sudah tersedia di internet.
+              Pembeli dapat membeli beberapa jumlah
+              sekaligus selama stok tersedia.
             </small>
 
+          </div>
 
-            <div
-                id="imagePreviewBox"
-                class="image-preview-box"
+
+          <div class="form-group">
+
+            <label
+              class="main-label"
+              for="productWeight"
             >
-
-                <img
-                    id="imagePreview"
-                    alt="Preview produk"
-                >
-
-            </div>
-
-            <div
-                id="imagePreviewStatus"
-                class="image-status"
-            ></div>
-
-
-            <!-- PANDUAN GAMBAR -->
-
-            <details class="guide">
-
-                <summary>
-
-                    <span>
-                        🖼️ Cara mendapatkan link gambar
-                    </span>
-
-                    <span class="guide-arrow">
-                        ▼
-                    </span>
-
-                </summary>
-
-                <div class="guide-content">
-
-                    <p>
-                        <strong>Cara paling mudah menggunakan Google Drive:</strong>
-                    </p>
-
-                    <ol>
-
-                        <li>
-                            Buka aplikasi <strong>Google Drive</strong>.
-                        </li>
-
-                        <li>
-                            Tekan tombol <strong>+</strong>.
-                        </li>
-
-                        <li>
-                            Pilih <strong>Upload</strong>.
-                        </li>
-
-                        <li>
-                            Pilih foto produk dari HP.
-                        </li>
-
-                        <li>
-                            Setelah upload selesai, buka file foto tersebut.
-                        </li>
-
-                        <li>
-                            Tekan menu <strong>⋮</strong>.
-                        </li>
-
-                        <li>
-                            Pilih <strong>Kelola akses / Manage access</strong>.
-                        </li>
-
-                        <li>
-                            Ubah akses menjadi
-                            <strong>Anyone with the link</strong>
-                            atau <strong>Siapa saja yang memiliki link</strong>.
-                        </li>
-
-                        <li>
-                            Pastikan izinnya sebagai
-                            <strong>Viewer / Pelihat</strong>.
-                        </li>
-
-                        <li>
-                            Tekan <strong>Copy link / Salin link</strong>.
-                        </li>
-
-                        <li>
-                            Paste link tersebut ke kolom gambar SCANBELI.
-                        </li>
-
-                    </ol>
-
-
-                    <div class="guide-box">
-
-                        <strong>Contoh link Google Drive:</strong>
-
-                        <br><br>
-
-                        <code>
-https://drive.google.com/file/d/1BL9cVSG6sWl0buHwKeKgHdPpnrJYtWN2/view?usp=drivesdk
-                        </code>
-
-                        <br><br>
-
-                        SCANBELI otomatis mengubahnya menjadi format gambar:
-
-                        <br><br>
-
-                        <code>
-https://drive.google.com/thumbnail?id=1BL9cVSG6sWl0buHwKeKgHdPpnrJYtWN2
-                        </code>
-
-                    </div>
-
-
-                    <p>
-                        <strong>Instagram:</strong>
-                        link postingan Instagram biasanya bukan direct image.
-                        Jika ingin menggunakannya, simpan foto tersebut ke HP
-                        terlebih dahulu lalu upload ke Google Drive atau layanan
-                        gambar lain yang menyediakan link gambar.
-                    </p>
-
-
-                    <p>
-                        Gambar hanya ditampilkan dari link tersebut.
-                        <strong>SCANBELI tidak meng-upload atau menyimpan
-                        file gambar.</strong>
-                    </p>
-
-                </div>
-
-            </details>
-
-        </div>
-
-
-        <!-- =========================
-             BUTTON
-        ========================= -->
-
-        <button
-            id="addProductButton"
-            class="primary-button"
-            type="button"
-        >
-            Tambahkan Produk
-        </button>
-
-        <button
-            id="cancelEditButton"
-            class="secondary-button cancel-edit"
-            type="button"
-        >
-            Batal Edit
-        </button>
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     DAFTAR PRODUK
-========================= -->
-
-<section class="section">
-
-    <div class="card">
-
-        <div class="section-title">
-
-            <div>
-                <h2>
-                    📦 Produk Saya
-                </h2>
-
-                <p>
-                    Produk yang tersedia untuk dibuatkan QR.
-                </p>
-            </div>
-
-            <div
-                id="productCount"
-                class="count-badge"
-            >
-                0
-            </div>
-
-        </div>
-
-
-        <div id="emptyProducts" class="empty-products">
-
-            Belum ada produk.
-
-            <br>
-
-            Tambahkan produk terlebih dahulu.
-
-        </div>
-
-
-        <div
-            id="productList"
-            class="product-list"
-        ></div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================
-     QR
-========================= -->
-
-<section
-    class="section qr-section"
-    id="qr"
->
-
-    <div class="card">
-
-        <div class="section-title">
-
-            <div>
-
-                <h2>
-                    🔳 Buat QR
-                </h2>
-
-                <p>
-                    QR dapat dibagikan atau dicetak.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <!-- QR SINGLE -->
-
-        <div class="form-group">
-
-            <label for="singleProductSelect">
-                QR satu produk
+              ⚖️ Berat
             </label>
 
-            <select id="singleProductSelect">
+            <input
+              id="productWeight"
+              type="number"
+              min="0"
+              value="0"
+              inputmode="numeric"
+              placeholder="500"
+            >
 
-                <option value="">
-                    Pilih produk
-                </option>
+            <small class="help">
+              Gunakan gram. Contoh: 500 = 500 gram.
+              Berat total nantinya dapat dihitung berdasarkan
+              quantity × berat produk.
+            </small>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label class="main-label">
+              🚚 Metode Pengiriman
+            </label>
+
+            <div class="shipping-grid">
+
+              <div class="shipping-choice">
+
+                <input
+                  type="radio"
+                  name="shippingMethod"
+                  id="shippingCourier"
+                  value="courier"
+                  checked
+                >
+
+                <label for="shippingCourier">
+                  🚚 Kurir
+                </label>
+
+              </div>
+
+
+              <div class="shipping-choice">
+
+                <input
+                  type="radio"
+                  name="shippingMethod"
+                  id="shippingSeller"
+                  value="seller_delivery"
+                >
+
+                <label for="shippingSeller">
+                  🛵 Antar Sendiri
+                </label>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label
+              class="main-label"
+              for="shippingNote"
+            >
+              Catatan Pengiriman
+              <span>Opsional</span>
+            </label>
+
+            <input
+              id="shippingNote"
+              type="text"
+              maxlength="150"
+              placeholder="Contoh: Area Yogyakarta / bisa COD"
+            >
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             DIGITAL
+        ================================================== -->
+
+        <div
+          id="digitalFields"
+          class="sub-card digital-box hidden full-width"
+        >
+
+          <div class="form-group">
+
+            <label
+              class="main-label"
+              for="digitalDelivery"
+            >
+              💻 Cara Pengiriman
+            </label>
+
+            <select id="digitalDelivery">
+
+              <option value="whatsapp">
+                WhatsApp
+              </option>
+
+              <option value="download">
+                Link Download
+              </option>
+
+              <option value="whatsapp_download">
+                WhatsApp + Link Download
+              </option>
 
             </select>
 
-        </div>
+          </div>
 
 
-        <button
-            id="createSingleQR"
-            class="primary-button"
-            type="button"
-        >
-            Buat QR Produk
-        </button>
+          <div class="form-group">
 
-
-        <div
-            id="singleQRResult"
-            class="qr-result"
-        >
-
-            <div class="qr-brand">
-                SCANBELI
-            </div>
-
-            <div
-                id="singleQRStore"
-                class="qr-store"
-            ></div>
-
-            <div
-                id="singleQRCode"
-                class="qr-box"
-            ></div>
-
-            <div
-                id="singleQRUrl"
-                class="qr-url"
-            ></div>
-
-            <div class="qr-actions">
-
-                <button
-                    id="copySingleURL"
-                    type="button"
-                >
-                    📋 Copy URL
-                </button>
-
-                <button
-                    id="downloadSingleQR"
-                    type="button"
-                >
-                    ⬇ Download QR
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <div style="height:25px;"></div>
-
-
-        <!-- QR CATALOG -->
-
-        <div class="form-group">
-
-            <label>
-                QR katalog
+            <label
+              class="main-label"
+              for="digitalLink"
+            >
+              🔗 Link Produk Digital
+              <span>Opsional</span>
             </label>
 
-            <div class="notice">
+            <input
+              id="digitalLink"
+              type="url"
+              placeholder="https://contoh.com/download"
+            >
 
-                Satu QR untuk menampilkan seluruh produk Anda.
-                Pembeli dapat memilih produk dari katalog.
+            <small class="help">
+              Bisa berupa ebook, materi edukasi,
+              file download, halaman akses, dan sebagainya.
+            </small>
 
-            </div>
+          </div>
+
+
+          <div class="form-group">
+
+            <label
+              class="main-label"
+              for="digitalWhatsapp"
+            >
+              📱 WhatsApp Pengiriman
+              <span>Opsional</span>
+            </label>
+
+            <input
+              id="digitalWhatsapp"
+              type="tel"
+              inputmode="tel"
+              placeholder="6281234567890"
+            >
+
+            <small class="help">
+              Gunakan format nomor WhatsApp internasional,
+              misalnya 6281234567890.
+            </small>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label
+              class="main-label"
+              for="digitalDescription"
+            >
+              📝 Keterangan Digital
+              <span>Opsional</span>
+            </label>
+
+            <textarea
+              id="digitalDescription"
+              placeholder="Contoh: Ebook dikirim setelah pembayaran."
+            ></textarea>
+
+          </div>
 
         </div>
 
 
-        <button
-            id="createCatalogQR"
-            class="secondary-button"
-            type="button"
-        >
-            Buat QR Katalog
-        </button>
+        <!-- =================================================
+             IMAGE
+        ================================================== -->
 
+        <div class="form-group full-width">
+
+          <label
+            class="main-label"
+            for="productImage"
+          >
+            📷 Gambar Produk
+            <span>Opsional</span>
+          </label>
+
+          <input
+            id="productImage"
+            type="url"
+            placeholder="Tempel link gambar"
+          >
+
+          <small class="help">
+            SCANBELI tidak mengupload atau menyimpan gambar.
+            Hanya URL gambar yang disimpan.
+          </small>
+
+
+          <button
+            id="imageHelpButton"
+            type="button"
+            class="guide-link"
+          >
+            📱 Cara mendapatkan link gambar
+            <span>›</span>
+          </button>
+
+
+          <!-- ACCORDION GUIDE -->
+
+          <div
+            id="imageGuide"
+            class="accordion"
+          >
+
+            <button
+              id="imageGuideHead"
+              type="button"
+              class="accordion-head"
+            >
+
+              <span>
+                💡 Panduan gambar dari HP
+              </span>
+
+              <span class="arrow">
+                ▼
+              </span>
+
+            </button>
+
+
+            <div class="accordion-body">
+
+              <div class="guide-step">
+
+                <strong>
+                  1. 📸 Siapkan foto
+                </strong>
+
+                Ambil foto menggunakan kamera HP
+                atau pilih dari Galeri.
+
+              </div>
+
+
+              <div class="guide-step">
+
+                <strong>
+                  2. ☁️ Gunakan Google Drive
+                </strong>
+
+                Buka Google Drive.
+
+                <br><br>
+
+                Tekan:
+
+                <br>
+
+                <b>
+                  + Baru → Upload → pilih foto
+                </b>
+
+              </div>
+
+
+              <div class="guide-step">
+
+                <strong>
+                  3. 🔓 Aktifkan akses link
+                </strong>
+
+                Buka file foto → Bagikan.
+
+                <br><br>
+
+                Pilih:
+
+                <br>
+
+                <b>
+                  Siapa saja yang memiliki link
+                </b>
+
+                lalu:
+
+                <b>
+                  Pelihat
+                </b>
+
+              </div>
+
+
+              <div class="guide-step">
+
+                <strong>
+                  4. 🔗 Salin link
+                </strong>
+
+                Salin link Google Drive kemudian
+                tempelkan ke kolom Gambar Produk.
+
+              </div>
+
+
+              <div class="guide-step">
+
+                <strong>
+                  5. ⚡ SCANBELI otomatis mengubah
+                </strong>
+
+                Contoh link:
+
+                <div class="guide-example">
+                  https://drive.google.com/file/d/1BL9cVSG6sWl0buHwKeKgHdPpnrJYtWN2/view?usp=drivesdk
+                </div>
+
+                Menjadi:
+
+                <div class="guide-example">
+                  https://drive.google.com/thumbnail?id=1BL9cVSG6sWl0buHwKeKgHdPpnrJYtWN2
+                </div>
+
+              </div>
+
+
+              <div class="guide-step">
+
+                <strong>
+                  6. 🌐 Hosting gambar lain
+                </strong>
+
+                Bisa juga menggunakan URL gambar
+                langsung seperti:
+
+                <div class="guide-example">
+                  https://contoh.com/images/kaos.jpg
+                </div>
+
+              </div>
+
+
+              <div class="guide-step">
+
+                <strong>
+                  7. 📱 Instagram
+                </strong>
+
+                Link posting Instagram biasanya bukan
+                direct image URL.
+
+                Cara paling mudah:
+
+                <br><br>
+
+                Foto → simpan ke HP → upload ke Drive
+                atau image hosting → salin link → tempel
+                ke SCANBELI.
+
+              </div>
+
+
+              <div class="guide-step">
+
+                <strong>
+                  ⚠️ Penting
+                </strong>
+
+                Link gambar harus dapat dibuka tanpa login.
+                Jika preview gagal, periksa izin berbagi gambar.
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- PREVIEW -->
+
+          <div
+            id="imagePreviewBox"
+            class="image-preview hidden"
+          >
+
+            <img
+              id="imagePreview"
+              alt="Preview gambar produk"
+            >
+
+            <p
+              id="imagePreviewStatus"
+              class="image-status"
+            >
+              Memuat gambar...
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- ADD -->
+
+        <div class="full-width">
+
+          <button
+            id="addProductButton"
+            type="button"
+            class="btn btn-primary full"
+          >
+            ＋ TAMBAHKAN PRODUK
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =======================================================
+         PRODUCT LIST
+    ======================================================== -->
+
+    <section
+      class="card"
+      id="produk-saya"
+    >
+
+      <div class="list-head">
+
+        <div>
+
+          <h2 class="card-title">
+            📦 Produk Saya
+          </h2>
+
+          <p
+            class="card-desc"
+            style="margin-bottom:0;"
+          >
+            Kelola produk dan stok Anda.
+          </p>
+
+        </div>
 
         <div
-            id="catalogQRResult"
-            class="qr-result"
+          id="productCount"
+          class="count"
         >
-
-            <div class="qr-brand">
-                SCANBELI
-            </div>
-
-            <div
-                id="catalogQRStore"
-                class="qr-store"
-            ></div>
-
-            <div
-                id="catalogQRCode"
-                class="qr-box"
-            ></div>
-
-            <div
-                id="catalogQRUrl"
-                class="qr-url"
-            ></div>
-
-            <div class="qr-actions">
-
-                <button
-                    id="copyCatalogURL"
-                    type="button"
-                >
-                    📋 Copy URL
-                </button>
-
-                <button
-                    id="downloadCatalogQR"
-                    type="button"
-                >
-                    ⬇ Download QR
-                </button>
-
-            </div>
-
+          0 produk
         </div>
 
-
-        <!-- PANDUAN QR -->
-
-        <details class="guide">
-
-            <summary>
-
-                <span>
-                    🔳 Cara menggunakan QR
-                </span>
-
-                <span class="guide-arrow">
-                    ▼
-                </span>
-
-            </summary>
-
-            <div class="guide-content">
-
-                <p>
-                    <strong>QR Produk:</strong>
-                    gunakan jika QR tersebut hanya ingin digunakan untuk
-                    satu produk.
-                </p>
-
-                <p>
-                    <strong>QR Katalog:</strong>
-                    gunakan jika satu QR ingin menampilkan banyak produk.
-                </p>
-
-                <ol>
-
-                    <li>
-                        Pilih produk atau katalog.
-                    </li>
-
-                    <li>
-                        Tekan tombol <strong>Buat QR</strong>.
-                    </li>
-
-                    <li>
-                        QR akan muncul di layar.
-                    </li>
-
-                    <li>
-                        Tekan <strong>Download QR</strong> untuk menyimpan
-                        gambar QR ke HP.
-                    </li>
-
-                    <li>
-                        QR dapat dicetak atau dibagikan kepada pembeli.
-                    </li>
-
-                </ol>
+      </div>
 
 
-                <div class="guide-box">
+      <div
+        id="productList"
+        class="product-list"
+      ></div>
 
-                    <strong>Catatan:</strong>
+    </section>
 
-                    QR berisi data produk langsung di dalam URL.
-                    Karena SCANBELI tidak menggunakan database untuk menyimpan
-                    produk, URL QR dapat terlihat panjang.
+
+    <!-- =======================================================
+         QR
+    ======================================================== -->
+
+    <section
+      class="card"
+      id="qr"
+    >
+
+      <h2 class="card-title">
+        ▣ QR SCANBELI
+      </h2>
+
+      <p class="card-desc">
+        Buat QR untuk satu produk atau satu QR
+        untuk seluruh katalog toko.
+      </p>
+
+
+      <div class="qr-intro">
+
+        <b style="color:#d6ad55;">
+          ✦ QR 1 Produk
+        </b>
+
+        digunakan jika QR ditempel pada satu barang.
+
+        <br><br>
+
+        <b style="color:#d6ad55;">
+          ✦ QR Katalog
+        </b>
+
+        digunakan jika satu QR ingin membuka
+        banyak produk toko.
+
+      </div>
+
+
+      <div class="qr-grid">
+
+
+        <!-- =================================================
+             SINGLE
+        ================================================== -->
+
+        <div class="qr-card">
+
+          <h3>
+            QR 1 Produk
+          </h3>
+
+          <p>
+            Satu QR untuk satu produk.
+          </p>
+
+          <select
+            id="singleProductSelect"
+            class="qr-select"
+          >
+
+            <option value="">
+              Pilih produk
+            </option>
+
+          </select>
+
+
+          <button
+            id="createSingleQR"
+            type="button"
+            class="btn btn-primary full"
+          >
+            ▣ BUAT QR PRODUK
+          </button>
+
+
+          <div
+            id="singleQRResult"
+            class="qr-result hidden"
+          >
+
+            <div class="qr-frame">
+
+              <div
+                id="singleQRVisual"
+                class="qr-inner"
+              >
+
+                <div
+                  id="singleQRCode"
+                ></div>
+
+                <div class="qr-logo">
+
+                  <div>
+
+                    <div class="qr-logo-mark">
+                      ◈
+                    </div>
+
+                    <div class="qr-logo-text">
+                      SCANBELI
+                    </div>
+
+                  </div>
 
                 </div>
 
-            </div>
-
-        </details>
-
-
-        <!-- PANDUAN SHARE -->
-
-        <details class="guide">
-
-            <summary>
-
-                <span>
-                    📤 Cara membagikan QR
-                </span>
-
-                <span class="guide-arrow">
-                    ▼
-                </span>
-
-            </summary>
-
-            <div class="guide-content">
-
-                <ol>
-
-                    <li>
-                        Download gambar QR.
-                    </li>
-
-                    <li>
-                        Kirim gambar tersebut melalui WhatsApp,
-                        Instagram, Facebook, Telegram, atau media lainnya.
-                    </li>
-
-                    <li>
-                        Pembeli scan QR menggunakan kamera atau aplikasi
-                        scan QR.
-                    </li>
-
-                    <li>
-                        Halaman checkout SCANBELI akan terbuka.
-                    </li>
-
-                </ol>
-
-                <p>
-                    QR juga bisa dicetak dan ditempel pada produk,
-                    meja toko, kemasan, banner, atau media promosi.
-                </p>
+              </div>
 
             </div>
 
-        </details>
 
-    </div>
+            <div class="qr-brand">
+              SCANBELI
+            </div>
 
-</section>
+            <div
+              id="singleQRStore"
+              class="qr-store"
+            ></div>
 
 
-</main>
+            <div
+              id="singleQRUrl"
+              class="qr-url"
+            ></div>
 
 
-<footer>
+            <div class="qr-actions">
 
-    <div>
+              <button
+                id="copySingleURL"
+                type="button"
+                class="mini-btn"
+              >
+                📋 Salin URL
+              </button>
+
+              <button
+                id="downloadSingleQR"
+                type="button"
+                class="mini-btn"
+              >
+                ⬇️ Download
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- =================================================
+             CATALOG
+        ================================================== -->
+
+        <div class="qr-card">
+
+          <h3>
+            QR Katalog
+          </h3>
+
+          <p>
+            Satu QR untuk seluruh produk toko.
+          </p>
+
+
+          <button
+            id="createCatalogQR"
+            type="button"
+            class="btn btn-primary full"
+          >
+            ▣ BUAT QR KATALOG
+          </button>
+
+
+          <div
+            id="catalogQRResult"
+            class="qr-result hidden"
+          >
+
+            <div class="qr-frame">
+
+              <div
+                id="catalogQRVisual"
+                class="qr-inner"
+              >
+
+                <div
+                  id="catalogQRCode"
+                ></div>
+
+                <div class="qr-logo">
+
+                  <div>
+
+                    <div class="qr-logo-mark">
+                      ◈
+                    </div>
+
+                    <div class="qr-logo-text">
+                      SCANBELI
+                    </div>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="qr-brand">
+              SCANBELI
+            </div>
+
+            <div
+              id="catalogQRStore"
+              class="qr-store"
+            ></div>
+
+
+            <div
+              id="catalogQRUrl"
+              class="qr-url"
+            ></div>
+
+
+            <div
+              id="catalogQRWarning"
+              class="qr-warning hidden"
+            ></div>
+
+
+            <div class="qr-actions">
+
+              <button
+                id="copyCatalogURL"
+                type="button"
+                class="mini-btn"
+              >
+                📋 Salin URL
+              </button>
+
+              <button
+                id="downloadCatalogQR"
+                type="button"
+                class="mini-btn"
+              >
+                ⬇️ Download
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- =========================================================
+       FOOTER
+  ========================================================== -->
+
+  <footer class="footer">
+
+    <div class="container">
+
+      <div class="footer-logo">
         SCANBELI
-    </div>
+      </div>
 
-    <div style="margin-top:6px;">
-        Jembatan transaksi sederhana antara penjual dan pembeli.
-    </div>
+      <div>
+        Scan QR. Checkout. Selesai.
+      </div>
 
-    <div style="margin-top:10px;">
+      <div style="margin-top:6px;">
         © 2026 SCANBELI
+      </div>
+
     </div>
 
-</footer>
-
-</div>
+  </footer>
 
 
-<!-- =========================
-     TOAST
-========================= -->
+  <!-- =========================================================
+       TOAST
+  ========================================================== -->
 
-<div
+  <div
     id="toast"
     class="toast"
-></div>
+  ></div>
 
 
 <script>
 
-/* =========================================================
+/* ============================================================
    SCANBELI SELLER
-   STANDALONE VERSION
-   TIDAK MEMBUTUHKAN script.js
-========================================================= */
+   FINAL VERSION
+   NO script.js
+============================================================ */
 
 
-/* =========================================================
+/* ============================================================
    STORAGE
-========================================================= */
+============================================================ */
 
 const STORE_KEY =
-    "scanbeli_store_name_v2";
+  "scanbeli_store_name_v2";
 
 const PRODUCTS_KEY =
-    "scanbeli_products_v2";
+  "scanbeli_products_v2";
 
 
 let products = [];
 
-let editingProductId = null;
+let editingId = null;
+
+let singleQRUrl = "";
+
+let catalogQRUrl = "";
 
 
-/* =========================================================
-   ELEMENT
-========================================================= */
+/* ============================================================
+   ELEMENTS
+============================================================ */
 
-const storeNameInput =
-    document.getElementById("storeName");
+const $ = id =>
+  document.getElementById(id);
 
-const saveStoreButton =
-    document.getElementById("saveStoreButton");
 
-const productNameInput =
-    document.getElementById("productName");
+const storeName =
+  $("storeName");
 
-const productPriceInput =
-    document.getElementById("productPrice");
+const productName =
+  $("productName");
 
-const productCodeInput =
-    document.getElementById("productCode");
+const productPrice =
+  $("productPrice");
 
-const typePhysical =
-    document.getElementById("typePhysical");
+const productCode =
+  $("productCode");
 
-const typeDigital =
-    document.getElementById("typeDigital");
+const productStock =
+  $("productStock");
+
+const productWeight =
+  $("productWeight");
+
+const productImage =
+  $("productImage");
+
+const shippingNote =
+  $("shippingNote");
+
+const digitalDelivery =
+  $("digitalDelivery");
+
+const digitalLink =
+  $("digitalLink");
+
+const digitalWhatsapp =
+  $("digitalWhatsapp");
+
+const digitalDescription =
+  $("digitalDescription");
 
 const physicalFields =
-    document.getElementById("physicalFields");
+  $("physicalFields");
 
 const digitalFields =
-    document.getElementById("digitalFields");
-
-const productStockInput =
-    document.getElementById("productStock");
-
-const productWeightInput =
-    document.getElementById("productWeight");
-
-const shippingNoteInput =
-    document.getElementById("shippingNote");
-
-const digitalDeliveryInput =
-    document.getElementById("digitalDelivery");
-
-const digitalLinkInput =
-    document.getElementById("digitalLink");
-
-const digitalWhatsappInput =
-    document.getElementById("digitalWhatsapp");
-
-const digitalDescriptionInput =
-    document.getElementById("digitalDescription");
-
-const productImageInput =
-    document.getElementById("productImage");
-
-const imagePreviewBox =
-    document.getElementById("imagePreviewBox");
-
-const imagePreview =
-    document.getElementById("imagePreview");
-
-const imagePreviewStatus =
-    document.getElementById("imagePreviewStatus");
-
-const addProductButton =
-    document.getElementById("addProductButton");
-
-const cancelEditButton =
-    document.getElementById("cancelEditButton");
-
-const productFormTitle =
-    document.getElementById("productFormTitle");
-
-const productList =
-    document.getElementById("productList");
-
-const productCount =
-    document.getElementById("productCount");
-
-const emptyProducts =
-    document.getElementById("emptyProducts");
-
-const singleProductSelect =
-    document.getElementById("singleProductSelect");
-
-const createSingleQR =
-    document.getElementById("createSingleQR");
-
-const createCatalogQR =
-    document.getElementById("createCatalogQR");
-
-const singleQRResult =
-    document.getElementById("singleQRResult");
-
-const singleQRCode =
-    document.getElementById("singleQRCode");
-
-const singleQRStore =
-    document.getElementById("singleQRStore");
-
-const singleQRUrl =
-    document.getElementById("singleQRUrl");
-
-const copySingleURL =
-    document.getElementById("copySingleURL");
-
-const downloadSingleQR =
-    document.getElementById("downloadSingleQR");
-
-const catalogQRResult =
-    document.getElementById("catalogQRResult");
-
-const catalogQRCode =
-    document.getElementById("catalogQRCode");
-
-const catalogQRStore =
-    document.getElementById("catalogQRStore");
-
-const catalogQRUrl =
-    document.getElementById("catalogQRUrl");
-
-const copyCatalogURL =
-    document.getElementById("copyCatalogURL");
-
-const downloadCatalogQR =
-    document.getElementById("downloadCatalogQR");
-
-const toast =
-    document.getElementById("toast");
+  $("digitalFields");
 
 
-/* =========================================================
+/* ============================================================
    TOAST
-========================================================= */
+============================================================ */
 
-function showToast(message){
+function showToast(message) {
 
-    toast.textContent = message;
+  const toast =
+    $("toast");
 
-    toast.classList.add("show");
+  toast.textContent =
+    message;
 
-    clearTimeout(window.scanbeliToastTimer);
+  toast.classList.add("show");
 
-    window.scanbeliToastTimer =
-        setTimeout(() => {
+  clearTimeout(
+    window.scanbeliToastTimer
+  );
 
-            toast.classList.remove("show");
+  window.scanbeliToastTimer =
+    setTimeout(() => {
 
-        }, 2500);
+      toast.classList.remove(
+        "show"
+      );
+
+    }, 2400);
+
 }
 
 
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
+/* ============================================================
+   ESCAPE
+============================================================ */
 
-function escapeHTML(value){
+function escapeHTML(value) {
 
-    return String(value ?? "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
 }
 
 
-/* =========================================================
+/* ============================================================
    RUPIAH
-========================================================= */
+============================================================ */
 
-function rupiah(value){
+function rupiah(value) {
 
-    const number =
-        Number(value) || 0;
-
-    return new Intl.NumberFormat(
-        "id-ID",
-        {
-            style:"currency",
-            currency:"IDR",
-            maximumFractionDigits:0
-        }
-    ).format(number);
+  return new Intl.NumberFormat(
+    "id-ID",
+    {
+      style: "currency",
+      currency: "IDR",
+      maximumFractionDigits: 0
+    }
+  ).format(
+    Number(value) || 0
+  );
 
 }
 
 
-/* =========================================================
-   GOOGLE DRIVE IMAGE
-========================================================= */
+/* ============================================================
+   GOOGLE DRIVE IMAGE CONVERTER
+============================================================ */
 
-function convertGoogleDriveImageUrl(url){
+function convertGoogleDriveImageUrl(url) {
 
-    if(!url){
-        return "";
-    }
+  if (!url) {
+    return "";
+  }
 
-    url = String(url).trim();
-
-    if(!url){
-        return "";
-    }
+  url =
+    String(url).trim();
 
 
-    /*
-       Sudah thumbnail
-    */
+  /*
+    FORMAT:
 
-    if(
-        url.includes(
-            "drive.google.com/thumbnail"
-        )
-    ){
+    https://drive.google.com/file/d/FILE_ID/view
+  */
 
-        return url;
+  let match =
+    url.match(
+      /drive\.google\.com\/file\/d\/([^/?#]+)/
+    );
 
-    }
+  if (
+    match &&
+    match[1]
+  ) {
 
+    return (
+      "https://drive.google.com/thumbnail?id=" +
+      encodeURIComponent(
+        match[1]
+      )
+    );
 
-    /*
-       /file/d/FILE_ID/
-    */
-
-    let match =
-        url.match(
-            /drive\.google\.com\/file\/d\/([^/]+)/i
-        );
-
-    if(match && match[1]){
-
-        return (
-            "https://drive.google.com/thumbnail?id="
-            +
-            encodeURIComponent(match[1])
-        );
-
-    }
+  }
 
 
-    /*
-       open?id=FILE_ID
-    */
+  /*
+    FORMAT:
 
-    match =
-        url.match(
-            /[?&]id=([^&]+)/i
-        );
+    https://drive.google.com/open?id=FILE_ID
+  */
 
-    if(
-        match &&
-        match[1] &&
-        url.includes("drive.google.com")
-    ){
+  match =
+    url.match(
+      /drive\.google\.com\/open\?id=([^&#]+)/
+    );
 
-        return (
-            "https://drive.google.com/thumbnail?id="
-            +
-            encodeURIComponent(match[1])
-        );
+  if (
+    match &&
+    match[1]
+  ) {
 
-    }
+    return (
+      "https://drive.google.com/thumbnail?id=" +
+      encodeURIComponent(
+        match[1]
+      )
+    );
 
+  }
+
+
+  /*
+    FORMAT:
+
+    https://drive.google.com/uc?id=FILE_ID
+  */
+
+  match =
+    url.match(
+      /drive\.google\.com\/uc\?[^#]*id=([^&#]+)/
+    );
+
+  if (
+    match &&
+    match[1]
+  ) {
+
+    return (
+      "https://drive.google.com/thumbnail?id=" +
+      encodeURIComponent(
+        match[1]
+      )
+    );
+
+  }
+
+
+  /*
+    FORMAT:
+
+    Google Drive thumbnail
+  */
+
+  if (
+    url.includes(
+      "drive.google.com/thumbnail?id="
+    )
+  ) {
 
     return url;
 
+  }
+
+
+  /*
+    URL gambar biasa
+  */
+
+  return url;
+
 }
 
 
-/* =========================================================
+/* ============================================================
    IMAGE PREVIEW
-========================================================= */
+============================================================ */
 
-function updateImagePreview(){
+function previewImage() {
 
-    const raw =
-        productImageInput.value.trim();
-
-    if(!raw){
-
-        imagePreviewBox.style.display =
-            "none";
-
-        imagePreviewStatus.textContent =
-            "";
-
-        imagePreview.removeAttribute("src");
-
-        return;
-
-    }
+  const original =
+    productImage.value.trim();
 
 
-    const url =
-        convertGoogleDriveImageUrl(raw);
+  const box =
+    $("imagePreviewBox");
+
+  const img =
+    $("imagePreview");
+
+  const status =
+    $("imagePreviewStatus");
 
 
-    imagePreviewBox.style.display =
-        "flex";
+  if (!original) {
 
-    imagePreviewStatus.textContent =
-        "Memuat preview gambar...";
+    box.classList.add(
+      "hidden"
+    );
 
+    img.removeAttribute(
+      "src"
+    );
 
-    imagePreview.onload = function(){
+    return;
 
-        imagePreviewStatus.textContent =
-            "✓ Gambar berhasil dimuat.";
-
-    };
-
-
-    imagePreview.onerror = function(){
-
-        imagePreviewStatus.textContent =
-            "⚠ Gambar tidak dapat dimuat. Pastikan link bisa diakses publik.";
-
-    };
+  }
 
 
-    imagePreview.src = url;
-
-}
-
-
-productImageInput.addEventListener(
-    "input",
-    updateImagePreview
-);
+  const url =
+    convertGoogleDriveImageUrl(
+      original
+    );
 
 
-/* =========================================================
-   TYPE SWITCH
-========================================================= */
+  box.classList.remove(
+    "hidden"
+  );
 
-function updateProductTypeUI(){
 
-    if(typePhysical.checked){
+  status.textContent =
+    "Memuat gambar...";
 
-        physicalFields.style.display =
-            "block";
 
-        digitalFields.style.display =
-            "none";
+  img.onload = () => {
 
-    }else{
+    status.textContent =
+      "✓ Gambar berhasil ditemukan";
 
-        physicalFields.style.display =
-            "none";
+  };
 
-        digitalFields.style.display =
-            "block";
 
-    }
+  img.onerror = () => {
+
+    status.textContent =
+      "⚠️ Gambar gagal ditampilkan. Pastikan link dapat dibuka tanpa login.";
+
+  };
+
+
+  img.src = url;
 
 }
 
 
-typePhysical.addEventListener(
-    "change",
-    updateProductTypeUI
-);
-
-typeDigital.addEventListener(
-    "change",
-    updateProductTypeUI
+productImage.addEventListener(
+  "input",
+  previewImage
 );
 
 
-/* =========================================================
+/* ============================================================
+   PRODUCT TYPE
+============================================================ */
+
+function getProductType() {
+
+  const selected =
+    document.querySelector(
+      'input[name="productType"]:checked'
+    );
+
+  return selected
+    ? selected.value
+    : "physical";
+
+}
+
+
+function updateProductType() {
+
+  const type =
+    getProductType();
+
+
+  if (
+    type === "digital"
+  ) {
+
+    physicalFields
+      .classList
+      .add("hidden");
+
+    digitalFields
+      .classList
+      .remove("hidden");
+
+  } else {
+
+    physicalFields
+      .classList
+      .remove("hidden");
+
+    digitalFields
+      .classList
+      .add("hidden");
+
+  }
+
+}
+
+
+document
+  .querySelectorAll(
+    'input[name="productType"]'
+  )
+  .forEach(
+    input => {
+
+      input.addEventListener(
+        "change",
+        updateProductType
+      );
+
+    }
+  );
+
+
+/* ============================================================
    STORE
-========================================================= */
+============================================================ */
 
-function loadStore(){
+function loadStore() {
 
-    const saved =
-        localStorage.getItem(STORE_KEY);
+  const saved =
+    localStorage.getItem(
+      STORE_KEY
+    );
 
-    if(saved){
+  if (saved) {
 
-        storeNameInput.value =
-            saved;
+    storeName.value =
+      saved;
 
-    }
+  }
 
 }
 
 
-function saveStore(){
-
-    const name =
-        storeNameInput.value.trim();
-
-    if(!name){
-
-        showToast(
-            "Masukkan nama toko terlebih dahulu."
-        );
-
-        storeNameInput.focus();
-
-        return;
-
-    }
-
-    localStorage.setItem(
-        STORE_KEY,
-        name
-    );
-
-    products =
-        products.map(product => ({
-            ...product,
-            storeName:name
-        }));
-
-    saveProducts();
-
-    renderProducts();
-
-    showToast(
-        "Nama toko berhasil disimpan."
-    );
-
-}
-
-
-saveStoreButton.addEventListener(
+$("saveStoreButton")
+  .addEventListener(
     "click",
     saveStore
-);
+  );
 
 
-/* =========================================================
-   PRODUCTS STORAGE
-========================================================= */
+function saveStore() {
 
-function loadProducts(){
-
-    try{
-
-        const saved =
-            localStorage.getItem(
-                PRODUCTS_KEY
-            );
-
-        if(saved){
-
-            const parsed =
-                JSON.parse(saved);
-
-            if(Array.isArray(parsed)){
-
-                products = parsed;
-
-            }
-
-        }
-
-    }catch(error){
-
-        console.error(error);
-
-        products = [];
-
-    }
-
-}
+  const value =
+    storeName.value.trim();
 
 
-function saveProducts(){
+  if (!value) {
 
-    localStorage.setItem(
-        PRODUCTS_KEY,
-        JSON.stringify(products)
+    showToast(
+      "Masukkan nama toko terlebih dahulu."
     );
 
-}
+    storeName.focus();
+
+    return;
+
+  }
 
 
-/* =========================================================
-   RESET FORM
-========================================================= */
+  localStorage.setItem(
+    STORE_KEY,
+    value
+  );
 
-function resetProductForm(){
 
-    editingProductId = null;
+  /*
+    Pastikan produk lama ikut
+    menggunakan nama toko terbaru.
+  */
 
-    productFormTitle.textContent =
-        "➕ Tambah Produk";
-
-    addProductButton.textContent =
-        "Tambahkan Produk";
-
-    cancelEditButton.style.display =
-        "none";
-
-    productNameInput.value = "";
-    productPriceInput.value = "";
-    productCodeInput.value = "";
-
-    typePhysical.checked = true;
-
-    productStockInput.value = "";
-    productWeightInput.value = "";
-
-    document.getElementById(
-        "shippingCourier"
-    ).checked = true;
-
-    shippingNoteInput.value = "";
-
-    digitalDeliveryInput.value =
-        "whatsapp";
-
-    digitalLinkInput.value = "";
-
-    digitalWhatsappInput.value = "";
-
-    digitalDescriptionInput.value = "";
-
-    productImageInput.value = "";
-
-    imagePreview.removeAttribute(
-        "src"
+  products =
+    products.map(
+      product => ({
+        ...product,
+        storeName: value
+      })
     );
 
-    imagePreviewBox.style.display =
-        "none";
 
-    imagePreviewStatus.textContent =
-        "";
+  saveProducts();
 
-    updateProductTypeUI();
+  renderProducts();
+
+  updateProductSelect();
+
+
+  showToast(
+    "✓ Nama toko berhasil disimpan"
+  );
 
 }
 
 
-/* =========================================================
-   READ FORM
-========================================================= */
+/* ============================================================
+   LOAD PRODUCTS
+============================================================ */
 
-function getProductFromForm(){
+function loadProducts() {
 
-    const store =
-        storeNameInput.value.trim();
+  try {
 
-    const name =
-        productNameInput.value.trim();
+    const raw =
+      localStorage.getItem(
+        PRODUCTS_KEY
+      );
 
-    const price =
-        Number(productPriceInput.value);
-
-    const code =
-        productCodeInput.value.trim();
-
-    const type =
-        typeDigital.checked
-            ? "digital"
-            : "physical";
+    const parsed =
+      raw
+        ? JSON.parse(raw)
+        : [];
 
 
-    if(!store){
+    products =
+      Array.isArray(parsed)
+        ? parsed
+        : [];
 
-        showToast(
-            "Simpan nama toko terlebih dahulu."
-        );
+  } catch {
 
-        storeNameInput.focus();
+    products = [];
 
-        return null;
+  }
+
+
+  renderProducts();
+
+  updateProductSelect();
+
+}
+
+
+function saveProducts() {
+
+  localStorage.setItem(
+    PRODUCTS_KEY,
+    JSON.stringify(products)
+  );
+
+}
+
+
+/* ============================================================
+   ADD / UPDATE PRODUCT
+============================================================ */
+
+$("addProductButton")
+  .addEventListener(
+    "click",
+    saveProduct
+  );
+
+
+function saveProduct() {
+
+  const store =
+    storeName.value.trim();
+
+
+  if (!store) {
+
+    showToast(
+      "Simpan nama toko terlebih dahulu."
+    );
+
+    $("toko").scrollIntoView({
+      behavior: "smooth"
+    });
+
+    storeName.focus();
+
+    return;
+
+  }
+
+
+  const name =
+    productName.value.trim();
+
+
+  if (!name) {
+
+    showToast(
+      "Nama produk belum diisi."
+    );
+
+    productName.focus();
+
+    return;
+
+  }
+
+
+  const price =
+    Number(
+      productPrice.value
+    );
+
+
+  if (
+    !Number.isFinite(price) ||
+    price < 0
+  ) {
+
+    showToast(
+      "Harga produk tidak valid."
+    );
+
+    productPrice.focus();
+
+    return;
+
+  }
+
+
+  const type =
+    getProductType();
+
+
+  const image =
+    convertGoogleDriveImageUrl(
+      productImage.value.trim()
+    );
+
+
+  const base = {
+
+    storeName:
+      store,
+
+    name:
+      name,
+
+    price:
+      price,
+
+    code:
+      productCode.value.trim(),
+
+    type:
+      type,
+
+    image:
+      image,
+
+    updatedAt:
+      Date.now()
+
+  };
+
+
+  if (
+    type === "physical"
+  ) {
+
+    base.stock =
+      Math.max(
+        0,
+        Number(
+          productStock.value
+        ) || 0
+      );
+
+
+    base.weight =
+      Math.max(
+        0,
+        Number(
+          productWeight.value
+        ) || 0
+      );
+
+
+    base.shippingMethod =
+      document.querySelector(
+        'input[name="shippingMethod"]:checked'
+      )?.value ||
+      "courier";
+
+
+    base.shippingNote =
+      shippingNote.value.trim();
+
+
+    /*
+      Digital fields dibersihkan
+      agar struktur tetap jelas.
+    */
+
+    base.digitalDelivery =
+      "";
+
+    base.digitalLink =
+      "";
+
+    base.digitalWhatsapp =
+      "";
+
+    base.digitalDescription =
+      "";
+
+  } else {
+
+    /*
+      Produk digital tidak membutuhkan
+      stok fisik atau berat.
+    */
+
+    base.stock =
+      999999;
+
+    base.weight =
+      0;
+
+    base.shippingMethod =
+      "digital";
+
+    base.shippingNote =
+      "";
+
+    base.digitalDelivery =
+      digitalDelivery.value;
+
+    base.digitalLink =
+      digitalLink.value.trim();
+
+    base.digitalWhatsapp =
+      digitalWhatsapp.value.trim();
+
+    base.digitalDescription =
+      digitalDescription.value.trim();
+
+  }
+
+
+  if (editingId) {
+
+    const index =
+      products.findIndex(
+        product =>
+          product.id ===
+          editingId
+      );
+
+
+    if (index !== -1) {
+
+      products[index] = {
+        ...products[index],
+        ...base
+      };
 
     }
 
 
-    if(!name){
+    showToast(
+      "✓ Produk berhasil diperbarui"
+    );
 
-        showToast(
-            "Nama produk wajib diisi."
-        );
+  } else {
 
-        productNameInput.focus();
+    const newProduct = {
 
-        return null;
+      id:
+        "P" +
+        Date.now().toString(36) +
+        Math.random()
+          .toString(36)
+          .slice(2, 8),
 
-    }
+      createdAt:
+        Date.now(),
 
-
-    if(!Number.isFinite(price) || price < 0){
-
-        showToast(
-            "Harga produk tidak valid."
-        );
-
-        productPriceInput.focus();
-
-        return null;
-
-    }
-
-
-    const existing =
-        editingProductId
-            ? products.find(
-                p => p.id === editingProductId
-              )
-            : null;
-
-
-    const product = {
-
-        id:
-            existing?.id
-            ||
-            (
-                "P"
-                +
-                Date.now().toString(36)
-                +
-                Math.random()
-                    .toString(36)
-                    .slice(2,7)
-            ),
-
-        storeName:store,
-
-        name:name,
-
-        price:price,
-
-        code:code,
-
-        type:type,
-
-        image:
-            convertGoogleDriveImageUrl(
-                productImageInput.value
-            ),
-
-        createdAt:
-            existing?.createdAt
-            ||
-            Date.now()
+      ...base
 
     };
 
 
-    if(type === "physical"){
-
-        const stock =
-            Number(productStockInput.value);
-
-        const weight =
-            Number(productWeightInput.value);
+    products.push(
+      newProduct
+    );
 
 
-        product.stock =
-            Number.isFinite(stock)
-                ? Math.max(0, Math.floor(stock))
-                : 0;
+    showToast(
+      "✓ Produk berhasil ditambahkan"
+    );
+
+  }
 
 
-        product.weight =
-            Number.isFinite(weight)
-                ? Math.max(0, weight)
-                : 0;
+  saveProducts();
 
+  renderProducts();
 
-        product.shippingMethod =
-            document.querySelector(
-                'input[name="shippingMethod"]:checked'
-            )?.value
-            ||
-            "courier";
+  updateProductSelect();
 
-
-        product.shippingNote =
-            shippingNoteInput.value.trim();
-
-
-    }else{
-
-        product.stock =
-            999999;
-
-        product.weight =
-            0;
-
-        product.shippingMethod =
-            "digital";
-
-        product.digitalDelivery =
-            digitalDeliveryInput.value;
-
-        product.digitalLink =
-            digitalLinkInput.value.trim();
-
-        product.digitalWhatsapp =
-            digitalWhatsappInput.value.trim();
-
-        product.digitalDescription =
-            digitalDescriptionInput.value.trim();
-
-    }
-
-
-    return product;
+  resetProductForm();
 
 }
 
 
-/* =========================================================
-   ADD / EDIT PRODUCT
-========================================================= */
+/* ============================================================
+   RESET FORM
+============================================================ */
 
-function saveProductFromForm(){
+function resetProductForm() {
 
-    const product =
-        getProductFromForm();
+  editingId =
+    null;
 
-    if(!product){
 
-        return;
+  productName.value =
+    "";
+
+  productPrice.value =
+    "";
+
+  productCode.value =
+    "";
+
+  productStock.value =
+    "1";
+
+  productWeight.value =
+    "0";
+
+  productImage.value =
+    "";
+
+  shippingNote.value =
+    "";
+
+  digitalDelivery.value =
+    "whatsapp";
+
+  digitalLink.value =
+    "";
+
+  digitalWhatsapp.value =
+    "";
+
+  digitalDescription.value =
+    "";
+
+
+  $("typePhysical")
+    .checked = true;
+
+
+  $("shippingCourier")
+    .checked = true;
+
+
+  $("imagePreviewBox")
+    .classList
+    .add("hidden");
+
+
+  $("imagePreview")
+    .removeAttribute(
+      "src"
+    );
+
+
+  $("imagePreviewStatus")
+    .textContent =
+      "Memuat gambar...";
+
+
+  updateProductType();
+
+}
+
+
+/* ============================================================
+   RENDER PRODUCTS
+============================================================ */
+
+function renderProducts() {
+
+  const list =
+    $("productList");
+
+  const count =
+    $("productCount");
+
+
+  count.textContent =
+    products.length +
+    " produk";
+
+
+  if (
+    !products.length
+  ) {
+
+    list.innerHTML = `
+
+      <div class="empty">
+
+        📦 Belum ada produk.
+
+        <br>
+
+        Tambahkan produk pertama Anda
+        untuk membuat QR.
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  list.innerHTML = "";
+
+
+  products.forEach(
+    product => {
+
+      const item =
+        document.createElement(
+          "div"
+        );
+
+
+      item.className =
+        "product";
+
+
+      const image =
+        product.image
+          ? `
+
+            <div class="product-image">
+
+              <img
+                src="${escapeHTML(product.image)}"
+                alt="${escapeHTML(product.name)}"
+                loading="lazy"
+              >
+
+            </div>
+
+          `
+          : `
+
+            <div
+              class="product-image"
+              style="
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                color:#555;
+                font-size:24px;
+              "
+            >
+              📦
+            </div>
+
+          `;
+
+
+      let meta = "";
+
+
+      if (
+        product.type ===
+        "physical"
+      ) {
+
+        meta =
+          "📦 Fisik" +
+          " • Stok " +
+          Number(
+            product.stock || 0
+          ) +
+          " • " +
+          Number(
+            product.weight || 0
+          ) +
+          "g • " +
+          (
+            product.shippingMethod ===
+            "seller_delivery"
+              ? "🛵 Antar"
+              : "🚚 Kurir"
+          );
+
+      } else {
+
+        meta =
+          "💻 Digital" +
+          " • " +
+          (
+            product.digitalDelivery ||
+            "WhatsApp"
+          );
+
+      }
+
+
+      item.innerHTML = `
+
+        <div class="product-main">
+
+          ${image}
+
+          <div class="product-info">
+
+            <h3 class="product-name">
+              ${escapeHTML(
+                product.name
+              )}
+            </h3>
+
+            <div class="product-price">
+              ${rupiah(
+                product.price
+              )}
+            </div>
+
+            <div class="product-meta">
+              ${escapeHTML(meta)}
+            </div>
+
+            ${
+              product.code
+                ? `
+                  <div class="product-meta">
+                    Kode:
+                    ${escapeHTML(
+                      product.code
+                    )}
+                  </div>
+                `
+                : ""
+            }
+
+          </div>
+
+        </div>
+
+
+        <div class="product-actions">
+
+          <button
+            type="button"
+            class="mini-btn"
+            data-edit="${escapeHTML(
+              product.id
+            )}"
+          >
+            ✏️ Edit
+          </button>
+
+          <button
+            type="button"
+            class="mini-btn delete"
+            data-delete="${escapeHTML(
+              product.id
+            )}"
+          >
+            🗑️ Hapus
+          </button>
+
+        </div>
+
+      `;
+
+
+      list.appendChild(
+        item
+      );
 
     }
+  );
 
 
-    if(editingProductId){
+  list
+    .querySelectorAll(
+      "[data-edit]"
+    )
+    .forEach(
+      button => {
 
-        const index =
-            products.findIndex(
-                p => p.id === editingProductId
+        button.addEventListener(
+          "click",
+          () => {
+
+            editProduct(
+              button.dataset.edit
             );
 
-        if(index !== -1){
-
-            products[index] =
-                product;
-
-        }
-
-        showToast(
-            "Produk berhasil diperbarui."
+          }
         );
 
-    }else{
+      }
+    );
 
-        products.unshift(product);
 
-        showToast(
-            "Produk berhasil ditambahkan."
+  list
+    .querySelectorAll(
+      "[data-delete]"
+    )
+    .forEach(
+      button => {
+
+        button.addEventListener(
+          "click",
+          () => {
+
+            deleteProduct(
+              button.dataset.delete
+            );
+
+          }
         );
 
-    }
-
-
-    saveProducts();
-
-    renderProducts();
-
-    resetProductForm();
+      }
+    );
 
 }
 
 
-addProductButton.addEventListener(
-    "click",
-    saveProductFromForm
-);
+/* ============================================================
+   EDIT
+============================================================ */
+
+function editProduct(id) {
+
+  const product =
+    products.find(
+      item =>
+        item.id === id
+    );
 
 
-cancelEditButton.addEventListener(
-    "click",
-    function(){
+  if (!product) {
 
-        resetProductForm();
+    showToast(
+      "Produk tidak ditemukan."
+    );
 
-        showToast(
-            "Edit dibatalkan."
-        );
+    return;
 
-    }
-);
+  }
 
 
-/* =========================================================
-   EDIT PRODUCT
-========================================================= */
-
-function editProduct(id){
-
-    const product =
-        products.find(
-            p => p.id === id
-        );
-
-    if(!product){
-
-        return;
-
-    }
+  editingId =
+    id;
 
 
-    editingProductId =
-        product.id;
+  productName.value =
+    product.name || "";
 
 
-    productFormTitle.textContent =
-        "✏️ Edit Produk";
-
-    addProductButton.textContent =
-        "Simpan Perubahan";
-
-    cancelEditButton.style.display =
-        "block";
+  productPrice.value =
+    product.price ?? "";
 
 
-    productNameInput.value =
-        product.name || "";
-
-    productPriceInput.value =
-        product.price ?? "";
-
-    productCodeInput.value =
-        product.code || "";
+  productCode.value =
+    product.code || "";
 
 
-    if(product.type === "digital"){
-
-        typeDigital.checked =
-            true;
-
-        typePhysical.checked =
-            false;
-
-    }else{
-
-        typePhysical.checked =
-            true;
-
-        typeDigital.checked =
-            false;
-
-    }
+  productImage.value =
+    product.image || "";
 
 
-    productStockInput.value =
-        product.stock ?? "";
+  if (
+    product.type ===
+    "digital"
+  ) {
 
-    productWeightInput.value =
-        product.weight ?? "";
+    $("typeDigital")
+      .checked = true;
+
+
+    digitalDelivery.value =
+      product.digitalDelivery ||
+      "whatsapp";
+
+
+    digitalLink.value =
+      product.digitalLink ||
+      "";
+
+
+    digitalWhatsapp.value =
+      product.digitalWhatsapp ||
+      "";
+
+
+    digitalDescription.value =
+      product.digitalDescription ||
+      "";
+
+  } else {
+
+    $("typePhysical")
+      .checked = true;
+
+
+    productStock.value =
+      product.stock ?? 1;
+
+
+    productWeight.value =
+      product.weight ?? 0;
+
+
+    shippingNote.value =
+      product.shippingNote ||
+      "";
 
 
     const shipping =
-        product.shippingMethod
-        ||
-        "courier";
+      document.querySelector(
+        `input[name="shippingMethod"][value="${product.shippingMethod || "courier"}"]`
+      );
 
 
-    const shippingRadio =
-        document.querySelector(
-            `input[name="shippingMethod"][value="${shipping}"]`
-        );
+    if (shipping) {
 
-    if(shippingRadio){
-
-        shippingRadio.checked =
-            true;
+      shipping.checked =
+        true;
 
     }
 
+  }
 
-    shippingNoteInput.value =
-        product.shippingNote || "";
 
+  updateProductType();
 
-    digitalDeliveryInput.value =
-        product.digitalDelivery
-        ||
-        "whatsapp";
+  previewImage();
 
-    digitalLinkInput.value =
-        product.digitalLink || "";
 
-    digitalWhatsappInput.value =
-        product.digitalWhatsapp || "";
-
-    digitalDescriptionInput.value =
-        product.digitalDescription || "";
-
-
-    productImageInput.value =
-        product.image || "";
-
-
-    updateProductTypeUI();
-
-    updateImagePreview();
-
-
-    document
-        .getElementById("produk")
-        .scrollIntoView({
-            behavior:"smooth",
-            block:"start"
-        });
-
-}
-
-
-/* =========================================================
-   DELETE PRODUCT
-========================================================= */
-
-function deleteProduct(id){
-
-    const product =
-        products.find(
-            p => p.id === id
-        );
-
-    if(!product){
-
-        return;
-
-    }
-
-
-    const confirmed =
-        confirm(
-            `Hapus produk "${product.name}"?`
-        );
-
-
-    if(!confirmed){
-
-        return;
-
-    }
-
-
-    products =
-        products.filter(
-            p => p.id !== id
-        );
-
-
-    saveProducts();
-
-    renderProducts();
-
-    showToast(
-        "Produk berhasil dihapus."
-    );
-
-
-    if(editingProductId === id){
-
-        resetProductForm();
-
-    }
-
-}
-
-
-/* =========================================================
-   RENDER PRODUCTS
-========================================================= */
-
-function renderProducts(){
-
-    productCount.textContent =
-        products.length;
-
-
-    productList.innerHTML =
-        "";
-
-
-    if(products.length === 0){
-
-        emptyProducts.style.display =
-            "block";
-
-    }else{
-
-        emptyProducts.style.display =
-            "none";
-
-    }
-
-
-    products.forEach(product => {
-
-        const item =
-            document.createElement("div");
-
-        item.className =
-            "product-item";
-
-
-        const thumb =
-            document.createElement("div");
-
-        thumb.className =
-            "product-thumb";
-
-
-        if(product.image){
-
-            const img =
-                document.createElement("img");
-
-            img.src =
-                product.image;
-
-            img.alt =
-                product.name || "Produk";
-
-            img.onerror =
-                function(){
-
-                    thumb.innerHTML =
-                        "Gambar<br>tidak tersedia";
-
-                };
-
-
-            thumb.appendChild(img);
-
-        }else{
-
-            thumb.textContent =
-                product.type === "digital"
-                    ? "DIGITAL"
-                    : "PRODUK";
-
-        }
-
-
-        const info =
-            document.createElement("div");
-
-        info.className =
-            "product-info";
-
-
-        const title =
-            document.createElement("h3");
-
-        title.textContent =
-            product.name;
-
-
-        const meta =
-            document.createElement("div");
-
-        meta.className =
-            "product-meta";
-
-
-        let extra = "";
-
-
-        if(product.type === "physical"){
-
-            extra =
-                `Stok: ${product.stock ?? 0} · ` +
-                `Berat: ${product.weight ?? 0}g`;
-
-        }else{
-
-            extra =
-                "Produk digital";
-
-        }
-
-
-        meta.innerHTML =
-            `
-            <span class="product-price">
-                ${escapeHTML(rupiah(product.price))}
-            </span>
-            <br>
-            ${escapeHTML(product.code || "Tanpa kode")}
-            <br>
-            ${escapeHTML(extra)}
-            `;
-
-
-        const actions =
-            document.createElement("div");
-
-        actions.className =
-            "product-actions";
-
-
-        const editButton =
-            document.createElement("button");
-
-        editButton.type =
-            "button";
-
-        editButton.textContent =
-            "✏ Edit";
-
-        editButton.addEventListener(
-            "click",
-            () => editProduct(product.id)
-        );
-
-
-        const deleteButton =
-            document.createElement("button");
-
-        deleteButton.type =
-            "button";
-
-        deleteButton.textContent =
-            "🗑 Hapus";
-
-        deleteButton.className =
-            "delete";
-
-        deleteButton.addEventListener(
-            "click",
-            () => deleteProduct(product.id)
-        );
-
-
-        actions.appendChild(
-            editButton
-        );
-
-        actions.appendChild(
-            deleteButton
-        );
-
-
-        info.appendChild(title);
-        info.appendChild(meta);
-        info.appendChild(actions);
-
-
-        item.appendChild(thumb);
-        item.appendChild(info);
-
-
-        productList.appendChild(item);
-
+  $("tambah-produk")
+    .scrollIntoView({
+      behavior: "smooth"
     });
 
 
-    updateSingleProductSelect();
+  showToast(
+    "✏️ Produk dimuat untuk diedit"
+  );
 
 }
 
 
-/* =========================================================
-   SINGLE PRODUCT SELECT
-========================================================= */
+/* ============================================================
+   DELETE
+============================================================ */
 
-function updateSingleProductSelect(){
+function deleteProduct(id) {
 
-    const oldValue =
-        singleProductSelect.value;
-
-
-    singleProductSelect.innerHTML =
-        "";
-
-
-    const first =
-        document.createElement("option");
-
-    first.value = "";
-
-    first.textContent =
-        "Pilih produk";
-
-    singleProductSelect.appendChild(
-        first
+  const product =
+    products.find(
+      item =>
+        item.id === id
     );
 
 
-    products.forEach(product => {
-
-        const option =
-            document.createElement("option");
-
-        option.value =
-            product.id;
-
-        option.textContent =
-            product.name
-            +
-            " — "
-            +
-            rupiah(product.price);
+  if (!product) {
+    return;
+  }
 
 
-        singleProductSelect.appendChild(
-            option
-        );
+  const ok =
+    confirm(
+      "Hapus produk \"" +
+      product.name +
+      "\"?"
+    );
 
-    });
+
+  if (!ok) {
+    return;
+  }
 
 
-    if(
-        oldValue &&
-        products.some(
-            p => p.id === oldValue
-        )
-    ){
+  products =
+    products.filter(
+      item =>
+        item.id !== id
+    );
 
-        singleProductSelect.value =
-            oldValue;
 
-    }
+  saveProducts();
+
+  renderProducts();
+
+  updateProductSelect();
+
+
+  showToast(
+    "🗑️ Produk dihapus"
+  );
 
 }
 
 
-/* =========================================================
+/* ============================================================
+   SELECT
+============================================================ */
+
+function updateProductSelect() {
+
+  const select =
+    $("singleProductSelect");
+
+
+  select.innerHTML = `
+
+    <option value="">
+      Pilih produk
+    </option>
+
+  `;
+
+
+  products.forEach(
+    product => {
+
+      const option =
+        document.createElement(
+          "option"
+        );
+
+
+      option.value =
+        product.id;
+
+
+      option.textContent =
+        product.name +
+        " — " +
+        rupiah(
+          product.price
+        );
+
+
+      select.appendChild(
+        option
+      );
+
+    }
+  );
+
+}
+
+
+/* ============================================================
    UTF-8 BASE64
-========================================================= */
+============================================================ */
 
-function encodeBase64UTF8(text){
+function encodeBase64UTF8(value) {
 
-    const bytes =
-        new TextEncoder()
-            .encode(text);
-
-
-    let binary = "";
-
-    const chunkSize = 0x8000;
+  const bytes =
+    new TextEncoder()
+      .encode(value);
 
 
-    for(
-        let i = 0;
-        i < bytes.length;
-        i += chunkSize
-    ){
-
-        binary += String.fromCharCode(
-            ...bytes.subarray(
-                i,
-                i + chunkSize
-            )
-        );
-
-    }
+  let binary = "";
 
 
-    return btoa(binary);
-
-}
-
-
-/* =========================================================
-   URL
-========================================================= */
-
-function createCheckoutURL(data){
-
-    const json =
-        JSON.stringify(data);
-
-    const encoded =
-        encodeBase64UTF8(json);
+  const chunk =
+    0x8000;
 
 
-    /*
-       Relative URL yang aman untuk
-       GitHub Pages / hosting biasa.
-    */
+  for (
+    let i = 0;
+    i < bytes.length;
+    i += chunk
+  ) {
 
-    return new URL(
-        "checkout.html?data="
-        +
-        encodeURIComponent(encoded),
-        window.location.href
-    ).href;
+    binary +=
+      String.fromCharCode(
+        ...bytes.subarray(
+          i,
+          i + chunk
+        )
+      );
+
+  }
+
+
+  return btoa(
+    binary
+  );
 
 }
 
 
-/* =========================================================
+/* ============================================================
    QR DATA
-========================================================= */
+============================================================ */
 
-function createSingleData(product){
+function createQRData(data) {
 
-    return {
-
-        v:2,
-
-        type:"single",
-
-        store:
-            storeNameInput.value.trim(),
-
-        product:product,
-
-        products:[
-            product
-        ]
-
-    };
+  return encodeBase64UTF8(
+    JSON.stringify(data)
+  );
 
 }
 
 
-function createCatalogData(){
+/* ============================================================
+   BASE URL
+============================================================ */
 
-    return {
+function getCheckoutURL(encoded) {
 
-        v:2,
+  const base =
+    window.location.href
+      .replace(
+        /seller\.html.*$/i,
+        ""
+      );
 
-        type:"catalog",
 
-        store:
-            storeNameInput.value.trim(),
-
-        products:[
-            ...products
-        ]
-
-    };
+  return (
+    base +
+    "checkout.html?data=" +
+    encodeURIComponent(
+      encoded
+    )
+  );
 
 }
 
 
-/* =========================================================
-   CREATE QR
-========================================================= */
+/* ============================================================
+   BUILD SINGLE DATA
+============================================================ */
 
-function createBrandedQR(target, url){
+function buildSingleData(product) {
 
-    target.innerHTML =
-        "";
+  const store =
+    storeName.value.trim();
 
+
+  return {
+
+    v: 2,
+
+    type: "single",
+
+    store: store,
+
+    product: {
+      ...product
+    },
+
+    products: [
+      {
+        ...product
+      }
+    ]
+
+  };
+
+}
+
+
+/* ============================================================
+   BUILD CATALOG DATA
+============================================================ */
+
+function buildCatalogData() {
+
+  const store =
+    storeName.value.trim();
+
+
+  return {
+
+    v: 2,
+
+    type: "catalog",
+
+    store: store,
+
+    products:
+      products.map(
+        product => ({
+          ...product
+        })
+      )
+
+  };
+
+}
+
+
+/* ============================================================
+   CREATE QR CANVAS
+============================================================ */
+
+function createQRCode(
+  targetId,
+  url
+) {
+
+  const target =
+    $(targetId);
+
+
+  target.innerHTML =
+    "";
+
+
+  /*
+    QRCode.js dengan typeNumber 0
+    akan memilih ukuran QR otomatis.
+
+    ErrorLevel H dipakai karena kita
+    menambahkan logo visual di tengah.
+  */
+
+  try {
 
     new QRCode(
-        target,
-        {
+      target,
+      {
+        text: url,
 
-            text:url,
+        width: 220,
 
-            width:220,
+        height: 220,
 
-            height:220,
+        colorDark:
+          "#000000",
 
-            colorDark:"#000000",
+        colorLight:
+          "#ffffff",
 
-            colorLight:"#ffffff",
+        correctLevel:
+          QRCode.CorrectLevel.H
 
-            correctLevel:
-                QRCode.CorrectLevel.H
-
-        }
+      }
     );
+
+
+    return true;
+
+  } catch (error) {
+
+    console.error(
+      "QR error:",
+      error
+    );
+
+
+    target.innerHTML =
+      "";
+
+
+    return false;
+
+  }
 
 }
 
 
-/* =========================================================
+/* ============================================================
+   CHECK QR CAPACITY
+============================================================ */
+
+function qrDataTooLarge(url) {
+
+  /*
+    Ini bukan batas pasti QR.
+
+    QRCode.js akan menangani kapasitas.
+    Pemeriksaan ini memberikan peringatan
+    lebih awal untuk katalog yang sangat besar.
+  */
+
+  return url.length > 7000;
+
+}
+
+
+/* ============================================================
    SINGLE QR
-========================================================= */
+============================================================ */
 
-let currentSingleURL =
-    "";
-
-
-createSingleQR.addEventListener(
+$("createSingleQR")
+  .addEventListener(
     "click",
-    function(){
-
-        const id =
-            singleProductSelect.value;
+    createSingleQR
+  );
 
 
-        if(!id){
+function createSingleQR() {
 
-            showToast(
-                "Pilih produk terlebih dahulu."
-            );
-
-            return;
-
-        }
+  const id =
+    $("singleProductSelect")
+      .value;
 
 
-        const product =
-            products.find(
-                p => p.id === id
-            );
+  if (!id) {
+
+    showToast(
+      "Pilih produk terlebih dahulu."
+    );
+
+    return;
+
+  }
 
 
-        if(!product){
-
-            showToast(
-                "Produk tidak ditemukan."
-            );
-
-            return;
-
-        }
+  const product =
+    products.find(
+      item =>
+        item.id === id
+    );
 
 
-        const store =
-            storeNameInput.value.trim();
+  if (!product) {
+
+    showToast(
+      "Produk tidak ditemukan."
+    );
+
+    return;
+
+  }
 
 
-        if(!store){
-
-            showToast(
-                "Isi nama toko terlebih dahulu."
-            );
-
-            return;
-
-        }
+  const store =
+    storeName.value.trim();
 
 
-        const data =
-            createSingleData(
-                product
-            );
+  if (!store) {
+
+    showToast(
+      "Simpan nama toko terlebih dahulu."
+    );
+
+    return;
+
+  }
 
 
-        const url =
-            createCheckoutURL(data);
+  const data =
+    buildSingleData(
+      product
+    );
 
 
-        currentSingleURL =
-            url;
+  const encoded =
+    createQRData(
+      data
+    );
 
 
-        singleQRStore.textContent =
-            store
-            +
-            " • "
-            +
-            product.name;
+  singleQRUrl =
+    getCheckoutURL(
+      encoded
+    );
 
 
-        singleQRUrl.textContent =
-            url;
+  const success =
+    createQRCode(
+      "singleQRCode",
+      singleQRUrl
+    );
 
 
-        createBrandedQR(
-            singleQRCode,
-            url
-        );
+  if (!success) {
+
+    showToast(
+      "QR gagal dibuat."
+    );
+
+    return;
+
+  }
 
 
-        singleQRResult.classList.add(
-            "show"
-        );
+  $("singleQRStore")
+    .textContent =
+      store +
+      " • " +
+      product.name;
 
 
-        setTimeout(() => {
-
-            singleQRResult.scrollIntoView({
-                behavior:"smooth",
-                block:"center"
-            });
-
-        },100);
-
-    }
-);
+  $("singleQRUrl")
+    .textContent =
+      singleQRUrl;
 
 
-/* =========================================================
+  $("singleQRResult")
+    .classList
+    .remove("hidden");
+
+
+  showToast(
+    "✓ QR Produk berhasil dibuat"
+  );
+
+
+  $("singleQRResult")
+    .scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+
+}
+
+
+/* ============================================================
    CATALOG QR
-========================================================= */
+============================================================ */
 
-let currentCatalogURL =
-    "";
-
-
-createCatalogQR.addEventListener(
+$("createCatalogQR")
+  .addEventListener(
     "click",
-    function(){
-
-        if(products.length === 0){
-
-            showToast(
-                "Tambahkan minimal satu produk."
-            );
-
-            return;
-
-        }
+    createCatalogQR
+  );
 
 
-        const store =
-            storeNameInput.value.trim();
+function createCatalogQR() {
+
+  if (
+    !products.length
+  ) {
+
+    showToast(
+      "Tambahkan produk terlebih dahulu."
+    );
+
+    $("tambah-produk")
+      .scrollIntoView({
+        behavior: "smooth"
+      });
+
+    return;
+
+  }
 
 
-        if(!store){
-
-            showToast(
-                "Isi nama toko terlebih dahulu."
-            );
-
-            return;
-
-        }
+  const store =
+    storeName.value.trim();
 
 
-        const data =
-            createCatalogData();
+  if (!store) {
+
+    showToast(
+      "Simpan nama toko terlebih dahulu."
+    );
+
+    return;
+
+  }
 
 
-        const url =
-            createCheckoutURL(data);
+  const data =
+    buildCatalogData();
 
 
-        currentCatalogURL =
-            url;
+  const encoded =
+    createQRData(
+      data
+    );
 
 
-        catalogQRStore.textContent =
-            store
-            +
-            " • "
-            +
-            products.length
-            +
-            " produk";
+  catalogQRUrl =
+    getCheckoutURL(
+      encoded
+    );
 
 
-        catalogQRUrl.textContent =
-            url;
+  /*
+    Cek panjang URL.
+  */
+
+  const warning =
+    $("catalogQRWarning");
 
 
-        createBrandedQR(
-            catalogQRCode,
-            url
-        );
+  if (
+    qrDataTooLarge(
+      catalogQRUrl
+    )
+  ) {
+
+    warning.classList
+      .remove("hidden");
 
 
-        catalogQRResult.classList.add(
-            "show"
-        );
+    warning.innerHTML = `
+
+      ⚠️ <b>Data katalog cukup besar.</b>
+
+      <br><br>
+
+      QR dapat menjadi sulit dibuat atau dipindai
+      jika jumlah produk terlalu banyak.
+
+      <br><br>
+
+      Untuk katalog besar, lebih baik gunakan
+      beberapa QR katalog atau gunakan sistem
+      short URL/database pada versi berikutnya.
+
+    `;
+
+  } else {
+
+    warning.classList
+      .add("hidden");
+
+  }
 
 
-        setTimeout(() => {
-
-            catalogQRResult.scrollIntoView({
-                behavior:"smooth",
-                block:"center"
-            });
-
-        },100);
-
-    }
-);
+  const success =
+    createQRCode(
+      "catalogQRCode",
+      catalogQRUrl
+    );
 
 
-/* =========================================================
+  if (!success) {
+
+    $("catalogQRResult")
+      .classList
+      .remove("hidden");
+
+
+    warning.classList
+      .remove("hidden");
+
+
+    warning.innerHTML = `
+
+      ⚠️ <b>QR Katalog terlalu besar.</b>
+
+      <br><br>
+
+      Kurangi jumlah produk dalam satu katalog
+      atau buat beberapa QR katalog.
+
+      <br><br>
+
+      QR 1 Produk tetap dapat digunakan
+      untuk setiap produk.
+
+    `;
+
+
+    showToast(
+      "QR katalog terlalu besar"
+    );
+
+    return;
+
+  }
+
+
+  $("catalogQRStore")
+    .textContent =
+      store +
+      " • " +
+      products.length +
+      " produk";
+
+
+  $("catalogQRUrl")
+    .textContent =
+      catalogQRUrl;
+
+
+  $("catalogQRResult")
+    .classList
+    .remove("hidden");
+
+
+  showToast(
+    "✓ QR Katalog berhasil dibuat"
+  );
+
+
+  $("catalogQRResult")
+    .scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+
+}
+
+
+/* ============================================================
    COPY
-========================================================= */
+============================================================ */
 
-async function copyText(text){
+async function copyText(text) {
 
-    if(!text){
+  if (!text) {
 
-        return false;
+    showToast(
+      "URL belum tersedia."
+    );
 
-    }
+    return;
+
+  }
 
 
-    try{
+  try {
 
-        await navigator.clipboard.writeText(
-            text
-        );
+    await navigator.clipboard
+      .writeText(text);
 
-        return true;
 
-    }catch(error){
+    showToast(
+      "✓ URL berhasil disalin"
+    );
 
-        try{
 
-            const textarea =
-                document.createElement("textarea");
+  } catch {
 
-            textarea.value =
-                text;
+    const textarea =
+      document.createElement(
+        "textarea"
+      );
 
-            textarea.style.position =
-                "fixed";
 
-            textarea.style.opacity =
-                "0";
+    textarea.value =
+      text;
 
-            document.body.appendChild(
-                textarea
-            );
 
-            textarea.focus();
+    textarea.style.position =
+      "fixed";
 
-            textarea.select();
+    textarea.style.opacity =
+      "0";
 
-            const success =
-                document.execCommand(
-                    "copy"
-                );
 
-            textarea.remove();
+    document.body.appendChild(
+      textarea
+    );
 
-            return success;
 
-        }catch(e){
+    textarea.focus();
 
-            return false;
+    textarea.select();
 
-        }
 
-    }
+    try {
+
+      document.execCommand(
+        "copy"
+      );
+
+    } catch {}
+
+
+    textarea.remove();
+
+
+    showToast(
+      "✓ URL berhasil disalin"
+    );
+
+  }
 
 }
 
 
-copySingleURL.addEventListener(
+$("copySingleURL")
+  .addEventListener(
     "click",
-    async function(){
+    () => {
 
-        const success =
-            await copyText(
-                currentSingleURL
-            );
-
-
-        showToast(
-            success
-                ? "URL QR berhasil disalin."
-                : "Gagal menyalin URL."
-        );
+      copyText(
+        singleQRUrl
+      );
 
     }
-);
+  );
 
 
-copyCatalogURL.addEventListener(
+$("copyCatalogURL")
+  .addEventListener(
     "click",
-    async function(){
+    () => {
 
-        const success =
-            await copyText(
-                currentCatalogURL
-            );
-
-
-        showToast(
-            success
-                ? "URL QR katalog berhasil disalin."
-                : "Gagal menyalin URL."
-        );
+      copyText(
+        catalogQRUrl
+      );
 
     }
-);
+  );
 
 
-/* =========================================================
-   DOWNLOAD BRANDED QR
-========================================================= */
+/* ============================================================
+   DOWNLOAD QR
+============================================================ */
 
-function downloadBrandedQR(
-    qrContainer,
-    filename,
-    storeText,
-    productText
-){
+function downloadQR(
+  visualId,
+  filename,
+  store,
+  subtitle
+) {
 
-    const qrCanvas =
-        qrContainer.querySelector(
-            "canvas"
-        );
+  const visual =
+    $(visualId);
 
 
-    if(!qrCanvas){
-
-        showToast(
-            "QR belum siap."
-        );
-
-        return;
-
-    }
-
-
-    /*
-       QR TIDAK diberi logo di atas modul.
-       Branding ditempatkan di luar QR
-       agar tetap mudah discan.
-    */
-
-    const padding = 45;
-
-    const top = 85;
-
-    const bottom = 65;
-
-    const qrSize =
-        qrCanvas.width;
-
-
-    const canvas =
-        document.createElement("canvas");
-
-
-    canvas.width =
-        qrSize
-        +
-        padding * 2;
-
-
-    canvas.height =
-        qrSize
-        +
-        top
-        +
-        bottom;
-
-
-    const ctx =
-        canvas.getContext("2d");
-
-
-    ctx.fillStyle =
-        "#ffffff";
-
-    ctx.fillRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
+  const sourceCanvas =
+    visual.querySelector(
+      "canvas"
     );
 
 
-    /*
-       Border
-    */
+  if (!sourceCanvas) {
 
-    ctx.strokeStyle =
-        "#d6ad55";
+    showToast(
+      "QR belum tersedia."
+    );
 
-    ctx.lineWidth =
-        5;
+    return;
 
-    ctx.strokeRect(
-        8,
-        8,
-        canvas.width - 16,
-        canvas.height - 16
+  }
+
+
+  /*
+    Kita membuat gambar final sendiri:
+
+    ┌────────────────────────┐
+    │       SCANBELI         │
+    │                        │
+    │      QR + LOGO         │
+    │                        │
+    │       TOKO             │
+    └────────────────────────┘
+
+    Logo tengah dibuat pada canvas
+    sehingga file download juga
+    memiliki logo.
+  */
+
+
+  const qrSize =
+    sourceCanvas.width;
+
+
+  const scale =
+    3;
+
+
+  const margin =
+    70;
+
+
+  const logoSize =
+    Math.round(
+      qrSize * .22
     );
 
 
-    /*
-       SCANBELI
-    */
-
-    ctx.fillStyle =
-        "#111111";
-
-    ctx.textAlign =
-        "center";
-
-    ctx.font =
-        "bold 28px Arial";
-
-    ctx.fillText(
-        "SCANBELI",
-        canvas.width / 2,
-        43
+  const logoWhite =
+    Math.round(
+      qrSize * .30
     );
 
 
-    /*
-       Store
-    */
+  const top =
+    95;
 
-    ctx.font =
-        "bold 14px Arial";
 
-    ctx.fillText(
-        storeText || "Toko",
-        canvas.width / 2,
-        67
+  const bottom =
+    95;
+
+
+  const canvas =
+    document.createElement(
+      "canvas"
     );
 
 
-    /*
-       QR
-    */
+  canvas.width =
+    (
+      qrSize +
+      margin * 2
+    ) * scale;
 
-    ctx.drawImage(
-        qrCanvas,
-        padding,
-        top,
-        qrSize,
-        qrSize
+
+  canvas.height =
+    (
+      top +
+      qrSize +
+      bottom +
+      50
+    ) * scale;
+
+
+  const ctx =
+    canvas.getContext(
+      "2d"
     );
 
 
-    /*
-       Product
-    */
+  ctx.scale(
+    scale,
+    scale
+  );
 
-    ctx.fillStyle =
-        "#555555";
 
-    ctx.font =
-        "12px Arial";
+  /*
+    Background
+  */
 
-    ctx.fillText(
-        productText || "Scan untuk membeli",
-        canvas.width / 2,
-        qrSize + top + 36
+  ctx.fillStyle =
+    "#ffffff";
+
+
+  ctx.fillRect(
+    0,
+    0,
+    canvas.width / scale,
+    canvas.height / scale
+  );
+
+
+  /*
+    Header
+  */
+
+  ctx.fillStyle =
+    "#070707";
+
+
+  ctx.font =
+    "900 22px Arial";
+
+
+  ctx.textAlign =
+    "center";
+
+
+  ctx.fillText(
+    "SCANBELI",
+    (
+      qrSize +
+      margin * 2
+    ) / 2,
+    40
+  );
+
+
+  ctx.fillStyle =
+    "#d6ad55";
+
+
+  ctx.font =
+    "bold 10px Arial";
+
+
+  ctx.fillText(
+    "SCAN • CHECKOUT • SELESAI",
+    (
+      qrSize +
+      margin * 2
+    ) / 2,
+    60
+  );
+
+
+  /*
+    QR
+  */
+
+  ctx.drawImage(
+    sourceCanvas,
+    margin,
+    top,
+    qrSize,
+    qrSize
+  );
+
+
+  /*
+    Logo white safe zone
+  */
+
+  const centerX =
+    margin +
+    qrSize / 2;
+
+
+  const centerY =
+    top +
+    qrSize / 2;
+
+
+  ctx.fillStyle =
+    "#ffffff";
+
+
+  ctx.fillRect(
+    centerX -
+      logoWhite / 2,
+    centerY -
+      logoWhite / 2,
+    logoWhite,
+    logoWhite
+  );
+
+
+  /*
+    Border logo
+  */
+
+  ctx.strokeStyle =
+    "#d6ad55";
+
+
+  ctx.lineWidth =
+    3;
+
+
+  ctx.beginPath();
+
+
+  if (
+    ctx.roundRect
+  ) {
+
+    ctx.roundRect(
+      centerX -
+        logoSize / 2,
+      centerY -
+        logoSize / 2,
+      logoSize,
+      logoSize,
+      12
+    );
+
+  } else {
+
+    ctx.rect(
+      centerX -
+        logoSize / 2,
+      centerY -
+        logoSize / 2,
+      logoSize,
+      logoSize
+    );
+
+  }
+
+
+  ctx.stroke();
+
+
+  /*
+    Logo mark
+  */
+
+  ctx.fillStyle =
+    "#d6ad55";
+
+
+  ctx.font =
+    "900 21px Arial";
+
+
+  ctx.fillText(
+    "◈",
+    centerX,
+    centerY - 1
+  );
+
+
+  /*
+    Logo text
+  */
+
+  ctx.fillStyle =
+    "#070707";
+
+
+  ctx.font =
+    "900 8px Arial";
+
+
+  ctx.fillText(
+    "SCANBELI",
+    centerX,
+    centerY + 14
+  );
+
+
+  /*
+    Bottom
+  */
+
+  ctx.fillStyle =
+    "#070707";
+
+
+  ctx.font =
+    "900 13px Arial";
+
+
+  ctx.fillText(
+    String(store || "TOKO"),
+    (
+      qrSize +
+      margin * 2
+    ) / 2,
+    top +
+      qrSize +
+      34
+  );
+
+
+  ctx.fillStyle =
+    "#777";
+
+
+  ctx.font =
+    "10px Arial";
+
+
+  ctx.fillText(
+    String(subtitle || "Scan untuk membeli"),
+    (
+      qrSize +
+      margin * 2
+    ) / 2,
+    top +
+      qrSize +
+      52
+  );
+
+
+  /*
+    Download
+  */
+
+  const link =
+    document.createElement(
+      "a"
     );
 
 
-    /*
-       Download
-    */
+  link.download =
+    filename;
 
-    const link =
-        document.createElement("a");
 
-    link.download =
-        filename;
+  link.href =
+    canvas.toDataURL(
+      "image/png"
+    );
 
-    link.href =
-        canvas.toDataURL(
-            "image/png"
-        );
 
-    link.click();
+  document.body.appendChild(
+    link
+  );
+
+
+  link.click();
+
+
+  link.remove();
+
+
+  showToast(
+    "✓ QR berhasil di-download"
+  );
 
 }
 
 
-/* =========================================================
-   DOWNLOAD SINGLE
-========================================================= */
-
-downloadSingleQR.addEventListener(
+$("downloadSingleQR")
+  .addEventListener(
     "click",
-    function(){
+    () => {
 
-        const id =
-            singleProductSelect.value;
-
-
-        const product =
-            products.find(
-                p => p.id === id
-            );
-
-
-        if(!product){
-
-            showToast(
-                "Produk tidak ditemukan."
-            );
-
-            return;
-
-        }
-
-
-        downloadBrandedQR(
-
-            singleQRCode,
-
-            "SCANBELI-"
-            +
-            (
-                product.code
-                ||
-                product.name
-            )
-                .replace(
-                    /[^a-zA-Z0-9-_]/g,
-                    "-"
-                )
-                .slice(0,50)
-            +
-            ".png",
-
-            storeNameInput.value.trim(),
-
-            product.name
-
+      const product =
+        products.find(
+          item =>
+            item.id ===
+            $("singleProductSelect").value
         );
 
+
+      downloadQR(
+        "singleQRVisual",
+        "SCANBELI-QR-Produk.png",
+        storeName.value,
+        product
+          ? product.name
+          : "Scan untuk membeli"
+      );
+
     }
-);
+  );
 
 
-/* =========================================================
-   DOWNLOAD CATALOG
-========================================================= */
-
-downloadCatalogQR.addEventListener(
+$("downloadCatalogQR")
+  .addEventListener(
     "click",
-    function(){
+    () => {
 
-        if(products.length === 0){
-
-            showToast(
-                "Belum ada produk."
-            );
-
-            return;
-
-        }
-
-
-        downloadBrandedQR(
-
-            catalogQRCode,
-
-            "SCANBELI-KATALOG.png",
-
-            storeNameInput.value.trim(),
-
-            "Katalog Produk"
-
-        );
+      downloadQR(
+        "catalogQRVisual",
+        "SCANBELI-QR-Katalog.png",
+        storeName.value,
+        "Katalog Produk"
+      );
 
     }
-);
+  );
 
 
-/* =========================================================
+/* ============================================================
+   ACCORDION
+============================================================ */
+
+$("imageGuideHead")
+  .addEventListener(
+    "click",
+    () => {
+
+      $("imageGuide")
+        .classList
+        .toggle("open");
+
+    }
+  );
+
+
+$("imageHelpButton")
+  .addEventListener(
+    "click",
+    () => {
+
+      const guide =
+        $("imageGuide");
+
+
+      guide
+        .classList
+        .toggle("open");
+
+
+      guide.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+
+    }
+  );
+
+
+/* ============================================================
    INITIALIZE
-========================================================= */
+============================================================ */
 
-function init(){
+loadStore();
 
-    loadStore();
+loadProducts();
 
-    loadProducts();
-
-    updateProductTypeUI();
-
-    renderProducts();
-
-}
+updateProductType();
 
 
-init();
+/* ============================================================
+   EXTRA: UPDATE STORE NAME VISUALLY
+============================================================ */
 
+storeName.addEventListener(
+  "input",
+  () => {
 
-/* =========================================================
-   PREVENT ENTER ACCIDENTALLY SUBMIT
-========================================================= */
+    /*
+      Tidak langsung menyimpan setiap ketikan.
+      Penjual tetap menekan SIMPAN.
+    */
 
-document.addEventListener(
-    "keydown",
-    function(event){
-
-        if(
-            event.key === "Enter" &&
-            event.target.tagName === "INPUT"
-        ){
-
-            /*
-               Tidak melakukan apa-apa khusus.
-               Dibiarkan agar keyboard HP tetap normal.
-            */
-
-        }
-
-    }
+  }
 );
 
 </script>
