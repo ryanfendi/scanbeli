@@ -1,886 +1,1664 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-
-<meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width,initial-scale=1.0"
->
-
-<meta
-  name="theme-color"
-  content="#070707"
->
-
-<title>Pesanan Seller — SCANBELI</title>
-
-<link rel="stylesheet" href="style.css">
-
-<style>
-
-* {
-  box-sizing: border-box;
-}
-
-body {
-
-  margin: 0;
-
-  background:
-    radial-gradient(
-      circle at 50% -10%,
-      rgba(214,173,85,0.18),
-      transparent 40%
-    ),
-    #070707;
-
-  color: #fff;
-
-  font-family:
-    Inter,
-    system-ui,
-    sans-serif;
-}
-
-.page {
-
-  width:
-    calc(100% - 24px);
-
-  max-width: 850px;
-
-  margin: auto;
-
-  padding:
-    18px 0 70px;
-}
-
-.top {
-
-  display: flex;
-
-  justify-content:
-    space-between;
-
-  align-items: center;
-}
-
-.logo {
-
-  color: #f4d98b;
-
-  font-size: 20px;
-
-  font-weight: 900;
-
-  letter-spacing: 2px;
-}
-
-.back {
-
-  color: #999;
-
-  font-size: 11px;
-}
-
-.hero {
-
-  text-align: center;
-
-  padding:
-    35px 0 20px;
-}
-
-.badge {
-
-  display: inline-block;
-
-  padding:
-    7px 11px;
-
-  border-radius: 30px;
-
-  background:
-    rgba(214,173,85,0.08);
-
-  border:
-    1px solid
-    rgba(214,173,85,0.18);
-
-  color: #f4d98b;
-
-  font-size: 9px;
-
-  font-weight: 900;
-}
-
-.hero h1 {
-
-  margin:
-    14px 0 7px;
-
-  font-size: 34px;
-
-  letter-spacing: -1.5px;
-}
-
-.hero p {
-
-  color: #888;
-
-  font-size: 12px;
-}
-
-.loading,
-.error,
-.empty,
-.order-card {
-
-  margin-top: 13px;
-
-  padding: 20px;
-
-  border-radius: 20px;
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(214,173,85,0.07),
-      #111
-    );
-
-  border:
-    1px solid
-    rgba(214,173,85,0.14);
-}
-
-.loading,
-.empty {
-
-  text-align: center;
-
-  color: #888;
-}
-
-.error {
-
-  color: #ff7777;
-
-  font-size: 12px;
-
-  line-height: 1.6;
-}
-
-.order-head {
-
-  display: flex;
-
-  justify-content:
-    space-between;
-
-  align-items:
-    flex-start;
-
-  gap: 12px;
-}
-
-.order-card h3 {
-
-  margin: 0 0 5px;
-
-  font-size: 17px;
-}
-
-.code {
-
-  color: #777;
-
-  font-size: 10px;
-}
-
-.status {
-
-  padding:
-    7px 10px;
-
-  border-radius: 20px;
-
-  background:
-    rgba(214,173,85,0.08);
-
-  color: #f4d98b;
-
-  font-size: 9px;
-
-  font-weight: 900;
-
-  white-space: nowrap;
-}
-
-.box {
-
-  margin-top: 15px;
-
-  padding-top: 14px;
-
-  border-top:
-    1px solid #292929;
-}
-
-.row {
-
-  display: flex;
-
-  justify-content:
-    space-between;
-
-  gap: 15px;
-
-  margin: 10px 0;
-
-  font-size: 11px;
-}
-
-.row span {
-
-  color: #888;
-}
-
-.row strong {
-
-  text-align: right;
-
-  max-width: 70%;
-
-  word-break: break-word;
-}
-
-.total {
-
-  padding-top: 13px;
-
-  border-top:
-    1px solid #292929;
-
-  font-size: 14px;
-}
-
-.total strong {
-
-  color: #f4d98b;
-
-  font-size: 17px;
-}
-
-.btn {
-
-  display: block;
-
-  margin-top: 17px;
-
-  padding: 13px;
-
-  border-radius: 13px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #f4d98b,
-      #d6ad55
-    );
-
-  color: #080808;
-
-  text-align: center;
-
-  font-size: 10px;
-
-  font-weight: 900;
-}
-
-@media (max-width:600px) {
-
-  .order-head {
-
-    flex-direction: column;
-  }
-
-  .status {
-
-    align-self:
-      flex-start;
-  }
-
-}
-
-</style>
-
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="theme-color"
+    content="#070707"
+  >
+
+  <title>Pesanan Seller - SCANBELI</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* =====================================================
+       SELLER ORDERS
+    ===================================================== */
+
+    .orders-page {
+      padding: 28px 0 60px;
+    }
+
+    .page-title {
+      margin-bottom: 24px;
+    }
+
+    .page-title h1 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 7vw, 42px);
+    }
+
+    .page-title p {
+      margin: 0;
+      color: #999;
+      line-height: 1.6;
+    }
+
+    .order-list {
+      display: grid;
+      gap: 18px;
+    }
+
+    .order-card {
+      background: #111;
+      border: 1px solid #292929;
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: 0 15px 40px rgba(0,0,0,.22);
+    }
+
+    .order-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 15px;
+      margin-bottom: 18px;
+    }
+
+    .order-id {
+      font-weight: 900;
+      font-size: 17px;
+      word-break: break-word;
+    }
+
+    .order-date {
+      color: #888;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 11px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .status.waiting {
+      background: rgba(214,173,85,.12);
+      color: #d6ad55;
+      border: 1px solid rgba(214,173,85,.3);
+    }
+
+    .status.paid,
+    .status.processing {
+      background: rgba(60,180,110,.12);
+      color: #63d894;
+      border: 1px solid rgba(60,180,110,.3);
+    }
+
+    .status.shipping {
+      background: rgba(70,150,255,.12);
+      color: #73adff;
+      border: 1px solid rgba(70,150,255,.3);
+    }
+
+    .status.done {
+      background: rgba(150,150,150,.12);
+      color: #bbb;
+      border: 1px solid #333;
+    }
+
+    .status.cancelled {
+      background: rgba(255,70,70,.12);
+      color: #ff7777;
+      border: 1px solid rgba(255,70,70,.3);
+    }
+
+    /* CUSTOMER */
+
+    .customer-box {
+      background: #0b0b0b;
+      border: 1px solid #222;
+      border-radius: 17px;
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+
+    .box-title {
+      color: #d6ad55;
+      font-weight: 900;
+      margin-bottom: 13px;
+      font-size: 13px;
+      letter-spacing: .5px;
+    }
+
+    .customer-row {
+      display: flex;
+      gap: 12px;
+      margin: 9px 0;
+      line-height: 1.5;
+    }
+
+    .customer-label {
+      min-width: 80px;
+      color: #777;
+      font-size: 13px;
+    }
+
+    .customer-value {
+      color: #eee;
+      font-size: 14px;
+      word-break: break-word;
+    }
+
+    .phone-link {
+      color: #d6ad55;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .copy-phone {
+      border: 1px solid #333;
+      background: #181818;
+      color: #ddd;
+      border-radius: 8px;
+      padding: 4px 8px;
+      font-size: 11px;
+      margin-left: 5px;
+      cursor: pointer;
+    }
+
+    /* TYPE */
+
+    .type-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+
+    .type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 10px;
+      border-radius: 9px;
+      background: #191919;
+      border: 1px solid #303030;
+      color: #ccc;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    /* PRODUCTS */
+
+    .products-title {
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .product-list {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .product-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 15px;
+      background: #0c0c0c;
+      border: 1px solid #222;
+    }
+
+    .product-image {
+      width: 68px;
+      height: 68px;
+      border-radius: 12px;
+      object-fit: cover;
+      background: #181818;
+      flex-shrink: 0;
+    }
+
+    .product-image.hidden-image {
+      display: none;
+    }
+
+    .product-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .product-name {
+      font-weight: 900;
+      margin-bottom: 4px;
+      word-break: break-word;
+    }
+
+    .product-code {
+      color: #777;
+      font-size: 11px;
+      margin-bottom: 7px;
+    }
+
+    .product-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .meta {
+      font-size: 11px;
+      color: #aaa;
+      background: #181818;
+      border-radius: 7px;
+      padding: 5px 7px;
+    }
+
+    .product-price {
+      text-align: right;
+      min-width: 90px;
+      font-weight: 900;
+      color: #d6ad55;
+      font-size: 14px;
+    }
+
+    .product-price small {
+      display: block;
+      color: #777;
+      font-size: 10px;
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    /* SHIPPING */
+
+    .shipping-box {
+      border: 1px solid #272727;
+      background: #0b0b0b;
+      border-radius: 17px;
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+
+    .shipping-method {
+      font-size: 15px;
+      font-weight: 900;
+      margin-bottom: 7px;
+    }
+
+    .shipping-detail {
+      color: #999;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* SUMMARY */
+
+    .summary {
+      border-top: 1px solid #292929;
+      padding-top: 16px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      margin: 9px 0;
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    .summary-row strong {
+      color: #eee;
+    }
+
+    .summary-row.fee strong {
+      color: #d6ad55;
+    }
+
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid #292929;
+      font-size: 18px;
+      font-weight: 900;
+    }
+
+    .summary-total strong {
+      color: #d6ad55;
+    }
+
+    /* DIGITAL */
+
+    .digital-box {
+      border: 1px solid rgba(214,173,85,.3);
+      background: rgba(214,173,85,.05);
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 18px;
+    }
+
+    .digital-title {
+      color: #d6ad55;
+      font-weight: 900;
+      margin-bottom: 7px;
+    }
+
+    .digital-text {
+      color: #aaa;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* EMPTY */
+
+    .state-card {
+      text-align: center;
+      padding: 45px 20px;
+      background: #111;
+      border: 1px solid #292929;
+      border-radius: 22px;
+    }
+
+    .state-icon {
+      font-size: 42px;
+      margin-bottom: 12px;
+    }
+
+    .state-card h2 {
+      margin: 0 0 8px;
+    }
+
+    .state-card p {
+      color: #888;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 600px) {
+
+      .order-card {
+        padding: 16px;
+        border-radius: 18px;
+      }
+
+      .order-top {
+        flex-direction: column;
+      }
+
+      .product-item {
+        align-items: flex-start;
+      }
+
+      .product-price {
+        min-width: auto;
+        font-size: 13px;
+      }
+
+      .customer-row {
+        display: block;
+      }
+
+      .customer-label {
+        display: block;
+        margin-bottom: 2px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="page">
+<header class="header">
 
+  <div class="container header-inner">
 
-  <div class="top">
-
-    <a
-      href="index.html"
-      class="logo"
-    >
+    <a href="index.html" class="logo">
       SCANBELI
     </a>
 
-    <a
-      href="seller.html"
-      class="back"
-    >
-      ← Buat QR
-    </a>
+    <nav class="nav">
+
+      <a href="index.html">
+        Beranda
+      </a>
+
+      <a href="seller.html">
+        Buat QR
+      </a>
+
+      <a href="buyer.html">
+        Data Pembeli
+      </a>
+
+      <a href="seller-orders.html">
+        Pesanan Masuk
+      </a>
+
+    </nav>
 
   </div>
 
+</header>
 
-  <div class="hero">
 
-    <div class="badge">
-      🛍️ SELLER
+<main class="orders-page">
+
+  <div class="container">
+
+    <div class="page-title">
+
+      <div class="hero-badge">
+        PESANAN SELLER
+      </div>
+
+      <h1>
+        Pesanan Masuk
+      </h1>
+
+      <p>
+        Semua pesanan dari produk atau katalog
+        SCANBELI Anda akan tampil di sini.
+      </p>
+
     </div>
 
-    <h1>
-      Pesanan Masuk
-    </h1>
+
+    <!-- LOADING -->
+
+    <div
+      id="loading"
+      class="state-card"
+    >
+
+      <div class="state-icon">
+        ⏳
+      </div>
+
+      <h2>
+        Memuat pesanan...
+      </h2>
+
+      <p>
+        Mohon tunggu sebentar.
+      </p>
+
+    </div>
+
+
+    <!-- ERROR -->
+
+    <div
+      id="error"
+      class="state-card"
+      style="display:none;"
+    >
+
+      <div class="state-icon">
+        ⚠️
+      </div>
+
+      <h2>
+        Gagal memuat pesanan
+      </h2>
+
+      <p id="errorMessage">
+        Terjadi kesalahan.
+      </p>
+
+    </div>
+
+
+    <!-- EMPTY -->
+
+    <div
+      id="empty"
+      class="state-card"
+      style="display:none;"
+    >
+
+      <div class="state-icon">
+        📦
+      </div>
+
+      <h2>
+        Belum ada pesanan
+      </h2>
+
+      <p>
+        Pesanan pembeli akan muncul di halaman ini
+        setelah checkout.
+      </p>
+
+    </div>
+
+
+    <!-- ORDERS -->
+
+    <div
+      id="ordersContainer"
+      class="order-list"
+    ></div>
+
+  </div>
+
+</main>
+
+
+<footer class="footer">
+
+  <div class="container">
+
+    <div
+      style="
+        font-size:20px;
+        font-weight:900;
+        letter-spacing:2px;
+        color:#d6ad55;
+      "
+    >
+      SCANBELI
+    </div>
 
     <p>
-      Lihat pesanan yang masuk
-      untuk produk Anda.
+      Scan QR. Checkout. Selesai.
+    </p>
+
+    <p>
+      © 2026 SCANBELI
     </p>
 
   </div>
 
-
-  <div
-    id="loading"
-    class="loading"
-  >
-    Memuat pesanan...
-  </div>
-
-
-  <div
-    id="error"
-    class="error"
-    style="display:none"
-  ></div>
-
-
-  <div id="orders"></div>
-
-
-</div>
+</footer>
 
 
 <script type="module">
 
-import {
+  import {
+    collection,
+    query,
+    where,
+    getDocs
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  collection,
-
-  query,
-
-  where,
-
-  getDocs
-
-}
-
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import {
+    db,
+    initAnonymousAuth
+  } from "./firebase.js";
 
 
-import {
+  /* =====================================================
+     ELEMENT
+  ===================================================== */
 
-  db,
+  const loading =
+    document.getElementById("loading");
 
-  initAnonymousAuth
+  const error =
+    document.getElementById("error");
 
-}
+  const errorMessage =
+    document.getElementById("errorMessage");
 
-from "./firebase.js";
+  const empty =
+    document.getElementById("empty");
 
-
-const loading =
-  document.getElementById(
-    "loading"
-  );
-
-
-const errorBox =
-  document.getElementById(
-    "error"
-  );
+  const container =
+    document.getElementById("ordersContainer");
 
 
-const container =
-  document.getElementById(
-    "orders"
-  );
+  /* =====================================================
+     RUPIAH
+  ===================================================== */
 
+  function rupiah(value) {
 
-function rupiah(value) {
-
-  return new Intl.NumberFormat(
-    "id-ID",
-    {
-      style: "currency",
-      currency: "IDR",
-      maximumFractionDigits: 0
-    }
-  ).format(
-    Number(value) || 0
-  );
-
-}
-
-
-function escapeHTML(value) {
-
-  return String(
-    value ?? ""
-  ).replace(
-    /[&<>"']/g,
-    function(char) {
-
-      return {
-
-        "&": "&amp;",
-
-        "<": "&lt;",
-
-        ">": "&gt;",
-
-        '"': "&quot;",
-
-        "'": "&#039;"
-
-      }[char];
-
-    }
-  );
-
-}
-
-
-function statusText(status) {
-
-  const map = {
-
-    MENUNGGU_PEMBAYARAN:
-      "Menunggu Pembayaran",
-
-    DIBAYAR:
-      "Sudah Dibayar",
-
-    DIPROSES:
-      "Sedang Diproses",
-
-    DIKIRIM:
-      "Dikirim",
-
-    SELESAI:
-      "Selesai",
-
-    DIBATALKAN:
-      "Dibatalkan"
-
-  };
-
-  return (
-    map[status] ||
-    status ||
-    "Tidak diketahui"
-  );
-
-}
-
-
-async function loadOrders() {
-
-  try {
-
-    loading.style.display =
-      "block";
-
-    errorBox.style.display =
-      "none";
-
-
-    /*
-     * SELLER AUTH
-     */
-
-    const user =
-      await initAnonymousAuth();
-
-
-    console.log(
-      "Seller UID:",
-      user.uid
+    return new Intl.NumberFormat(
+      "id-ID",
+      {
+        style: "currency",
+        currency: "IDR",
+        maximumFractionDigits: 0
+      }
+    ).format(
+      Number(value) || 0
     );
 
+  }
+
+
+  /* =====================================================
+     ESCAPE
+  ===================================================== */
+
+  function escapeHTML(value) {
+
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+
+  }
+
+
+  /* =====================================================
+     STATUS
+  ===================================================== */
+
+  function statusText(status) {
+
+    const map = {
+
+      MENUNGGU_PEMBAYARAN:
+        "Menunggu Pembayaran",
+
+      DIBAYAR:
+        "Sudah Dibayar",
+
+      DIPROSES:
+        "Sedang Diproses",
+
+      DIKIRIM:
+        "Dikirim",
+
+      SELESAI:
+        "Selesai",
+
+      DIBATALKAN:
+        "Dibatalkan"
+
+    };
+
+    return map[status] ||
+      status ||
+      "Tidak diketahui";
+
+  }
+
+
+  function statusClass(status) {
+
+    switch (status) {
+
+      case "DIBAYAR":
+        return "paid";
+
+      case "DIPROSES":
+        return "processing";
+
+      case "DIKIRIM":
+        return "shipping";
+
+      case "SELESAI":
+        return "done";
+
+      case "DIBATALKAN":
+        return "cancelled";
+
+      default:
+        return "waiting";
+
+    }
+
+  }
+
+
+  /* =====================================================
+     DATE
+  ===================================================== */
+
+  function formatDate(timestamp) {
+
+    if (!timestamp) {
+      return "-";
+    }
+
+    try {
+
+      let date;
+
+      if (
+        timestamp.toDate &&
+        typeof timestamp.toDate === "function"
+      ) {
+
+        date = timestamp.toDate();
+
+      } else if (
+        timestamp.seconds
+      ) {
+
+        date =
+          new Date(
+            timestamp.seconds * 1000
+          );
+
+      } else {
+
+        date =
+          new Date(timestamp);
+
+      }
+
+      if (
+        Number.isNaN(
+          date.getTime()
+        )
+      ) {
+
+        return "-";
+
+      }
+
+      return new Intl.DateTimeFormat(
+        "id-ID",
+        {
+          dateStyle: "medium",
+          timeStyle: "short"
+        }
+      ).format(date);
+
+    } catch {
+
+      return "-";
+
+    }
+
+  }
+
+
+  /* =====================================================
+     NUMBER
+  ===================================================== */
+
+  function number(value) {
+
+    const n =
+      Number(value);
+
+    return Number.isFinite(n)
+      ? n
+      : 0;
+
+  }
+
+
+  /* =====================================================
+     NORMALIZE PRODUCTS
+  ===================================================== */
+
+  function getProducts(order) {
+
+    if (
+      Array.isArray(order.products) &&
+      order.products.length
+    ) {
+
+      return order.products;
+
+    }
 
     /*
-     * AMBIL PESANAN
-     */
+      SUPPORT ORDER LAMA
+    */
 
-    const q =
-      query(
+    if (order.product) {
 
-        collection(
-          db,
-          "orders"
-        ),
+      return [
 
-        where(
-          "sellerUid",
-          "==",
-          user.uid
-        )
+        {
 
+          ...order.product,
+
+          quantity:
+            number(
+              order.quantity
+            ) || 1,
+
+          price:
+            number(
+              order.price ??
+              order.product.price
+            ),
+
+          weight:
+            number(
+              order.weight ??
+              order.product.weight
+            )
+
+        }
+
+      ];
+
+    }
+
+    return [];
+
+  }
+
+
+  /* =====================================================
+     PRODUCT IMAGE
+  ===================================================== */
+
+  function imageHTML(image) {
+
+    if (!image) {
+
+      return `
+        <div
+          class="product-image"
+          style="
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-size:25px;
+          "
+        >
+          📦
+        </div>
+      `;
+
+    }
+
+    return `
+      <img
+        class="product-image"
+        src="${escapeHTML(image)}"
+        alt="Produk"
+        loading="lazy"
+        onerror="
+          this.style.display='none';
+          this.nextElementSibling.style.display='flex';
+        "
+      >
+
+      <div
+        class="product-image"
+        style="
+          display:none;
+          align-items:center;
+          justify-content:center;
+          font-size:25px;
+        "
+      >
+        📦
+      </div>
+    `;
+
+  }
+
+
+  /* =====================================================
+     PRODUCT HTML
+  ===================================================== */
+
+  function productHTML(product) {
+
+    const name =
+      product.name ||
+      "Produk";
+
+    const code =
+      product.code ||
+      "";
+
+    const quantity =
+      number(
+        product.quantity
+      ) || 1;
+
+    const price =
+      number(
+        product.price
       );
 
+    const weight =
+      number(
+        product.weight
+      );
 
-    const snapshot =
-      await getDocs(q);
+    const type =
+      product.type ||
+      product.productType ||
+      "fisik";
+
+    const subtotal =
+      number(
+        product.subtotal
+      ) ||
+      price * quantity;
+
+    return `
+
+      <div class="product-item">
+
+        ${imageHTML(
+          product.image ||
+          product.imageUrl ||
+          ""
+        )}
+
+        <div class="product-info">
+
+          <div class="product-name">
+            ${escapeHTML(name)}
+          </div>
+
+          ${
+            code
+              ? `
+                <div class="product-code">
+                  Kode: ${escapeHTML(code)}
+                </div>
+              `
+              : ""
+          }
+
+          <div class="product-meta">
+
+            <span class="meta">
+              × ${quantity}
+            </span>
+
+            <span class="meta">
+              ${type === "digital"
+                ? "💻 Digital"
+                : "📦 Fisik"}
+            </span>
+
+            ${
+              weight > 0
+                ? `
+                  <span class="meta">
+                    ${weight} g / unit
+                  </span>
+                `
+                : ""
+            }
+
+          </div>
+
+        </div>
+
+        <div class="product-price">
+
+          ${rupiah(subtotal)}
+
+          <small>
+            ${rupiah(price)} × ${quantity}
+          </small>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
 
 
-    loading.style.display =
-      "none";
+  /* =====================================================
+     CUSTOMER
+  ===================================================== */
+
+  function customerHTML(order) {
+
+    const name =
+      order.buyerName ||
+      order.customerName ||
+      "-";
+
+    const phone =
+      order.buyerPhone ||
+      order.customerPhone ||
+      "";
+
+    const address =
+      order.buyerAddress ||
+      order.shippingAddress ||
+      "";
+
+    return `
+
+      <div class="customer-box">
+
+        <div class="box-title">
+          👤 DATA PEMBELI
+        </div>
+
+        <div class="customer-row">
+
+          <span class="customer-label">
+            Nama
+          </span>
+
+          <span class="customer-value">
+            ${escapeHTML(name)}
+          </span>
+
+        </div>
+
+        ${
+          phone
+            ? `
+              <div class="customer-row">
+
+                <span class="customer-label">
+                  WhatsApp
+                </span>
+
+                <span class="customer-value">
+
+                  <a
+                    class="phone-link"
+                    href="https://wa.me/${phone.replace(/\D/g,"")}"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    ${escapeHTML(phone)}
+                  </a>
+
+                  <button
+                    class="copy-phone"
+                    type="button"
+                    data-phone="${escapeHTML(phone)}"
+                  >
+                    Salin
+                  </button>
+
+                </span>
+
+              </div>
+            `
+            : ""
+        }
+
+        ${
+          address
+            ? `
+              <div class="customer-row">
+
+                <span class="customer-label">
+                  Alamat
+                </span>
+
+                <span class="customer-value">
+                  ${escapeHTML(address)}
+                </span>
+
+              </div>
+            `
+            : ""
+        }
+
+      </div>
+
+    `;
+
+  }
 
 
-    if (snapshot.empty) {
+  /* =====================================================
+     SHIPPING
+  ===================================================== */
 
-      container.innerHTML = `
+  function shippingHTML(order, products) {
 
-        <div class="empty">
+    const physical =
+      products.some(
+        p =>
+          (p.type ||
+           p.productType ||
+           "fisik") !== "digital"
+      );
 
-          Belum ada pesanan masuk.
+    if (!physical) {
 
-          <a
-            href="seller.html"
-            class="btn"
-          >
-            ✦ BUAT QR PRODUK
-          </a>
+      return `
+
+        <div class="digital-box">
+
+          <div class="digital-title">
+            💻 PESANAN DIGITAL
+          </div>
+
+          <div class="digital-text">
+            Pesanan ini tidak membutuhkan
+            pengiriman kurir.
+          </div>
 
         </div>
 
       `;
 
-      return;
-
     }
 
+    const method =
+      order.shippingMethod ||
+      order.deliveryMethod ||
+      order.courier ||
+      "Kurir belum dipilih";
 
-    const orders = [];
+    const shippingCost =
+      number(
+        order.shippingCost
+      );
 
+    const weight =
+      number(
+        order.totalWeight ??
+        order.weight
+      );
 
-    snapshot.forEach(
-      function(doc) {
+    return `
 
-        orders.push({
+      <div class="shipping-box">
 
-          id: doc.id,
+        <div class="box-title">
+          🚚 PENGIRIMAN
+        </div>
 
-          ...doc.data()
+        <div class="shipping-method">
+          ${escapeHTML(method)}
+        </div>
 
-        });
+        <div class="shipping-detail">
 
-      }
-    );
+          ${
+            weight > 0
+              ? `Total berat: ${weight} g<br>`
+              : ""
+          }
 
+          ${
+            shippingCost > 0
+              ? `Biaya pengiriman: ${rupiah(shippingCost)}`
+              : "Biaya pengiriman belum dihitung"
+          }
 
-    /*
-     * SORT TERBARU
-     */
+        </div>
 
-    orders.sort(
-      function(a,b) {
+      </div>
 
-        const aTime =
-          a.createdAt?.seconds ||
-          0;
-
-        const bTime =
-          b.createdAt?.seconds ||
-          0;
-
-        return bTime - aTime;
-
-      }
-    );
-
-
-    renderOrders(
-      orders
-    );
-
-
-  } catch (error) {
-
-    console.error(
-      error
-    );
-
-
-    loading.style.display =
-      "none";
-
-
-    errorBox.style.display =
-      "block";
-
-
-    errorBox.textContent =
-      "Gagal memuat pesanan: " +
-      error.message;
+    `;
 
   }
 
-}
+
+  /* =====================================================
+     SUMMARY
+  ===================================================== */
+
+  function summaryHTML(order) {
+
+    const subtotal =
+      number(
+        order.subtotal
+      ) ||
+      number(
+        order.productTotal
+      ) ||
+      number(
+        order.price
+      );
+
+    const fee =
+      number(
+        order.fee
+      ) ||
+      number(
+        order.scanbeliFee
+      );
+
+    const shipping =
+      number(
+        order.shippingCost
+      );
+
+    const total =
+      number(
+        order.total
+      ) ||
+      subtotal +
+      fee +
+      shipping;
+
+    return `
+
+      <div class="summary">
+
+        <div class="summary-row">
+
+          <span>
+            Total produk
+          </span>
+
+          <strong>
+            ${rupiah(subtotal)}
+          </strong>
+
+        </div>
+
+        <div class="summary-row fee">
+
+          <span>
+            Fee SCANBELI
+          </span>
+
+          <strong>
+            ${rupiah(fee)}
+          </strong>
+
+        </div>
+
+        ${
+          shipping > 0
+            ? `
+              <div class="summary-row">
+
+                <span>
+                  Pengiriman
+                </span>
+
+                <strong>
+                  ${rupiah(shipping)}
+                </strong>
+
+              </div>
+            `
+            : ""
+        }
+
+        <div class="summary-total">
+
+          <span>
+            TOTAL
+          </span>
+
+          <strong>
+            ${rupiah(total)}
+          </strong>
+
+        </div>
+
+      </div>
+
+    `;
+
+  }
 
 
-function renderOrders(
-  orders
-) {
+  /* =====================================================
+     ORDER CARD
+  ===================================================== */
 
-  container.innerHTML = "";
+  function orderHTML(order) {
 
+    const products =
+      getProducts(order);
 
-  orders.forEach(
-    function(order) {
+    const orderId =
+      order.orderId ||
+      order.id ||
+      "-";
 
-      const product =
-        order.product || {};
+    const status =
+      order.status ||
+      "MENUNGGU_PEMBAYARAN";
 
+    const physical =
+      products.some(
+        p =>
+          (p.type ||
+           p.productType ||
+           "fisik") !== "digital"
+      );
 
-      const buyer =
-        order.buyer || {};
+    const digital =
+      products.some(
+        p =>
+          (p.type ||
+           p.productType) === "digital"
+      );
 
+    const totalWeight =
+      number(
+        order.totalWeight
+      ) ||
+      products.reduce(
+        (sum, p) =>
+          sum +
+          (
+            number(p.weight) *
+            (number(p.quantity) || 1)
+          ),
+        0
+      );
 
-      const buyerName =
-        order.buyerName ||
-        buyer.name ||
-        "-";
+    return `
 
+      <article class="order-card">
 
-      const buyerPhone =
-        order.buyerPhone ||
-        buyer.phone ||
-        "-";
-
-
-      const buyerAddress =
-        order.buyerAddress ||
-        buyer.address ||
-        "-";
-
-
-      const card =
-        document.createElement(
-          "div"
-        );
-
-
-      card.className =
-        "order-card";
-
-
-      card.innerHTML = `
-
-        <div class="order-head">
+        <div class="order-top">
 
           <div>
 
-            <h3>
+            <div class="order-id">
+              Order: ${escapeHTML(orderId)}
+            </div>
 
-              ${escapeHTML(
-                product.name ||
-                "Produk"
-              )}
-
-            </h3>
-
-            <div class="code">
-
-              ${
-                product.code
-                ? "Kode: " +
-                  escapeHTML(
-                    product.code
-                  )
-                : ""
-              }
-
+            <div class="order-date">
+              ${formatDate(order.createdAt)}
             </div>
 
           </div>
 
-
-          <div class="status">
-
+          <span
+            class="status ${statusClass(status)}"
+          >
             ${escapeHTML(
-              statusText(
-                order.status
-              )
+              statusText(status)
             )}
+          </span>
 
-          </div>
+        </div>
+
+
+        ${customerHTML(order)}
+
+
+        <div class="type-row">
+
+          ${
+            physical
+              ? `
+                <span class="type-badge">
+                  📦 Produk Fisik
+                </span>
+              `
+              : ""
+          }
+
+          ${
+            digital
+              ? `
+                <span class="type-badge">
+                  💻 Produk Digital
+                </span>
+              `
+              : ""
+          }
+
+          ${
+            products.length > 1
+              ? `
+                <span class="type-badge">
+                  🛒 ${products.length} Produk
+                </span>
+              `
+              : ""
+          }
+
+          ${
+            totalWeight > 0
+              ? `
+                <span class="type-badge">
+                  ⚖️ ${totalWeight} g
+                </span>
+              `
+              : ""
+          }
 
         </div>
 
 
-        <div class="box">
+        <div class="products-title">
+          🛒 Produk Pesanan
+        </div>
 
 
-          <div class="row">
+        <div class="product-list">
 
-            <span>
-              Order
-            </span>
-
-            <strong>
-
-              ${escapeHTML(
-                order.orderId ||
-                order.id
-              )}
-
-            </strong>
-
-          </div>
-
-
-          <div class="row">
-
-            <span>
-              Pembeli
-            </span>
-
-            <strong>
-
-              ${escapeHTML(
-                buyerName
-              )}
-
-            </strong>
-
-          </div>
-
-
-          <div class="row">
-
-            <span>
-              WhatsApp
-            </span>
-
-            <strong>
-
-              ${escapeHTML(
-                buyerPhone
-              )}
-
-            </strong>
-
-          </div>
-
-
-          <div class="row">
-
-            <span>
-              Alamat Pengiriman
-            </span>
-
-            <strong>
-
-              ${escapeHTML(
-                buyerAddress
-              )}
-
-            </strong>
-
-          </div>
-
-
-          <div class="row">
-
-            <span>
-              Harga Produk
-            </span>
-
-            <strong>
-
-              ${rupiah(
-                order.price
-              )}
-
-            </strong>
-
-          </div>
-
-
-          <div class="row">
-
-            <span>
-              Fee SCANBELI
-            </span>
-
-            <strong>
-
-              ${rupiah(
-                order.fee
-              )}
-
-            </strong>
-
-          </div>
-
-
-          <div class="row total">
-
-            <span>
-              Total
-            </span>
-
-            <strong>
-
-              ${rupiah(
-                order.total
-              )}
-
-            </strong>
-
-          </div>
-
+          ${
+            products.length
+              ? products
+                  .map(productHTML)
+                  .join("")
+              : `
+                <div
+                  style="
+                    color:#888;
+                    padding:15px;
+                  "
+                >
+                  Data produk tidak tersedia.
+                </div>
+              `
+          }
 
         </div>
 
-      `;
+
+        ${shippingHTML(
+          order,
+          products
+        )}
 
 
-      container.appendChild(
-        card
+        ${summaryHTML(order)}
+
+      </article>
+
+    `;
+
+  }
+
+
+  /* =====================================================
+     LOAD ORDERS
+  ===================================================== */
+
+  async function loadOrders() {
+
+    loading.style.display =
+      "block";
+
+    error.style.display =
+      "none";
+
+    empty.style.display =
+      "none";
+
+    container.innerHTML = "";
+
+    try {
+
+      const user =
+        await initAnonymousAuth();
+
+      console.log(
+        "Seller UID:",
+        user.uid
       );
 
+
+      const q =
+        query(
+          collection(
+            db,
+            "orders"
+          ),
+          where(
+            "sellerUid",
+            "==",
+            user.uid
+          )
+        );
+
+
+      const snapshot =
+        await getDocs(q);
+
+
+      loading.style.display =
+        "none";
+
+
+      if (
+        snapshot.empty
+      ) {
+
+        empty.style.display =
+          "block";
+
+        return;
+
+      }
+
+
+      const orders = [];
+
+
+      snapshot.forEach(
+        doc => {
+
+          orders.push({
+
+            id: doc.id,
+
+            ...doc.data()
+
+          });
+
+        }
+      );
+
+
+      orders.sort(
+        (a, b) => {
+
+          const aTime =
+            a.createdAt?.seconds ||
+            0;
+
+          const bTime =
+            b.createdAt?.seconds ||
+            0;
+
+          return bTime - aTime;
+
+        }
+      );
+
+
+      container.innerHTML =
+        orders
+          .map(orderHTML)
+          .join("");
+
+
+      attachCopyButtons();
+
+    } catch (err) {
+
+      console.error(
+        "LOAD ORDERS ERROR:",
+        err
+      );
+
+      loading.style.display =
+        "none";
+
+      error.style.display =
+        "block";
+
+      errorMessage.textContent =
+        err.message ||
+        "Terjadi kesalahan saat mengambil pesanan.";
+
     }
-  );
 
-}
+  }
 
 
-loadOrders();
+  /* =====================================================
+     COPY PHONE
+  ===================================================== */
+
+  function attachCopyButtons() {
+
+    document
+      .querySelectorAll(
+        ".copy-phone"
+      )
+      .forEach(
+        button => {
+
+          button.addEventListener(
+            "click",
+            async () => {
+
+              const phone =
+                button.dataset.phone ||
+                "";
+
+              try {
+
+                await navigator.clipboard.writeText(
+                  phone
+                );
+
+                const old =
+                  button.textContent;
+
+                button.textContent =
+                  "Tersalin!";
+
+                setTimeout(
+                  () => {
+                    button.textContent =
+                      old;
+                  },
+                  1200
+                );
+
+              } catch {
+
+                alert(
+                  "Nomor WhatsApp: " +
+                  phone
+                );
+
+              }
+
+            }
+          );
+
+        }
+      );
+
+  }
+
+
+  /* =====================================================
+     START
+  ===================================================== */
+
+  loadOrders();
 
 </script>
 
