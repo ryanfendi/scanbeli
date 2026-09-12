@@ -2,704 +2,530 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <meta name="theme-color" content="#070707">
-  <meta name="apple-mobile-web-app-capable" content="yes">
 
   <title>Checkout - SCANBELI</title>
+
+  <link rel="stylesheet" href="style.css">
 
   <style>
     * {
       box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    html {
-      scroll-behavior: smooth;
     }
 
     body {
       margin: 0;
       background:
-        radial-gradient(circle at top, rgba(214,173,85,.10), transparent 35%),
-        #070707;
-      color: #f5f5f5;
+        radial-gradient(circle at top, #1b1b1b 0%, #070707 45%, #050505 100%);
+      color: #fff;
       font-family: Arial, Helvetica, sans-serif;
-      min-height: 100vh;
     }
-
-    button,
-    input,
-    textarea,
-    select {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    .container {
-      width: min(100% - 24px, 720px);
-      margin: auto;
-    }
-
-    /* HEADER */
 
     .header {
       position: sticky;
       top: 0;
-      z-index: 100;
-      background: rgba(7,7,7,.94);
-      backdrop-filter: blur(15px);
-      border-bottom: 1px solid rgba(214,173,85,.18);
-    }
+      z-index: 50;
 
-    .header-inner {
-      min-height: 64px;
+      height: 64px;
+      padding: 0 16px;
+
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
+
+      background: rgba(7,7,7,.94);
+      border-bottom: 1px solid rgba(214,173,85,.20);
+      backdrop-filter: blur(12px);
     }
 
     .logo {
-      color: #d6ad55;
-      font-size: 21px;
+      font-size: 20px;
       font-weight: 900;
       letter-spacing: 2px;
-      text-decoration: none;
-    }
-
-    .header-actions {
-      display: flex;
-      gap: 7px;
+      color: #d6ad55;
     }
 
     .header-btn {
       text-decoration: none;
-      border: 1px solid rgba(214,173,85,.35);
-      color: #d6ad55;
+      color: #fff;
+      background: #151515;
+      border: 1px solid rgba(214,173,85,.45);
+      padding: 9px 13px;
       border-radius: 10px;
-      padding: 8px 11px;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 700;
-      background: rgba(214,173,85,.05);
     }
 
-    /* MAIN */
-
-    main {
-      padding: 18px 0 100px;
+    .container {
+      width: min(100%, 720px);
+      margin: auto;
+      padding: 18px 14px 50px;
     }
 
-    .store-header {
-      text-align: center;
-      margin: 10px 0 22px;
+    .hidden {
+      display: none !important;
     }
 
-    .store-badge {
-      display: inline-flex;
+    .loading {
+      min-height: 60vh;
+      display: flex;
       align-items: center;
       justify-content: center;
-      width: 48px;
-      height: 48px;
-      border-radius: 15px;
-      border: 1px solid rgba(214,173,85,.45);
-      background: linear-gradient(145deg, #19150b, #0b0b0b);
-      color: #d6ad55;
-      font-weight: 900;
-      margin-bottom: 10px;
+      text-align: center;
+      color: #bbb;
+      font-size: 15px;
     }
 
-    .store-name {
-      font-size: 23px;
-      font-weight: 900;
-      margin: 0;
+    .shop-card,
+    .card,
+    .product-item,
+    .shipping-card,
+    .summary-card,
+    .success-card,
+    .error-card {
+      background: linear-gradient(145deg, #151515, #0d0d0d);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 18px;
+      box-shadow: 0 12px 35px rgba(0,0,0,.25);
     }
 
-    .store-subtitle {
-      color: #888;
-      font-size: 13px;
-      margin-top: 5px;
-    }
-
-    /* CARD */
-
-    .card {
-      background: linear-gradient(
-        145deg,
-        rgba(255,255,255,.045),
-        rgba(255,255,255,.018)
-      );
-      border: 1px solid rgba(255,255,255,.09);
-      border-radius: 20px;
-      padding: 17px;
+    .shop-card {
+      padding: 18px;
       margin-bottom: 14px;
-      box-shadow: 0 12px 35px rgba(0,0,0,.22);
+    }
+
+    .shop-label {
+      color: #999;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 5px;
+    }
+
+    .shop-name {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .shop-sub {
+      margin-top: 6px;
+      color: #aaa;
+      font-size: 13px;
     }
 
     .section-title {
-      font-size: 15px;
+      margin: 22px 2px 10px;
+      font-size: 17px;
       font-weight: 900;
-      margin: 0 0 13px;
+    }
+
+    .product-list {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
+      flex-direction: column;
+      gap: 10px;
     }
 
-    .gold {
-      color: #d6ad55;
+    .product-item {
+      padding: 12px;
     }
 
-    /* LOADING */
-
-    .loading {
-      text-align: center;
-      padding: 70px 20px;
-    }
-
-    .spinner {
-      width: 38px;
-      height: 38px;
-      border: 3px solid rgba(214,173,85,.18);
-      border-top-color: #d6ad55;
-      border-radius: 50%;
-      animation: spin .8s linear infinite;
-      margin: auto auto 15px;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    /* ALERT */
-
-    .alert {
-      padding: 14px;
-      border-radius: 14px;
-      margin-bottom: 14px;
-      font-size: 13px;
-      line-height: 1.55;
-    }
-
-    .alert-error {
-      background: rgba(255,60,60,.08);
-      border: 1px solid rgba(255,80,80,.25);
-      color: #ffb2b2;
-    }
-
-    .alert-info {
-      background: rgba(214,173,85,.07);
-      border: 1px solid rgba(214,173,85,.22);
-      color: #e7d5a8;
-    }
-
-    /* PRODUCT */
-
-    .product-card {
-      display: grid;
-      grid-template-columns: 92px 1fr;
-      gap: 13px;
-      align-items: center;
+    .product-top {
+      display: flex;
+      gap: 12px;
     }
 
     .product-image {
-      width: 92px;
-      height: 92px;
-      border-radius: 15px;
+      width: 82px;
+      height: 82px;
+      flex: 0 0 82px;
+      border-radius: 12px;
+      background: #080808;
+      border: 1px solid rgba(214,173,85,.20);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 100%;
       object-fit: cover;
-      background: #111;
-      border: 1px solid rgba(255,255,255,.08);
     }
 
     .product-placeholder {
-      width: 92px;
-      height: 92px;
-      border-radius: 15px;
-      background: linear-gradient(145deg,#181818,#0d0d0d);
-      border: 1px solid rgba(214,173,85,.18);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #d6ad55;
-      font-weight: 900;
-      font-size: 25px;
+      font-size: 30px;
+      opacity: .55;
+    }
+
+    .product-info {
+      flex: 1;
+      min-width: 0;
     }
 
     .product-name {
-      font-size: 17px;
-      font-weight: 900;
-      margin-bottom: 5px;
+      margin: 0;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.3;
     }
 
     .product-code {
-      color: #888;
+      margin-top: 3px;
       font-size: 11px;
-      margin-bottom: 7px;
+      color: #888;
     }
 
     .product-price {
+      margin-top: 7px;
       color: #d6ad55;
       font-size: 17px;
       font-weight: 900;
     }
 
-    .product-meta {
+    .badges {
       display: flex;
       flex-wrap: wrap;
       gap: 5px;
-      margin-top: 8px;
+      margin-top: 7px;
     }
 
-    .tag {
+    .badge {
       display: inline-flex;
       align-items: center;
-      padding: 5px 8px;
-      border-radius: 8px;
-      background: rgba(255,255,255,.045);
-      color: #aaa;
+      padding: 4px 7px;
+      border-radius: 7px;
       font-size: 10px;
+      font-weight: 800;
+      background: #202020;
+      color: #ccc;
+      border: 1px solid rgba(255,255,255,.06);
     }
 
-    .tag.gold-tag {
+    .badge.gold {
       color: #d6ad55;
-      background: rgba(214,173,85,.08);
-      border: 1px solid rgba(214,173,85,.12);
+      border-color: rgba(214,173,85,.25);
     }
 
-    /* CATALOG */
-
-    .catalog-list {
-      display: grid;
-      gap: 10px;
+    .badge.green {
+      color: #70d49a;
     }
 
-    .catalog-item {
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: 16px;
-      padding: 11px;
-      background: rgba(255,255,255,.018);
+    .badge.blue {
+      color: #7db9ff;
     }
 
-    .catalog-item-top {
-      display: grid;
-      grid-template-columns: 68px 1fr;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .catalog-img,
-    .catalog-placeholder {
-      width: 68px;
-      height: 68px;
-      border-radius: 12px;
-      object-fit: cover;
-      background: #111;
-    }
-
-    .catalog-placeholder {
+    .product-bottom {
+      margin-top: 12px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      color: #d6ad55;
-      font-weight: 900;
+      justify-content: space-between;
+      gap: 10px;
     }
 
-    .catalog-name {
-      font-weight: 800;
-      font-size: 14px;
-    }
-
-    .catalog-price {
-      color: #d6ad55;
-      font-weight: 900;
-      margin-top: 4px;
-    }
-
-    .catalog-stock {
+    .stock-info {
       color: #888;
       font-size: 11px;
-      margin-top: 3px;
     }
 
-    .catalog-bottom {
+    .qty-control {
       display: flex;
-      justify-content: space-between;
+      align-items: center;
       gap: 8px;
-      align-items: center;
-      margin-top: 10px;
-    }
-
-    /* QUANTITY */
-
-    .qty {
-      display: inline-flex;
-      align-items: center;
-      gap: 9px;
-      border: 1px solid rgba(214,173,85,.25);
-      border-radius: 11px;
+      background: #080808;
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 12px;
       padding: 4px;
-      background: rgba(214,173,85,.04);
     }
 
-    .qty button {
-      width: 31px;
-      height: 31px;
+    .qty-btn {
+      width: 34px;
+      height: 34px;
       border: 0;
-      border-radius: 8px;
-      background: #171717;
-      color: #d6ad55;
-      font-size: 18px;
-      font-weight: 900;
+      border-radius: 9px;
+      background: #1c1c1c;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
     }
 
-    .qty-value {
+    .qty-btn:active {
+      transform: scale(.94);
+    }
+
+    .qty-number {
       min-width: 25px;
       text-align: center;
       font-weight: 900;
+      font-size: 14px;
     }
 
-    .add-btn {
-      border: 1px solid rgba(214,173,85,.4);
-      color: #d6ad55;
-      background: rgba(214,173,85,.07);
-      padding: 9px 12px;
-      border-radius: 10px;
+    .out-stock {
+      color: #ff7777;
       font-size: 12px;
       font-weight: 800;
     }
 
-    .add-btn:disabled {
-      opacity: .4;
-      cursor: not-allowed;
+    .buyer-card {
+      padding: 16px;
     }
 
-    /* CART */
-
-    .cart-item {
-      display: grid;
-      grid-template-columns: 55px 1fr auto;
-      gap: 10px;
-      align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(255,255,255,.06);
+    .data-row {
+      padding: 11px 0;
+      border-bottom: 1px solid rgba(255,255,255,.07);
     }
 
-    .cart-item:last-child {
+    .data-row:last-child {
       border-bottom: 0;
     }
 
-    .cart-image,
-    .cart-placeholder {
-      width: 55px;
-      height: 55px;
-      border-radius: 11px;
-      object-fit: cover;
-      background: #111;
-    }
-
-    .cart-placeholder {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #d6ad55;
-      font-weight: 900;
-    }
-
-    .cart-name {
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .cart-unit {
+    .data-label {
+      display: block;
       color: #888;
-      font-size: 10px;
-      margin-top: 3px;
-    }
-
-    .cart-total {
-      color: #d6ad55;
-      font-size: 13px;
-      font-weight: 900;
-      text-align: right;
-    }
-
-    .cart-controls {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      margin-top: 6px;
-    }
-
-    .mini-btn {
-      width: 25px;
-      height: 25px;
-      border: 0;
-      border-radius: 7px;
-      background: #191919;
-      color: #d6ad55;
-      font-weight: 900;
-    }
-
-    .remove-btn {
-      border: 0;
-      background: transparent;
-      color: #e66;
-      font-size: 10px;
-      padding: 3px;
-    }
-
-    .empty-cart {
-      text-align: center;
-      color: #777;
-      padding: 20px 5px;
-      font-size: 13px;
-    }
-
-    /* BUYER */
-
-    .buyer-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: flex-start;
-    }
-
-    .buyer-info {
-      flex: 1;
-    }
-
-    .buyer-name {
-      font-weight: 900;
+      font-size: 11px;
       margin-bottom: 4px;
     }
 
-    .buyer-phone,
-    .buyer-address {
-      color: #999;
-      font-size: 12px;
-      line-height: 1.55;
+    .data-value {
+      color: #fff;
+      font-size: 14px;
+      line-height: 1.45;
+      word-break: break-word;
     }
 
     .edit-link {
-      border: 1px solid rgba(214,173,85,.25);
-      background: rgba(214,173,85,.05);
+      display: block;
+      text-align: center;
+      margin-top: 12px;
       color: #d6ad55;
-      padding: 8px 10px;
-      border-radius: 9px;
       text-decoration: none;
-      font-size: 11px;
+      font-size: 13px;
       font-weight: 800;
-      white-space: nowrap;
     }
 
-    /* DELIVERY */
-
-    .delivery-options {
-      display: grid;
-      gap: 9px;
+    .no-buyer {
+      padding: 18px;
+      text-align: center;
     }
 
-    .delivery-option {
-      border: 1px solid rgba(255,255,255,.09);
-      border-radius: 13px;
-      padding: 12px;
+    .no-buyer-icon {
+      font-size: 35px;
+      margin-bottom: 8px;
+    }
+
+    .no-buyer h3 {
+      margin: 0 0 7px;
+    }
+
+    .no-buyer p {
+      color: #999;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .btn {
+      border: 0;
       cursor: pointer;
-      transition: .2s;
-    }
-
-    .delivery-option.active {
-      border-color: rgba(214,173,85,.65);
-      background: rgba(214,173,85,.07);
-    }
-
-    .delivery-option input {
-      display: none;
-    }
-
-    .delivery-title {
-      font-weight: 800;
-      font-size: 13px;
-    }
-
-    .delivery-desc {
-      color: #888;
-      font-size: 11px;
-      line-height: 1.5;
-      margin-top: 4px;
-    }
-
-    .delivery-extra {
-      margin-top: 10px;
-      display: none;
-    }
-
-    .delivery-extra.show {
-      display: block;
-    }
-
-    /* FORM */
-
-    .field {
-      margin-bottom: 12px;
-    }
-
-    .field:last-child {
-      margin-bottom: 0;
-    }
-
-    .field label {
-      display: block;
-      color: #aaa;
-      font-size: 11px;
-      margin-bottom: 6px;
-      font-weight: 700;
-    }
-
-    .field input,
-    .field textarea,
-    .field select {
-      width: 100%;
-      border: 1px solid rgba(255,255,255,.10);
-      outline: none;
-      background: #111;
-      color: #fff;
-      border-radius: 11px;
-      padding: 11px 12px;
-    }
-
-    .field textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
-
-    /* DIGITAL */
-
-    .digital-info {
-      border: 1px solid rgba(99,170,255,.16);
-      background: rgba(60,120,255,.05);
-      color: #a8caff;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 16px;
       border-radius: 12px;
-      padding: 11px;
-      font-size: 11px;
-      line-height: 1.55;
+      font-weight: 900;
+      font-size: 14px;
     }
 
-    /* SUMMARY */
-
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
-      padding: 7px 0;
-      color: #aaa;
-      font-size: 13px;
+    .btn-gold {
+      width: 100%;
+      background: linear-gradient(135deg, #e2bf6b, #b78c36);
+      color: #080808;
+      box-shadow: 0 8px 25px rgba(214,173,85,.18);
     }
 
-    .summary-row strong {
-      color: #eee;
-    }
-
-    .summary-total {
-      border-top: 1px solid rgba(255,255,255,.08);
-      margin-top: 7px;
-      padding-top: 13px;
-      font-size: 18px;
+    .btn-dark {
+      width: 100%;
+      background: #171717;
       color: #fff;
-      font-weight: 900;
+      border: 1px solid rgba(255,255,255,.10);
     }
 
-    .summary-total span:last-child {
-      color: #d6ad55;
+    .shipping-card {
+      padding: 16px;
     }
 
-    .fee-info {
-      color: #777;
-      font-size: 10px;
+    .shipping-note {
+      color: #888;
+      font-size: 12px;
       line-height: 1.5;
-      margin-top: 7px;
+      margin: 0 0 12px;
     }
 
-    /* PAYMENT */
-
-    .payment-box {
-      border: 1px solid rgba(214,173,85,.22);
-      border-radius: 15px;
-      padding: 13px;
-      background: rgba(214,173,85,.035);
-      margin-bottom: 12px;
+    .shipping-option {
+      display: block;
+      padding: 12px;
+      margin-bottom: 8px;
+      background: #090909;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 12px;
+      cursor: pointer;
     }
 
-    .payment-title {
-      color: #d6ad55;
-      font-weight: 900;
+    .shipping-option input {
+      margin-right: 8px;
+      accent-color: #d6ad55;
+    }
+
+    .shipping-option strong {
       font-size: 13px;
+    }
+
+    .shipping-option small {
+      display: block;
+      color: #888;
+      margin: 5px 0 0 25px;
+      font-size: 11px;
+    }
+
+    .shipping-manual {
+      margin-top: 12px;
+    }
+
+    .shipping-manual label {
+      display: block;
+      color: #999;
+      font-size: 11px;
       margin-bottom: 5px;
     }
 
-    .payment-text {
-      color: #999;
-      font-size: 11px;
+    .shipping-manual input {
+      width: 100%;
+      height: 44px;
+      padding: 0 12px;
+      background: #080808;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.10);
+      border-radius: 10px;
+      outline: none;
+    }
+
+    .summary-card {
+      padding: 16px;
+    }
+
+    .summary-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 9px 0;
+      font-size: 13px;
+    }
+
+    .summary-row span {
+      color: #aaa;
+    }
+
+    .summary-row strong {
+      text-align: right;
+      color: #fff;
+    }
+
+    .summary-row.total {
+      margin-top: 5px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      font-size: 17px;
+    }
+
+    .summary-row.total span,
+    .summary-row.total strong {
+      color: #d6ad55;
+      font-weight: 900;
+    }
+
+    .fee-note {
+      color: #777;
+      font-size: 10px;
+      line-height: 1.5;
+      margin-top: 8px;
+    }
+
+    .pay-area {
+      margin-top: 14px;
+    }
+
+    .pay-note {
+      margin: 10px 0 0;
+      color: #777;
+      text-align: center;
+      font-size: 10px;
       line-height: 1.5;
     }
 
-    .pay-btn {
-      width: 100%;
-      border: 0;
-      border-radius: 15px;
-      padding: 15px;
-      background: linear-gradient(135deg,#d6ad55,#a47b27);
-      color: #090909;
-      font-weight: 1000;
-      font-size: 15px;
-      letter-spacing: .4px;
-      box-shadow: 0 8px 25px rgba(214,173,85,.16);
-    }
-
-    .pay-btn:disabled {
-      opacity: .45;
-      cursor: not-allowed;
-    }
-
-    /* FOOTER */
-
-    .footer-note {
+    .success-card {
+      padding: 25px 18px;
       text-align: center;
-      color: #555;
-      font-size: 10px;
-      line-height: 1.6;
-      margin-top: 20px;
     }
 
-    /* MOBILE */
+    .success-icon {
+      font-size: 55px;
+      margin-bottom: 8px;
+    }
 
-    @media (max-width: 430px) {
+    .success-card h2 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .success-card p {
+      color: #999;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .order-code {
+      margin: 16px 0;
+      padding: 13px;
+      border-radius: 12px;
+      background: #080808;
+      border: 1px solid rgba(214,173,85,.25);
+      color: #d6ad55;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 1px;
+    }
+
+    .error-card {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .error-card h2 {
+      margin-top: 0;
+      color: #ff7676;
+    }
+
+    .error-card p {
+      color: #aaa;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .small-loading {
+      color: #999;
+      font-size: 12px;
+      text-align: center;
+      padding: 12px;
+    }
+
+    @media (min-width: 650px) {
       .container {
-        width: min(100% - 18px, 720px);
-      }
-
-      .card {
-        padding: 14px;
-        border-radius: 17px;
-      }
-
-      .product-card {
-        grid-template-columns: 78px 1fr;
-      }
-
-      .product-image,
-      .product-placeholder {
-        width: 78px;
-        height: 78px;
-      }
-
-      .header-btn {
-        padding: 7px 8px;
-        font-size: 10px;
+        padding-top: 25px;
       }
     }
   </style>
@@ -708,306 +534,320 @@
 <body>
 
 <header class="header">
-  <div class="container header-inner">
-    <a href="index.html" class="logo">SCANBELI</a>
+  <div class="logo">SCANBELI</div>
 
-    <div class="header-actions">
-      <a href="scan.html" class="header-btn">SCAN QR</a>
-      <a href="buyer.html" class="header-btn">Edit Data</a>
-    </div>
-  </div>
+  <a href="buyer.html" class="header-btn">
+    ✏️ Edit Data
+  </a>
 </header>
 
-<main>
-  <div class="container">
+<main class="container">
 
-    <!-- LOADING -->
-    <div id="loading" class="loading">
-      <div class="spinner"></div>
-      <div>Memuat produk...</div>
-    </div>
-
-    <!-- ERROR -->
-    <div id="errorBox" style="display:none;"></div>
-
-    <!-- CONTENT -->
-    <div id="checkoutContent" style="display:none;">
-
-      <!-- STORE -->
-      <div class="store-header">
-        <div class="store-badge">SB</div>
-        <h1 id="storeName" class="store-name">SCANBELI</h1>
-        <div class="store-subtitle">
-          Belanja mudah dengan SCANBELI
-        </div>
-      </div>
-
-      <!-- SINGLE PRODUCT -->
-      <section id="singleProductSection" class="card" style="display:none;">
-        <h2 class="section-title">
-          <span>Produk</span>
-          <span class="gold">1 Produk</span>
-        </h2>
-
-        <div id="singleProduct"></div>
-      </section>
-
-      <!-- CATALOG -->
-      <section id="catalogSection" class="card" style="display:none;">
-        <h2 class="section-title">
-          <span>Katalog Produk</span>
-          <span id="catalogCount" class="gold">0 produk</span>
-        </h2>
-
-        <div class="alert alert-info">
-          Pilih produk yang ingin dibeli. Jumlah dapat ditambah sesuai stok yang tersedia.
-        </div>
-
-        <div id="catalogList" class="catalog-list"></div>
-      </section>
-
-      <!-- CART -->
-      <section id="cartSection" class="card">
-        <h2 class="section-title">
-          <span>Keranjang</span>
-          <span id="cartCount" class="gold">0 item</span>
-        </h2>
-
-        <div id="cartList"></div>
-      </section>
-
-      <!-- BUYER -->
-      <section class="card">
-        <h2 class="section-title">
-          <span>Data Pembeli</span>
-          <a href="buyer.html" class="edit-link">Ubah Data</a>
-        </h2>
-
-        <div id="buyerBox"></div>
-      </section>
-
-      <!-- DELIVERY -->
-      <section id="deliverySection" class="card" style="display:none;">
-        <h2 class="section-title">
-          <span>Pengiriman</span>
-          <span id="totalWeight" class="gold">0 gram</span>
-        </h2>
-
-        <div id="deliveryOptions" class="delivery-options"></div>
-
-        <div id="deliveryNoteBox" class="delivery-extra">
-          <div class="field">
-            <label id="deliveryNoteLabel">Catatan Pengiriman</label>
-            <textarea
-              id="deliveryNote"
-              placeholder="Contoh: kirim sore hari / warna pagar rumah..."
-            ></textarea>
-          </div>
-        </div>
-      </section>
-
-      <!-- DIGITAL -->
-      <section id="digitalSection" class="card" style="display:none;">
-        <h2 class="section-title">
-          <span>Produk Digital</span>
-          <span class="gold">Online</span>
-        </h2>
-
-        <div class="digital-info">
-          Produk digital tidak memerlukan pengiriman kurir.
-          Cara menerima produk mengikuti pengaturan penjual.
-          Pastikan nomor WhatsApp pembeli benar.
-        </div>
-
-        <div id="digitalDetails" style="margin-top:10px;"></div>
-      </section>
-
-      <!-- SUMMARY -->
-      <section class="card">
-        <h2 class="section-title">
-          <span>Ringkasan Pesanan</span>
-        </h2>
-
-        <div class="summary-row">
-          <span>Produk</span>
-          <strong id="summaryProduct">Rp 0</strong>
-        </div>
-
-        <div class="summary-row">
-          <span>Ongkir</span>
-          <strong id="summaryShipping">Rp 0</strong>
-        </div>
-
-        <div class="summary-row">
-          <span>Fee SCANBELI</span>
-          <strong id="summaryFee">Rp 0</strong>
-        </div>
-
-        <div class="summary-row summary-total">
-          <span>Total</span>
-          <span id="summaryTotal">Rp 0</span>
-        </div>
-
-        <div class="fee-info">
-          Fee SCANBELI:
-          ≤ Rp100.000 = Rp1.000,
-          &gt; Rp100.000 sampai &lt; Rp500.000 = Rp2.000,
-          Rp500.000–Rp1.000.000 = Rp5.000,
-          &gt; Rp1.000.000 = Rp10.000.
-        </div>
-      </section>
-
-      <!-- PAYMENT -->
-      <section class="card">
-
-        <div class="payment-box">
-          <div class="payment-title">
-            Pembayaran
-          </div>
-
-          <div class="payment-text">
-            Pembayaran dilakukan langsung sesuai metode pembayaran
-            yang tersedia pada pesanan/penjual.
-          </div>
-        </div>
-
-        <button
-          id="payButton"
-          class="pay-btn"
-          type="button"
-          disabled
-        >
-          BAYAR
-        </button>
-
-      </section>
-
-      <div class="footer-note">
-        SCANBELI bukan marketplace dan tidak menyimpan gambar produk.
-        Informasi produk pada halaman ini berasal dari QR penjual.
-      </div>
-
-    </div>
+  <!-- LOADING -->
+  <div id="checkoutLoading" class="loading">
+    Memuat produk...
   </div>
+
+
+  <!-- ERROR -->
+  <section id="errorBox" class="error-card hidden">
+    <h2>Data Produk Tidak Ditemukan</h2>
+    <p id="errorText">
+      QR atau link produk tidak valid.
+    </p>
+
+    <a href="scan.html" class="btn btn-gold">
+      📷 Scan QR Lagi
+    </a>
+  </section>
+
+
+  <!-- CHECKOUT -->
+  <section id="checkout" class="hidden">
+
+    <!-- TOKO -->
+    <div class="shop-card">
+
+      <div class="shop-label">
+        PENJUAL
+      </div>
+
+      <h1 id="shopName" class="shop-name">
+        SCANBELI
+      </h1>
+
+      <div class="shop-sub">
+        Pilih produk yang ingin dibeli
+      </div>
+
+    </div>
+
+
+    <!-- PRODUK -->
+    <div class="section-title">
+      🛍️ Produk
+    </div>
+
+    <div id="productList" class="product-list"></div>
+
+
+    <!-- DATA PEMBELI -->
+    <div class="section-title">
+      📍 Data Pembeli
+    </div>
+
+    <div id="buyerCard" class="card buyer-card">
+
+      <div class="data-row">
+        <span class="data-label">Nama</span>
+        <strong id="buyerName" class="data-value">-</strong>
+      </div>
+
+      <div class="data-row">
+        <span class="data-label">WhatsApp</span>
+        <strong id="buyerPhone" class="data-value">-</strong>
+      </div>
+
+      <div class="data-row">
+        <span class="data-label">Alamat Pengiriman</span>
+        <strong id="buyerAddress" class="data-value">-</strong>
+      </div>
+
+      <a href="buyer.html" class="edit-link">
+        ✏️ Ubah Data Pembeli
+      </a>
+
+    </div>
+
+
+    <!-- BELUM ADA DATA PEMBELI -->
+    <div id="noBuyer" class="card no-buyer hidden">
+
+      <div class="no-buyer-icon">
+        👤
+      </div>
+
+      <h3>Data pembeli belum diisi</h3>
+
+      <p>
+        Isi nama, nomor WhatsApp dan alamat terlebih dahulu
+        agar proses pembelian lebih cepat.
+      </p>
+
+      <a href="buyer.html" class="btn btn-gold">
+        Isi Data Pembeli
+      </a>
+
+    </div>
+
+
+    <!-- PENGIRIMAN -->
+    <div id="shippingSection" class="hidden">
+
+      <div class="section-title">
+        🚚 Pengiriman
+      </div>
+
+      <div class="shipping-card">
+
+        <p class="shipping-note">
+          Pengiriman hanya dihitung untuk produk fisik.
+          Berat total dihitung dari seluruh produk fisik di keranjang.
+        </p>
+
+        <div id="shippingOptions"></div>
+
+        <div id="manualShippingBox" class="shipping-manual hidden">
+
+          <label for="manualShippingCost">
+            Biaya pengiriman
+          </label>
+
+          <input
+            id="manualShippingCost"
+            type="number"
+            min="0"
+            step="1000"
+            value="0"
+            placeholder="Contoh: 15000"
+          >
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- RINGKASAN -->
+    <div class="section-title">
+      🧾 Ringkasan Pesanan
+    </div>
+
+    <div class="summary-card">
+
+      <div class="summary-row">
+        <span>Jumlah produk</span>
+        <strong id="summaryQuantity">0 item</strong>
+      </div>
+
+      <div class="summary-row">
+        <span>Berat produk fisik</span>
+        <strong id="summaryWeight">0 gram</strong>
+      </div>
+
+      <div class="summary-row">
+        <span>Subtotal produk</span>
+        <strong id="summarySubtotal">Rp0</strong>
+      </div>
+
+      <div class="summary-row">
+        <span>Fee SCANBELI</span>
+        <strong id="summaryFee">Rp0</strong>
+      </div>
+
+      <div id="summaryShippingRow" class="summary-row hidden">
+        <span>Pengiriman</span>
+        <strong id="summaryShipping">Rp0</strong>
+      </div>
+
+      <div class="summary-row total">
+        <span>Total</span>
+        <strong id="summaryTotal">Rp0</strong>
+      </div>
+
+      <div class="fee-note">
+        Fee SCANBELI: sampai Rp100.000 = Rp1.000,
+        di atas Rp100.000 sampai di bawah Rp500.000 = Rp2.000,
+        Rp500.000–Rp1.000.000 = Rp5.000,
+        di atas Rp1.000.000 = Rp10.000.
+      </div>
+
+    </div>
+
+
+    <!-- BAYAR -->
+    <div class="pay-area">
+
+      <button
+        id="payButton"
+        type="button"
+        class="btn btn-gold"
+      >
+        BAYAR
+      </button>
+
+      <p class="pay-note">
+        Dengan menekan BAYAR, pesanan akan dibuat dan dikirim
+        ke sistem SCANBELI.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <!-- SUKSES -->
+  <section id="successBox" class="success-card hidden">
+
+    <div class="success-icon">
+      ✅
+    </div>
+
+    <h2>Pesanan Berhasil Dibuat</h2>
+
+    <p>
+      Pesanan Anda sudah masuk ke sistem SCANBELI.
+    </p>
+
+    <div id="successOrderCode" class="order-code">
+      SB-XXXXXXXX
+    </div>
+
+    <a href="orders.html" class="btn btn-gold">
+      📦 Lihat Pesanan Saya
+    </a>
+
+    <div style="height:8px;"></div>
+
+    <a href="index.html" class="btn btn-dark">
+      🏠 Kembali ke Beranda
+    </a>
+
+  </section>
+
 </main>
+
 
 <script type="module">
 
 /* =========================================================
-   SCANBELI CHECKOUT V2
-   FORMAT:
-   checkout.html?data=BASE64URL
-
-   PAYLOAD:
-   {
-     "v": 2,
-     "type": "product" | "catalog",
-     "sellerUid": "...",
-     "store": {
-       "name": "...",
-       "whatsapp": "..."
-     },
-     "products": [...]
-   }
-
-   PRODUCT:
-   {
-     "id": "...",
-     "name": "...",
-     "price": 100000,
-     "code": "...",
-     "stock": 10,
-     "weight": 500,
-     "image": "...",
-     "type": "physical" | "digital",
-     "delivery": {
-       "mode": "courier" | "pickup" | "whatsapp" | "url" | "both",
-       "couriers": "...",
-       "whatsapp": "...",
-       "downloadUrl": "..."
-     }
-   }
+   FIREBASE
 ========================================================= */
 
+import {
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-/* =========================================================
-   STATE
-========================================================= */
-
-let DATA = null;
-
-let products = [];
-
-let cart = [];
-
-let buyer = null;
-
-let selectedDelivery = null;
+import {
+  db,
+  initAnonymousAuth
+} from "./firebase.js";
 
 
 /* =========================================================
    ELEMENT
 ========================================================= */
 
-const loading = document.getElementById("loading");
+const loadingEl = document.getElementById("checkoutLoading");
+const checkoutEl = document.getElementById("checkout");
 const errorBox = document.getElementById("errorBox");
-const checkoutContent = document.getElementById("checkoutContent");
+const errorText = document.getElementById("errorText");
 
-const storeNameEl = document.getElementById("storeName");
+const successBox = document.getElementById("successBox");
+const successOrderCode = document.getElementById("successOrderCode");
 
-const singleProductSection =
-  document.getElementById("singleProductSection");
+const shopNameEl = document.getElementById("shopName");
+const productListEl = document.getElementById("productList");
 
-const singleProduct =
-  document.getElementById("singleProduct");
+const buyerCard = document.getElementById("buyerCard");
+const noBuyer = document.getElementById("noBuyer");
 
-const catalogSection =
-  document.getElementById("catalogSection");
+const buyerNameEl = document.getElementById("buyerName");
+const buyerPhoneEl = document.getElementById("buyerPhone");
+const buyerAddressEl = document.getElementById("buyerAddress");
 
-const catalogList =
-  document.getElementById("catalogList");
+const shippingSection = document.getElementById("shippingSection");
+const shippingOptions = document.getElementById("shippingOptions");
+const manualShippingBox = document.getElementById("manualShippingBox");
+const manualShippingCost = document.getElementById("manualShippingCost");
 
-const catalogCount =
-  document.getElementById("catalogCount");
+const summaryQuantity = document.getElementById("summaryQuantity");
+const summaryWeight = document.getElementById("summaryWeight");
+const summarySubtotal = document.getElementById("summarySubtotal");
+const summaryFee = document.getElementById("summaryFee");
+const summaryShippingRow = document.getElementById("summaryShippingRow");
+const summaryShipping = document.getElementById("summaryShipping");
+const summaryTotal = document.getElementById("summaryTotal");
 
-const cartList =
-  document.getElementById("cartList");
+const payButton = document.getElementById("payButton");
 
-const cartCount =
-  document.getElementById("cartCount");
 
-const buyerBox =
-  document.getElementById("buyerBox");
+/* =========================================================
+   STATE
+========================================================= */
 
-const deliverySection =
-  document.getElementById("deliverySection");
+let qrData = null;
 
-const deliveryOptions =
-  document.getElementById("deliveryOptions");
+let products = [];
 
-const totalWeight =
-  document.getElementById("totalWeight");
+let cart = {};
 
-const digitalSection =
-  document.getElementById("digitalSection");
+let selectedShippingMethod = null;
 
-const digitalDetails =
-  document.getElementById("digitalDetails");
-
-const summaryProduct =
-  document.getElementById("summaryProduct");
-
-const summaryShipping =
-  document.getElementById("summaryShipping");
-
-const summaryFee =
-  document.getElementById("summaryFee");
-
-const summaryTotal =
-  document.getElementById("summaryTotal");
-
-const payButton =
-  document.getElementById("payButton");
+let currentUser = null;
 
 
 /* =========================================================
@@ -1016,23 +856,14 @@ const payButton =
 
 function rupiah(value) {
 
-  value = Number(value) || 0;
+  const number = Number(value) || 0;
 
   return new Intl.NumberFormat("id-ID", {
     style: "currency",
     currency: "IDR",
     maximumFractionDigits: 0
-  }).format(value);
-}
+  }).format(number);
 
-
-/* =========================================================
-   FORMAT ANGKA
-========================================================= */
-
-function number(value) {
-  const n = Number(value);
-  return Number.isFinite(n) ? n : 0;
 }
 
 
@@ -1040,7 +871,7 @@ function number(value) {
    ESCAPE HTML
 ========================================================= */
 
-function escapeHtml(value) {
+function escapeHTML(value) {
 
   return String(value ?? "")
     .replace(/&/g, "&amp;")
@@ -1048,107 +879,242 @@ function escapeHtml(value) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+
 }
 
 
 /* =========================================================
-   BASE64URL DECODE
+   IMAGE URL
 ========================================================= */
 
-function base64UrlDecode(value) {
+function normalizeImageUrl(url) {
+
+  if (!url) return "";
+
+  let value = String(url).trim();
+
+  if (!value) return "";
+
+  /*
+   * Google Drive:
+   * https://drive.google.com/file/d/FILE_ID/view
+   */
+
+  const driveMatch = value.match(
+    /drive\.google\.com\/file\/d\/([^/]+)/
+  );
+
+  if (driveMatch) {
+
+    return `https://drive.google.com/uc?export=view&id=${driveMatch[1]}`;
+
+  }
+
+  /*
+   * Google Drive open?id=
+   */
+
+  const openMatch = value.match(
+    /drive\.google\.com\/open\?id=([^&]+)/
+  );
+
+  if (openMatch) {
+
+    return `https://drive.google.com/uc?export=view&id=${openMatch[1]}`;
+
+  }
+
+  return value;
+
+}
+
+
+/* =========================================================
+   BASE64 URL DECODE
+========================================================= */
+
+function decodeData(value) {
+
+  if (!value) {
+    throw new Error("Parameter data tidak ditemukan.");
+  }
 
   try {
 
-    value = String(value)
+    let str = String(value)
       .replace(/-/g, "+")
       .replace(/_/g, "/");
 
-    while (value.length % 4) {
-      value += "=";
+    while (str.length % 4 !== 0) {
+      str += "=";
     }
 
-    const binary = atob(value);
+    const binary = atob(str);
 
-    const bytes = new Uint8Array(binary.length);
+    const bytes = Uint8Array.from(
+      binary,
+      char => char.charCodeAt(0)
+    );
 
-    for (let i = 0; i < binary.length; i++) {
-      bytes[i] = binary.charCodeAt(i);
-    }
+    const json = new TextDecoder().decode(bytes);
 
-    return new TextDecoder().decode(bytes);
+    return JSON.parse(json);
 
   } catch (error) {
 
-    throw new Error("Data QR tidak valid.");
+    /*
+     * Fallback untuk QR lama yang menggunakan
+     * base64 JSON biasa.
+     */
+
+    try {
+
+      const json = atob(value);
+
+      return JSON.parse(json);
+
+    } catch (fallbackError) {
+
+      throw new Error(
+        "Data QR tidak dapat dibaca."
+      );
+
+    }
 
   }
+
 }
 
 
 /* =========================================================
-   LOAD DATA QR
+   LOAD BUYER DATA
 ========================================================= */
 
-function readQRData() {
+function getBuyerData() {
 
-  const params = new URLSearchParams(window.location.search);
+  const possibleKeys = [
+    "scanbeli_buyer",
+    "buyerData",
+    "scanbeliBuyer"
+  ];
 
-  const encoded = params.get("data");
+  for (const key of possibleKeys) {
 
-  if (!encoded) {
+    try {
 
-    throw new Error(
-      "Data produk tidak ditemukan di QR."
-    );
+      const raw = localStorage.getItem(key);
+
+      if (!raw) continue;
+
+      const data = JSON.parse(raw);
+
+      if (data && typeof data === "object") {
+
+        return {
+          name:
+            data.name ||
+            data.fullName ||
+            data.nama ||
+            "",
+
+          phone:
+            data.phone ||
+            data.whatsapp ||
+            data.phoneNumber ||
+            data.nomor ||
+            "",
+
+          address:
+            data.address ||
+            data.alamat ||
+            ""
+        };
+
+      }
+
+    } catch (error) {
+      console.warn("Gagal membaca buyer data:", key);
+    }
+
   }
 
-  const decoded = base64UrlDecode(encoded);
+  return {
+    name: "",
+    phone: "",
+    address: ""
+  };
 
-  let data;
+}
 
-  try {
 
-    data = JSON.parse(decoded);
+/* =========================================================
+   DISPLAY BUYER
+========================================================= */
 
-  } catch (error) {
+function renderBuyer() {
 
-    throw new Error(
-      "Format data QR tidak dapat dibaca."
-    );
+  const buyer = getBuyerData();
+
+  buyerNameEl.textContent =
+    buyer.name || "-";
+
+  buyerPhoneEl.textContent =
+    buyer.phone || "-";
+
+  buyerAddressEl.textContent =
+    buyer.address || "-";
+
+
+  const complete =
+    buyer.name &&
+    buyer.phone &&
+    buyer.address;
+
+
+  if (complete) {
+
+    buyerCard.classList.remove("hidden");
+    noBuyer.classList.add("hidden");
+
+  } else {
+
+    buyerCard.classList.add("hidden");
+    noBuyer.classList.remove("hidden");
+
   }
 
-  if (!data || Number(data.v) !== 2) {
+}
 
-    throw new Error(
-      "QR ini menggunakan format lama. Silakan buat QR baru dari halaman penjual."
-    );
+
+/* =========================================================
+   FEE SCANBELI
+========================================================= */
+
+function calculateFee(subtotal) {
+
+  subtotal = Number(subtotal) || 0;
+
+  /*
+   * <= 100.000
+   * > 100.000 sampai < 500.000
+   * >= 500.000 sampai <= 1.000.000
+   * > 1.000.000
+   */
+
+  if (subtotal > 1000000) {
+    return 10000;
   }
 
-  if (
-    data.type !== "product" &&
-    data.type !== "catalog"
-  ) {
-
-    throw new Error(
-      "Jenis QR tidak dikenali."
-    );
+  if (subtotal >= 500000) {
+    return 5000;
   }
 
-  if (!Array.isArray(data.products)) {
-
-    throw new Error(
-      "Data produk pada QR tidak lengkap."
-    );
+  if (subtotal > 100000) {
+    return 2000;
   }
 
-  if (data.products.length === 0) {
+  return 1000;
 
-    throw new Error(
-      "Tidak ada produk di dalam QR."
-    );
-  }
-
-  return data;
 }
 
 
@@ -1156,804 +1122,551 @@ function readQRData() {
    NORMALIZE PRODUCT
 ========================================================= */
 
-function normalizeProduct(product) {
+function normalizeProduct(product, index = 0) {
+
+  const typeRaw =
+    product.type ||
+    product.productType ||
+    "fisik";
+
+  const type =
+    String(typeRaw).toLowerCase() === "digital"
+      ? "digital"
+      : "fisik";
+
+
+  const price =
+    Number(
+      product.price ??
+      product.harga ??
+      0
+    ) || 0;
+
+
+  const stockRaw =
+    product.stock ??
+    product.stok ??
+    999999;
+
+
+  let stock =
+    Number(stockRaw);
+
+
+  if (!Number.isFinite(stock)) {
+    stock = 999999;
+  }
+
+
+  const weight =
+    Number(
+      product.weight ??
+      product.berat ??
+      0
+    ) || 0;
+
+
+  const image =
+    normalizeImageUrl(
+      product.image ||
+      product.imageUrl ||
+      product.photo ||
+      ""
+    );
+
+
+  const id =
+    product.id ||
+    product.code ||
+    product.kode ||
+    `product-${index}`;
+
 
   return {
 
-    id:
-      product.id ||
-      product.code ||
-      crypto.randomUUID?.() ||
-      ("p-" + Date.now() + Math.random()),
+    id: String(id),
 
     name:
       product.name ||
+      product.title ||
       "Produk",
-
-    price:
-      number(product.price),
 
     code:
       product.code ||
+      product.kode ||
       "",
 
-    stock:
-      product.stock === null ||
-      product.stock === undefined ||
-      product.stock === ""
-        ? 0
-        : Math.max(
-            0,
-            Math.floor(number(product.stock))
-          ),
+    price,
 
-    unlimitedStock:
-      product.unlimitedStock === true,
+    image,
 
-    weight:
-      Math.max(
-        0,
-        number(product.weight)
-      ),
+    stock,
 
-    image:
-      normalizeImageUrl(product.image || ""),
+    weight,
 
-    type:
-      product.type === "digital"
-        ? "digital"
-        : "physical",
+    type,
 
     delivery:
-      product.delivery || {}
+      product.delivery ||
+      product.digitalDelivery ||
+      null,
+
+    shipping:
+      product.shipping ||
+      null
 
   };
-}
-
-
-/* =========================================================
-   GOOGLE DRIVE IMAGE
-========================================================= */
-
-function normalizeImageUrl(url) {
-
-  url = String(url || "").trim();
-
-  if (!url) {
-    return "";
-  }
-
-  let match =
-    url.match(
-      /drive\.google\.com\/file\/d\/([^/]+)/
-    );
-
-  if (match) {
-
-    return (
-      "https://drive.google.com/uc?export=view&id=" +
-      match[1]
-    );
-  }
-
-  match =
-    url.match(
-      /drive\.google\.com\/open\?id=([^&]+)/
-    );
-
-  if (match) {
-
-    return (
-      "https://drive.google.com/uc?export=view&id=" +
-      match[1]
-    );
-  }
-
-  match =
-    url.match(
-      /drive\.google\.com\/uc\?(?:export=view&)?id=([^&]+)/
-    );
-
-  if (match) {
-
-    return (
-      "https://drive.google.com/uc?export=view&id=" +
-      match[1]
-    );
-  }
-
-  return url;
-}
-
-
-/* =========================================================
-   IMAGE HTML
-========================================================= */
-
-function imageHtml(product, className) {
-
-  if (product.image) {
-
-    return `
-      <img
-        class="${className}"
-        src="${escapeHtml(product.image)}"
-        alt="${escapeHtml(product.name)}"
-        loading="lazy"
-        onerror="this.outerHTML='<div class=&quot;${className}&quot; style=&quot;display:flex;align-items:center;justify-content:center;color:#d6ad55;font-weight:900;&quot;>SB</div>'"
-      >
-    `;
-  }
-
-  return `
-    <div class="${className === "product-image"
-      ? "product-placeholder"
-      : "catalog-placeholder"}">
-      SB
-    </div>
-  `;
-}
-
-
-/* =========================================================
-   LOAD BUYER
-========================================================= */
-
-function loadBuyer() {
-
-  const possibleKeys = [
-    "scanbeliBuyer",
-    "scanbeli_buyer",
-    "buyerData"
-  ];
-
-  let raw = null;
-
-  for (const key of possibleKeys) {
-
-    const value =
-      localStorage.getItem(key);
-
-    if (value) {
-
-      raw = value;
-      break;
-    }
-  }
-
-  if (!raw) {
-
-    buyer = null;
-
-    renderBuyer();
-
-    return;
-  }
-
-  try {
-
-    buyer = JSON.parse(raw);
-
-  } catch {
-
-    buyer = null;
-  }
-
-  renderBuyer();
-}
-
-
-/* =========================================================
-   BUYER RENDER
-========================================================= */
-
-function renderBuyer() {
-
-  if (!buyer) {
-
-    buyerBox.innerHTML = `
-      <div class="alert alert-info">
-        Data pembeli belum diisi.
-        Silakan isi nama, WhatsApp, dan alamat
-        sebelum melakukan pembayaran.
-        <br><br>
-
-        <a
-          href="buyer.html"
-          class="edit-link"
-          style="display:inline-block;"
-        >
-          Isi Data Pembeli
-        </a>
-      </div>
-    `;
-
-    payButton.disabled = true;
-
-    return;
-  }
-
-  const name =
-    buyer.name ||
-    buyer.nama ||
-    "";
-
-  const phone =
-    buyer.phone ||
-    buyer.whatsapp ||
-    buyer.nomor ||
-    "";
-
-  const address =
-    buyer.address ||
-    buyer.alamat ||
-    "";
-
-  buyerBox.innerHTML = `
-    <div class="buyer-row">
-
-      <div class="buyer-info">
-
-        <div class="buyer-name">
-          ${escapeHtml(name || "-")}
-        </div>
-
-        <div class="buyer-phone">
-          WhatsApp:
-          ${escapeHtml(phone || "-")}
-        </div>
-
-        <div class="buyer-address">
-          ${escapeHtml(address || "-")}
-        </div>
-
-      </div>
-
-      <a href="buyer.html" class="edit-link">
-        Edit
-      </a>
-
-    </div>
-  `;
-
-  validateCheckout();
-}
-
-
-/* =========================================================
-   RENDER SINGLE PRODUCT
-========================================================= */
-
-function renderSingleProduct() {
-
-  const product =
-    products[0];
-
-  if (!product) {
-    return;
-  }
-
-  singleProduct.innerHTML = `
-
-    <div class="product-card">
-
-      ${imageHtml(product, "product-image")}
-
-      <div>
-
-        <div class="product-name">
-          ${escapeHtml(product.name)}
-        </div>
-
-        ${
-          product.code
-            ? `
-              <div class="product-code">
-                Kode: ${escapeHtml(product.code)}
-              </div>
-            `
-            : ""
-        }
-
-        <div class="product-price">
-          ${rupiah(product.price)}
-        </div>
-
-        <div class="product-meta">
-
-          <span class="tag gold-tag">
-            ${
-              product.type === "digital"
-                ? "DIGITAL"
-                : "FISIK"
-            }
-          </span>
-
-          <span class="tag">
-            ${
-              product.unlimitedStock
-                ? "Stok tersedia"
-                : "Stok " + product.stock
-            }
-          </span>
-
-          <span class="tag">
-            ${product.weight} gram
-          </span>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  `;
 
 }
 
 
 /* =========================================================
-   RENDER CATALOG
+   PARSE QR DATA
 ========================================================= */
 
-function renderCatalog() {
+function parseQRData() {
 
-  catalogList.innerHTML = "";
+  const params =
+    new URLSearchParams(location.search);
 
-  catalogCount.textContent =
-    products.length + " produk";
+  const encoded =
+    params.get("data");
+
+
+  if (!encoded) {
+
+    throw new Error(
+      "Link QR tidak memiliki data produk."
+    );
+
+  }
+
+
+  const data =
+    decodeData(encoded);
+
+
+  /*
+   * FORMAT V2
+   *
+   * {
+   *   v: 2,
+   *   kind: product/catalog,
+   *   sellerUid,
+   *   shop: {...},
+   *   product: {...},
+   *   products: [...]
+   * }
+   */
+
+
+  qrData = data;
+
+
+  let rawProducts = [];
+
+
+  if (
+    data.kind === "catalog" &&
+    Array.isArray(data.products)
+  ) {
+
+    rawProducts = data.products;
+
+  } else if (
+    data.product &&
+    typeof data.product === "object"
+  ) {
+
+    rawProducts = [
+      data.product
+    ];
+
+  } else if (
+    data.name ||
+    data.price
+  ) {
+
+    /*
+     * Kompatibilitas QR lama.
+     */
+
+    rawProducts = [
+      data
+    ];
+
+  }
+
+
+  if (!rawProducts.length) {
+
+    throw new Error(
+      "Produk tidak ditemukan dalam data QR."
+    );
+
+  }
+
+
+  products =
+    rawProducts.map(
+      (product, index) =>
+        normalizeProduct(product, index)
+    );
+
+
+  /*
+   * Default quantity = 0
+   */
+
+  cart = {};
 
   products.forEach(product => {
 
-    const item =
+    cart[product.id] = 0;
+
+  });
+
+
+  /*
+   * Shop name
+   */
+
+  const shopName =
+    data.shop?.name ||
+    data.shopName ||
+    data.storeName ||
+    "Penjual SCANBELI";
+
+
+  shopNameEl.textContent =
+    shopName;
+
+
+  return data;
+
+}
+
+
+/* =========================================================
+   RENDER PRODUCTS
+========================================================= */
+
+function renderProducts() {
+
+  productListEl.innerHTML = "";
+
+
+  products.forEach(product => {
+
+    const quantity =
+      Number(cart[product.id] || 0);
+
+
+    const imageHTML =
+      product.image
+
+        ? `
+          <img
+            src="${escapeHTML(product.image)}"
+            alt="${escapeHTML(product.name)}"
+            loading="lazy"
+            onerror="this.parentElement.innerHTML='<div class=&quot;product-placeholder&quot;>🛍️</div>'"
+          >
+        `
+
+        : `
+          <div class="product-placeholder">
+            🛍️
+          </div>
+        `;
+
+
+    const typeBadge =
+      product.type === "digital"
+
+        ? `
+          <span class="badge blue">
+            DIGITAL
+          </span>
+        `
+
+        : `
+          <span class="badge green">
+            FISIK
+          </span>
+        `;
+
+
+    const weightBadge =
+      product.type === "fisik"
+
+        ? `
+          <span class="badge">
+            ${escapeHTML(product.weight)} g
+          </span>
+        `
+
+        : "";
+
+
+    let stockHTML = "";
+
+
+    if (product.stock <= 0) {
+
+      stockHTML = `
+        <span class="out-stock">
+          Stok habis
+        </span>
+      `;
+
+    } else {
+
+      stockHTML = `
+        <span class="stock-info">
+          Stok: ${escapeHTML(product.stock)}
+        </span>
+      `;
+
+    }
+
+
+    const card =
       document.createElement("div");
 
-    item.className =
-      "catalog-item";
+    card.className =
+      "product-item";
 
-    const stockText =
-      product.unlimitedStock
-        ? "Stok tersedia"
-        : "Stok: " + product.stock;
 
-    item.innerHTML = `
+    card.innerHTML = `
 
-      <div class="catalog-item-top">
+      <div class="product-top">
 
-        ${imageHtml(product, "catalog-img")}
+        <div class="product-image">
+          ${imageHTML}
+        </div>
 
-        <div>
+        <div class="product-info">
 
-          <div class="catalog-name">
-            ${escapeHtml(product.name)}
-          </div>
+          <h3 class="product-name">
+            ${escapeHTML(product.name)}
+          </h3>
 
-          <div class="catalog-price">
+          ${
+            product.code
+              ? `
+                <div class="product-code">
+                  Kode: ${escapeHTML(product.code)}
+                </div>
+              `
+              : ""
+          }
+
+          <div class="product-price">
             ${rupiah(product.price)}
           </div>
 
-          <div class="catalog-stock">
-            ${stockText}
-            · ${product.weight} gram
+          <div class="badges">
+            ${typeBadge}
+            ${weightBadge}
           </div>
 
         </div>
 
       </div>
 
-      <div class="catalog-bottom">
 
-        <div
-          id="catalogQty-${escapeHtml(product.id)}"
-          class="qty"
-        >
+      <div class="product-bottom">
 
-          <button
-            type="button"
-            onclick="changeCatalogQty('${escapeHtml(product.id)}', -1)"
-          >
-            −
-          </button>
-
-          <span class="qty-value">0</span>
-
-          <button
-            type="button"
-            onclick="changeCatalogQty('${escapeHtml(product.id)}', 1)"
-          >
-            +
-          </button>
-
+        <div>
+          ${stockHTML}
         </div>
 
-        <button
-          type="button"
-          class="add-btn"
-          onclick="addCatalogProduct('${escapeHtml(product.id)}')"
-          ${
-            !product.unlimitedStock &&
-            product.stock <= 0
-              ? "disabled"
-              : ""
-          }
-        >
-          Tambah
-        </button>
+
+        ${
+          product.stock > 0
+
+            ? `
+
+              <div class="qty-control">
+
+                <button
+                  type="button"
+                  class="qty-btn"
+                  data-action="minus"
+                  data-id="${escapeHTML(product.id)}"
+                >
+                  −
+                </button>
+
+                <span
+                  class="qty-number"
+                  id="qty-${escapeHTML(product.id)}"
+                >
+                  ${quantity}
+                </span>
+
+                <button
+                  type="button"
+                  class="qty-btn"
+                  data-action="plus"
+                  data-id="${escapeHTML(product.id)}"
+                >
+                  +
+                </button>
+
+              </div>
+
+            `
+
+            : `
+              <span class="out-stock">
+                Tidak tersedia
+              </span>
+            `
+        }
 
       </div>
+
     `;
 
-    catalogList.appendChild(item);
+
+    productListEl.appendChild(card);
 
   });
 
-}
 
+  productListEl
+    .querySelectorAll(".qty-btn")
+    .forEach(button => {
 
-/* =========================================================
-   TEMP CATALOG QTY
-========================================================= */
+      button.addEventListener(
+        "click",
+        () => {
 
-const catalogQty =
-  new Map();
+          const id =
+            button.dataset.id;
 
+          const action =
+            button.dataset.action;
 
-function changeCatalogQty(id, delta) {
+          changeQuantity(
+            id,
+            action
+          );
 
-  const product =
-    products.find(
-      p => String(p.id) === String(id)
-    );
-
-  if (!product) {
-    return;
-  }
-
-  let current =
-    catalogQty.get(id) || 0;
-
-  current += delta;
-
-  if (current < 0) {
-    current = 0;
-  }
-
-  if (
-    !product.unlimitedStock &&
-    current > product.stock
-  ) {
-
-    current = product.stock;
-  }
-
-  catalogQty.set(id, current);
-
-  const box =
-    document.getElementById(
-      "catalogQty-" + id
-    );
-
-  if (box) {
-
-    const value =
-      box.querySelector(".qty-value");
-
-    if (value) {
-      value.textContent = current;
-    }
-  }
-}
-
-
-function addCatalogProduct(id) {
-
-  const product =
-    products.find(
-      p => String(p.id) === String(id)
-    );
-
-  if (!product) {
-    return;
-  }
-
-  const qty =
-    catalogQty.get(id) || 0;
-
-  if (qty <= 0) {
-
-    showTemporaryMessage(
-      "Pilih jumlah produk terlebih dahulu."
-    );
-
-    return;
-  }
-
-  addToCart(
-    product,
-    qty
-  );
-
-  catalogQty.set(id, 0);
-
-  const box =
-    document.getElementById(
-      "catalogQty-" + id
-    );
-
-  if (box) {
-
-    const value =
-      box.querySelector(".qty-value");
-
-    if (value) {
-      value.textContent = "0";
-    }
-  }
-
-}
-
-
-/* =========================================================
-   ADD TO CART
-========================================================= */
-
-function addToCart(product, quantity = 1) {
-
-  quantity =
-    Math.max(
-      1,
-      Math.floor(number(quantity))
-    );
-
-  const existing =
-    cart.find(
-      item =>
-        String(item.product.id) ===
-        String(product.id)
-    );
-
-  let maxStock =
-    product.unlimitedStock
-      ? Infinity
-      : product.stock;
-
-  if (existing) {
-
-    const newQty =
-      existing.quantity + quantity;
-
-    existing.quantity =
-      Math.min(
-        newQty,
-        maxStock
+        }
       );
 
-  } else {
-
-    cart.push({
-      product,
-      quantity:
-        Math.min(
-          quantity,
-          maxStock
-        )
     });
 
-  }
-
-  renderCart();
-  renderDelivery();
-  renderDigitalInfo();
-  updateSummary();
 }
 
 
 /* =========================================================
-   CART CHANGE
+   CHANGE QUANTITY
 ========================================================= */
 
-function changeCartQuantity(id, delta) {
+function changeQuantity(id, action) {
 
-  const item =
-    cart.find(
-      x =>
-        String(x.product.id) ===
-        String(id)
+  const product =
+    products.find(
+      item => item.id === id
     );
 
-  if (!item) {
-    return;
-  }
+
+  if (!product) return;
+
 
   let quantity =
-    item.quantity + delta;
+    Number(cart[id] || 0);
 
-  if (quantity <= 0) {
 
-    removeCartItem(id);
+  if (action === "plus") {
 
-    return;
+    if (
+      product.stock !== 999999 &&
+      quantity >= product.stock
+    ) {
+
+      alert(
+        `Stok ${product.name} hanya ${product.stock}.`
+      );
+
+      return;
+
+    }
+
+    quantity++;
+
   }
 
-  if (
-    !item.product.unlimitedStock &&
-    quantity > item.product.stock
-  ) {
 
-    quantity =
-      item.product.stock;
+  if (action === "minus") {
+
+    quantity--;
+
+    if (quantity < 0) {
+      quantity = 0;
+    }
 
   }
 
-  item.quantity =
+
+  cart[id] =
     quantity;
 
-  renderCart();
-  renderDelivery();
-  renderDigitalInfo();
-  updateSummary();
-}
 
-
-function removeCartItem(id) {
-
-  cart =
-    cart.filter(
-      item =>
-        String(item.product.id) !==
-        String(id)
+  const qtyEl =
+    document.getElementById(
+      `qty-${id}`
     );
 
-  renderCart();
-  renderDelivery();
-  renderDigitalInfo();
-  updateSummary();
-}
 
-
-/* =========================================================
-   RENDER CART
-========================================================= */
-
-function renderCart() {
-
-  const totalItems =
-    cart.reduce(
-      (sum, item) =>
-        sum + item.quantity,
-      0
-    );
-
-  cartCount.textContent =
-    totalItems + " item";
-
-  if (cart.length === 0) {
-
-    cartList.innerHTML = `
-      <div class="empty-cart">
-        Keranjang masih kosong.
-      </div>
-    `;
-
-    validateCheckout();
-
-    return;
+  if (qtyEl) {
+    qtyEl.textContent =
+      quantity;
   }
 
-  cartList.innerHTML = "";
 
-  cart.forEach(item => {
+  renderShipping();
 
-    const product =
-      item.product;
+  updateSummary();
 
-    const itemTotal =
-      product.price *
-      item.quantity;
-
-    const div =
-      document.createElement("div");
-
-    div.className =
-      "cart-item";
-
-    div.innerHTML = `
-
-      ${
-        product.image
-          ? `
-            <img
-              class="cart-image"
-              src="${escapeHtml(product.image)}"
-              alt="${escapeHtml(product.name)}"
-              onerror="this.outerHTML='<div class=&quot;cart-placeholder&quot;>SB</div>'"
-            >
-          `
-          : `
-            <div class="cart-placeholder">
-              SB
-            </div>
-          `
-      }
-
-      <div>
-
-        <div class="cart-name">
-          ${escapeHtml(product.name)}
-        </div>
-
-        <div class="cart-unit">
-          ${rupiah(product.price)}
-          × ${item.quantity}
-        </div>
-
-        <div class="cart-controls">
-
-          <button
-            class="mini-btn"
-            type="button"
-            onclick="changeCartQuantity('${escapeHtml(product.id)}', -1)"
-          >
-            −
-          </button>
-
-          <span style="font-size:12px;">
-            ${item.quantity}
-          </span>
-
-          <button
-            class="mini-btn"
-            type="button"
-            onclick="changeCartQuantity('${escapeHtml(product.id)}', 1)"
-          >
-            +
-          </button>
-
-          <button
-            class="remove-btn"
-            type="button"
-            onclick="removeCartItem('${escapeHtml(product.id)}')"
-          >
-            Hapus
-          </button>
-
-        </div>
-
-      </div>
-
-      <div class="cart-total">
-        ${rupiah(itemTotal)}
-      </div>
-
-    `;
-
-    cartList.appendChild(div);
-
-  });
-
-  validateCheckout();
 }
 
 
 /* =========================================================
-   DETECT PRODUCT TYPE
+   GET CART PRODUCTS
 ========================================================= */
 
-function hasPhysicalProduct() {
+function getCartProducts() {
 
-  return cart.some(
-    item =>
-      item.product.type === "physical"
-  );
-}
+  return products
+    .filter(
+      product =>
+        Number(cart[product.id] || 0) > 0
+    )
+    .map(product => {
+
+      const quantity =
+        Number(cart[product.id] || 0);
 
 
-function hasDigitalProduct() {
+      return {
 
-  return cart.some(
-    item =>
-      item.product.type === "digital"
-  );
+        ...product,
+
+        quantity,
+
+        subtotal:
+          product.price *
+          quantity
+
+      };
+
+    });
+
 }
 
 
@@ -1961,1003 +1674,1373 @@ function hasDigitalProduct() {
    TOTAL WEIGHT
 ========================================================= */
 
-function calculateWeight() {
+function calculateTotalWeight(
+  cartProducts
+) {
 
-  return cart.reduce(
-    (sum, item) =>
-      sum +
-      (
-        number(item.product.weight) *
-        item.quantity
-      ),
+  return cartProducts.reduce(
+    (total, product) => {
+
+      if (product.type !== "fisik") {
+        return total;
+      }
+
+      return total +
+        (
+          Number(product.weight) || 0
+        ) *
+        (
+          Number(product.quantity) || 0
+        );
+
+    },
     0
   );
+
 }
 
 
 /* =========================================================
-   DELIVERY
+   HAS PHYSICAL
 ========================================================= */
 
-function renderDelivery() {
+function hasPhysicalProducts(
+  cartProducts
+) {
+
+  return cartProducts.some(
+    product =>
+      product.type === "fisik"
+  );
+
+}
+
+
+/* =========================================================
+   SHIPPING CONFIG
+========================================================= */
+
+function getShippingMethods() {
+
+  /*
+   * Mencoba membaca:
+   *
+   * data.shipping.methods
+   * data.shop.shipping.methods
+   *
+   * atau product.shipping.methods
+   */
+
+  if (
+    qrData?.shipping &&
+    Array.isArray(qrData.shipping.methods)
+  ) {
+
+    return qrData.shipping.methods;
+
+  }
+
+
+  if (
+    qrData?.shop?.shipping &&
+    Array.isArray(qrData.shop.shipping.methods)
+  ) {
+
+    return qrData.shop.shipping.methods;
+
+  }
+
+
+  const allMethods = [];
+
+
+  products.forEach(product => {
+
+    const methods =
+      product.shipping?.methods;
+
+
+    if (
+      Array.isArray(methods)
+    ) {
+
+      methods.forEach(method => {
+
+        allMethods.push(method);
+
+      });
+
+    }
+
+  });
+
+
+  return allMethods;
+
+}
+
+
+/* =========================================================
+   SHIPPING PRICE
+========================================================= */
+
+function getShippingPrice(
+  method,
+  totalWeight
+) {
+
+  if (!method) {
+    return 0;
+  }
+
+
+  /*
+   * Bentuk yang didukung:
+   *
+   * { name, price }
+   * { name, cost }
+   * { name, shippingCost }
+   *
+   * { name, pricePerKg }
+   * { name, costPerKg }
+   */
+
+
+  if (
+    method.price !== undefined
+  ) {
+
+    return Number(
+      method.price
+    ) || 0;
+
+  }
+
+
+  if (
+    method.cost !== undefined
+  ) {
+
+    return Number(
+      method.cost
+    ) || 0;
+
+  }
+
+
+  if (
+    method.shippingCost !== undefined
+  ) {
+
+    return Number(
+      method.shippingCost
+    ) || 0;
+
+  }
+
+
+  const pricePerKg =
+    Number(
+      method.pricePerKg ??
+      method.costPerKg ??
+      0
+    );
+
+
+  if (pricePerKg > 0) {
+
+    const kg =
+      Math.max(
+        1,
+        Math.ceil(
+          totalWeight / 1000
+        )
+      );
+
+    return kg * pricePerKg;
+
+  }
+
+
+  return 0;
+
+}
+
+
+/* =========================================================
+   RENDER SHIPPING
+========================================================= */
+
+function renderShipping() {
+
+  const cartProducts =
+    getCartProducts();
+
 
   const physical =
-    hasPhysicalProduct();
+    hasPhysicalProducts(
+      cartProducts
+    );
+
 
   if (!physical) {
 
-    deliverySection.style.display =
-      "none";
+    shippingSection.classList.add(
+      "hidden"
+    );
 
-    selectedDelivery = null;
+    summaryShippingRow.classList.add(
+      "hidden"
+    );
+
+    selectedShippingMethod = null;
 
     return;
+
   }
 
-  deliverySection.style.display =
-    "block";
 
-  const options = [];
+  shippingSection.classList.remove(
+    "hidden"
+  );
 
-  const courierNames =
-    new Set();
 
-  cart.forEach(item => {
+  const methods =
+    getShippingMethods();
 
-    if (
-      item.product.type !==
-      "physical"
-    ) {
-      return;
-    }
 
-    const delivery =
-      item.product.delivery || {};
+  /*
+   * Jika QR tidak membawa daftar kurir,
+   * tetap beri opsi biaya manual.
+   */
 
-    if (
-      delivery.mode === "courier" ||
-      delivery.mode === "both"
-    ) {
+  if (!methods.length) {
 
-      if (delivery.couriers) {
+    selectedShippingMethod = {
+      name: "Kurir / Pengiriman",
+      type: "manual",
+      price: 0
+    };
 
-        String(delivery.couriers)
-          .split(",")
-          .map(x => x.trim())
-          .filter(Boolean)
-          .forEach(x =>
-            courierNames.add(x)
-          );
-      }
-    }
 
-  });
+    shippingOptions.innerHTML = `
 
-  const courierText =
-    courierNames.size
-      ? Array.from(courierNames).join(", ")
-      : "Kurir ditentukan penjual";
-
-  options.push({
-    id: "courier",
-    title: "Kirim dengan Kurir",
-    desc:
-      courierText +
-      ". Ongkir mengikuti pengaturan penjual/kurir."
-  });
-
-  options.push({
-    id: "pickup",
-    title: "Tanpa Kurir / Ambil Sendiri",
-    desc:
-      "Pembeli mengambil atau mengatur pengantaran sendiri sesuai kesepakatan dengan penjual."
-  });
-
-  deliveryOptions.innerHTML =
-    options.map(option => `
-
-      <label
-        class="delivery-option ${
-          selectedDelivery === option.id
-            ? "active"
-            : ""
-        }"
-      >
+      <label class="shipping-option">
 
         <input
           type="radio"
-          name="delivery"
-          value="${option.id}"
-          ${
-            selectedDelivery === option.id
-              ? "checked"
-              : ""
-          }
-          onchange="selectDelivery('${option.id}')"
+          name="shippingMethod"
+          value="manual"
+          checked
         >
 
-        <div class="delivery-title">
-          ${option.title}
-        </div>
+        <strong>
+          🚚 Kurir / Pengiriman
+        </strong>
 
-        <div class="delivery-desc">
-          ${option.desc}
-        </div>
+        <small>
+          Biaya pengiriman ditentukan pada checkout.
+        </small>
 
       </label>
 
-    `).join("");
-
-  totalWeight.textContent =
-    formatWeight(
-      calculateWeight()
-    );
-}
+    `;
 
 
-/* =========================================================
-   SELECT DELIVERY
-========================================================= */
-
-function selectDelivery(type) {
-
-  selectedDelivery =
-    type;
-
-  renderDelivery();
-
-  const noteBox =
-    document.getElementById(
-      "deliveryNoteBox"
+    manualShippingBox.classList.remove(
+      "hidden"
     );
 
-  if (noteBox) {
 
-    noteBox.classList.add("show");
+    manualShippingCost
+      .oninput = () => {
 
-  }
+        if (
+          selectedShippingMethod
+        ) {
 
-  validateCheckout();
-}
+          selectedShippingMethod
+            .price =
+            Number(
+              manualShippingCost.value
+            ) || 0;
 
+        }
 
-/* =========================================================
-   FORMAT WEIGHT
-========================================================= */
+        updateSummary();
 
-function formatWeight(weight) {
+      };
 
-  weight =
-    Math.max(
-      0,
-      number(weight)
-    );
-
-  if (weight >= 1000) {
-
-    return (
-      (weight / 1000)
-        .toFixed(
-          weight % 1000 === 0
-            ? 0
-            : 2
-        ) +
-      " kg"
-    );
-  }
-
-  return weight + " gram";
-}
-
-
-/* =========================================================
-   DIGITAL INFO
-========================================================= */
-
-function renderDigitalInfo() {
-
-  const digital =
-    cart.filter(
-      item =>
-        item.product.type === "digital"
-    );
-
-  if (!digital.length) {
-
-    digitalSection.style.display =
-      "none";
 
     return;
+
   }
 
-  digitalSection.style.display =
-    "block";
-
-  digitalDetails.innerHTML =
-    digital.map(item => {
-
-      const p =
-        item.product;
-
-      const d =
-        p.delivery || {};
-
-      let method =
-        "Pengiriman digital";
-
-      if (d.mode === "whatsapp") {
-        method =
-          "Dikirim melalui WhatsApp";
-      }
-
-      if (d.mode === "url") {
-        method =
-          "Link download";
-      }
-
-      if (d.mode === "both") {
-        method =
-          "WhatsApp + link download";
-      }
-
-      return `
-        <div
-          style="
-            padding:10px 0;
-            border-bottom:1px solid rgba(255,255,255,.06);
-          "
-        >
-          <div style="font-weight:800;font-size:13px;">
-            ${escapeHtml(p.name)}
-          </div>
-
-          <div
-            style="
-              color:#888;
-              font-size:11px;
-              margin-top:4px;
-            "
-          >
-            ${escapeHtml(method)}
-          </div>
-        </div>
-      `;
-
-    }).join("");
-}
-
-
-/* =========================================================
-   CALCULATE SUBTOTAL
-========================================================= */
-
-function calculateSubtotal() {
-
-  return cart.reduce(
-    (sum, item) =>
-      sum +
-      (
-        number(item.product.price) *
-        item.quantity
-      ),
-    0
-  );
-}
-
-
-/* =========================================================
-   FEE BARU
-========================================================= */
-
-function calculateFee(subtotal) {
-
-  subtotal =
-    number(subtotal);
-
-  if (subtotal <= 100000) {
-
-    return 1000;
-  }
-
-  if (subtotal < 500000) {
-
-    return 2000;
-  }
-
-  if (subtotal <= 1000000) {
-
-    return 5000;
-  }
-
-  return 10000;
-}
-
-
-/* =========================================================
-   SHIPPING
-========================================================= */
-
-function calculateShipping() {
 
   /*
-    Untuk saat ini ongkir = 0.
+   * Ada metode pengiriman
+   */
 
-    Berat tetap dihitung dan dikirim
-    ke data pesanan.
+  shippingOptions.innerHTML =
+    methods.map(
+      (method, index) => {
 
-    Jika nanti ingin tarif otomatis,
-    fungsi ini bisa dihubungkan ke
-    API kurir.
-  */
+        const name =
+          method.name ||
+          method.label ||
+          `Kurir ${index + 1}`;
 
-  return 0;
+
+        const totalWeight =
+          calculateTotalWeight(
+            cartProducts
+          );
+
+
+        const price =
+          getShippingPrice(
+            method,
+            totalWeight
+          );
+
+
+        return `
+
+          <label class="shipping-option">
+
+            <input
+              type="radio"
+              name="shippingMethod"
+              value="${index}"
+              data-index="${index}"
+              ${index === 0 ? "checked" : ""}
+            >
+
+            <strong>
+              🚚 ${escapeHTML(name)}
+            </strong>
+
+            <small>
+              ${rupiah(price)}
+              · Berat ${totalWeight} gram
+            </small>
+
+          </label>
+
+        `;
+
+      }
+    ).join("");
+
+
+  manualShippingBox.classList.add(
+    "hidden"
+  );
+
+
+  const first =
+    methods[0];
+
+
+  selectedShippingMethod = {
+
+    name:
+      first.name ||
+      first.label ||
+      "Kurir",
+
+    price:
+      getShippingPrice(
+        first,
+        calculateTotalWeight(
+          cartProducts
+        )
+      ),
+
+    raw:
+      first
+
+  };
+
+
+  shippingOptions
+    .querySelectorAll(
+      'input[name="shippingMethod"]'
+    )
+    .forEach(input => {
+
+      input.addEventListener(
+        "change",
+        () => {
+
+          const index =
+            Number(
+              input.dataset.index
+            );
+
+
+          const method =
+            methods[index];
+
+
+          const totalWeight =
+            calculateTotalWeight(
+              getCartProducts()
+            );
+
+
+          selectedShippingMethod = {
+
+            name:
+              method.name ||
+              method.label ||
+              "Kurir",
+
+            price:
+              getShippingPrice(
+                method,
+                totalWeight
+              ),
+
+            raw:
+              method
+
+          };
+
+
+          manualShippingBox
+            .classList.add(
+              "hidden"
+            );
+
+
+          updateSummary();
+
+        }
+      );
+
+    });
+
 }
 
 
 /* =========================================================
-   SUMMARY
+   SHIPPING COST
+========================================================= */
+
+function calculateShippingCost(
+  cartProducts
+) {
+
+  if (
+    !hasPhysicalProducts(
+      cartProducts
+    )
+  ) {
+
+    return 0;
+
+  }
+
+
+  if (
+    !selectedShippingMethod
+  ) {
+
+    return 0;
+
+  }
+
+
+  return Number(
+    selectedShippingMethod.price
+  ) || 0;
+
+}
+
+
+/* =========================================================
+   UPDATE SUMMARY
 ========================================================= */
 
 function updateSummary() {
 
-  const subtotal =
-    calculateSubtotal();
+  const cartProducts =
+    getCartProducts();
 
-  const shipping =
-    calculateShipping();
+
+  const quantity =
+    cartProducts.reduce(
+      (total, product) =>
+        total +
+        Number(product.quantity || 0),
+      0
+    );
+
+
+  const subtotal =
+    cartProducts.reduce(
+      (total, product) =>
+        total +
+        Number(product.subtotal || 0),
+      0
+    );
+
+
+  const totalWeight =
+    calculateTotalWeight(
+      cartProducts
+    );
+
 
   const fee =
-    cart.length
+    subtotal > 0
       ? calculateFee(subtotal)
       : 0;
 
+
+  const shippingCost =
+    calculateShippingCost(
+      cartProducts
+    );
+
+
   const total =
     subtotal +
-    shipping +
-    fee;
+    fee +
+    shippingCost;
 
-  summaryProduct.textContent =
+
+  summaryQuantity.textContent =
+    `${quantity} item` +
+    (quantity !== 1 ? "s" : "");
+
+
+  summaryWeight.textContent =
+    `${totalWeight.toLocaleString("id-ID")} gram`;
+
+
+  summarySubtotal.textContent =
     rupiah(subtotal);
 
-  summaryShipping.textContent =
-    rupiah(shipping);
 
   summaryFee.textContent =
     rupiah(fee);
 
+
+  if (shippingCost > 0) {
+
+    summaryShippingRow
+      .classList.remove(
+        "hidden"
+      );
+
+    summaryShipping.textContent =
+      rupiah(shippingCost);
+
+  } else {
+
+    summaryShippingRow
+      .classList.add(
+        "hidden"
+      );
+
+    summaryShipping.textContent =
+      rupiah(0);
+
+  }
+
+
   summaryTotal.textContent =
     rupiah(total);
 
-  validateCheckout();
-}
 
-
-/* =========================================================
-   VALIDATE
-========================================================= */
-
-function validateCheckout() {
-
-  let valid = true;
-
-  if (!cart.length) {
-    valid = false;
-  }
-
-  if (!buyer) {
-    valid = false;
-  }
-
-  if (buyer) {
-
-    const name =
-      buyer.name ||
-      buyer.nama ||
-      "";
-
-    const phone =
-      buyer.phone ||
-      buyer.whatsapp ||
-      "";
-
-    const address =
-      buyer.address ||
-      buyer.alamat ||
-      "";
-
-    if (
-      !String(name).trim() ||
-      !String(phone).trim()
-    ) {
-
-      valid = false;
-    }
-
-    if (
-      hasPhysicalProduct() &&
-      !String(address).trim()
-    ) {
-
-      valid = false;
-    }
-  }
-
-  if (
-    hasPhysicalProduct() &&
-    !selectedDelivery
-  ) {
-
-    valid = false;
-  }
+  /*
+   * Disable BAYAR jika tidak ada produk
+   */
 
   payButton.disabled =
-    !valid;
-}
+    quantity <= 0;
 
 
-/* =========================================================
-   SHOW MESSAGE
-========================================================= */
+  if (quantity <= 0) {
 
-function showTemporaryMessage(message) {
+    payButton.style.opacity =
+      "0.5";
 
-  const old =
-    document.getElementById(
-      "temporaryMessage"
-    );
+  } else {
 
-  if (old) {
-    old.remove();
-  }
+    payButton.style.opacity =
+      "1";
 
-  const box =
-    document.createElement("div");
-
-  box.id =
-    "temporaryMessage";
-
-  box.className =
-    "alert alert-info";
-
-  box.style.position =
-    "fixed";
-
-  box.style.left =
-    "12px";
-
-  box.style.right =
-    "12px";
-
-  box.style.bottom =
-    "15px";
-
-  box.style.zIndex =
-    "9999";
-
-  box.textContent =
-    message;
-
-  document.body.appendChild(box);
-
-  setTimeout(() => {
-
-    box.remove();
-
-  }, 2200);
-}
-
-
-/* =========================================================
-   PAYMENT
-========================================================= */
-
-payButton.addEventListener(
-  "click",
-  async () => {
-
-    if (!validateBeforePay()) {
-      return;
-    }
-
-    await createOrder();
-
-  }
-);
-
-
-/* =========================================================
-   FINAL VALIDATION
-========================================================= */
-
-function validateBeforePay() {
-
-  if (!cart.length) {
-
-    showTemporaryMessage(
-      "Keranjang masih kosong."
-    );
-
-    return false;
-  }
-
-  if (!buyer) {
-
-    showTemporaryMessage(
-      "Isi data pembeli terlebih dahulu."
-    );
-
-    return false;
-  }
-
-  if (
-    hasPhysicalProduct() &&
-    !selectedDelivery
-  ) {
-
-    showTemporaryMessage(
-      "Pilih metode pengiriman."
-    );
-
-    return false;
-  }
-
-  return true;
-}
-
-
-/* =========================================================
-   CREATE ORDER
-========================================================= */
-
-async function createOrder() {
-
-  try {
-
-    payButton.disabled =
-      true;
-
-    payButton.textContent =
-      "MEMPROSES...";
-
-    const subtotal =
-      calculateSubtotal();
-
-    const shipping =
-      calculateShipping();
-
-    const fee =
-      calculateFee(subtotal);
-
-    const total =
-      subtotal +
-      shipping +
-      fee;
-
-    const order = {
-
-      orderCode:
-        createOrderCode(),
-
-      version:
-        2,
-
-      sellerUid:
-        DATA.sellerUid || "",
-
-      store:
-        DATA.store || {},
-
-      buyer: {
-
-        name:
-          buyer.name ||
-          buyer.nama ||
-          "",
-
-        whatsapp:
-          buyer.phone ||
-          buyer.whatsapp ||
-          "",
-
-        address:
-          buyer.address ||
-          buyer.alamat ||
-          ""
-
-      },
-
-      items:
-        cart.map(item => ({
-
-          productId:
-            item.product.id,
-
-          name:
-            item.product.name,
-
-          code:
-            item.product.code,
-
-          price:
-            item.product.price,
-
-          quantity:
-            item.quantity,
-
-          subtotal:
-            item.product.price *
-            item.quantity,
-
-          stock:
-            item.product.stock,
-
-          weight:
-            item.product.weight,
-
-          totalWeight:
-            item.product.weight *
-            item.quantity,
-
-          image:
-            item.product.image,
-
-          type:
-            item.product.type,
-
-          delivery:
-            item.product.delivery || {}
-
-        })),
-
-      delivery: {
-
-        type:
-          hasPhysicalProduct()
-            ? selectedDelivery
-            : "digital",
-
-        weight:
-          calculateWeight(),
-
-        note:
-          document.getElementById(
-            "deliveryNote"
-          )?.value || ""
-
-      },
-
-      subtotal,
-
-      shipping,
-
-      fee,
-
-      total,
-
-      status:
-        "Menunggu Pembayaran",
-
-      paymentStatus:
-        "unpaid",
-
-      createdAt:
-        Date.now()
-
-    };
-
-
-    /*
-      =====================================================
-      SIMPAN ORDER
-
-      Bagian ini mencoba Firebase yang digunakan
-      SCANBELI saat ini.
-
-      Jika firebase.js tersedia:
-      - initAnonymousAuth()
-      - db
-
-      Maka order akan disimpan ke collection orders.
-      =====================================================
-    */
-
-    let saved =
-      false;
-
-    try {
-
-      const firebase =
-        await import("./firebase.js");
-
-      if (
-        firebase.db &&
-        firebase.initAnonymousAuth
-      ) {
-
-        const user =
-          await firebase.initAnonymousAuth();
-
-        const {
-          collection,
-          addDoc,
-          serverTimestamp
-        } =
-          await import(
-            "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
-          );
-
-        order.buyerUid =
-          user.uid;
-
-        order.createdAtServer =
-          serverTimestamp();
-
-        await addDoc(
-          collection(
-            firebase.db,
-            "orders"
-          ),
-          order
-        );
-
-        saved =
-          true;
-      }
-
-    } catch (firebaseError) {
-
-      console.warn(
-        "Firebase order save failed:",
-        firebaseError
-      );
-
-    }
-
-
-    /*
-      Jika Firebase gagal,
-      simpan salinan lokal supaya
-      pembeli tidak kehilangan informasi.
-    */
-
-    localStorage.setItem(
-      "scanbeliLastOrder",
-      JSON.stringify(order)
-    );
-
-
-    if (saved) {
-
-      localStorage.setItem(
-        "scanbeliLastOrderCode",
-        order.orderCode
-      );
-
-      window.location.href =
-        "orders.html?code=" +
-        encodeURIComponent(
-          order.orderCode
-        );
-
-      return;
-    }
-
-
-    /*
-      Jika Firebase belum tersedia,
-      arahkan ke halaman order dengan
-      informasi bahwa order belum tersimpan
-      ke server.
-    */
-
-    localStorage.setItem(
-      "scanbeliOrderPending",
-      "true"
-    );
-
-    window.location.href =
-      "orders.html?code=" +
-      encodeURIComponent(
-        order.orderCode
-      );
-
-  } catch (error) {
-
-    console.error(error);
-
-    alert(
-      "Gagal membuat pesanan: " +
-      error.message
-    );
-
-    payButton.disabled =
-      false;
-
-    payButton.textContent =
-      "BAYAR";
   }
 
 }
 
 
 /* =========================================================
-   ORDER CODE
+   CREATE ORDER ID
 ========================================================= */
 
-function createOrderCode() {
+function generateOrderId() {
 
   const chars =
     "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
-  let code =
-    "SB-";
 
-  for (let i = 0; i < 7; i++) {
+  let random = "";
 
-    code +=
+
+  for (
+    let i = 0;
+    i < 7;
+    i++
+  ) {
+
+    random +=
       chars[
         Math.floor(
           Math.random() *
           chars.length
         )
       ];
+
   }
 
-  return code;
+
+  return `SB-${random}`;
+
 }
+
+
+/* =========================================================
+   CREATE FIRESTORE PRODUCT
+========================================================= */
+
+function createOrderProducts(
+  cartProducts
+) {
+
+  return cartProducts.map(
+    product => {
+
+      const result = {
+
+        id:
+          product.id,
+
+        name:
+          product.name,
+
+        code:
+          product.code || "",
+
+        price:
+          Number(product.price) || 0,
+
+        quantity:
+          Number(product.quantity) || 0,
+
+        weight:
+          Number(product.weight) || 0,
+
+        type:
+          product.type === "digital"
+            ? "digital"
+            : "fisik",
+
+        image:
+          product.image || "",
+
+        subtotal:
+          Number(product.subtotal) || 0
+
+      };
+
+
+      /*
+       * Digital delivery.
+       *
+       * Tidak wajib ada.
+       */
+
+      if (
+        product.type === "digital" &&
+        product.delivery
+      ) {
+
+        result.digitalDelivery =
+          {
+
+            mode:
+              product.delivery.mode ||
+              product.delivery.type ||
+              "",
+
+            url:
+              product.delivery.url ||
+              product.delivery.link ||
+              "",
+
+            whatsapp:
+              product.delivery.whatsapp ||
+              product.delivery.phone ||
+              ""
+
+          };
+
+      }
+
+
+      return result;
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   VALIDATE ORDER
+========================================================= */
+
+function validateOrder() {
+
+  const buyer =
+    getBuyerData();
+
+
+  if (
+    !buyer.name ||
+    !buyer.phone ||
+    !buyer.address
+  ) {
+
+    alert(
+      "Lengkapi nama, WhatsApp dan alamat pembeli terlebih dahulu."
+    );
+
+    return false;
+
+  }
+
+
+  const cartProducts =
+    getCartProducts();
+
+
+  if (!cartProducts.length) {
+
+    alert(
+      "Pilih minimal satu produk."
+    );
+
+    return false;
+
+  }
+
+
+  /*
+   * Validasi stok
+   */
+
+  for (
+    const product of cartProducts
+  ) {
+
+    if (
+      product.stock !== 999999 &&
+      product.quantity >
+      product.stock
+    ) {
+
+      alert(
+        `Stok ${product.name} hanya ${product.stock}.`
+      );
+
+      return false;
+
+    }
+
+  }
+
+
+  /*
+   * Jika fisik harus ada metode pengiriman
+   */
+
+  if (
+    hasPhysicalProducts(
+      cartProducts
+    )
+  ) {
+
+    if (
+      !selectedShippingMethod
+    ) {
+
+      alert(
+        "Pilih metode pengiriman terlebih dahulu."
+      );
+
+      return false;
+
+    }
+
+
+    /*
+     * Manual shipping
+     */
+
+    if (
+      selectedShippingMethod.type ===
+      "manual"
+    ) {
+
+      const cost =
+        Number(
+          manualShippingCost.value
+        ) || 0;
+
+
+      selectedShippingMethod.price =
+        cost;
+
+    }
+
+  }
+
+
+  return true;
+
+}
+
+
+/* =========================================================
+   SAVE ORDER
+========================================================= */
+
+async function saveOrder() {
+
+  if (!validateOrder()) {
+    return;
+  }
+
+
+  const buyer =
+    getBuyerData();
+
+
+  const cartProducts =
+    getCartProducts();
+
+
+  const productsForOrder =
+    createOrderProducts(
+      cartProducts
+    );
+
+
+  const subtotal =
+    cartProducts.reduce(
+      (total, product) =>
+        total +
+        Number(product.subtotal || 0),
+      0
+    );
+
+
+  const fee =
+    calculateFee(
+      subtotal
+    );
+
+
+  const totalWeight =
+    calculateTotalWeight(
+      cartProducts
+    );
+
+
+  const physical =
+    hasPhysicalProducts(
+      cartProducts
+    );
+
+
+  const shippingCost =
+    physical
+      ? calculateShippingCost(
+          cartProducts
+        )
+      : 0;
+
+
+  const shippingMethod =
+    physical &&
+    selectedShippingMethod
+
+      ? (
+          selectedShippingMethod.name ||
+          "Kurir"
+        )
+
+      : "Tidak ada";
+
+
+  const total =
+    subtotal +
+    fee +
+    shippingCost;
+
+
+  /*
+   * sellerUid harus berasal dari QR.
+   */
+
+  const sellerUid =
+    qrData?.sellerUid ||
+    qrData?.seller?.uid ||
+    "";
+
+
+  /*
+   * Order ID dibuat sebelum Firestore.
+   */
+
+  const orderId =
+    generateOrderId();
+
+
+  /*
+   * Struktur utama ORDER
+   *
+   * INI YANG AKAN DIBACA
+   * seller-orders.html
+   */
+
+  const order = {
+
+    orderId,
+
+    sellerUid,
+
+    buyerUid:
+      currentUser?.uid || "",
+
+    buyerName:
+      buyer.name,
+
+    buyerPhone:
+      buyer.phone,
+
+    buyerAddress:
+      buyer.address,
+
+    shopName:
+      qrData?.shop?.name ||
+      qrData?.shopName ||
+      "Penjual SCANBELI",
+
+
+    /*
+     * MULTI PRODUK
+     */
+
+    products:
+      productsForOrder,
+
+
+    /*
+     * TOTAL PRODUK
+     */
+
+    subtotal,
+
+    /*
+     * Untuk kompatibilitas
+     */
+
+    productTotal:
+      subtotal,
+
+
+    /*
+     * FEE BARU
+     */
+
+    fee,
+
+
+    /*
+     * SHIPPING
+     */
+
+    shippingMethod,
+
+    shippingCost,
+
+    totalWeight,
+
+
+    /*
+     * TOTAL AKHIR
+     */
+
+    total,
+
+
+    /*
+     * STATUS
+     */
+
+    status:
+      "MENUNGGU_PEMBAYARAN",
+
+
+    /*
+     * Waktu
+     */
+
+    createdAt:
+      serverTimestamp()
+
+  };
+
+
+  /*
+   * Simpan ke Firestore
+   */
+
+  const docRef =
+    await addDoc(
+      collection(
+        db,
+        "orders"
+      ),
+      order
+    );
+
+
+  /*
+   * Simpan order ID di perangkat
+   * supaya orders.html bisa menampilkan
+   * riwayat pembeli.
+   */
+
+  saveLocalOrderId(
+    orderId
+  );
+
+
+  return {
+    orderId,
+    firestoreId:
+      docRef.id
+  };
+
+}
+
+
+/* =========================================================
+   LOCAL ORDER IDS
+========================================================= */
+
+function saveLocalOrderId(
+  orderId
+) {
+
+  try {
+
+    const key =
+      "scanbeli_orders";
+
+
+    const existing =
+      JSON.parse(
+        localStorage.getItem(key) ||
+        "[]"
+      );
+
+
+    const list =
+      Array.isArray(existing)
+        ? existing
+        : [];
+
+
+    if (
+      !list.includes(orderId)
+    ) {
+
+      list.unshift(
+        orderId
+      );
+
+    }
+
+
+    /*
+     * Batasi 100 order
+     */
+
+    localStorage.setItem(
+      key,
+      JSON.stringify(
+        list.slice(0, 100)
+      )
+    );
+
+  } catch (error) {
+
+    console.warn(
+      "Gagal menyimpan riwayat lokal:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   PAY BUTTON
+========================================================= */
+
+payButton.addEventListener(
+  "click",
+  async () => {
+
+    if (
+      payButton.disabled
+    ) {
+      return;
+    }
+
+
+    if (
+      !validateOrder()
+    ) {
+      return;
+    }
+
+
+    const originalText =
+      payButton.textContent;
+
+
+    payButton.disabled =
+      true;
+
+    payButton.textContent =
+      "Memproses...";
+
+    payButton.style.opacity =
+      "0.65";
+
+
+    try {
+
+      /*
+       * Anonymous Auth
+       */
+
+      currentUser =
+        await initAnonymousAuth();
+
+
+      if (
+        !currentUser
+      ) {
+
+        throw new Error(
+          "Autentikasi pembeli gagal."
+        );
+
+      }
+
+
+      /*
+       * Simpan order
+       */
+
+      const result =
+        await saveOrder();
+
+
+      /*
+       * Tampilkan sukses
+       */
+
+      checkoutEl.classList.add(
+        "hidden"
+      );
+
+
+      errorBox.classList.add(
+        "hidden"
+      );
+
+
+      successBox.classList.remove(
+        "hidden"
+      );
+
+
+      successOrderCode.textContent =
+        result.orderId;
+
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+
+    } catch (error) {
+
+      console.error(
+        "Gagal membuat order:",
+        error
+      );
+
+
+      let message =
+        "Pesanan gagal dibuat.";
+
+
+      if (
+        error?.code ===
+        "permission-denied"
+      ) {
+
+        message =
+          "Firestore menolak penyimpanan pesanan. Periksa Firebase Rules.";
+
+      } else if (
+        error?.message
+      ) {
+
+        message =
+          error.message;
+
+      }
+
+
+      alert(
+        message
+      );
+
+
+      payButton.disabled =
+        false;
+
+      payButton.textContent =
+        originalText;
+
+      payButton.style.opacity =
+        "1";
+
+    }
+
+  }
+);
 
 
 /* =========================================================
    INITIALIZE
 ========================================================= */
 
-function initialize() {
+async function init() {
 
   try {
 
-    DATA =
-      readQRData();
-
-    products =
-      DATA.products.map(
-        normalizeProduct
-      );
-
-    storeNameEl.textContent =
-      DATA.store?.name ||
-      "SCANBELI";
+    loadingEl.classList.remove(
+      "hidden"
+    );
 
 
     /*
-      PRODUCT QR
-    */
+     * Baca QR
+     */
 
-    if (
-      DATA.type === "product"
-    ) {
-
-      singleProductSection.style.display =
-        "block";
-
-      catalogSection.style.display =
-        "none";
-
-      renderSingleProduct();
-
-      /*
-        Produk otomatis masuk
-        ke keranjang.
-      */
-
-      addToCart(
-        products[0],
-        1
-      );
-
-    }
+    parseQRData();
 
 
     /*
-      CATALOG QR
-    */
+     * Render buyer
+     */
 
-    if (
-      DATA.type === "catalog"
-    ) {
+    renderBuyer();
 
-      singleProductSection.style.display =
-        "none";
 
-      catalogSection.style.display =
-        "block";
+    /*
+     * Render produk
+     */
 
-      renderCatalog();
+    renderProducts();
 
-      renderCart();
 
-    }
+    /*
+     * Shipping
+     */
 
-    loadBuyer();
+    renderShipping();
 
-    renderDelivery();
 
-    renderDigitalInfo();
+    /*
+     * Summary
+     */
 
     updateSummary();
 
-    loading.style.display =
-      "none";
 
-    checkoutContent.style.display =
-      "block";
+    /*
+     * Tampilkan checkout
+     */
+
+    loadingEl.classList.add(
+      "hidden"
+    );
+
+    checkoutEl.classList.remove(
+      "hidden"
+    );
+
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      "Checkout error:",
+      error
+    );
 
-    loading.style.display =
-      "none";
 
-    errorBox.style.display =
-      "block";
+    loadingEl.classList.add(
+      "hidden"
+    );
 
-    errorBox.innerHTML = `
-      <div class="alert alert-error">
 
-        <strong>QR tidak dapat dibuka</strong>
+    checkoutEl.classList.add(
+      "hidden"
+    );
 
-        <div style="margin-top:7px;">
-          ${escapeHtml(error.message)}
-        </div>
 
-        <div style="margin-top:12px;">
-          Silakan scan ulang QR penjual
-          atau minta penjual membuat QR baru.
-        </div>
+    errorBox.classList.remove(
+      "hidden"
+    );
 
-        <div style="margin-top:14px;">
-          <a
-            href="scan.html"
-            class="edit-link"
-            style="display:inline-block;"
-          >
-            Kembali ke Scan QR
-          </a>
-        </div>
 
-      </div>
-    `;
+    errorText.textContent =
+      error.message ||
+      "Data QR tidak dapat dibaca.";
 
   }
 
 }
 
 
-/* =========================================================
-   GLOBAL FUNCTIONS
-========================================================= */
-
-window.changeCatalogQty =
-  changeCatalogQty;
-
-window.addCatalogProduct =
-  addCatalogProduct;
-
-window.changeCartQuantity =
-  changeCartQuantity;
-
-window.removeCartItem =
-  removeCartItem;
-
-window.selectDelivery =
-  selectDelivery;
-
-
-/* =========================================================
-   START
-========================================================= */
-
-initialize();
+init();
 
 </script>
 
