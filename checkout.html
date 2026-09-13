@@ -1,3936 +1,880 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
 
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
-  >
-
-  <meta name="theme-color" content="#070707">
-
-  <title>Beli - SCANBELI</title>
-
-  <style>
-
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      background: #070707;
-      color: #fff;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    button,
-    input,
-    textarea,
-    select {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    a {
-      color: inherit;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    /* =========================
-       HEADER
-    ========================= */
-
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(7,7,7,.96);
-      border-bottom: 1px solid #292929;
-      backdrop-filter: blur(12px);
-    }
-
-    .topbar-inner {
-      max-width: 700px;
-      margin: auto;
-      min-height: 62px;
-      padding: 10px 14px;
-
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .logo {
-      color: #d6ad55;
-      font-size: 22px;
-      font-weight: 900;
-      letter-spacing: 1px;
-    }
-
-    .edit-button {
-      text-decoration: none;
-      background: #111;
-      border: 1px solid #333;
-      color: #eee;
-      border-radius: 12px;
-      padding: 9px 12px;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    /* =========================
-       MAIN
-    ========================= */
-
-    main {
-      width: 100%;
-      max-width: 700px;
-      margin: auto;
-      padding: 18px 13px 50px;
-    }
-
-    /* =========================
-       LOADING
-    ========================= */
-
-    .screen {
-      min-height: 70vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .loading-box {
-      width: 100%;
-      text-align: center;
-      padding: 30px;
-    }
-
-    .spinner {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      border: 4px solid #292929;
-      border-top-color: #d6ad55;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 18px;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .loading-title {
-      font-weight: 800;
-      font-size: 18px;
-    }
-
-    .loading-text {
-      color: #888;
-      margin-top: 8px;
-      font-size: 13px;
-    }
-
-    /* =========================
-       ERROR
-    ========================= */
-
-    .error-box {
-      width: 100%;
-      background: #111;
-      border: 1px solid #302020;
-      border-radius: 20px;
-      padding: 28px 20px;
-      text-align: center;
-    }
-
-    .error-icon {
-      font-size: 48px;
-      margin-bottom: 12px;
-    }
-
-    .error-box h2 {
-      margin: 0 0 10px;
-      font-size: 22px;
-    }
-
-    .error-box p {
-      color: #aaa;
-      line-height: 1.6;
-      font-size: 14px;
-      margin: 0 0 20px;
-    }
-
-    .error-detail {
-      background: #080808;
-      border: 1px solid #292929;
-      border-radius: 12px;
-      padding: 10px;
-      color: #777;
-      font-size: 11px;
-      text-align: left;
-      word-break: break-word;
-      margin-bottom: 15px;
-    }
-
-    /* =========================
-       STORE
-    ========================= */
-
-    .store-card {
-      background: linear-gradient(
-        145deg,
-        #17130c,
-        #101010 55%,
-        #0d0d0d
-      );
-
-      border: 1px solid #393021;
-      border-radius: 22px;
-      padding: 20px;
-      margin-bottom: 16px;
-    }
-
-    .store-label {
-      color: #888;
-      font-size: 12px;
-      margin-bottom: 5px;
-    }
-
-    .store-name {
-      font-size: 25px;
-      font-weight: 900;
-      color: #f0d58d;
-      word-break: break-word;
-    }
-
-    .store-qr {
-      margin-top: 9px;
-      color: #777;
-      font-size: 12px;
-    }
-
-    /* =========================
-       SECTION
-    ========================= */
-
-    .section {
-      background: #111;
-      border: 1px solid #292929;
-      border-radius: 20px;
-      padding: 16px;
-      margin-bottom: 15px;
-    }
-
-    .section-title {
-      font-size: 18px;
-      font-weight: 900;
-      margin-bottom: 15px;
-    }
-
-    /* =========================
-       PRODUCTS
-    ========================= */
-
-    .products-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .product-card {
-      background: #0a0a0a;
-      border: 1px solid #292929;
-      border-radius: 17px;
-      overflow: hidden;
-    }
-
-    .product-image-wrap {
-      background: #151515;
-      min-height: 190px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .product-image {
-      display: block;
-      width: 100%;
-      max-height: 300px;
-      object-fit: contain;
-    }
-
-    .product-no-image {
-      color: #555;
-      padding: 50px 20px;
-      text-align: center;
-    }
-
-    .product-content {
-      padding: 15px;
-    }
-
-    .product-name {
-      font-size: 18px;
-      font-weight: 900;
-      margin-bottom: 7px;
-      word-break: break-word;
-    }
-
-    .product-code {
-      color: #777;
-      font-size: 11px;
-      margin-bottom: 9px;
-    }
-
-    .product-price {
-      color: #d6ad55;
-      font-size: 20px;
-      font-weight: 900;
-      margin-bottom: 8px;
-    }
-
-    .stock-text {
-      color: #999;
-      font-size: 12px;
-      margin-bottom: 12px;
-    }
-
-    .size-title {
-      color: #aaa;
-      font-size: 12px;
-      margin-bottom: 7px;
-    }
-
-    .size-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-      margin-bottom: 12px;
-    }
-
-    .size-button {
-      border: 1px solid #444;
-      background: #111;
-      color: #ddd;
-      border-radius: 9px;
-      padding: 7px 11px;
-      font-size: 12px;
-    }
-
-    .size-button.selected {
-      background: #d6ad55;
-      color: #090909;
-      border-color: #d6ad55;
-      font-weight: 900;
-    }
-
-    .add-cart-button {
-      width: 100%;
-      border: 0;
-      border-radius: 13px;
-      padding: 13px;
-      background: linear-gradient(
-        135deg,
-        #d6ad55,
-        #f1d48b
-      );
-      color: #080808;
-      font-weight: 900;
-    }
-
-    .add-cart-button:disabled {
-      opacity: .45;
-    }
-
-    /* =========================
-       CART
-    ========================= */
-
-    .cart-empty {
-      text-align: center;
-      color: #666;
-      padding: 15px 0;
-    }
-
-    .cart-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .cart-item {
-      background: #0a0a0a;
-      border: 1px solid #292929;
-      border-radius: 14px;
-      padding: 12px;
-    }
-
-    .cart-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .cart-name {
-      font-weight: 800;
-      line-height: 1.4;
-    }
-
-    .cart-variant {
-      color: #777;
-      font-size: 11px;
-      margin-top: 4px;
-    }
-
-    .cart-price {
-      color: #d6ad55;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .cart-bottom {
-      margin-top: 11px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .quantity {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-
-    .quantity button {
-      width: 32px;
-      height: 32px;
-      border-radius: 9px;
-      border: 1px solid #333;
-      background: #161616;
-      color: #fff;
-      font-weight: 900;
-    }
-
-    .quantity span {
-      min-width: 25px;
-      text-align: center;
-      font-weight: 900;
-    }
-
-    .remove-cart {
-      border: 0;
-      background: transparent;
-      color: #ff7272;
-      font-size: 12px;
-    }
-
-    /* =========================
-       FORM
-    ========================= */
-
-    .field {
-      margin-bottom: 14px;
-    }
-
-    .field:last-child {
-      margin-bottom: 0;
-    }
-
-    label {
-      display: block;
-      color: #ccc;
-      font-size: 12px;
-      font-weight: 800;
-      margin-bottom: 7px;
-    }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      background: #080808;
-      color: #fff;
-      border: 1px solid #333;
-      border-radius: 12px;
-      padding: 13px;
-      outline: none;
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: #d6ad55;
-    }
-
-    textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-
-    .buyer-note {
-      color: #777;
-      font-size: 11px;
-      line-height: 1.5;
-      margin-top: 7px;
-    }
-
-    /* =========================
-       SHIPPING
-    ========================= */
-
-    .shipping-options {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .shipping-option {
-      border: 1px solid #333;
-      background: #0a0a0a;
-      border-radius: 13px;
-      padding: 12px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .shipping-option input {
-      width: auto;
-      accent-color: #d6ad55;
-    }
-
-    .shipping-info {
-      flex: 1;
-    }
-
-    .shipping-name {
-      font-weight: 800;
-      font-size: 13px;
-    }
-
-    .shipping-cost {
-      color: #d6ad55;
-      font-size: 12px;
-      margin-top: 3px;
-    }
-
-    /* =========================
-       SUMMARY
-    ========================= */
-
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 15px;
-      padding: 8px 0;
-      color: #aaa;
-      font-size: 13px;
-    }
-
-    .summary-row strong {
-      color: #fff;
-      text-align: right;
-    }
-
-    .summary-divider {
-      height: 1px;
-      background: #292929;
-      margin: 8px 0;
-    }
-
-    .total-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      padding-top: 10px;
-      font-size: 19px;
-      font-weight: 900;
-    }
-
-    .total-row span:last-child {
-      color: #d6ad55;
-      text-align: right;
-    }
-
-    .fee-note {
-      color: #777;
-      font-size: 11px;
-      line-height: 1.5;
-      margin-top: 12px;
-    }
-
-    .pay-button {
-      width: 100%;
-      border: 0;
-      border-radius: 16px;
-      padding: 16px;
-      background: linear-gradient(
-        135deg,
-        #d6ad55,
-        #f1d48b
-      );
-      color: #080808;
-      font-weight: 900;
-      font-size: 16px;
-      margin-top: 12px;
-    }
-
-    .pay-button:disabled {
-      opacity: .5;
-    }
-
-    /* =========================
-       SUCCESS
-    ========================= */
-
-    .success-card {
-      background: #111;
-      border: 1px solid #284a35;
-      border-radius: 22px;
-      padding: 28px 20px;
-      text-align: center;
-    }
-
-    .success-icon {
-      font-size: 55px;
-      margin-bottom: 10px;
-    }
-
-    .success-card h2 {
-      margin: 0 0 10px;
-      font-size: 24px;
-    }
-
-    .success-card p {
-      color: #999;
-      line-height: 1.6;
-      font-size: 13px;
-    }
-
-    .order-code {
-      background: #080808;
-      border: 1px solid #333;
-      border-radius: 13px;
-      padding: 15px;
-      color: #d6ad55;
-      font-size: 21px;
-      font-weight: 900;
-      letter-spacing: 2px;
-      margin: 20px 0;
-    }
-
-    .success-button {
-      display: block;
-      text-decoration: none;
-      width: 100%;
-      border-radius: 14px;
-      padding: 14px;
-      margin-top: 9px;
-      font-weight: 900;
-    }
-
-    .success-primary {
-      background: #d6ad55;
-      color: #080808;
-    }
-
-    .success-secondary {
-      background: #191919;
-      border: 1px solid #333;
-    }
-
-    /* =========================
-       FOOTER
-    ========================= */
-
-    .footer {
-      text-align: center;
-      color: #444;
-      font-size: 11px;
-      margin-top: 25px;
-    }
-
-  </style>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0">
+
+<title>Checkout - SCANBELI</title>
+
+<meta name="theme-color" content="#070707">
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:#070707;
+  color:#fff;
+  font-family:Arial,sans-serif;
+}
+
+header{
+  padding:16px;
+  border-bottom:1px solid #222;
+  position:sticky;
+  top:0;
+  background:#070707;
+  z-index:10;
+}
+
+.header{
+  max-width:760px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logo{
+  font-weight:900;
+  font-size:22px;
+  letter-spacing:2px;
+}
+
+.edit{
+  color:#f4c542;
+  text-decoration:none;
+  font-size:13px;
+}
+
+main{
+  max-width:760px;
+  margin:auto;
+  padding:18px 15px 50px;
+}
+
+.card{
+  background:#111;
+  border:1px solid #262626;
+  border-radius:18px;
+  padding:17px;
+  margin-bottom:14px;
+}
+
+h1{
+  margin:0 0 7px;
+  font-size:25px;
+}
+
+h2{
+  font-size:18px;
+  margin-top:0;
+}
+
+.muted{
+  color:#999;
+}
+
+.product{
+  display:flex;
+  gap:12px;
+  padding:12px;
+  border:1px solid #292929;
+  border-radius:14px;
+  margin-bottom:10px;
+}
+
+.product img{
+  width:75px;
+  height:75px;
+  object-fit:cover;
+  border-radius:10px;
+  background:#222;
+}
+
+.product-info{
+  flex:1;
+}
+
+.price{
+  color:#f4c542;
+  font-weight:900;
+}
+
+input,textarea,select{
+  width:100%;
+  background:#080808;
+  border:1px solid #333;
+  color:#fff;
+  padding:13px;
+  border-radius:11px;
+  margin-top:7px;
+  outline:none;
+}
+
+label{
+  display:block;
+  font-size:13px;
+  font-weight:bold;
+  margin-top:13px;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  padding:8px 0;
+}
+
+.total{
+  border-top:1px solid #333;
+  margin-top:8px;
+  padding-top:13px;
+  font-size:19px;
+  font-weight:900;
+}
+
+.total strong{
+  color:#f4c542;
+}
+
+button{
+  width:100%;
+  padding:15px;
+  border:0;
+  border-radius:13px;
+  background:#f4c542;
+  color:#000;
+  font-weight:900;
+  font-size:16px;
+}
+
+button:disabled{
+  opacity:.5;
+}
+
+.notice{
+  background:#15120a;
+  border:1px solid #3d3212;
+  color:#e8d58b;
+  padding:12px;
+  border-radius:12px;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.error{
+  background:#260f0f;
+  border:1px solid #612020;
+  color:#ff9b9b;
+  padding:13px;
+  border-radius:12px;
+  display:none;
+}
+
+.loading{
+  text-align:center;
+  padding:35px 10px;
+  color:#aaa;
+}
+
+.hidden{
+  display:none;
+}
+
+</style>
 
 </head>
 
 <body>
 
-<header class="topbar">
+<header>
 
-  <div class="topbar-inner">
+<div class="header">
 
-    <div class="logo">
-      SCANBELI
-    </div>
+<div class="logo">SCANBELI</div>
 
-    <a
-      href="./buyer.html"
-      class="edit-button"
-    >
-      ✏️ Data Pembeli
-    </a>
+<a class="edit" href="buyer.html">
+Edit Data
+</a>
 
-  </div>
+</div>
 
 </header>
 
-
 <main>
 
-  <!-- =========================
-       LOADING
-  ========================== -->
+<div id="loading" class="card loading">
+  Memuat produk...
+</div>
 
-  <section
-    id="checkoutLoading"
-    class="screen"
-  >
+<div id="error" class="error"></div>
 
-    <div class="loading-box">
+<div id="checkout" class="hidden">
 
-      <div class="spinner"></div>
+<div class="card">
 
-      <div class="loading-title">
-        Memuat produk...
-      </div>
+<h1 id="storeName">
+Toko
+</h1>
 
-      <div class="loading-text">
-        Menghubungkan ke SCANBELI
-      </div>
+<div class="muted">
+Checkout aman melalui SCANBELI
+</div>
 
-    </div>
+</div>
 
-  </section>
+<div class="card">
 
+<h2>Produk</h2>
 
-  <!-- =========================
-       ERROR
-  ========================== -->
+<div id="products"></div>
 
-  <section
-    id="errorScreen"
-    class="screen hidden"
-  >
+</div>
 
-    <div class="error-box">
+<div class="card">
 
-      <div class="error-icon">
-        ⚠️
-      </div>
+<h2>Data Pembeli</h2>
 
-      <h2 id="errorTitle">
-        Terjadi masalah
-      </h2>
+<label>Nama Lengkap</label>
 
-      <p id="errorMessage">
-        Tidak dapat memuat data.
-      </p>
+<input id="buyerName"
+       placeholder="Nama lengkap">
 
-      <div
-        id="errorDetail"
-        class="error-detail hidden"
-      ></div>
+<label>WhatsApp</label>
 
-      <button
-        id="retryButton"
-        class="pay-button"
-        type="button"
-      >
-        🔄 COBA LAGI
-      </button>
+<input id="buyerPhone"
+       type="tel"
+       placeholder="08xxxxxxxxxx">
 
-      <a
-        href="./index.html"
-        class="success-button success-secondary"
-      >
-        KEMBALI KE BERANDA
-      </a>
+<label>Alamat Lengkap</label>
 
-    </div>
+<textarea id="buyerAddress"
+          placeholder="Nama jalan, nomor rumah, kecamatan, kota, provinsi"></textarea>
 
-  </section>
+</div>
 
+<div class="card">
 
-  <!-- =========================
-       CHECKOUT
-  ========================== -->
+<h2>Pengiriman</h2>
 
-  <section
-    id="checkout"
-    class="hidden"
-  >
+<select id="shipping">
 
-    <!-- STORE -->
+<option value="standard">
+Pengiriman Standar - Rp15.000
+</option>
 
-    <section class="store-card">
+<option value="economy">
+Pengiriman Hemat - Rp10.000
+</option>
 
-      <div class="store-label">
-        Anda berbelanja di
-      </div>
+</select>
 
-      <div
-        id="storeName"
-        class="store-name"
-      >
-        Toko SCANBELI
-      </div>
+</div>
 
-      <div class="store-qr">
-        QR ID:
-        <span id="qrIdDisplay">-</span>
-      </div>
+<div class="card">
 
-    </section>
+<h2>Ringkasan Pembayaran</h2>
 
+<div class="row">
+<span>Produk</span>
+<strong id="subtotal">Rp0</strong>
+</div>
 
-    <!-- PRODUCTS -->
+<div class="row">
+<span>Ongkir</span>
+<strong id="shippingCost">Rp0</strong>
+</div>
 
-    <section class="section">
+<div class="row">
+<span>Fee SCANBELI</span>
+<strong id="fee">Rp0</strong>
+</div>
 
-      <div class="section-title">
-        🛍️ Produk
-      </div>
+<div class="row total">
+<span>Total</span>
+<strong id="total">Rp0</strong>
+</div>
 
-      <div
-        id="productsContainer"
-        class="products-grid"
-      ></div>
+</div>
 
-    </section>
+<div class="card">
 
+<div class="notice">
 
-    <!-- CART -->
+<b>Fee dihitung otomatis.</b><br><br>
 
-    <section class="section">
+Pembayaran akan diproses melalui payment gateway.
+SCANBELI tidak meminta pembeli mentransfer fee
+secara manual.
 
-      <div class="section-title">
-        🛒 Keranjang
-      </div>
+</div>
 
-      <div
-        id="cartEmpty"
-        class="cart-empty"
-      >
-        Belum ada produk.
-      </div>
+<br>
 
-      <div
-        id="cartItems"
-        class="cart-list"
-      ></div>
+<button id="payButton">
+BAYAR SEKARANG
+</button>
 
-    </section>
+</div>
 
-
-    <!-- BUYER -->
-
-    <section class="section">
-
-      <div class="section-title">
-        📦 Data Pengiriman
-      </div>
-
-      <div class="field">
-
-        <label for="buyerName">
-          Nama Lengkap
-        </label>
-
-        <input
-          id="buyerName"
-          type="text"
-          autocomplete="name"
-          placeholder="Nama lengkap"
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label for="buyerPhone">
-          Nomor WhatsApp
-        </label>
-
-        <input
-          id="buyerPhone"
-          type="tel"
-          autocomplete="tel"
-          placeholder="08xxxxxxxxxx"
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label for="buyerAddress">
-          Alamat Lengkap
-        </label>
-
-        <textarea
-          id="buyerAddress"
-          autocomplete="street-address"
-          placeholder="Nama jalan, nomor rumah, RT/RW, kelurahan, kecamatan, kota, provinsi, kode pos"
-        ></textarea>
-
-      </div>
-
-
-      <div class="buyer-note">
-        Data pembeli disimpan di perangkat Anda agar pembelian
-        berikutnya lebih mudah. Anda dapat mengubahnya melalui
-        tombol "Data Pembeli".
-      </div>
-
-    </section>
-
-
-    <!-- SHIPPING -->
-
-    <section
-      id="shippingSection"
-      class="section"
-    >
-
-      <div class="section-title">
-        🚚 Pengiriman
-      </div>
-
-      <div
-        id="shippingOptions"
-        class="shipping-options"
-      ></div>
-
-    </section>
-
-
-    <!-- SUMMARY -->
-
-    <section class="section">
-
-      <div class="section-title">
-        🧾 Ringkasan
-      </div>
-
-
-      <div class="summary-row">
-
-        <span>
-          Harga produk
-        </span>
-
-        <strong id="subtotal">
-          Rp 0
-        </strong>
-
-      </div>
-
-
-      <div class="summary-row">
-
-        <span>
-          Fee SCANBELI
-        </span>
-
-        <strong id="fee">
-          Rp 0
-        </strong>
-
-      </div>
-
-
-      <div
-        id="shippingSummaryRow"
-        class="summary-row"
-      >
-
-        <span>
-          Pengiriman
-        </span>
-
-        <strong id="shippingCost">
-          Rp 0
-        </strong>
-
-      </div>
-
-
-      <div class="summary-divider"></div>
-
-
-      <div class="total-row">
-
-        <span>
-          Total
-        </span>
-
-        <span id="grandTotal">
-          Rp 0
-        </span>
-
-      </div>
-
-
-      <div class="fee-note">
-        Fee SCANBELI digunakan sebagai biaya layanan transaksi.
-      </div>
-
-
-      <button
-        id="payButton"
-        class="pay-button"
-        type="button"
-        disabled
-      >
-        💳 BAYAR SEKARANG
-      </button>
-
-    </section>
-
-  </section>
-
-
-  <!-- =========================
-       SUCCESS
-  ========================== -->
-
-  <section
-    id="successScreen"
-    class="hidden"
-  >
-
-    <div class="success-card">
-
-      <div class="success-icon">
-        ✅
-      </div>
-
-      <h2>
-        Pesanan Berhasil Dibuat
-      </h2>
-
-      <p>
-        Pesanan Anda sudah tercatat di SCANBELI.
-      </p>
-
-      <div
-        id="successOrderCode"
-        class="order-code"
-      >
-        SB-XXXXXXX
-      </div>
-
-      <p>
-        Simpan kode pesanan ini untuk melihat
-        detail pesanan Anda.
-      </p>
-
-      <a
-        id="viewOrderButton"
-        href="./orders.html"
-        class="success-button success-primary"
-      >
-        📦 LIHAT PESANAN
-      </a>
-
-      <a
-        href="./index.html"
-        class="success-button success-secondary"
-      >
-        KEMBALI KE BERANDA
-      </a>
-
-    </div>
-
-  </section>
-
-
-  <div class="footer">
-    SCANBELI © 2026
-  </div>
+</div>
 
 </main>
 
-
 <script type="module">
 
-  import {
-    initializeApp
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-  import {
-    getFirestore,
-    doc,
-    getDocFromServer,
-    getDocFromCache,
-    setDoc,
-    serverTimestamp,
-    enableNetwork
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+  getFirestore,
+  doc,
+  getDocFromServer,
+  getDocFromCache,
+  enableNetwork
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+const firebaseConfig = {
 
-  /* =========================================================
-     FIREBASE CONFIG
-     ========================================================= */
+  apiKey:"AIzaSyAXGQKpJ02LBiGSVdTlrQZXjBsnHrXLAHI",
 
-  const firebaseConfig = {
+  authDomain:"scanbeli.firebaseapp.com",
 
-    apiKey:
-      "AIzaSyAXGQKpJ02LBiGSVdTlrQZXjBsnHrXLAHI",
+  projectId:"scanbeli",
 
-    authDomain:
-      "scanbeli.firebaseapp.com",
+  storageBucket:"scanbeli.firebasestorage.app",
 
-    projectId:
-      "scanbeli",
+  messagingSenderId:"791591627311",
 
-    storageBucket:
-      "scanbeli.firebasestorage.app",
+  appId:"1:791591627311:web:86effe90b808fe9590f4da"
 
-    messagingSenderId:
-      "791591627311",
+};
 
-    appId:
-      "1:791591627311:web:86effe90b808fe9590f4da"
+const app =
+  initializeApp(firebaseConfig);
 
-  };
+const db =
+  getFirestore(app);
 
+const params =
+  new URLSearchParams(location.search);
 
-  /* =========================================================
-     FIREBASE
-  ========================================================= */
+const qrId =
+  params.get("id");
 
-  let app;
-  let db;
+let qrData=null;
 
-  try {
+let products=[];
 
-    app =
-      initializeApp(firebaseConfig);
+/* ==============================
+   FORMAT
+============================== */
 
-    db =
-      getFirestore(app);
+function rupiah(value){
 
-  } catch (error) {
+  return new Intl.NumberFormat(
+    "id-ID",
+    {
+      style:"currency",
+      currency:"IDR",
+      maximumFractionDigits:0
+    }
+  ).format(value || 0);
 
-    console.error(
-      "Firebase initialization error:",
-      error
-    );
+}
 
-  }
+/* ==============================
+   FEE
+============================== */
 
+function calculateFee(amount){
 
-  /* =========================================================
-     ELEMENTS
-  ========================================================= */
+  if(amount <= 100000){
 
-  const loadingScreen =
-    document.getElementById(
-      "checkoutLoading"
-    );
-
-  const errorScreen =
-    document.getElementById(
-      "errorScreen"
-    );
-
-  const errorTitle =
-    document.getElementById(
-      "errorTitle"
-    );
-
-  const errorMessage =
-    document.getElementById(
-      "errorMessage"
-    );
-
-  const errorDetail =
-    document.getElementById(
-      "errorDetail"
-    );
-
-  const retryButton =
-    document.getElementById(
-      "retryButton"
-    );
-
-  const checkout =
-    document.getElementById(
-      "checkout"
-    );
-
-  const successScreen =
-    document.getElementById(
-      "successScreen"
-    );
-
-  const storeNameElement =
-    document.getElementById(
-      "storeName"
-    );
-
-  const qrIdDisplay =
-    document.getElementById(
-      "qrIdDisplay"
-    );
-
-  const productsContainer =
-    document.getElementById(
-      "productsContainer"
-    );
-
-  const cartItems =
-    document.getElementById(
-      "cartItems"
-    );
-
-  const cartEmpty =
-    document.getElementById(
-      "cartEmpty"
-    );
-
-  const buyerName =
-    document.getElementById(
-      "buyerName"
-    );
-
-  const buyerPhone =
-    document.getElementById(
-      "buyerPhone"
-    );
-
-  const buyerAddress =
-    document.getElementById(
-      "buyerAddress"
-    );
-
-  const shippingSection =
-    document.getElementById(
-      "shippingSection"
-    );
-
-  const shippingOptions =
-    document.getElementById(
-      "shippingOptions"
-    );
-
-  const subtotalElement =
-    document.getElementById(
-      "subtotal"
-    );
-
-  const feeElement =
-    document.getElementById(
-      "fee"
-    );
-
-  const shippingCostElement =
-    document.getElementById(
-      "shippingCost"
-    );
-
-  const shippingSummaryRow =
-    document.getElementById(
-      "shippingSummaryRow"
-    );
-
-  const grandTotalElement =
-    document.getElementById(
-      "grandTotal"
-    );
-
-  const payButton =
-    document.getElementById(
-      "payButton"
-    );
-
-  const successOrderCode =
-    document.getElementById(
-      "successOrderCode"
-    );
-
-  const viewOrderButton =
-    document.getElementById(
-      "viewOrderButton"
-    );
-
-
-  /* =========================================================
-     STATE
-  ========================================================= */
-
-  let qrId = "";
-
-  let qrData = null;
-
-  let products = [];
-
-  let cart = [];
-
-  let selectedShipping = null;
-
-  let loading = false;
-
-
-  /* =========================================================
-     URL
-  ========================================================= */
-
-  function getQrIdFromUrl() {
-
-    const params =
-      new URLSearchParams(
-        window.location.search
-      );
-
-    const id =
-      params.get("id");
-
-    const qr =
-      params.get("qr");
-
-    return (
-      id ||
-      qr ||
-      ""
-    ).trim();
+    return 1000;
 
   }
 
+  if(amount < 500000){
 
-  qrId =
-    getQrIdFromUrl();
-
-
-  /* =========================================================
-     SLEEP
-  ========================================================= */
-
-  function sleep(ms) {
-
-    return new Promise(
-      resolve =>
-        setTimeout(
-          resolve,
-          ms
-        )
-    );
+    return 2000;
 
   }
 
+  if(amount <= 1000000){
 
-  /* =========================================================
-     ERROR HELPERS
-  ========================================================= */
-
-  function isNetworkError(error) {
-
-    const code =
-      String(
-        error?.code || ""
-      ).toLowerCase();
-
-    const message =
-      String(
-        error?.message || ""
-      ).toLowerCase();
-
-    return (
-
-      !navigator.onLine ||
-
-      code === "unavailable" ||
-
-      message.includes(
-        "offline"
-      ) ||
-
-      message.includes(
-        "network"
-      ) ||
-
-      message.includes(
-        "client is offline"
-      ) ||
-
-      message.includes(
-        "failed to get document"
-      )
-
-    );
+    return 5000;
 
   }
 
+  return 10000;
 
-  function showError(
-    title,
-    message,
-    detail = ""
-  ) {
+}
 
-    loadingScreen.classList.add(
-      "hidden"
-    );
+/* ==============================
+   LOAD QR
+============================== */
 
-    checkout.classList.add(
-      "hidden"
-    );
+async function loadQR(){
 
-    successScreen.classList.add(
-      "hidden"
-    );
+  if(!qrId){
 
-    errorScreen.classList.remove(
-      "hidden"
-    );
+    showError("ID QR tidak ditemukan.");
 
-    errorTitle.textContent =
-      title;
+    return;
 
-    errorMessage.textContent =
-      message;
+  }
 
+  try{
 
-    if (detail) {
+    await enableNetwork(db);
 
-      errorDetail.textContent =
-        detail;
+  }catch(e){}
 
-      errorDetail.classList.remove(
-        "hidden"
-      );
+  const ref =
+    doc(db,"qrCodes",qrId);
 
-    } else {
+  let snap=null;
 
-      errorDetail.classList.add(
-        "hidden"
+  let lastError=null;
+
+  for(let attempt=1;attempt<=3;attempt++){
+
+    try{
+
+      snap =
+        await getDocFromServer(ref);
+
+      break;
+
+    }catch(error){
+
+      lastError=error;
+
+      await new Promise(
+        r=>setTimeout(r,800*attempt)
       );
 
     }
 
   }
 
+  if(!snap){
 
-  function showLoading() {
+    try{
 
-    loadingScreen.classList.remove(
-      "hidden"
-    );
+      snap =
+        await getDocFromCache(ref);
 
-    errorScreen.classList.add(
-      "hidden"
-    );
+    }catch(error){
 
-    checkout.classList.add(
-      "hidden"
-    );
+      console.error(lastError);
 
-    successScreen.classList.add(
-      "hidden"
-    );
+      showError(
+        "Gagal terhubung ke server. " +
+        "Periksa koneksi internet lalu coba lagi."
+      );
+
+      return;
+
+    }
 
   }
 
+  if(!snap.exists()){
 
-  /* =========================================================
-     FORMAT RUPIAH
-  ========================================================= */
+    showError(
+      "Produk tidak ditemukan. QR mungkin sudah tidak aktif."
+    );
 
-  function rupiah(value) {
-
-    const number =
-      Number(value) || 0;
-
-    return new Intl.NumberFormat(
-      "id-ID",
-      {
-        style: "currency",
-        currency: "IDR",
-        maximumFractionDigits: 0
-      }
-    ).format(number);
+    return;
 
   }
 
+  qrData =
+    snap.data();
 
-  /* =========================================================
-     FEE SCANBELI
-  ========================================================= */
+  products =
+    Array.isArray(qrData.products)
+      ? qrData.products
+      : [];
 
-  function calculateFee(
-    subtotal
-  ) {
+  if(!products.length){
 
-    subtotal =
-      Number(subtotal) || 0;
+    showError(
+      "QR ini belum memiliki produk."
+    );
 
-
-    if (
-      subtotal <= 100000
-    ) {
-
-      return 1000;
-
-    }
-
-
-    if (
-      subtotal < 500000
-    ) {
-
-      return 2000;
-
-    }
-
-
-    if (
-      subtotal <= 1000000
-    ) {
-
-      return 5000;
-
-    }
-
-
-    return 10000;
+    return;
 
   }
 
+  render();
 
-  /* =========================================================
-     READ QR DOCUMENT
-  ========================================================= */
+}
 
-  async function readQRDocument(
-    id
-  ) {
+/* ==============================
+   RENDER
+============================== */
 
-    if (!id) {
+function render(){
 
-      throw createAppError(
-        "invalid-qr",
-        "ID QR tidak ditemukan di URL."
-      );
+  document.getElementById(
+    "loading"
+  ).classList.add("hidden");
 
-    }
+  document.getElementById(
+    "checkout"
+  ).classList.remove("hidden");
 
+  document.getElementById(
+    "storeName"
+  ).textContent =
+    qrData.storeName ||
+    qrData.store ||
+    "Toko SCANBELI";
 
-    if (!db) {
+  const container =
+    document.getElementById("products");
 
-      throw createAppError(
-        "firebase",
-        "Firebase belum berhasil diinisialisasi."
-      );
+  container.innerHTML="";
 
-    }
+  products.forEach(product=>{
 
+    const el =
+      document.createElement("div");
 
-    const ref =
-      doc(
-        db,
-        "qrCodes",
-        id
-      );
+    el.className="product";
 
+    const image =
+      product.image || "";
 
-    let lastError =
-      null;
+    el.innerHTML=`
 
-
-    /*
-      Coba server maksimal 3 kali.
-    */
-
-    for (
-      let attempt = 1;
-      attempt <= 3;
-      attempt++
-    ) {
-
-      try {
-
-        /*
-          Jika browser sedang offline,
-          jangan langsung menyebut produk hilang.
-        */
-
-        if (
-          !navigator.onLine
-        ) {
-
-          lastError =
-            createAppError(
-              "offline",
-              "Tidak ada koneksi internet."
-            );
-
-          break;
-
-        }
-
-
-        /*
-          Minta Firestore mengaktifkan network.
-        */
-
-        try {
-
-          await enableNetwork(
-            db
-          );
-
-        } catch (_) {
-
-          /*
-            Tidak fatal.
-          */
-
-        }
-
-
-        /*
-          Paksa membaca dari server.
-        */
-
-        const snapshot =
-          await getDocFromServer(
-            ref
-          );
-
-
-        /*
-          Dokumen memang tidak ada.
-        */
-
-        if (
-          !snapshot.exists()
-        ) {
-
-          return {
-            exists: false,
-            source: "server",
-            data: null
-          };
-
-        }
-
-
-        /*
-          Dokumen ditemukan.
-        */
-
-        return {
-          exists: true,
-          source: "server",
-          data: snapshot.data()
-        };
-
-      } catch (error) {
-
-        console.error(
-          `Percobaan ${attempt}:`,
-          error
-        );
-
-        lastError =
-          error;
-
-
-        /*
-          Permission denied tidak perlu
-          dicoba berkali-kali.
-        */
-
-        if (
-          error?.code ===
-          "permission-denied"
-        ) {
-
-          throw error;
-
-        }
-
-
-        if (
-          attempt < 3
-        ) {
-
-          await sleep(
-            700 * attempt
-          );
-
-        }
-
+      ${
+        image
+        ? `<img src="${escapeHTML(image)}"
+                onerror="this.style.display='none'">`
+        : `<div style="
+             width:75px;
+             height:75px;
+             background:#222;
+             border-radius:10px;
+           "></div>`
       }
 
-    }
+      <div class="product-info">
 
+        <b>${escapeHTML(product.name)}</b>
 
-    /*
-      Jika server gagal,
-      coba cache Firestore.
-    */
-
-    try {
-
-      const cacheSnapshot =
-        await getDocFromCache(
-          ref
-        );
-
-
-      if (
-        cacheSnapshot.exists()
-      ) {
-
-        return {
-
-          exists: true,
-
-          source: "cache",
-
-          data:
-            cacheSnapshot.data()
-
-        };
-
-      }
-
-    } catch (cacheError) {
-
-      console.warn(
-        "Cache Firestore tidak tersedia:",
-        cacheError
-      );
-
-    }
-
-
-    if (lastError) {
-
-      throw lastError;
-
-    }
-
-
-    throw createAppError(
-      "offline",
-      "Tidak dapat terhubung ke Firestore."
-    );
-
-  }
-
-
-  /* =========================================================
-     CUSTOM ERROR
-  ========================================================= */
-
-  function createAppError(
-    code,
-    message
-  ) {
-
-    const error =
-      new Error(
-        message
-      );
-
-    error.code =
-      code;
-
-    return error;
-
-  }
-
-
-  /* =========================================================
-     LOAD BUYER
-  ========================================================= */
-
-  function loadBuyer() {
-
-    try {
-
-      const raw =
-        localStorage.getItem(
-          "scanbeli_buyer_v2"
-        );
-
-
-      if (!raw) return;
-
-
-      const buyer =
-        JSON.parse(raw);
-
-
-      if (
-        buyer &&
-        typeof buyer === "object"
-      ) {
-
-        buyerName.value =
-          buyer.name || "";
-
-        buyerPhone.value =
-          buyer.phone || "";
-
-        buyerAddress.value =
-          buyer.address || "";
-
-      }
-
-    } catch (error) {
-
-      console.warn(
-        "Data buyer tidak dapat dibaca:",
-        error
-      );
-
-    }
-
-  }
-
-
-  /* =========================================================
-     SAVE BUYER
-  ========================================================= */
-
-  function saveBuyer() {
-
-    const data = {
-
-      name:
-        buyerName.value.trim(),
-
-      phone:
-        buyerPhone.value.trim(),
-
-      address:
-        buyerAddress.value.trim()
-
-    };
-
-
-    try {
-
-      localStorage.setItem(
-        "scanbeli_buyer_v2",
-        JSON.stringify(
-          data
-        )
-      );
-
-    } catch (error) {
-
-      console.warn(
-        "Buyer tidak dapat disimpan:",
-        error
-      );
-
-    }
-
-  }
-
-
-  /* =========================================================
-     NORMALIZE PRODUCTS
-  ========================================================= */
-
-  function normalizeProducts(
-    data
-  ) {
-
-    let rawProducts = [];
-
-
-    if (
-      Array.isArray(
-        data?.products
-      )
-    ) {
-
-      rawProducts =
-        data.products;
-
-    } else if (
-      data?.product &&
-      typeof data.product === "object"
-    ) {
-
-      rawProducts =
-        [data.product];
-
-    }
-
-
-    return rawProducts
-      .map(
-        function(item, index) {
-
-          const price =
-            Number(
-              item?.price ??
-              item?.amount ??
-              item?.harga ??
-              0
-            );
-
-
-          let sizes =
-            item?.sizes ??
-            item?.variants ??
-            [];
-
-
-          if (
-            typeof sizes === "string"
-          ) {
-
-            sizes =
-              sizes
-                .split(",")
-                .map(
-                  x =>
-                    x.trim()
-                )
-                .filter(Boolean);
-
-          }
-
-
-          if (
-            !Array.isArray(sizes)
-          ) {
-
-            sizes = [];
-
-          }
-
-
-          const stock =
-            Number(
-              item?.stock ??
-              999999
-            );
-
-
-          return {
-
-            id:
-              String(
-                item?.id ??
-                item?.code ??
-                `product_${index + 1}`
-              ),
-
-            code:
-              String(
-                item?.code ??
-                item?.id ??
-                ""
-              ),
-
-            name:
-              String(
-                item?.name ??
-                item?.title ??
-                item?.productName ??
-                `Produk ${index + 1}`
-              ),
-
-            price:
-              Number.isFinite(price)
-                ? price
-                : 0,
-
-            stock:
-              Number.isFinite(stock)
-                ? Math.max(
-                    0,
-                    stock
-                  )
-                : 0,
-
-            weight:
-              Number(
-                item?.weight ??
-                0
-              ) || 0,
-
-            type:
-              String(
-                item?.type ??
-                "physical"
-              ).toLowerCase(),
-
-            sizes:
-              sizes,
-
-            image:
-              String(
-                item?.image ??
-                item?.imageUrl ??
-                ""
-              ),
-
-            imageUrl:
-              String(
-                item?.imageUrl ??
-                item?.image ??
-                ""
-              ),
-
-            shippingMethod:
-              String(
-                item?.shippingMethod ??
-                item?.deliveryOption ??
-                ""
-              )
-
-          };
-
-        }
-      );
-
-  }
-
-
-  /* =========================================================
-     NORMALIZE STORE
-  ========================================================= */
-
-  function normalizeQrData(
-    data
-  ) {
-
-    const result = {
-
-      storeName:
-        data?.storeName ||
-        data?.store ||
-        data?.shopName ||
-        "Toko SCANBELI",
-
-      sellerUid:
-        data?.sellerUid ||
-        data?.ownerId ||
-        data?.userId ||
-        "",
-
-      products:
-        normalizeProducts(
-          data
-        )
-
-    };
-
-
-    return result;
-
-  }
-
-
-  /* =========================================================
-     IMAGE URL
-  ========================================================= */
-
-  function normalizeImageUrl(
-    url
-  ) {
-
-    if (!url) return "";
-
-
-    const value =
-      String(url).trim();
-
-
-    /*
-      Google Drive
-    */
-
-    const driveMatch =
-      value.match(
-        /(?:id=|\/d\/)([a-zA-Z0-9_-]{20,})/
-      );
-
-
-    if (
-      driveMatch
-    ) {
-
-      return (
-        "https://drive.google.com/thumbnail?id=" +
-        driveMatch[1] +
-        "&sz=w1000"
-      );
-
-    }
-
-
-    return value;
-
-  }
-
-
-  /* =========================================================
-     ESCAPE HTML
-  ========================================================= */
-
-  function escapeHtml(
-    value
-  ) {
-
-    return String(
-      value ?? ""
-    )
-      .replace(
-        /&/g,
-        "&amp;"
-      )
-      .replace(
-        /</g,
-        "&lt;"
-      )
-      .replace(
-        />/g,
-        "&gt;"
-      )
-      .replace(
-        /"/g,
-        "&quot;"
-      )
-      .replace(
-        /'/g,
-        "&#039;"
-      );
-
-  }
-
-
-  /* =========================================================
-     RENDER PRODUCTS
-  ========================================================= */
-
-  function renderProducts() {
-
-    productsContainer.innerHTML =
-      "";
-
-
-    if (
-      !products.length
-    ) {
-
-      productsContainer.innerHTML = `
-
-        <div class="cart-empty">
-          QR ini belum memiliki produk.
+        <div class="muted">
+          Kode: ${escapeHTML(product.code)}
         </div>
 
-      `;
+        <div class="price">
+          ${rupiah(product.price)}
+        </div>
 
-      return;
+      </div>
+    `;
 
-    }
+    container.appendChild(el);
 
+  });
 
-    products.forEach(
-      function(product, index) {
-
-        const card =
-          document.createElement(
-            "div"
-          );
-
-        card.className =
-          "product-card";
-
-
-        const imageUrl =
-          normalizeImageUrl(
-            product.image
-          );
-
-
-        const stockText =
-          product.stock > 0
-            ? `Stok: ${product.stock}`
-            : "Stok habis";
-
-
-        let sizesHtml =
-          "";
-
-
-        if (
-          product.sizes.length
-        ) {
-
-          sizesHtml = `
-
-            <div class="size-title">
-              Pilih ukuran / varian
-            </div>
-
-            <div
-              class="size-list"
-              data-size-list="${index}"
-            >
-
-              ${product.sizes
-                .map(
-                  function(size, sizeIndex) {
-
-                    return `
-
-                      <button
-                        type="button"
-                        class="size-button ${sizeIndex === 0 ? "selected" : ""}"
-                        data-product-index="${index}"
-                        data-size="${escapeHtml(size)}"
-                      >
-                        ${escapeHtml(size)}
-                      </button>
-
-                    `;
-
-                  }
-                )
-                .join("")}
-
-            </div>
-
-          `;
-
-        }
-
-
-        const imageHtml =
-          imageUrl
-            ? `
-
-              <div class="product-image-wrap">
-
-                <img
-                  class="product-image"
-                  src="${escapeHtml(imageUrl)}"
-                  alt="${escapeHtml(product.name)}"
-                  loading="lazy"
-                  onerror="this.parentElement.innerHTML='<div class=&quot;product-no-image&quot;>🖼️ Gambar tidak dapat dimuat</div>'"
-                >
-
-              </div>
-
-            `
-            : `
-
-              <div class="product-image-wrap">
-
-                <div class="product-no-image">
-                  🛍️ SCANBELI
-                </div>
-
-              </div>
-
-            `;
-
-
-        card.innerHTML = `
-
-          ${imageHtml}
-
-          <div class="product-content">
-
-            <div class="product-name">
-              ${escapeHtml(product.name)}
-            </div>
-
-            <div class="product-code">
-              Kode:
-              ${escapeHtml(product.code || "-")}
-            </div>
-
-            <div class="product-price">
-              ${rupiah(product.price)}
-            </div>
-
-            <div class="stock-text">
-              ${stockText}
-            </div>
-
-            ${sizesHtml}
-
-            <button
-              type="button"
-              class="add-cart-button"
-              data-add-product="${index}"
-              ${product.stock <= 0 ? "disabled" : ""}
-            >
-              ${
-                product.stock > 0
-                  ? "＋ TAMBAH KE KERANJANG"
-                  : "STOK HABIS"
-              }
-            </button>
-
-          </div>
-
-        `;
-
-
-        productsContainer.appendChild(
-          card
-        );
-
-      }
+  const saved =
+    JSON.parse(
+      localStorage.getItem(
+        "scanbeli_buyer_v2"
+      ) || "null"
     );
 
-  }
-
-
-  /* =========================================================
-     PRODUCT CLICK
-  ========================================================= */
-
-  productsContainer.addEventListener(
-    "click",
-    function(event) {
-
-      const sizeButton =
-        event.target.closest(
-          ".size-button"
-        );
-
-
-      if (
-        sizeButton
-      ) {
-
-        const productIndex =
-          Number(
-            sizeButton.dataset.productIndex
-          );
-
-
-        const list =
-          productsContainer.querySelector(
-            `[data-size-list="${productIndex}"]`
-          );
-
-
-        if (list) {
-
-          list
-            .querySelectorAll(
-              ".size-button"
-            )
-            .forEach(
-              button =>
-                button.classList.remove(
-                  "selected"
-                )
-            );
-
-        }
-
-
-        sizeButton.classList.add(
-          "selected"
-        );
-
-        return;
-
-      }
-
-
-      const addButton =
-        event.target.closest(
-          "[data-add-product]"
-        );
-
-
-      if (
-        addButton
-      ) {
-
-        const index =
-          Number(
-            addButton.dataset.addProduct
-          );
-
-
-        addToCart(
-          index
-        );
-
-      }
-
-    }
-  );
-
-
-  /* =========================================================
-     ADD CART
-  ========================================================= */
-
-  function addToCart(
-    productIndex
-  ) {
-
-    const product =
-      products[
-        productIndex
-      ];
-
-
-    if (!product) return;
-
-
-    if (
-      product.stock <= 0
-    ) {
-
-      return;
-
-    }
-
-
-    let selectedSize =
-      "";
-
-
-    const selectedButton =
-      productsContainer.querySelector(
-        `[data-product-index="${productIndex}"].selected`
-      );
-
-
-    if (
-      selectedButton
-    ) {
-
-      selectedSize =
-        selectedButton.dataset.size ||
-        "";
-
-    }
-
-
-    const key =
-      product.id +
-      "|" +
-      selectedSize;
-
-
-    const existing =
-      cart.find(
-        item =>
-          item.key === key
-      );
-
-
-    if (
-      existing
-    ) {
-
-      if (
-        existing.quantity <
-        product.stock
-      ) {
-
-        existing.quantity++;
-
-      }
-
-    } else {
-
-      cart.push({
-
-        key:
-          key,
-
-        productId:
-          product.id,
-
-        code:
-          product.code,
-
-        name:
-          product.name,
-
-        price:
-          product.price,
-
-        quantity:
-          1,
-
-        size:
-          selectedSize,
-
-        type:
-          product.type,
-
-        weight:
-          product.weight,
-
-        image:
-          product.image
-
-      });
-
-    }
-
-
-    renderCart();
-
-    updateSummary();
-
+  if(saved){
 
     document.getElementById(
-      "cartItems"
-    ).scrollIntoView({
-      behavior: "smooth",
-      block: "center"
-    });
+      "buyerName"
+    ).value =
+      saved.name || "";
+
+    document.getElementById(
+      "buyerPhone"
+    ).value =
+      saved.phone || "";
+
+    document.getElementById(
+      "buyerAddress"
+    ).value =
+      saved.address || "";
 
   }
 
+  calculate();
 
-  /* =========================================================
-     RENDER CART
-  ========================================================= */
+}
 
-  function renderCart() {
+/* ==============================
+   CALCULATE
+============================== */
 
-    cartItems.innerHTML =
-      "";
+function calculate(){
 
+  const subtotal =
+    products.reduce(
+      (sum,p)=>sum + Number(p.price || 0),
+      0
+    );
 
-    if (
-      cart.length === 0
-    ) {
-
-      cartEmpty.classList.remove(
-        "hidden"
+  const shipping =
+    products.every(
+      p=>p.type==="digital"
+    )
+      ? 0
+      : (
+        document.getElementById(
+          "shipping"
+        ).value==="economy"
+          ? 10000
+          : 15000
       );
 
-      return;
-
-    }
-
-
-    cartEmpty.classList.add(
-      "hidden"
+  const fee =
+    calculateFee(
+      subtotal
     );
 
-
-    cart.forEach(
-      function(item, index) {
-
-        const div =
-          document.createElement(
-            "div"
-          );
-
-        div.className =
-          "cart-item";
-
-
-        const variant =
-          item.size
-            ? `Varian: ${item.size}`
-            : "";
-
-
-        div.innerHTML = `
-
-          <div class="cart-top">
-
-            <div>
-
-              <div class="cart-name">
-                ${escapeHtml(item.name)}
-              </div>
-
-              ${
-                variant
-                  ? `
-                    <div class="cart-variant">
-                      ${escapeHtml(variant)}
-                    </div>
-                  `
-                  : ""
-              }
-
-            </div>
-
-            <div class="cart-price">
-              ${rupiah(item.price * item.quantity)}
-            </div>
-
-          </div>
-
-
-          <div class="cart-bottom">
-
-            <div class="quantity">
-
-              <button
-                type="button"
-                data-minus="${index}"
-              >
-                −
-              </button>
-
-              <span>
-                ${item.quantity}
-              </span>
-
-              <button
-                type="button"
-                data-plus="${index}"
-              >
-                +
-              </button>
-
-            </div>
-
-
-            <button
-              type="button"
-              class="remove-cart"
-              data-remove="${index}"
-            >
-              Hapus
-            </button>
-
-          </div>
-
-        `;
-
-
-        cartItems.appendChild(
-          div
-        );
-
-      }
-    );
-
-  }
-
-
-  /* =========================================================
-     CART ACTIONS
-  ========================================================= */
-
-  cartItems.addEventListener(
-    "click",
-    function(event) {
-
-      const minus =
-        event.target.closest(
-          "[data-minus]"
-        );
-
-
-      if (
-        minus
-      ) {
-
-        const index =
-          Number(
-            minus.dataset.minus
-          );
-
-
-        if (
-          cart[index]
-        ) {
-
-          cart[index].quantity--;
-
-          if (
-            cart[index].quantity <= 0
-          ) {
-
-            cart.splice(
-              index,
-              1
-            );
-
-          }
-
-        }
-
-
-        renderCart();
-
-        updateSummary();
-
-        return;
-
-      }
-
-
-      const plus =
-        event.target.closest(
-          "[data-plus]"
-        );
-
-
-      if (
-        plus
-      ) {
-
-        const index =
-          Number(
-            plus.dataset.plus
-          );
-
-
-        const item =
-          cart[index];
-
-
-        if (
-          !item
-        ) return;
-
-
-        const product =
-          products.find(
-            p =>
-              p.id ===
-              item.productId
-          );
-
-
-        if (
-          product &&
-          item.quantity <
-            product.stock
-        ) {
-
-          item.quantity++;
-
-        }
-
-
-        renderCart();
-
-        updateSummary();
-
-        return;
-
-      }
-
-
-      const remove =
-        event.target.closest(
-          "[data-remove]"
-        );
-
-
-      if (
-        remove
-      ) {
-
-        const index =
-          Number(
-            remove.dataset.remove
-          );
-
-
-        cart.splice(
-          index,
-          1
-        );
-
-
-        renderCart();
-
-        updateSummary();
-
-      }
-
-    }
-  );
-
-
-  /* =========================================================
-     PHYSICAL PRODUCT?
-  ========================================================= */
-
-  function hasPhysicalProducts() {
-
-    return cart.some(
-      item =>
-        item.type !==
-        "digital"
-    );
-
-  }
-
-
-  /* =========================================================
-     SHIPPING
-  ========================================================= */
-
-  function renderShipping() {
-
-    shippingOptions.innerHTML =
-      "";
-
-
-    if (
-      !hasPhysicalProducts()
-    ) {
-
-      shippingSection.classList.add(
-        "hidden"
-      );
-
-      shippingSummaryRow.classList.add(
-        "hidden"
-      );
-
-      selectedShipping =
-        null;
-
-      return;
-
-    }
-
-
-    shippingSection.classList.remove(
-      "hidden"
-    );
-
-    shippingSummaryRow.classList.remove(
-      "hidden"
-    );
-
-
-    /*
-      Pilihan ongkir sederhana.
-      Nantinya bisa diganti API ekspedisi.
-    */
-
-    const options = [
-
-      {
-        id:
-          "standard",
-
-        name:
-          "Pengiriman Standar",
-
-        cost:
-          15000
-
-      },
-
-      {
-        id:
-          "hemat",
-
-        name:
-          "Pengiriman Hemat",
-
-        cost:
-          10000
-
-      }
-
-    ];
-
-
-    options.forEach(
-      function(option, index) {
-
-        const label =
-          document.createElement(
-            "label"
-          );
-
-        label.className =
-          "shipping-option";
-
-
-        const checked =
-          selectedShipping?.id ===
-          option.id ||
-          (
-            !selectedShipping &&
-            index === 0
-          );
-
-
-        label.innerHTML = `
-
-          <input
-            type="radio"
-            name="shipping"
-            value="${option.id}"
-            ${checked ? "checked" : ""}
-          >
-
-          <div class="shipping-info">
-
-            <div class="shipping-name">
-              ${option.name}
-            </div>
-
-            <div class="shipping-cost">
-              ${rupiah(option.cost)}
-            </div>
-
-          </div>
-
-        `;
-
-
-        shippingOptions.appendChild(
-          label
-        );
-
-
-        if (
-          checked
-        ) {
-
-          selectedShipping =
-            option;
-
-        }
-
-      }
-    );
-
-
-    shippingOptions
-      .querySelectorAll(
-        'input[name="shipping"]'
-      )
-      .forEach(
-        input => {
-
-          input.addEventListener(
-            "change",
-            function() {
-
-              const option =
-                options.find(
-                  item =>
-                    item.id ===
-                    input.value
-                );
-
-
-              selectedShipping =
-                option ||
-                null;
-
-
-              updateSummary();
-
-            }
-          );
-
-        }
-      );
-
-  }
-
-
-  /* =========================================================
-     SUMMARY
-  ========================================================= */
-
-  function updateSummary() {
-
-    const subtotal =
-      cart.reduce(
-        (
-          total,
-          item
-        ) =>
-          total +
-          (
-            item.price *
-            item.quantity
-          ),
-        0
-      );
-
-
-    const fee =
-      cart.length
-        ? calculateFee(
-            subtotal
-          )
-        : 0;
-
-
-    let shippingCost =
-      0;
-
-
-    if (
-      hasPhysicalProducts()
-    ) {
-
-      shippingCost =
-        Number(
-          selectedShipping?.cost ||
-          0
-        );
-
-    }
-
-
-    const total =
-      subtotal +
-      fee +
-      shippingCost;
-
-
-    subtotalElement.textContent =
-      rupiah(subtotal);
-
-
-    feeElement.textContent =
-      rupiah(fee);
-
-
-    shippingCostElement.textContent =
-      rupiah(shippingCost);
-
-
-    grandTotalElement.textContent =
-      rupiah(total);
-
-
-    payButton.disabled =
-      cart.length === 0;
-
-  }
-
-
-  /* =========================================================
-     VALIDATE BUYER
-  ========================================================= */
-
-  function validateBuyer() {
+  const total =
+    subtotal +
+    shipping +
+    fee;
+
+  document.getElementById(
+    "subtotal"
+  ).textContent =
+    rupiah(subtotal);
+
+  document.getElementById(
+    "shippingCost"
+  ).textContent =
+    rupiah(shipping);
+
+  document.getElementById(
+    "fee"
+  ).textContent =
+    rupiah(fee);
+
+  document.getElementById(
+    "total"
+  ).textContent =
+    rupiah(total);
+
+  return {
+    subtotal,
+    shipping,
+    fee,
+    total
+  };
+
+}
+
+document.getElementById(
+  "shipping"
+).addEventListener(
+  "change",
+  calculate
+);
+
+/* ==============================
+   PAYMENT
+============================== */
+
+document.getElementById(
+  "payButton"
+).addEventListener(
+  "click",
+  async ()=>{
 
     const name =
-      buyerName.value.trim();
+      document.getElementById(
+        "buyerName"
+      ).value.trim();
 
     const phone =
-      buyerPhone.value.trim();
+      document.getElementById(
+        "buyerPhone"
+      ).value.trim();
 
     const address =
-      buyerAddress.value.trim();
+      document.getElementById(
+        "buyerAddress"
+      ).value.trim();
 
-
-    if (!name) {
-
-      return {
-        ok: false,
-        message:
-          "Nama lengkap belum diisi."
-      };
-
-    }
-
-
-    if (!phone) {
-
-      return {
-        ok: false,
-        message:
-          "Nomor WhatsApp belum diisi."
-      };
-
-    }
-
-
-    const digits =
-      phone.replace(
-        /\D/g,
-        ""
-      );
-
-
-    if (
-      digits.length < 9
-    ) {
-
-      return {
-        ok: false,
-        message:
-          "Nomor WhatsApp tidak valid."
-      };
-
-    }
-
-
-    if (
-      address.length < 10 &&
-      hasPhysicalProducts()
-    ) {
-
-      return {
-        ok: false,
-        message:
-          "Alamat pengiriman belum lengkap."
-      };
-
-    }
-
-
-    return {
-
-      ok: true,
-
-      data: {
-
-        name:
-          name,
-
-        phone:
-          phone,
-
-        address:
-          address
-
-      }
-
-    };
-
-  }
-
-
-  /* =========================================================
-     GENERATE ORDER CODE
-  ========================================================= */
-
-  function generateOrderCode() {
-
-    const chars =
-      "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
-    let suffix =
-      "";
-
-
-    for (
-      let i = 0;
-      i < 7;
-      i++
-    ) {
-
-      suffix +=
-        chars[
-          Math.floor(
-            Math.random() *
-            chars.length
-          )
-        ];
-
-    }
-
-
-    return "SB-" + suffix;
-
-  }
-
-
-  /* =========================================================
-     CREATE ORDER
-  ========================================================= */
-
-  async function createOrder() {
-
-    if (
-      loading
-    ) return;
-
-
-    if (
-      !navigator.onLine
-    ) {
+    if(!name || !phone || !address){
 
       alert(
-        "Tidak ada koneksi internet. Pesanan belum dibuat."
+        "Lengkapi nama, WhatsApp, dan alamat."
       );
 
       return;
 
     }
 
+    const totals =
+      calculate();
 
-    if (
-      !db
-    ) {
+    localStorage.setItem(
+      "scanbeli_buyer_v2",
+      JSON.stringify({
+        name,
+        phone,
+        address
+      })
+    );
 
-      alert(
-        "Firebase belum siap."
+    const button =
+      document.getElementById(
+        "payButton"
       );
 
-      return;
+    button.disabled=true;
 
-    }
+    button.textContent=
+      "MENYIAPKAN PEMBAYARAN...";
 
-
-    if (
-      cart.length === 0
-    ) {
-
-      alert(
-        "Keranjang masih kosong."
-      );
-
-      return;
-
-    }
-
-
-    const buyerValidation =
-      validateBuyer();
-
-
-    if (
-      !buyerValidation.ok
-    ) {
-
-      alert(
-        buyerValidation.message
-      );
-
-      return;
-
-    }
-
-
-    if (
-      hasPhysicalProducts() &&
-      !selectedShipping
-    ) {
-
-      alert(
-        "Pilih metode pengiriman terlebih dahulu."
-      );
-
-      return;
-
-    }
-
-
-    loading =
-      true;
-
-
-    payButton.disabled =
-      true;
-
-    payButton.textContent =
-      "⏳ MEMBUAT PESANAN...";
-
-
-    try {
-
-      const buyer =
-        buyerValidation.data;
-
-
-      saveBuyer();
-
-
-      const subtotal =
-        cart.reduce(
-          (
-            total,
-            item
-          ) =>
-            total +
-            (
-              item.price *
-              item.quantity
-            ),
-          0
-        );
-
-
-      const fee =
-        calculateFee(
-          subtotal
-        );
-
-
-      const shippingCost =
-        hasPhysicalProducts()
-          ? Number(
-              selectedShipping?.cost ||
-              0
-            )
-          : 0;
-
-
-      const total =
-        subtotal +
-        fee +
-        shippingCost;
-
-
-      const itemCount =
-        cart.reduce(
-          (
-            total,
-            item
-          ) =>
-            total +
-            item.quantity,
-          0
-        );
-
-
-      const totalWeight =
-        cart.reduce(
-          (
-            total,
-            item
-          ) =>
-            total +
-            (
-              Number(
-                item.weight
-              ) *
-              item.quantity
-            ),
-          0
-        );
-
-
-      const orderCode =
-        generateOrderCode();
-
+    try{
 
       /*
-        Buat ID dokumen random.
-      */
+       * URL Firebase Function.
+       *
+       * GANTI REGION DAN PROJECT ID.
+       */
 
-      const orderRef =
-        doc(
-          db,
-          "orders",
-          crypto.randomUUID
-            ? crypto.randomUUID()
-            : (
-                Date.now() +
-                "-" +
-                Math.random()
-                  .toString(36)
-                  .slice(2)
-              )
-        );
+      const FUNCTION_URL =
+        "https://us-central1-GANTI_PROJECT_ID.cloudfunctions.net/createPayment";
 
+      const response =
+        await fetch(
+          FUNCTION_URL,
+          {
+            method:"POST",
 
-      const orderData = {
+            headers:{
+              "Content-Type":
+                "application/json"
+            },
 
-        version:
-          2,
+            body:JSON.stringify({
 
-        orderCode:
-          orderCode,
+              qrId,
 
-        sellerUid:
-          qrData?.sellerUid ||
-          "",
+              buyer:{
+                name,
+                phone,
+                address
+              },
 
-        qrId:
-          qrId,
-
-        storeName:
-          qrData?.storeName ||
-          "Toko SCANBELI",
-
-
-        buyer: {
-
-          name:
-            buyer.name,
-
-          phone:
-            buyer.phone,
-
-          address:
-            buyer.address
-
-        },
-
-
-        products:
-          cart.map(
-            item => ({
-
-              productId:
-                item.productId,
-
-              code:
-                item.code,
-
-              name:
-                item.name,
-
-              price:
-                item.price,
-
-              quantity:
-                item.quantity,
-
-              size:
-                item.size || "",
-
-              type:
-                item.type,
-
-              weight:
-                item.weight,
-
-              image:
-                item.image || ""
+              shippingMethod:
+                document.getElementById(
+                  "shipping"
+                ).value
 
             })
-          ),
 
-
-        itemCount:
-          itemCount,
-
-        subtotal:
-          subtotal,
-
-        totalWeight:
-          totalWeight,
-
-
-        shippingMethod:
-          hasPhysicalProducts()
-            ? (
-                selectedShipping?.name ||
-                ""
-              )
-            : "Digital",
-
-
-        shippingCost:
-          shippingCost,
-
-
-        fee:
-          fee,
-
-        total:
-          total,
-
-
-        status:
-          "Menunggu Pembayaran",
-
-        paymentStatus:
-          "pending",
-
-        deliveryStatus:
-          "pending",
-
-
-        createdAt:
-          serverTimestamp(),
-
-        updatedAt:
-          serverTimestamp()
-
-      };
-
-
-      /*
-        SIMPAN ORDER
-      */
-
-      await setDoc(
-        orderRef,
-        orderData
-      );
-
-
-      /*
-        Simpan order terakhir
-        di perangkat pembeli.
-      */
-
-      try {
-
-        localStorage.setItem(
-          "scanbeli_last_order",
-          JSON.stringify({
-
-            orderId:
-              orderRef.id,
-
-            orderCode:
-              orderCode
-
-          })
+          }
         );
-
-      } catch (_) {}
-
-
-      /*
-        SUCCESS
-      */
-
-      checkout.classList.add(
-        "hidden"
-      );
-
-      loadingScreen.classList.add(
-        "hidden"
-      );
-
-      errorScreen.classList.add(
-        "hidden"
-      );
-
-      successScreen.classList.remove(
-        "hidden"
-      );
-
-
-      successOrderCode.textContent =
-        orderCode;
-
-
-      viewOrderButton.href =
-        "./orders.html";
-
-
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
-
-
-    } catch (error) {
-
-      console.error(
-        "Gagal membuat order:",
-        error
-      );
-
-
-      let message =
-        "Pesanan gagal dibuat.";
-
-
-      if (
-        error?.code ===
-        "permission-denied"
-      ) {
-
-        message =
-          "Firestore menolak pembuatan pesanan. Periksa Firestore Rules untuk collection orders.";
-
-      } else if (
-        isNetworkError(error)
-      ) {
-
-        message =
-          "Koneksi internet bermasalah. Pesanan belum dibuat. Silakan coba lagi.";
-
-      } else if (
-        error?.message
-      ) {
-
-        message =
-          error.message;
-
-      }
-
-
-      alert(
-        message
-      );
-
-
-    } finally {
-
-      loading =
-        false;
-
-      payButton.disabled =
-        cart.length === 0;
-
-      payButton.textContent =
-        "💳 BAYAR SEKARANG";
-
-    }
-
-  }
-
-
-  /* =========================================================
-     PAY BUTTON
-  ========================================================= */
-
-  payButton.addEventListener(
-    "click",
-    createOrder
-  );
-
-
-  /* =========================================================
-     RETRY
-  ========================================================= */
-
-  retryButton.addEventListener(
-    "click",
-    function() {
-
-      loadCheckout();
-
-    }
-  );
-
-
-  /* =========================================================
-     AUTO RETRY WHEN ONLINE
-  ========================================================= */
-
-  window.addEventListener(
-    "online",
-    function() {
-
-      if (
-        errorScreen &&
-        !errorScreen.classList.contains(
-          "hidden"
-        )
-      ) {
-
-        loadCheckout();
-
-      }
-
-    }
-  );
-
-
-  /* =========================================================
-     LOAD CHECKOUT
-  ========================================================= */
-
-  async function loadCheckout() {
-
-    if (
-      loading
-    ) return;
-
-
-    showLoading();
-
-
-    /*
-      Cek ID QR.
-    */
-
-    if (!qrId) {
-
-      showError(
-
-        "QR tidak valid",
-
-        "Link QR SCANBELI tidak memiliki ID QR.",
-
-        "Contoh URL: checkout.html?id=ABCD7K92"
-
-      );
-
-      return;
-
-    }
-
-
-    /*
-      Cek Firebase config.
-    */
-
-    const configPlaceholder =
-      Object.values(
-        firebaseConfig
-      ).some(
-        value =>
-          !value ||
-          String(value)
-            .includes(
-              "GANTI_"
-            )
-      );
-
-
-    if (
-      configPlaceholder
-    ) {
-
-      showError(
-
-        "Firebase belum dikonfigurasi",
-
-        "Firebase Config di checkout.html masih menggunakan GANTI_...",
-
-        "Gunakan Firebase Config yang sama dengan seller.html."
-
-      );
-
-      return;
-
-    }
-
-
-    try {
 
       const result =
-        await readQRDocument(
-          qrId
-        );
+        await response.json();
 
+      if(!response.ok){
 
-      /*
-        QR ID benar tetapi
-        dokumen tidak ada.
-      */
-
-      if (
-        !result.exists
-      ) {
-
-        showError(
-
-          "QR tidak ditemukan",
-
-          "Data QR ini tidak ditemukan di Firestore.",
-
-          `Dokumen yang dicari: qrCodes/${qrId}`
-
-        );
-
-        return;
-
-      }
-
-
-      qrData =
-        normalizeQrData(
-          result.data
-        );
-
-
-      products =
-        qrData.products;
-
-
-      if (
-        products.length === 0
-      ) {
-
-        showError(
-
-          "QR belum memiliki produk",
-
-          "Dokumen QR ditemukan, tetapi belum ada produk di dalamnya.",
-
-          `Dokumen: qrCodes/${qrId}`
-
-        );
-
-        return;
-
-      }
-
-
-      /*
-        Tampilkan toko.
-      */
-
-      storeNameElement.textContent =
-        qrData.storeName;
-
-
-      qrIdDisplay.textContent =
-        qrId;
-
-
-      /*
-        Render.
-      */
-
-      renderProducts();
-
-      loadBuyer();
-
-      renderShipping();
-
-      renderCart();
-
-      updateSummary();
-
-
-      /*
-        Tampilkan checkout.
-      */
-
-      loadingScreen.classList.add(
-        "hidden"
-      );
-
-      errorScreen.classList.add(
-        "hidden"
-      );
-
-      successScreen.classList.add(
-        "hidden"
-      );
-
-      checkout.classList.remove(
-        "hidden"
-      );
-
-
-      /*
-        Jika dari cache,
-        beri informasi di console.
-      */
-
-      if (
-        result.source ===
-        "cache"
-      ) {
-
-        console.warn(
-          "Produk dimuat dari cache Firestore."
+        throw new Error(
+          result.error ||
+          "Gagal membuat pembayaran."
         );
 
       }
 
+      if(!result.paymentUrl){
 
-    } catch (error) {
-
-      console.error(
-        "Load QR error:",
-        error
-      );
-
-
-      /*
-        PERMISSION DENIED
-      */
-
-      if (
-        error?.code ===
-        "permission-denied"
-      ) {
-
-        showError(
-
-          "Akses QR ditolak",
-
-          "Firestore Rules tidak mengizinkan pembeli membaca data QR.",
-
-          `Periksa Rules collection qrCodes. Dokumen: qrCodes/${qrId}`
-
+        throw new Error(
+          "Payment gateway tidak memberikan payment URL."
         );
-
-        return;
 
       }
 
+      localStorage.setItem(
+        "scanbeli_last_order",
+        JSON.stringify({
+          orderId:result.orderId,
+          orderCode:result.orderCode
+        })
+      );
 
-      /*
-        OFFLINE / NETWORK
-      */
-
-      if (
-        isNetworkError(
-          error
-        )
-      ) {
-
-        showError(
-
-          "Koneksi internet bermasalah",
-
-          "SCANBELI tidak dapat terhubung ke Firestore. QR belum dinyatakan hilang.",
-
-          error?.message ||
-          "Tidak dapat terhubung ke server."
-
+      location.href =
+        "payment.html?order=" +
+        encodeURIComponent(
+          result.orderId
         );
 
-        return;
+    }catch(error){
 
-      }
+      console.error(error);
 
-
-      /*
-        FIREBASE ERROR
-      */
-
-      showError(
-
-        "Gagal memuat QR",
-
-        "Terjadi kesalahan saat mengambil data QR.",
-
-        error?.message ||
-        "Unknown Firebase error."
-
+      alert(
+        error.message
       );
+
+      button.disabled=false;
+
+      button.textContent=
+        "BAYAR SEKARANG";
 
     }
 
   }
+);
 
+/* ==============================
+   HELPERS
+============================== */
 
-  /* =========================================================
-     START
-  ========================================================= */
+function escapeHTML(value){
 
-  loadCheckout();
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+function showError(message){
+
+  document.getElementById(
+    "loading"
+  ).classList.add("hidden");
+
+  const box =
+    document.getElementById(
+      "error"
+    );
+
+  box.style.display="block";
+
+  box.textContent=message;
+
+}
+
+loadQR();
 
 </script>
 
