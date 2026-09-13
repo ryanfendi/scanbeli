@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,initial-scale=1">
+
+<title>Pembayaran - SCANBELI</title>
+
+<meta name="theme-color" content="#070707">
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:#070707;
+  color:#fff;
+  font-family:Arial,sans-serif;
+}
+
+main{
+  max-width:600px;
+  margin:auto;
+  padding:25px 15px 50px;
+}
+
+.logo{
+  text-align:center;
+  font-weight:900;
+  font-size:25px;
+  letter-spacing:3px;
+  margin:15px 0 25px;
+}
+
+.card{
+  background:#111;
+  border:1px solid #282828;
+  border-radius:20px;
+  padding:20px;
+  margin-bottom:15px;
+}
+
+.status{
+  text-align:center;
+  padding:25px 10px;
+}
+
+.icon{
+  width:75px;
+  height:75px;
+  border-radius:50%;
+  background:#2a2107;
+  color:#f4c542;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:35px;
+  margin:auto;
+}
+
+h1{
+  font-size:23px;
+  text-align:center;
+}
+
+.muted{
+  color:#999;
+  line-height:1.5;
+  text-align:center;
+}
+
+.amount{
+  text-align:center;
+  font-size:30px;
+  font-weight:900;
+  color:#f4c542;
+  margin:15px 0;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  padding:9px 0;
+  border-bottom:1px solid #222;
+}
+
+button{
+  width:100%;
+  border:0;
+  border-radius:13px;
+  padding:15px;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+  background:#f4c542;
+  color:#000;
+}
+
+.secondary{
+  margin-top:10px;
+  background:#191919;
+  color:#fff;
+  border:1px solid #333;
+}
+
+.success{
+  background:#0d2515;
+  border:1px solid #1e5f31;
+  color:#8cf2a9;
+  padding:14px;
+  border-radius:13px;
+  display:none;
+}
+
+.failed{
+  background:#260f0f;
+  border:1px solid #612020;
+  color:#ff9b9b;
+  padding:14px;
+  border-radius:13px;
+  display:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<main>
+
+<div class="logo">
+SCANBELI
+</div>
+
+<div class="card status">
+
+<div class="icon" id="icon">
+⌛
+</div>
+
+<h1 id="title">
+Menunggu Pembayaran
+</h1>
+
+<div class="muted" id="description">
+Silakan selesaikan pembayaran.
+</div>
+
+<div class="amount" id="amount">
+Rp0
+</div>
+
+</div>
+
+<div class="card">
+
+<div class="row">
+<span>Order</span>
+<strong id="orderCode">-</strong>
+</div>
+
+<div class="row">
+<span>Produk</span>
+<strong id="storeName">-</strong>
+</div>
+
+<div class="row">
+<span>Status</span>
+<strong id="status">-</strong>
+</div>
+
+</div>
+
+<div id="success" class="success">
+Pembayaran berhasil dikonfirmasi.
+</div>
+
+<div id="failed" class="failed">
+Pembayaran gagal atau kedaluwarsa.
+</div>
+
+<div class="card" id="actions">
+
+<button id="payAgain">
+LANJUTKAN PEMBAYARAN
+</button>
+
+<button
+  class="secondary"
+  onclick="location.href='index.html'">
+KEMBALI KE BERANDA
+</button>
+
+</div>
+
+</main>
+
+<script type="module">
+
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+
+  apiKey:"AIzaSyAXGQKpJ02LBiGSVdTlrQZXjBsnHrXLAHI",
+
+  authDomain:"scanbeli.firebaseapp.com",
+
+  projectId:"scanbeli",
+
+  storageBucket:"scanbeli.firebasestorage.app",
+
+  messagingSenderId:"791591627311",
+
+  appId:"1:791591627311:web:86effe90b808fe9590f4da"
+
+};
+
+const app =
+  initializeApp(firebaseConfig);
+
+const db =
+  getFirestore(app);
+
+const orderId =
+  new URLSearchParams(
+    location.search
+  ).get("order");
+
+let paymentUrl="";
+
+function rupiah(value){
+
+  return new Intl.NumberFormat(
+    "id-ID",
+    {
+      style:"currency",
+      currency:"IDR",
+      maximumFractionDigits:0
+    }
+  ).format(value || 0);
+
+}
+
+async function load(){
+
+  if(!orderId){
+
+    showFailed(
+      "Order ID tidak ditemukan."
+    );
+
+    return;
+
+  }
+
+  const ref =
+    doc(
+      db,
+      "orders",
+      orderId
+    );
+
+  onSnapshot(
+    ref,
+    snap=>{
+
+      if(!snap.exists()){
+
+        showFailed(
+          "Pesanan tidak ditemukan."
+        );
+
+        return;
+
+      }
+
+      const data =
+        snap.data();
+
+      paymentUrl =
+        data.paymentUrl || "";
+
+      document.getElementById(
+        "orderCode"
+      ).textContent =
+        data.orderCode || orderId;
+
+      document.getElementById(
+        "storeName"
+      ).textContent =
+        data.storeName || "-";
+
+      document.getElementById(
+        "amount"
+      ).textContent =
+        rupiah(data.total);
+
+      document.getElementById(
+        "status"
+      ).textContent =
+        data.status || "Menunggu Pembayaran";
+
+      updateStatus(
+        data.paymentStatus,
+        data.status
+      );
+
+    },
+    error=>{
+
+      console.error(error);
+
+      showFailed(
+        "Gagal membaca status pembayaran."
+      );
+
+    }
+  );
+
+}
+
+function updateStatus(
+  paymentStatus,
+  orderStatus
+){
+
+  if(
+    paymentStatus === "paid" ||
+    paymentStatus === "SUCCEEDED" ||
+    paymentStatus === "settled"
+  ){
+
+    document.getElementById(
+      "icon"
+    ).textContent="✓";
+
+    document.getElementById(
+      "title"
+    ).textContent=
+      "Pembayaran Berhasil";
+
+    document.getElementById(
+      "description"
+    ).textContent=
+      "Pembayaran telah diterima.";
+
+    document.getElementById(
+      "success"
+    ).style.display="block";
+
+    document.getElementById(
+      "actions"
+    ).style.display="none";
+
+    return;
+
+  }
+
+  if(
+    paymentStatus === "failed" ||
+    paymentStatus === "expired"
+  ){
+
+    showFailed(
+      "Pembayaran gagal atau kedaluwarsa."
+    );
+
+    return;
+
+  }
+
+}
+
+function showFailed(message){
+
+  document.getElementById(
+    "icon"
+  ).textContent="!";
+
+  document.getElementById(
+    "title"
+  ).textContent=
+    "Pembayaran Belum Berhasil";
+
+  document.getElementById(
+    "description"
+  ).textContent=
+    message;
+
+  document.getElementById(
+    "failed"
+  ).style.display="block";
+
+}
+
+document.getElementById(
+  "payAgain"
+).addEventListener(
+  "click",
+  ()=>{
+
+    if(!paymentUrl){
+
+      alert(
+        "Link pembayaran belum tersedia."
+      );
+
+      return;
+
+    }
+
+    location.href =
+      paymentUrl;
+
+  }
+);
+
+load();
+
+</script>
+
+</body>
+
+</html>
