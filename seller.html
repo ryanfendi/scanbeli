@@ -1,1593 +1,770 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-  >
+<title>Seller - SCANBELI V2</title>
 
-  <meta name="theme-color" content="#070707">
+<meta name="theme-color" content="#070707">
 
-  <title>Penjual - SCANBELI</title>
+<style>
+*{
+  box-sizing:border-box;
+}
 
-  <style>
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#070707;
+  color:#fff;
+}
 
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #070707;
-      color: #fff;
-    }
+header{
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:#070707;
+  border-bottom:1px solid #222;
+  padding:16px;
+}
 
-    button,
-    input,
-    textarea,
-    select {
-      font: inherit;
-    }
+.header-inner{
+  max-width:760px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
 
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(7, 7, 7, .96);
-      border-bottom: 1px solid #292929;
-      padding: 14px 16px;
-    }
+.logo{
+  font-size:22px;
+  font-weight:900;
+  letter-spacing:2px;
+}
 
-    .topbar-inner {
-      max-width: 700px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
+.badge{
+  font-size:11px;
+  padding:6px 9px;
+  border-radius:20px;
+  background:#151515;
+  color:#f4c542;
+  border:1px solid #3b3216;
+}
 
-    .logo {
-      font-size: 23px;
-      font-weight: 900;
-      letter-spacing: 1px;
-      color: #d6ad55;
-    }
+main{
+  max-width:760px;
+  margin:auto;
+  padding:20px 15px 50px;
+}
 
-    .back-btn {
-      text-decoration: none;
-      color: #ddd;
-      border: 1px solid #333;
-      border-radius: 12px;
-      padding: 9px 12px;
-      font-size: 13px;
-      background: #111;
-    }
+.card{
+  background:#111;
+  border:1px solid #252525;
+  border-radius:20px;
+  padding:18px;
+  margin-bottom:16px;
+}
 
-    main {
-      max-width: 700px;
-      margin: auto;
-      padding: 20px 14px 50px;
-    }
+h1{
+  font-size:28px;
+  margin:5px 0 8px;
+}
 
-    .hero {
-      padding: 8px 4px 20px;
-    }
+h2{
+  font-size:19px;
+  margin-top:0;
+}
 
-    .hero h1 {
-      margin: 0 0 8px;
-      font-size: 28px;
-    }
+p{
+  color:#aaa;
+  line-height:1.5;
+}
 
-    .hero p {
-      margin: 0;
-      color: #999;
-      line-height: 1.6;
-      font-size: 14px;
-    }
+label{
+  display:block;
+  margin:14px 0 7px;
+  font-weight:700;
+  font-size:14px;
+}
 
-    .card {
-      background: #111;
-      border: 1px solid #292929;
-      border-radius: 20px;
-      padding: 18px;
-      margin-bottom: 15px;
-      box-shadow: 0 10px 35px rgba(0,0,0,.25);
-    }
+input,textarea,select{
+  width:100%;
+  border:1px solid #333;
+  background:#090909;
+  color:#fff;
+  padding:13px;
+  border-radius:12px;
+  outline:none;
+  font-size:15px;
+}
 
-    .card-title {
-      font-size: 18px;
-      font-weight: 800;
-      margin-bottom: 15px;
-    }
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:#f4c542;
+}
 
-    .field {
-      margin-bottom: 15px;
-    }
+textarea{
+  min-height:90px;
+  resize:vertical;
+}
 
-    label {
-      display: block;
-      color: #ccc;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 7px;
-    }
+.product{
+  border:1px solid #2b2b2b;
+  border-radius:16px;
+  padding:15px;
+  margin-top:12px;
+  background:#0b0b0b;
+}
 
-    input,
-    textarea,
-    select {
-      width: 100%;
-      border: 1px solid #343434;
-      outline: none;
-      background: #090909;
-      color: #fff;
-      border-radius: 13px;
-      padding: 13px 14px;
-    }
+.product-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
 
-    input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: #d6ad55;
-    }
+.product-number{
+  font-weight:900;
+  color:#f4c542;
+}
 
-    textarea {
-      min-height: 90px;
-      resize: vertical;
-    }
+.remove{
+  background:#251010;
+  color:#ff8b8b;
+  border:1px solid #482020;
+  padding:7px 10px;
+  border-radius:9px;
+}
 
-    .hint {
-      margin-top: 6px;
-      color: #777;
-      font-size: 12px;
-      line-height: 1.5;
-    }
+button{
+  border:0;
+  cursor:pointer;
+  font-weight:800;
+}
 
-    .product-item {
-      background: #0b0b0b;
-      border: 1px solid #292929;
-      border-radius: 16px;
-      padding: 15px;
-      margin-bottom: 12px;
-    }
+.primary{
+  width:100%;
+  padding:15px;
+  border-radius:14px;
+  background:#f4c542;
+  color:#000;
+  font-size:16px;
+  margin-top:15px;
+}
 
-    .product-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 14px;
-    }
+.secondary{
+  width:100%;
+  padding:13px;
+  border-radius:13px;
+  background:#181818;
+  color:#fff;
+  border:1px solid #333;
+  margin-top:10px;
+}
 
-    .product-number {
-      font-weight: 800;
-      color: #d6ad55;
-    }
+#qrResult{
+  display:none;
+}
 
-    .remove-product {
-      border: 0;
-      background: #251010;
-      color: #ff7373;
-      border-radius: 10px;
-      padding: 7px 10px;
-      cursor: pointer;
-    }
+.qr-box{
+  background:#fff;
+  border-radius:18px;
+  padding:18px;
+  text-align:center;
+}
 
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
+#qrcode canvas,
+#qrcode img{
+  max-width:100%;
+  height:auto;
+}
 
-    .button {
-      width: 100%;
-      border: 0;
-      border-radius: 14px;
-      padding: 14px;
-      cursor: pointer;
-      font-weight: 900;
-      margin-top: 8px;
-    }
+.url{
+  word-break:break-all;
+  background:#080808;
+  border:1px solid #333;
+  padding:12px;
+  border-radius:10px;
+  margin-top:12px;
+  color:#f4c542;
+  font-size:13px;
+}
 
-    .button-gold {
-      background: linear-gradient(135deg, #d6ad55, #f1d48b);
-      color: #090909;
-    }
+.notice{
+  background:#15120a;
+  border:1px solid #3d3212;
+  padding:12px;
+  border-radius:12px;
+  color:#e8d58b;
+  font-size:13px;
+  line-height:1.5;
+}
 
-    .button-dark {
-      background: #191919;
-      border: 1px solid #333;
-      color: #fff;
-    }
+.success{
+  background:#0c2114;
+  border:1px solid #1b5a2e;
+  color:#8df0aa;
+  padding:13px;
+  border-radius:12px;
+  display:none;
+}
 
-    .button:disabled {
-      opacity: .55;
-      cursor: not-allowed;
-    }
-
-    .status {
-      display: none;
-      padding: 13px;
-      border-radius: 13px;
-      margin-bottom: 15px;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    .status.show {
-      display: block;
-    }
-
-    .status.info {
-      background: #151515;
-      border: 1px solid #333;
-      color: #ddd;
-    }
-
-    .status.success {
-      background: #0c2115;
-      border: 1px solid #205d35;
-      color: #8df0ad;
-    }
-
-    .status.error {
-      background: #250f0f;
-      border: 1px solid #633030;
-      color: #ff9999;
-    }
-
-    .qr-result {
-      display: none;
-      text-align: center;
-    }
-
-    .qr-result.show {
-      display: block;
-    }
-
-    .qr-box {
-      width: min(100%, 340px);
-      margin: 20px auto;
-      background: #fff;
-      border-radius: 18px;
-      padding: 18px;
-    }
-
-    #qrCanvas {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .qr-id {
-      color: #d6ad55;
-      font-weight: 900;
-      font-size: 18px;
-      letter-spacing: 2px;
-      margin: 8px 0;
-    }
-
-    .qr-url {
-      word-break: break-all;
-      color: #999;
-      font-size: 12px;
-      line-height: 1.5;
-      background: #090909;
-      border: 1px solid #292929;
-      padding: 10px;
-      border-radius: 10px;
-      margin-top: 12px;
-    }
-
-    .small-note {
-      color: #777;
-      font-size: 12px;
-      line-height: 1.6;
-      margin-top: 12px;
-    }
-
-    .empty {
-      text-align: center;
-      color: #777;
-      padding: 20px 5px;
-      border: 1px dashed #333;
-      border-radius: 14px;
-      margin-bottom: 12px;
-    }
-
-    .footer {
-      text-align: center;
-      color: #555;
-      font-size: 12px;
-      padding: 25px 0;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    @media (max-width: 500px) {
-      .two-col {
-        grid-template-columns: 1fr;
-      }
-
-      main {
-        padding-left: 12px;
-        padding-right: 12px;
-      }
-
-      .card {
-        padding: 15px;
-      }
-    }
-  </style>
+.loading{
+  opacity:.6;
+  pointer-events:none;
+}
+</style>
 </head>
 
 <body>
 
-<header class="topbar">
-  <div class="topbar-inner">
+<header>
+  <div class="header-inner">
     <div class="logo">SCANBELI</div>
-
-    <a href="./index.html" class="back-btn">
-      ← Beranda
-    </a>
+    <div class="badge">SELLER V2</div>
   </div>
 </header>
 
 <main>
 
-  <section class="hero">
-    <h1>QR Produk</h1>
-    <p>
-      Buat QR pendek untuk produk Anda. Data produk disimpan di
-      <b>qrCodes</b>, sehingga QR tidak perlu membawa URL panjang.
-    </p>
-  </section>
+<div class="card">
+  <h1>Buat QR Produk</h1>
+  <p>
+    QR hanya menyimpan ID pendek. Data produk disimpan di Firestore.
+  </p>
 
-  <div id="statusBox" class="status"></div>
-
-  <!-- TOKO -->
-  <section class="card">
-
-    <div class="card-title">
-      🏪 Data Toko
-    </div>
-
-    <div class="field">
-      <label for="storeName">
-        Nama Toko
-      </label>
-
-      <input
-        id="storeName"
-        type="text"
-        placeholder="Contoh: Toko Anime Ryan"
-        maxlength="80"
-      >
-    </div>
-
-  </section>
-
-
-  <!-- PRODUK -->
-  <section class="card">
-
-    <div class="card-title">
-      📦 Produk
-    </div>
-
-    <div id="productsContainer"></div>
-
-    <button
-      id="addProductBtn"
-      type="button"
-      class="button button-dark"
-    >
-      ＋ Tambah Produk
-    </button>
-
-  </section>
-
-
-  <!-- BUAT QR -->
-  <section class="card">
-
-    <div class="card-title">
-      🔳 Buat QR
-    </div>
-
-    <p class="small-note">
-      Saat tombol ini ditekan, SCANBELI akan membuat ID QR pendek,
-      menyimpan data ke Firestore collection <b>qrCodes</b>,
-      kemudian membuat QR yang mengarah ke halaman checkout.
-    </p>
-
-    <button
-      id="createQrBtn"
-      type="button"
-      class="button button-gold"
-    >
-      🔳 BUAT QR
-    </button>
-
-  </section>
-
-
-  <!-- HASIL QR -->
-  <section id="qrResult" class="card qr-result">
-
-    <div class="card-title">
-      ✅ QR Berhasil Dibuat
-    </div>
-
-    <div class="qr-box">
-      <canvas id="qrCanvas"></canvas>
-    </div>
-
-    <div>
-      <div style="color:#888;font-size:12px;">
-        ID QR
-      </div>
-
-      <div id="qrId" class="qr-id">
-        -
-      </div>
-    </div>
-
-    <div
-      id="qrUrl"
-      class="qr-url"
-    ></div>
-
-    <button
-      id="downloadQrBtn"
-      type="button"
-      class="button button-gold"
-    >
-      ⬇️ SIMPAN QR
-    </button>
-
-    <button
-      id="copyUrlBtn"
-      type="button"
-      class="button button-dark"
-    >
-      📋 SALIN LINK
-    </button>
-
-    <div class="small-note">
-      QR ini hanya menyimpan link pendek.
-      Data produk berada di Firestore pada collection
-      <b>qrCodes</b>.
-    </div>
-
-  </section>
-
-
-  <div class="footer">
-    SCANBELI © 2026
+  <div class="notice">
+    <b>Pembayaran V2</b><br>
+    Payment gateway akan digunakan untuk menerima pembayaran dan
+    memisahkan fee SCANBELI dari bagian penjual.
   </div>
+
+  <label>Nama Toko</label>
+  <input id="storeName" placeholder="Contoh: Toko Ryan">
+
+  <label>Account ID Payment Provider</label>
+  <input id="platformAccountId"
+         placeholder="Contoh: akun/sub-account ID dari provider">
+
+  <small style="color:#888">
+    Isi setelah akun seller terhubung dengan payment provider.
+  </small>
+</div>
+
+<div class="card">
+
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <h2>Produk</h2>
+    <button class="secondary"
+            style="width:auto;padding:10px 13px"
+            onclick="addProduct()">
+      + Produk
+    </button>
+  </div>
+
+  <div id="products"></div>
+
+</div>
+
+<div class="card">
+
+  <h2>Fee SCANBELI</h2>
+
+  <p style="margin-bottom:5px">
+    Fee dihitung otomatis oleh backend.
+  </p>
+
+  <div style="
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  ">
+    <div style="background:#0b0b0b;padding:14px;border-radius:12px">
+      ≤ Rp100.000<br>
+      <b style="color:#f4c542">Rp1.000</b>
+    </div>
+
+    <div style="background:#0b0b0b;padding:14px;border-radius:12px">
+      &gt; Rp100.000<br>
+      <b style="color:#f4c542">Rp2.000+</b>
+    </div>
+  </div>
+
+  <button class="primary" onclick="createQR()">
+    BUAT QR
+  </button>
+
+  <div id="successBox" class="success" style="margin-top:15px"></div>
+
+</div>
+
+<div class="card" id="qrResult">
+
+  <h2>QR Berhasil Dibuat</h2>
+
+  <div class="qr-box">
+    <div id="qrcode"></div>
+  </div>
+
+  <div class="url" id="checkoutUrl"></div>
+
+  <button class="primary" onclick="copyURL()">
+    SALIN LINK
+  </button>
+
+  <button class="secondary" onclick="downloadQR()">
+    DOWNLOAD QR
+  </button>
+
+</div>
 
 </main>
 
-
-<!-- QR CODE LIBRARY -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
 
 <script type="module">
 
-  import {
-    initializeApp
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-  import {
-    getFirestore,
-    doc,
-    setDoc,
-    serverTimestamp
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  import {
-    getAuth,
-    onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import {
+  getAuth,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+/* ==============================
+   FIREBASE CONFIG
+============================== */
 
-  /* =========================================================
-     FIREBASE CONFIG
-     ========================================================= */
+const firebaseConfig = {
+  apiKey: "AIzaSyAXGQKpJ02LBiGSVdTlrQZXjBsnHrXLAHI",
+  authDomain: "scanbeli.firebaseapp.com",
+  projectId: "scanbeli",
+  storageBucket: "scanbeli.firebasestorage.app",
+  messagingSenderId: "791591627311",
+  appId: "1:791591627311:web:86effe90b808fe9590f4da"
+};
 
-  const firebaseConfig = {
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
 
-    apiKey: "AIzaSyAXGQKpJ02LBiGSVdTlrQZXjBsnHrXLAHI",
+let currentUser = null;
+let lastURL = "";
 
-    authDomain:
-      "scanbeli.firebaseapp.com",
+onAuthStateChanged(auth,user=>{
+  currentUser = user;
 
-    projectId:
-      "scanbeli",
+  if(!user){
+    alert("Silakan login sebagai penjual terlebih dahulu.");
+  }
+});
 
-    storageBucket:
-      "scanbeli.firebasestorage.app",
+/* ==============================
+   PRODUCTS
+============================== */
 
-    messagingSenderId:
-      "791591627311",
+const productsEl = document.getElementById("products");
 
-    appId:
-      "1:791591627311:web:86effe90b808fe9590f4da"
+function escapeHTML(value){
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
 
-  };
+window.addProduct = function(data={}){
 
+  const index = productsEl.children.length;
 
-  /* =========================================================
-     FIREBASE
-     ========================================================= */
+  const el = document.createElement("div");
 
-  let app;
-  let db;
-  let auth;
+  el.className = "product";
 
-  try {
+  el.innerHTML = `
+    <div class="product-head">
+      <div class="product-number">
+        PRODUK ${index+1}
+      </div>
 
-    app = initializeApp(firebaseConfig);
+      <button class="remove"
+              type="button"
+              onclick="this.closest('.product').remove()">
+        Hapus
+      </button>
+    </div>
 
-    db = getFirestore(app);
+    <label>Nama Produk</label>
+    <input class="p-name"
+           placeholder="Contoh: Kaos Anime"
+           value="${escapeHTML(data.name || "")}">
 
-    auth = getAuth(app);
+    <label>Kode Produk</label>
+    <input class="p-code"
+           placeholder="Contoh: KAOS001"
+           value="${escapeHTML(data.code || "")}">
 
-  } catch (error) {
+    <label>Harga</label>
+    <input class="p-price"
+           type="number"
+           min="0"
+           placeholder="100000"
+           value="${data.price || ""}">
+
+    <label>Stok</label>
+    <input class="p-stock"
+           type="number"
+           min="0"
+           placeholder="10"
+           value="${data.stock ?? ""}">
+
+    <label>Berat (gram)</label>
+    <input class="p-weight"
+           type="number"
+           min="0"
+           placeholder="500"
+           value="${data.weight || ""}">
+
+    <label>Jenis Produk</label>
+    <select class="p-type">
+      <option value="physical"
+        ${data.type==="physical" ? "selected":""}>
+        Fisik
+      </option>
+
+      <option value="digital"
+        ${data.type==="digital" ? "selected":""}>
+        Digital
+      </option>
+    </select>
+
+    <label>Ukuran / Varian</label>
+    <input class="p-sizes"
+           placeholder="S, M, L, XL"
+           value="${escapeHTML(data.sizes || "")}">
+
+    <label>URL Gambar Produk</label>
+    <input class="p-image"
+           type="url"
+           placeholder="https://..."
+           value="${escapeHTML(data.image || "")}">
+  `;
+
+  productsEl.appendChild(el);
+};
+
+addProduct();
+
+/* ==============================
+   SHORT ID
+============================== */
+
+function generateQRId(){
+
+  const chars =
+    "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+
+  let result = "";
+
+  for(let i=0;i<8;i++){
+
+    result +=
+      chars[Math.floor(Math.random()*chars.length)];
+
+  }
+
+  return result;
+}
+
+/* ==============================
+   CREATE QR
+============================== */
+
+window.createQR = async function(){
+
+  if(!currentUser){
+
+    alert("Login sebagai penjual terlebih dahulu.");
+
+    return;
+  }
+
+  const storeName =
+    document.getElementById("storeName").value.trim();
+
+  const platformAccountId =
+    document.getElementById("platformAccountId")
+      .value.trim();
+
+  if(!storeName){
+
+    alert("Masukkan nama toko.");
+
+    return;
+  }
+
+  if(!platformAccountId){
+
+    alert(
+      "Masukkan Account ID payment provider seller."
+    );
+
+    return;
+  }
+
+  const productEls =
+    [...productsEl.querySelectorAll(".product")];
+
+  if(!productEls.length){
+
+    alert("Tambahkan minimal satu produk.");
+
+    return;
+  }
+
+  const products = [];
+
+  for(const el of productEls){
+
+    const name =
+      el.querySelector(".p-name").value.trim();
+
+    const code =
+      el.querySelector(".p-code").value.trim();
+
+    const price =
+      Number(el.querySelector(".p-price").value);
+
+    const stock =
+      Number(el.querySelector(".p-stock").value || 0);
+
+    const weight =
+      Number(el.querySelector(".p-weight").value || 0);
+
+    const type =
+      el.querySelector(".p-type").value;
+
+    const sizes =
+      el.querySelector(".p-sizes").value.trim();
+
+    const image =
+      el.querySelector(".p-image").value.trim();
+
+    if(!name || !code || !price){
+
+      alert("Lengkapi nama, kode, dan harga produk.");
+
+      return;
+    }
+
+    products.push({
+
+      id: crypto.randomUUID(),
+
+      name,
+      code,
+      price,
+      stock,
+      weight,
+      type,
+      sizes,
+      image
+
+    });
+  }
+
+  const button =
+    document.querySelector(".primary");
+
+  button.disabled = true;
+
+  button.textContent = "MEMBUAT QR...";
+
+  try{
+
+    let qrId;
+
+    for(let i=0;i<10;i++){
+
+      const candidate = generateQRId();
+
+      /*
+       * Collision sangat kecil.
+       * Backend rules tetap membatasi update.
+       */
+
+      qrId = candidate;
+
+      break;
+    }
+
+    const qrData = {
+
+      version: 2,
+
+      qrId,
+
+      sellerUid: currentUser.uid,
+
+      ownerId: currentUser.uid,
+
+      storeName,
+
+      products,
+
+      payment: {
+
+        provider: "xendit",
+
+        accountId: platformAccountId,
+
+        enabled: true
+
+      },
+
+      createdAt: serverTimestamp(),
+
+      updatedAt: serverTimestamp()
+
+    };
+
+    await setDoc(
+      doc(db,"qrCodes",qrId),
+      qrData
+    );
+
+    const baseURL =
+      location.origin +
+      location.pathname
+        .replace(/seller\.html$/,"");
+
+    const checkoutURL =
+      baseURL +
+      "checkout.html?id=" +
+      encodeURIComponent(qrId);
+
+    lastURL = checkoutURL;
+
+    const qrCanvas =
+      document.createElement("canvas");
+
+    new QRious({
+
+      element:qrCanvas,
+
+      value:checkoutURL,
+
+      size:360,
+
+      level:"H",
+
+      background:"white",
+
+      foreground:"black"
+
+    });
+
+    const qrcode =
+      document.getElementById("qrcode");
+
+    qrcode.innerHTML="";
+
+    qrcode.appendChild(qrCanvas);
+
+    document.getElementById(
+      "checkoutUrl"
+    ).textContent = checkoutURL;
+
+    document.getElementById(
+      "qrResult"
+    ).style.display="block";
+
+    const success =
+      document.getElementById("successBox");
+
+    success.style.display="block";
+
+    success.textContent =
+      "✅ QR berhasil dibuat. ID: " + qrId;
+
+    document.getElementById(
+      "qrResult"
+    ).scrollIntoView({
+      behavior:"smooth"
+    });
+
+  }catch(error){
 
     console.error(error);
 
-    showStatus(
-      "error",
-      "Firebase gagal diinisialisasi. Pastikan firebaseConfig sama dengan project SCANBELI Anda."
+    alert(
+      "Gagal membuat QR:\n" +
+      error.message
     );
 
-  }
+  }finally{
 
+    button.disabled=false;
 
-  /* =========================================================
-     ELEMENT
-     ========================================================= */
-
-  const statusBox =
-    document.getElementById("statusBox");
-
-  const storeNameInput =
-    document.getElementById("storeName");
-
-  const productsContainer =
-    document.getElementById("productsContainer");
-
-  const addProductBtn =
-    document.getElementById("addProductBtn");
-
-  const createQrBtn =
-    document.getElementById("createQrBtn");
-
-  const qrResult =
-    document.getElementById("qrResult");
-
-  const qrCanvas =
-    document.getElementById("qrCanvas");
-
-  const qrIdElement =
-    document.getElementById("qrId");
-
-  const qrUrlElement =
-    document.getElementById("qrUrl");
-
-  const downloadQrBtn =
-    document.getElementById("downloadQrBtn");
-
-  const copyUrlBtn =
-    document.getElementById("copyUrlBtn");
-
-
-  /* =========================================================
-     STATE
-     ========================================================= */
-
-  let currentUser = null;
-
-  let productCounter = 0;
-
-  let currentQrUrl = "";
-
-  let qrInstance = null;
-
-
-  /* =========================================================
-     STATUS
-     ========================================================= */
-
-  function showStatus(type, message) {
-
-    statusBox.className =
-      "status show " + type;
-
-    statusBox.textContent =
-      message;
+    button.textContent="BUAT QR";
 
   }
+};
 
+/* ==============================
+   COPY
+============================== */
 
-  function hideStatus() {
+window.copyURL = async function(){
 
-    statusBox.className =
-      "status";
+  if(!lastURL)return;
 
-    statusBox.textContent =
-      "";
+  await navigator.clipboard.writeText(lastURL);
 
+  alert("Link berhasil disalin.");
+
+};
+
+/* ==============================
+   DOWNLOAD
+============================== */
+
+window.downloadQR = function(){
+
+  const canvas =
+    document.querySelector("#qrcode canvas");
+
+  if(!canvas){
+
+    alert("QR belum tersedia.");
+
+    return;
   }
 
+  const link =
+    document.createElement("a");
 
-  /* =========================================================
-     AUTH
-     ========================================================= */
+  link.download =
+    "SCANBELI-QR.png";
 
-  if (auth) {
+  link.href =
+    canvas.toDataURL("image/png");
 
-    onAuthStateChanged(
-      auth,
-      function(user) {
+  link.click();
 
-        currentUser = user;
-
-        if (!user) {
-
-          showStatus(
-            "error",
-            "Anda belum login. Silakan login terlebih dahulu sebelum membuat QR."
-          );
-
-          createQrBtn.disabled = true;
-
-          return;
-        }
-
-        createQrBtn.disabled = false;
-
-        console.log(
-          "Login:",
-          user.uid
-        );
-
-      }
-    );
-
-  }
-
-
-  /* =========================================================
-     ADD PRODUCT
-     ========================================================= */
-
-  function addProduct(data = {}) {
-
-    productCounter++;
-
-    const item =
-      document.createElement("div");
-
-    item.className =
-      "product-item";
-
-    item.dataset.productIndex =
-      productCounter;
-
-    item.innerHTML = `
-
-      <div class="product-header">
-
-        <div class="product-number">
-          Produk ${productCounter}
-        </div>
-
-        <button
-          type="button"
-          class="remove-product"
-          data-action="remove"
-        >
-          Hapus
-        </button>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Nama Produk
-        </label>
-
-        <input
-          type="text"
-          class="product-name"
-          placeholder="Contoh: Kaos Anime"
-          maxlength="120"
-          value="${escapeAttribute(data.name || "")}"
-        >
-
-      </div>
-
-
-      <div class="two-col">
-
-        <div class="field">
-
-          <label>
-            Kode Produk
-          </label>
-
-          <input
-            type="text"
-            class="product-code"
-            placeholder="Contoh: KAOS001"
-            maxlength="50"
-            value="${escapeAttribute(data.code || "")}"
-          >
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Harga
-          </label>
-
-          <input
-            type="number"
-            class="product-price"
-            placeholder="100000"
-            min="0"
-            step="1"
-            value="${data.price ?? ""}"
-          >
-
-        </div>
-
-      </div>
-
-
-      <div class="two-col">
-
-        <div class="field">
-
-          <label>
-            Stok
-          </label>
-
-          <input
-            type="number"
-            class="product-stock"
-            placeholder="10"
-            min="0"
-            step="1"
-            value="${data.stock ?? 1}"
-          >
-
-        </div>
-
-
-        <div class="field">
-
-          <label>
-            Berat (gram)
-          </label>
-
-          <input
-            type="number"
-            class="product-weight"
-            placeholder="500"
-            min="0"
-            step="1"
-            value="${data.weight ?? 0}"
-          >
-
-        </div>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Jenis Produk
-        </label>
-
-        <select class="product-type">
-
-          <option
-            value="physical"
-            ${data.type === "physical" || !data.type ? "selected" : ""}
-          >
-            Barang fisik
-          </option>
-
-          <option
-            value="digital"
-            ${data.type === "digital" ? "selected" : ""}
-          >
-            Produk digital
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Ukuran / Varian
-        </label>
-
-        <input
-          type="text"
-          class="product-sizes"
-          placeholder="Contoh: S, M, L, XL"
-          value="${escapeAttribute(
-            Array.isArray(data.sizes)
-              ? data.sizes.join(", ")
-              : (data.sizes || "")
-          )}"
-        >
-
-        <div class="hint">
-          Jika tidak ada varian, boleh dikosongkan.
-        </div>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Link Gambar Produk
-        </label>
-
-        <input
-          type="url"
-          class="product-image"
-          placeholder="https://contoh.com/gambar.jpg"
-          value="${escapeAttribute(
-            data.image || data.imageUrl || ""
-          )}"
-        >
-
-        <div class="hint">
-          Gunakan link gambar publik. SCANBELI tidak menyimpan file gambar.
-        </div>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          Metode Pengiriman
-        </label>
-
-        <input
-          type="text"
-          class="product-shipping"
-          placeholder="Contoh: JNE, J&T, SiCepat"
-          value="${escapeAttribute(
-            data.shippingMethod || ""
-          )}"
-        >
-
-      </div>
-
-    `;
-
-    productsContainer.appendChild(item);
-
-  }
-
-
-  /* =========================================================
-     REMOVE PRODUCT
-     ========================================================= */
-
-  productsContainer.addEventListener(
-    "click",
-    function(event) {
-
-      const button =
-        event.target.closest(
-          '[data-action="remove"]'
-        );
-
-      if (!button) return;
-
-      const item =
-        button.closest(".product-item");
-
-      if (item) {
-
-        item.remove();
-
-        renumberProducts();
-
-      }
-
-    }
-  );
-
-
-  function renumberProducts() {
-
-    const items =
-      document.querySelectorAll(
-        ".product-item"
-      );
-
-    items.forEach(
-      function(item, index) {
-
-        const number =
-          item.querySelector(
-            ".product-number"
-          );
-
-        if (number) {
-
-          number.textContent =
-            `Produk ${index + 1}`;
-
-        }
-
-      }
-    );
-
-  }
-
-
-  /* =========================================================
-     ADD BUTTON
-     ========================================================= */
-
-  addProductBtn.addEventListener(
-    "click",
-    function() {
-
-      addProduct();
-
-      const items =
-        document.querySelectorAll(
-          ".product-item"
-        );
-
-      const last =
-        items[items.length - 1];
-
-      if (last) {
-
-        last.scrollIntoView({
-          behavior: "smooth",
-          block: "center"
-        });
-
-      }
-
-    }
-  );
-
-
-  /* =========================================================
-     INITIAL PRODUCT
-     ========================================================= */
-
-  addProduct();
-
-
-  /* =========================================================
-     COLLECT PRODUCTS
-     ========================================================= */
-
-  function collectProducts() {
-
-    const items =
-      document.querySelectorAll(
-        ".product-item"
-      );
-
-    const products = [];
-
-    items.forEach(
-      function(item, index) {
-
-        const name =
-          item.querySelector(
-            ".product-name"
-          ).value.trim();
-
-        const code =
-          item.querySelector(
-            ".product-code"
-          ).value.trim();
-
-        const price =
-          Number(
-            item.querySelector(
-              ".product-price"
-            ).value
-          );
-
-        const stock =
-          Number(
-            item.querySelector(
-              ".product-stock"
-            ).value
-          );
-
-        const weight =
-          Number(
-            item.querySelector(
-              ".product-weight"
-            ).value
-          );
-
-        const type =
-          item.querySelector(
-            ".product-type"
-          ).value;
-
-        const sizesText =
-          item.querySelector(
-            ".product-sizes"
-          ).value.trim();
-
-        const image =
-          item.querySelector(
-            ".product-image"
-          ).value.trim();
-
-        const shippingMethod =
-          item.querySelector(
-            ".product-shipping"
-          ).value.trim();
-
-
-        if (!name) {
-
-          throw new Error(
-            `Nama Produk ${index + 1} belum diisi.`
-          );
-
-        }
-
-        if (!Number.isFinite(price) || price < 0) {
-
-          throw new Error(
-            `Harga Produk ${index + 1} tidak valid.`
-          );
-
-        }
-
-        if (!Number.isFinite(stock) || stock < 0) {
-
-          throw new Error(
-            `Stok Produk ${index + 1} tidak valid.`
-          );
-
-        }
-
-
-        const sizes =
-          sizesText
-            ? sizesText
-                .split(",")
-                .map(
-                  x => x.trim()
-                )
-                .filter(Boolean)
-            : [];
-
-
-        products.push({
-
-          id:
-            code ||
-            `P${Date.now()}_${index + 1}`,
-
-          code:
-            code ||
-            "",
-
-          name:
-            name,
-
-          price:
-            price,
-
-          stock:
-            stock,
-
-          weight:
-            Number.isFinite(weight)
-              ? weight
-              : 0,
-
-          type:
-            type,
-
-          sizes:
-            sizes,
-
-          image:
-            image,
-
-          imageUrl:
-            image,
-
-          shippingMethod:
-            shippingMethod
-
-        });
-
-      }
-    );
-
-
-    if (products.length === 0) {
-
-      throw new Error(
-        "Minimal harus ada 1 produk."
-      );
-
-    }
-
-
-    return products;
-
-  }
-
-
-  /* =========================================================
-     GENERATE QR ID
-     ========================================================= */
-
-  function generateQrId() {
-
-    const chars =
-      "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
-
-    let result = "";
-
-    for (
-      let i = 0;
-      i < 8;
-      i++
-    ) {
-
-      result +=
-        chars[
-          Math.floor(
-            Math.random() *
-            chars.length
-          )
-        ];
-
-    }
-
-    return result;
-
-  }
-
-
-  /* =========================================================
-     CREATE QR
-     ========================================================= */
-
-  createQrBtn.addEventListener(
-    "click",
-    async function() {
-
-      hideStatus();
-
-      if (!currentUser) {
-
-        showStatus(
-          "error",
-          "Anda harus login terlebih dahulu."
-        );
-
-        return;
-
-      }
-
-
-      if (!db) {
-
-        showStatus(
-          "error",
-          "Firestore belum siap. Periksa Firebase Config."
-        );
-
-        return;
-
-      }
-
-
-      const storeName =
-        storeNameInput.value.trim();
-
-
-      if (!storeName) {
-
-        showStatus(
-          "error",
-          "Nama toko belum diisi."
-        );
-
-        storeNameInput.focus();
-
-        return;
-
-      }
-
-
-      let products;
-
-      try {
-
-        products =
-          collectProducts();
-
-      } catch (error) {
-
-        showStatus(
-          "error",
-          error.message
-        );
-
-        return;
-
-      }
-
-
-      createQrBtn.disabled = true;
-
-      createQrBtn.textContent =
-        "⏳ MENYIMPAN QR...";
-
-
-      try {
-
-        /* -----------------------------------------
-           BUAT ID QR PENDEK
-           ----------------------------------------- */
-
-        const qrId =
-          generateQrId();
-
-
-        /* -----------------------------------------
-           DATA QR
-           ----------------------------------------- */
-
-        const qrData = {
-
-          version:
-            2,
-
-          qrId:
-            qrId,
-
-          sellerUid:
-            currentUser.uid,
-
-          ownerId:
-            currentUser.uid,
-
-          userId:
-            currentUser.uid,
-
-          storeName:
-            storeName,
-
-          store:
-            storeName,
-
-          products:
-            products,
-
-          createdAt:
-            serverTimestamp(),
-
-          updatedAt:
-            serverTimestamp()
-
-        };
-
-
-        /* -----------------------------------------
-           SIMPAN KE:
-
-           qrCodes/{qrId}
-           ----------------------------------------- */
-
-        const qrRef =
-          doc(
-            db,
-            "qrCodes",
-            qrId
-          );
-
-
-        await setDoc(
-          qrRef,
-          qrData
-        );
-
-
-        console.log(
-          "qrCodes berhasil dibuat:",
-          qrId
-        );
-
-
-        /* -----------------------------------------
-           URL CHECKOUT
-           ----------------------------------------- */
-
-        const baseUrl =
-          window.location.href
-            .split("/")
-            .slice(
-              0,
-              -1
-            )
-            .join("/");
-
-
-        const checkoutUrl =
-          baseUrl +
-          "/checkout.html?id=" +
-          encodeURIComponent(qrId);
-
-
-        currentQrUrl =
-          checkoutUrl;
-
-
-        /* -----------------------------------------
-           GENERATE QR
-           ----------------------------------------- */
-
-        qrInstance =
-          new QRious({
-
-            element:
-              qrCanvas,
-
-            value:
-              checkoutUrl,
-
-            size:
-              900,
-
-            level:
-              "H",
-
-            background:
-              "#ffffff",
-
-            foreground:
-              "#000000"
-
-          });
-
-
-        qrIdElement.textContent =
-          qrId;
-
-
-        qrUrlElement.textContent =
-          checkoutUrl;
-
-
-        qrResult.classList.add(
-          "show"
-        );
-
-
-        showStatus(
-          "success",
-          "QR berhasil dibuat dan data sudah tersimpan di Firestore: qrCodes/" + qrId
-        );
-
-
-        qrResult.scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-
-
-      } catch (error) {
-
-        console.error(
-          "Gagal membuat QR:",
-          error
-        );
-
-
-        let message =
-          "Gagal membuat QR.";
-
-
-        if (
-          error.code ===
-          "permission-denied"
-        ) {
-
-          message =
-            "Firestore menolak penyimpanan. Periksa Firestore Rules agar penjual yang login boleh membuat dokumen qrCodes.";
-
-        } else if (
-          error.code ===
-          "unavailable"
-        ) {
-
-          message =
-            "Firestore sedang tidak tersedia. Periksa koneksi internet lalu coba lagi.";
-
-        } else if (
-          error.message
-        ) {
-
-          message =
-            error.message;
-
-        }
-
-
-        showStatus(
-          "error",
-          message
-        );
-
-
-      } finally {
-
-        createQrBtn.disabled =
-          false;
-
-        createQrBtn.textContent =
-          "🔳 BUAT QR";
-
-      }
-
-    }
-  );
-
-
-  /* =========================================================
-     DOWNLOAD QR
-     ========================================================= */
-
-  downloadQrBtn.addEventListener(
-    "click",
-    function() {
-
-      if (!qrCanvas) return;
-
-      try {
-
-        const link =
-          document.createElement("a");
-
-        link.download =
-          "SCANBELI-" +
-          qrIdElement.textContent +
-          ".png";
-
-        link.href =
-          qrCanvas.toDataURL(
-            "image/png"
-          );
-
-        link.click();
-
-      } catch (error) {
-
-        showStatus(
-          "error",
-          "QR tidak dapat disimpan."
-        );
-
-      }
-
-    }
-  );
-
-
-  /* =========================================================
-     COPY URL
-     ========================================================= */
-
-  copyUrlBtn.addEventListener(
-    "click",
-    async function() {
-
-      if (!currentQrUrl) return;
-
-      try {
-
-        await navigator.clipboard.writeText(
-          currentQrUrl
-        );
-
-        showStatus(
-          "success",
-          "Link checkout berhasil disalin."
-        );
-
-      } catch (error) {
-
-        showStatus(
-          "error",
-          "Tidak dapat menyalin link. Silakan salin link secara manual."
-        );
-
-      }
-
-    }
-  );
-
-
-  /* =========================================================
-     ESCAPE ATTRIBUTE
-     ========================================================= */
-
-  function escapeAttribute(value) {
-
-    return String(value)
-      .replace(/&/g, "&amp;")
-      .replace(/"/g, "&quot;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
-
-  }
-
-
-  /* =========================================================
-     PLACEHOLDER CONFIG CHECK
-     ========================================================= */
-
-  const firebaseConfigIsPlaceholder =
-    Object.values(firebaseConfig)
-      .some(
-        value =>
-          !value ||
-          String(value)
-            .includes("GANTI_")
-      );
-
-
-  if (
-    firebaseConfigIsPlaceholder
-  ) {
-
-    showStatus(
-      "error",
-      "Firebase Config masih menggunakan GANTI_... Silakan masukkan Firebase Config SCANBELI Anda."
-    );
-
-    createQrBtn.disabled =
-      true;
-
-  }
+};
 
 </script>
 
